@@ -1,13 +1,14 @@
 {
   "name": "tmm-types",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "types": "./index.d.ts",
   "description": "TMM auto generated types from SWAG docs",
   "scripts": {
-    "generate": "swagger-typescript-api --clean-output --axios --modular -p ./src/swagger.json -o ./types",
+    "generate": "swagger-typescript-api --clean-output --axios --modular -p ./src/swagger.json -o ./src/types",
     "export": "node build.js",
-    "build": "yarn run generate && yarn run export"
+    "tsc": "tsc",
+    "build": "yarn run generate && yarn run export && yarn run tsc"
   },
   "repository": "git@github.com:oneart-dev/tmm-types.git",
   "author": "Nick S <oart4k@gmail.com>",
@@ -17,6 +18,13 @@
     "yarn": ">= 1.22.0"
   },
   "devDependencies": {
+    "axios": "^1.6.8",
     "swagger-typescript-api": "^13.0.3"
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 0
+    }
   }
 }

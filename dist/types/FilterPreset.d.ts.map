@@ -1,0 +1,1 @@
+{"version":3,"file":"FilterPreset.d.ts","sourceRoot":"","sources":["../../src/types/FilterPreset.ts"],"names":[],"mappings":"AAWA,OAAO,EAEL,6BAA6B,EAE9B,MAAM,kBAAkB,CAAC;AAC1B,OAAO,EAAe,UAAU,EAAE,aAAa,EAAE,MAAM,eAAe,CAAC;AAEvE,qBAAa,YAAY,CAAC,gBAAgB,GAAG,OAAO,CAAE,SAAQ,UAAU,CAAC,gBAAgB,CAAC;IAUxF,kBAAkB,OAAQ,MAAM,WAAU,aAAa,gFAUnD;CACL"}

@@ -1,0 +1,62 @@
+import { ControllersApiSuccessResponse, ControllersDashboardCreateResponse, ControllersDashboardListResponse, ControllersLoadBoardResponse, ControllersShortUrlResponse, DtoDashboardCreateForm, DtoDashboardUpdateForm, DtoDashboardsSortForm, DtoWidgetCreateForm, DtoWidgetUpdateForm, ServicesWidgetCreateResponse } from "./data-contracts";
+import { HttpClient, RequestParams } from "./http-client";
+export declare class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+    boardList: (params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersDashboardListResponse, any>>;
+    boardUpdate: (payload: DtoDashboardCreateForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersDashboardCreateResponse, any>>;
+    counterDashboardDetail: (id: number, query?: {
+        id?: number | undefined;
+        ids?: number[] | undefined;
+        api_key_id?: number[] | undefined;
+        tags?: number[] | undefined;
+        trade_time?: string | undefined;
+        durationType?: "1m" | "today" | "yesterday" | "past1w" | "7d" | "30d" | "90d" | "1w" | undefined;
+        openBetween?: string | undefined;
+        closeBetween?: string | undefined;
+        percentBetween?: string | undefined;
+        profitBetween?: string | undefined;
+        durationBetween?: string | undefined;
+        leverageBetween?: string | undefined;
+        side?: "LONG" | "SHORT" | undefined;
+        user_id?: string | undefined;
+        category_id?: number | undefined;
+        volumeFrom?: number | undefined;
+        volumeTo?: number | undefined;
+        daysOfWeek?: number[] | undefined;
+        symbol?: string[] | undefined;
+        extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:empty" | "mentor_note:not-empty" | undefined;
+    } | undefined, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    counterWidgetDetail: (id: number, query?: {
+        id?: number | undefined;
+        ids?: number[] | undefined;
+        api_key_id?: number[] | undefined;
+        tags?: number[] | undefined;
+        trade_time?: string | undefined;
+        durationType?: "1m" | "today" | "yesterday" | "past1w" | "7d" | "30d" | "90d" | "1w" | undefined;
+        openBetween?: string | undefined;
+        closeBetween?: string | undefined;
+        percentBetween?: string | undefined;
+        profitBetween?: string | undefined;
+        durationBetween?: string | undefined;
+        leverageBetween?: string | undefined;
+        side?: "LONG" | "SHORT" | undefined;
+        user_id?: string | undefined;
+        category_id?: number | undefined;
+        volumeFrom?: number | undefined;
+        volumeTo?: number | undefined;
+        daysOfWeek?: number[] | undefined;
+        symbol?: string[] | undefined;
+        extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:empty" | "mentor_note:not-empty" | undefined;
+    } | undefined, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    publicLoadDetail: (id: number, code: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    sortCreate: (payload: DtoDashboardsSortForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    widgetTempCreate: (payload: DtoWidgetCreateForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesWidgetCreateResponse, any>>;
+    widgetUpdate: (id: number, payload: DtoWidgetCreateForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesWidgetCreateResponse, any>>;
+    widgetCreate: (id: number, payload: DtoWidgetUpdateForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    widgetDelete: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    boardCreate: (id: number, payload: DtoDashboardUpdateForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    boardDelete: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    cloneCreate: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersDashboardCreateResponse, any>>;
+    loadDetail: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersLoadBoardResponse, any>>;
+    shortLinkCreate: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersShortUrlResponse, any>>;
+}
+//# sourceMappingURL=Board.d.ts.map
