@@ -1,0 +1,22 @@
+{
+  "name": "tmm-types",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "TMM auto generated types from SWAG docs",
+  "main": "index.js",
+  "scripts": {
+    "generate": "swagger-typescript-api --clean-output --axios --modular -p ./src/swagger.json -o ./types",
+    "combine": "node build.js",
+    "build": "yarn run generate && yarn run combine"
+  },
+  "repository": "git@github.com:oneart-dev/tmm-types.git",
+  "author": "Nick S <oart4k@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.0.0",
+    "yarn": ">= 1.22.0"
+  },
+  "devDependencies": {
+    "swagger-typescript-api": "^13.0.3"
+  }
+}
