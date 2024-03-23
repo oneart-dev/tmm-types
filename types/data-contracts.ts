@@ -1810,6 +1810,17 @@ export interface ServicesTradeCountByWeek {
   win_count?: number;
 }
 
+export enum ServicesTradeDurationType {
+  TradeDurationTypeToday = "today",
+  TradeDurationTypeYesterday = "yesterday",
+  TradeDurationTypePast1W = "past1w",
+  TradeDurationType1W = "1w",
+  TradeDurationType1M = "1m",
+  TradeDurationType7D = "7d",
+  TradeDurationType30D = "30d",
+  TradeDurationType90D = "90d",
+}
+
 export enum ServicesTradeExtraInfoFilter {
   TradeExtraInfoFilterEntryReasonsEmpty = "tags:empty",
   TradeExtraInfoFilterEntryReasonsNotEmpty = "tags:not-empty",
@@ -1829,9 +1840,9 @@ export interface ServicesTradeFilters {
   closeBetween?: string;
   daysOfWeek?: number[];
   durationBetween?: string;
-  durationType?: string;
+  durationType?: ServicesTradeDurationType;
   extraInfo?: ServicesTradeExtraInfoFilter;
-  groupBy?: string;
+  groupBy?: ServicesTradeGroupBy;
   headers?: string[];
   id?: number;
   ids?: number[];
@@ -1854,6 +1865,14 @@ export interface ServicesTradeFilters {
   volumeBetween?: string;
   volumeFrom?: number;
   volumeTo?: number;
+}
+
+export enum ServicesTradeGroupBy {
+  TradeGroupByMinute = "minute",
+  TradeGroupByHour = "hour",
+  TradeGroupByMonth = "month",
+  TradeGroupByDate = "date",
+  TradeGroupByWeek = "week",
 }
 
 export enum ServicesTradeMultiplier {
@@ -2114,7 +2133,6 @@ export interface ServicesWidgetFilters {
   disabledCounter?: boolean;
   filter?: ServicesTradeFilters;
   ma?: number;
-  mini?: boolean;
   private?: boolean;
   simpleSortBy?: ServicesWidgetFiltersSortBy;
 }

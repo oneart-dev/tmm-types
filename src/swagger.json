@@ -21125,6 +21125,29 @@
                 }
             }
         },
+        "services.TradeDurationType": {
+            "type": "string",
+            "enum": [
+                "today",
+                "yesterday",
+                "past1w",
+                "1w",
+                "1m",
+                "7d",
+                "30d",
+                "90d"
+            ],
+            "x-enum-varnames": [
+                "TradeDurationTypeToday",
+                "TradeDurationTypeYesterday",
+                "TradeDurationTypePast1w",
+                "TradeDurationType1w",
+                "TradeDurationType1m",
+                "TradeDurationType7d",
+                "TradeDurationType30d",
+                "TradeDurationType90d"
+            ]
+        },
         "services.TradeExtraInfoFilter": {
             "type": "string",
             "enum": [
@@ -21182,13 +21205,13 @@
                     "type": "string"
                 },
                 "durationType": {
-                    "type": "string"
+                    "$ref": "#/definitions/services.TradeDurationType"
                 },
                 "extraInfo": {
                     "$ref": "#/definitions/services.TradeExtraInfoFilter"
                 },
                 "groupBy": {
-                    "type": "string"
+                    "$ref": "#/definitions/services.TradeGroupBy"
                 },
                 "headers": {
                     "type": "array",
@@ -21277,6 +21300,23 @@
                     "type": "integer"
                 }
             }
+        },
+        "services.TradeGroupBy": {
+            "type": "string",
+            "enum": [
+                "minute",
+                "hour",
+                "month",
+                "date",
+                "week"
+            ],
+            "x-enum-varnames": [
+                "TradeGroupByMinute",
+                "TradeGroupByHour",
+                "TradeGroupByMonth",
+                "TradeGroupByDate",
+                "TradeGroupByWeek"
+            ]
         },
         "services.TradeMultiplier": {
             "type": "integer",
@@ -21951,9 +21991,6 @@
                 },
                 "ma": {
                     "type": "integer"
-                },
-                "mini": {
-                    "type": "boolean"
                 },
                 "private": {
                     "type": "boolean"
