@@ -1,4 +1,4 @@
-import { ControllersApiSuccessResponse, ControllersCategoriesListResponse, ControllersOrdersListResponse, ControllersPublicTradeGroupResponse, ControllersPublicTradeResponse, ControllersShortUrlResponse, ControllersTagsResponse, ControllersTradeChartDrawingsResponse, DtoCategoryListForm, DtoGlobalChartDataForm, DtoTagForm, DtoTagsSortForm, DtoTradeChartDataForm, DtoTradeChartForm, DtoTradeDrawingForm, DtoTradeGroupShortLink, DtoTradeUpdateDescForm, DtoTradeUpdateTagsBulkForm, DtoTradeUpdateTagsForm, DtoTradesCategoryForm, DtoTradesMergeForm, ServicesTradeChartResponse, ServicesTradesListPagination } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiWarningResponse, ControllersCategoriesListResponse, ControllersOrdersListResponse, ControllersPublicTradeGroupResponse, ControllersPublicTradeResponse, ControllersShortUrlResponse, ControllersTagsResponse, ControllersTradeChartDrawingsResponse, ControllersUnauthorizedResponse, DtoCategoryListForm, DtoGlobalChartDataForm, DtoTagForm, DtoTagsSortForm, DtoTradeChartDataForm, DtoTradeChartForm, DtoTradeDrawingForm, DtoTradeGroupShortLink, DtoTradeUpdateDescForm, DtoTradeUpdateTagsBulkForm, DtoTradeUpdateTagsForm, DtoTradesCategoryForm, DtoTradesMergeForm, ServicesTradeChartResponse, ServicesTradesListPagination } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     tradesList: (query?: {
@@ -26,13 +26,13 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         daysOfWeek?: number[];
         symbol?: string[];
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
-    }, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesTradesListPagination, any>>;
-    archiveAllCreate: (params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    categoriesList: (params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersCategoriesListResponse, any>>;
-    categoriesCreate: (payload: DtoCategoryListForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersCategoriesListResponse, any>>;
-    categoriesCreate2: (id: number, payload: DtoCategoryListForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    categoriesDelete: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    dayOrdersList: (apiKeyId: number, date: string, symbol: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersOrdersListResponse, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesTradesListPagination, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    archiveAllCreate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    categoriesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersCategoriesListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    categoriesCreate: (payload: DtoCategoryListForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersCategoriesListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    categoriesCreate2: (id: number, payload: DtoCategoryListForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    categoriesDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    dayOrdersList: (apiKeyId: number, date: string, symbol: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersOrdersListResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
     exportDetail: (format: string, query?: {
         page?: number;
         sortBy?: string;
@@ -58,27 +58,27 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         daysOfWeek?: number[];
         symbol?: string[];
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
-    }, params?: RequestParams) => Promise<import("axios").AxiosResponse<void, any>>;
-    globalSaveChartCreate: (id: number, ticker: string, payload: DtoGlobalChartDataForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    mergeCreate: (payload: DtoTradesMergeForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    publicGroupDetail: (code: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersPublicTradeGroupResponse, any>>;
-    publicDetail: (code: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersPublicTradeResponse, any>>;
-    publicLoadCandlesDataCreate: (code: string, payload: DtoTradeChartForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesTradeChartResponse, any>>;
-    publicPreviewDetail: (code: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<void, any>>;
-    shortLinkGroupCreate: (payload: DtoTradeGroupShortLink, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersShortUrlResponse, any>>;
-    tagsList: (params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersTagsResponse, any>>;
-    tagsCreate: (payload: DtoTradeUpdateTagsBulkForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    tagsSortCreate: (payload: DtoTagsSortForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    tagsCreate2: (id: number, payload: DtoTagForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    tagsDelete: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    updateCategoryCreate: (payload: DtoTradesCategoryForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersCategoriesListResponse, any>>;
-    chartDataCreate: (id: number, payload: DtoTradeDrawingForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersTradeChartDrawingsResponse, any>>;
-    closeCreate: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    loadCandlesDataCreate: (id: number, payload: DtoTradeChartForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesTradeChartResponse, any>>;
-    ordersDetail: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersOrdersListResponse, any>>;
-    saveChartCreate: (id: number, payload: DtoTradeChartDataForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    shortLinkCreate: (id: number, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersShortUrlResponse, any>>;
-    tagsCreate3: (id: number, payload: DtoTradeUpdateTagsForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
-    updateCreate: (id: number, payload: DtoTradeUpdateDescForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<void, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    globalSaveChartCreate: (id: number, ticker: string, payload: DtoGlobalChartDataForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    mergeCreate: (payload: DtoTradesMergeForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    publicGroupDetail: (code: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersPublicTradeGroupResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    publicDetail: (code: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersPublicTradeResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    publicLoadCandlesDataCreate: (code: string, payload: DtoTradeChartForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesTradeChartResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    publicPreviewDetail: (code: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<void, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    shortLinkGroupCreate: (payload: DtoTradeGroupShortLink, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersShortUrlResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    tagsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersTagsResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    tagsCreate: (payload: DtoTradeUpdateTagsBulkForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    tagsSortCreate: (payload: DtoTagsSortForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    tagsCreate2: (id: number, payload: DtoTagForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    tagsDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    updateCategoryCreate: (payload: DtoTradesCategoryForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersCategoriesListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    chartDataCreate: (id: number, payload: DtoTradeDrawingForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersTradeChartDrawingsResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    closeCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    loadCandlesDataCreate: (id: number, payload: DtoTradeChartForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesTradeChartResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    ordersDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersOrdersListResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    saveChartCreate: (id: number, payload: DtoTradeChartDataForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    shortLinkCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersShortUrlResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    tagsCreate3: (id: number, payload: DtoTradeUpdateTagsForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    updateCreate: (id: number, payload: DtoTradeUpdateDescForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Trades.d.ts.map

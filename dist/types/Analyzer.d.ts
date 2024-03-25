@@ -1,4 +1,4 @@
-import { ControllersAnalyzerNotesResponse, ControllersAnalyzerWeekResponse, ControllersApiSuccessResponse, ControllersTradeChartDrawingsResponse, DtoAnalyzerNoteForm, DtoSymbolChartForm, ServicesAnalyzerWeekListResponse, ServicesTradeChartResponse } from "./data-contracts";
+import { ControllersAnalyzerNotesResponse, ControllersAnalyzerWeekResponse, ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiWarningResponse, ControllersTradeChartDrawingsResponse, ControllersUnauthorizedResponse, DtoAnalyzerNoteForm, DtoSymbolChartForm, ServicesAnalyzerWeekListResponse, ServicesTradeChartResponse, ServicesValidationErrorResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     analyzerList: (query?: {
@@ -23,16 +23,16 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
         daysOfWeek?: number[];
         symbol?: string[];
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
-    }, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersAnalyzerWeekResponse, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersAnalyzerWeekResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     notesList: (query?: {
         type?: number;
         dateBetween?: string;
-    }, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersAnalyzerNotesResponse, any>>;
-    notesCreate: (payload: DtoAnalyzerNoteForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersApiSuccessResponse, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersAnalyzerNotesResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    notesCreate: (payload: DtoAnalyzerNoteForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     weekListList: (query?: {
         api_key_id?: number[];
-    }, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesAnalyzerWeekListResponse, any>>;
-    chartDataCreate: (ticker: string, params?: RequestParams) => Promise<import("axios").AxiosResponse<ControllersTradeChartDrawingsResponse, any>>;
-    loadCandlesDataCreate: (ticker: string, payload: DtoSymbolChartForm, params?: RequestParams) => Promise<import("axios").AxiosResponse<ServicesTradeChartResponse, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesAnalyzerWeekListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    chartDataCreate: (ticker: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersTradeChartDrawingsResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
+    loadCandlesDataCreate: (ticker: string, payload: DtoSymbolChartForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesTradeChartResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
 }
 //# sourceMappingURL=Analyzer.d.ts.map
