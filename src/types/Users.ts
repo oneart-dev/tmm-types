@@ -12,6 +12,7 @@
 import {
   ControllersApiErrorResponse,
   ControllersApiSuccessResponse,
+  ControllersBulkSignUpSuccessResponse,
   ControllersLoginSuccessResponse,
   ControllersPublicProfileResponse,
   ControllersPublicProfileStatsResponse,
@@ -48,6 +49,26 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       method: "POST",
       body: payload,
       secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Create users in bulk
+   *
+   * @tags users
+   * @name BulkCreateCreate
+   * @summary Register bulk of users
+   * @request POST:/users/bulk-create
+   */
+  bulkCreateCreate = (payload: string[], params: RequestParams = {}) =>
+    this.request<
+      ControllersBulkSignUpSuccessResponse,
+      ServicesValidationErrorResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/users/bulk-create`,
+      method: "POST",
+      body: payload,
       type: ContentType.Json,
       format: "json",
       ...params,

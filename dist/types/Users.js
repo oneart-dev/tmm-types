@@ -11,6 +11,14 @@ export class Users extends HttpClient {
             format: "json",
             ...params,
         });
+        this.bulkCreateCreate = (payload, params = {}) => this.request({
+            path: `/users/bulk-create`,
+            method: "POST",
+            body: payload,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.cvizorTogglerCreate = (params = {}) => this.request({
             path: `/users/cvizor-toggler`,
             method: "POST",

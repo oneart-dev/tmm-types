@@ -15498,6 +15498,116 @@
                 }
             }
         },
+        "/users/bulk-create": {
+            "post": {
+                "description": "Create users in bulk\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Register bulk of users",
+                "parameters": [
+                    {
+                        "description": "emails list",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.BulkSignUpSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/cvizor-toggler": {
             "post": {
                 "security": [
@@ -17099,6 +17209,25 @@
                         }
                     ],
                     "example": "warning"
+                }
+            }
+        },
+        "controllers.BulkSignUpSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.BulkSignUpResponse"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
                 }
             }
         },
@@ -19422,6 +19551,40 @@
                     "type": "integer"
                 }
             }
+        },
+        "services.BulkSignUpResponse": {
+            "type": "object",
+            "properties": {
+                "api_key": {
+                    "type": "string"
+                },
+                "dashboard_id": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "error": {
+                    "$ref": "#/definitions/services.BulkSignUpResponseError"
+                }
+            }
+        },
+        "services.BulkSignUpResponseError": {
+            "type": "string",
+            "enum": [
+                "empty email list",
+                "email already exists",
+                "saving error",
+                "create dashboard error",
+                "create api key error"
+            ],
+            "x-enum-varnames": [
+                "BulkSignUpResponseEmptyEmailList",
+                "BulkSignUpResponseErrorEmailAlreadyExists",
+                "BulkSignUpSavingError",
+                "BulkSignUpCreateDashboardError",
+                "BulkSignUpCreateApiKeyError"
+            ]
         },
         "services.CVizorStatus": {
             "type": "integer",
@@ -21991,6 +22154,9 @@
                 },
                 "ma": {
                     "type": "integer"
+                },
+                "mini": {
+                    "type": "boolean"
                 },
                 "private": {
                     "type": "boolean"

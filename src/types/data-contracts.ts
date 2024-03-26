@@ -61,6 +61,12 @@ export interface ControllersApiWarningResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersBulkSignUpSuccessResponse {
+  data?: ServicesBulkSignUpResponse[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersCategoriesListResponse {
   data?: ControllersCategoryWithCounter[];
   /** @example "success" */
@@ -1117,6 +1123,21 @@ export interface ServicesApiUser {
   user_id?: number;
 }
 
+export interface ServicesBulkSignUpResponse {
+  api_key?: string;
+  dashboard_id?: number;
+  email?: string;
+  error?: ServicesBulkSignUpResponseError;
+}
+
+export enum ServicesBulkSignUpResponseError {
+  BulkSignUpResponseEmptyEmailList = "empty email list",
+  BulkSignUpResponseErrorEmailAlreadyExists = "email already exists",
+  BulkSignUpSavingError = "saving error",
+  BulkSignUpCreateDashboardError = "create dashboard error",
+  BulkSignUpCreateApiKeyError = "create api key error",
+}
+
 export enum ServicesCVizorStatus {
   CVizorStatusDisabled = 0,
   CVizorStatusEnabledTrends = 1,
@@ -2133,6 +2154,7 @@ export interface ServicesWidgetFilters {
   disabledCounter?: boolean;
   filter?: ServicesTradeFilters;
   ma?: number;
+  mini?: boolean;
   private?: boolean;
   simpleSortBy?: ServicesWidgetFiltersSortBy;
 }

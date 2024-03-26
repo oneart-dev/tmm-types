@@ -17,6 +17,14 @@ export var ServicesApiKeyWebsocketStatus;
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_ERROR"] = 3] = "API_KEY_WS_ERROR";
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_RECONNECTING"] = 4] = "API_KEY_WS_RECONNECTING";
 })(ServicesApiKeyWebsocketStatus || (ServicesApiKeyWebsocketStatus = {}));
+export var ServicesBulkSignUpResponseError;
+(function (ServicesBulkSignUpResponseError) {
+    ServicesBulkSignUpResponseError["BulkSignUpResponseEmptyEmailList"] = "empty email list";
+    ServicesBulkSignUpResponseError["BulkSignUpResponseErrorEmailAlreadyExists"] = "email already exists";
+    ServicesBulkSignUpResponseError["BulkSignUpSavingError"] = "saving error";
+    ServicesBulkSignUpResponseError["BulkSignUpCreateDashboardError"] = "create dashboard error";
+    ServicesBulkSignUpResponseError["BulkSignUpCreateApiKeyError"] = "create api key error";
+})(ServicesBulkSignUpResponseError || (ServicesBulkSignUpResponseError = {}));
 export var ServicesCVizorStatus;
 (function (ServicesCVizorStatus) {
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusDisabled"] = 0] = "CVizorStatusDisabled";

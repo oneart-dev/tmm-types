@@ -32,6 +32,10 @@ export interface ControllersApiWarningResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersBulkSignUpSuccessResponse {
+    data?: ServicesBulkSignUpResponse[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersCategoriesListResponse {
     data?: ControllersCategoryWithCounter[];
     status?: ControllersResponseStatusMessage;
@@ -565,6 +569,19 @@ export interface ServicesApiUser {
     updated_at?: string;
     user?: ServicesSafeUser;
     user_id?: number;
+}
+export interface ServicesBulkSignUpResponse {
+    api_key?: string;
+    dashboard_id?: number;
+    email?: string;
+    error?: ServicesBulkSignUpResponseError;
+}
+export declare enum ServicesBulkSignUpResponseError {
+    BulkSignUpResponseEmptyEmailList = "empty email list",
+    BulkSignUpResponseErrorEmailAlreadyExists = "email already exists",
+    BulkSignUpSavingError = "saving error",
+    BulkSignUpCreateDashboardError = "create dashboard error",
+    BulkSignUpCreateApiKeyError = "create api key error"
 }
 export declare enum ServicesCVizorStatus {
     CVizorStatusDisabled = 0,
@@ -1419,6 +1436,7 @@ export interface ServicesWidgetFilters {
     disabledCounter?: boolean;
     filter?: ServicesTradeFilters;
     ma?: number;
+    mini?: boolean;
     private?: boolean;
     simpleSortBy?: ServicesWidgetFiltersSortBy;
 }
