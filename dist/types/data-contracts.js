@@ -68,6 +68,7 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_SPOT"] = 6] = "EXCHANGE_BYBIT_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BITGET_FUTURES"] = 7] = "EXCHANGE_BITGET_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_PERP_SWAPS"] = 8] = "EXCHANGE_OKX_PERP_SWAPS";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_SPOT"] = 9] = "EXCHANGE_OKX_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_FUTURES"] = 11] = "EXCHANGE_WLC_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_SPOT"] = 21] = "EXCHANGE_WLC_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_FUTURES"] = 12] = "EXCHANGE_TIGER_FUTURES";

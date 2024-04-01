@@ -7,8 +7,7 @@ const srcDir = path.join(__dirname, "./src");
 const indexFile = path.join(__dirname, "/src/index.ts");
 
 const dirsInclude = ["types", "locales"];
-let exportStatements = `
-/* 
+let exportStatements = `/* 
  * This file is generated automatically. 
  * Do not modify it manually.
  * Build by build.js script.
