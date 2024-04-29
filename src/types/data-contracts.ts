@@ -380,7 +380,7 @@ export interface DtoApiKeyCreateForm {
    * @example 1
    */
   enabled?: number;
-  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 11 | 21 | 12 | 22 | 13 | 14 | 15;
+  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 11 | 21 | 12 | 22 | 13 | 14 | 15;
   /**
    * @minLength 1
    * @maxLength 255
@@ -450,6 +450,7 @@ export interface DtoApiUserUpdateForm {
    * @example "My API key"
    */
   name: string;
+  userID?: number;
 }
 
 export interface DtoCategoryForm {
@@ -849,36 +850,96 @@ export interface DtoTradeDrawingForm {
 
 export interface DtoTradeFilters {
   api_key_id?: number[];
-  api_key_id_params?: string;
+  /**
+   * string based params separated by ":"
+   * "not:" - exclude trades with api key ids specified
+   */
+  api_key_id_params?: "not:";
+  /**
+   * Trades by default have no category.
+   * ID 1 is system category for archive trades. Excluded by default.
+   */
   category?: number[];
-  category_params?: string;
+  /**
+   * string based params separated by ":"
+   * "not:" - exclude trades with category ids specified
+   */
+  category_params?: "not:";
+  /** @example "2019-01-01,2019-01-02" */
   closeBetween?: string;
+  /**
+   * Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday
+   * @example [2]
+   */
   daysOfWeek?: number[];
+  /**
+   * Duration specified in milliseconds
+   * Example: 1000,10000 - trades with duration between 1 and 10 seconds
+   */
   durationBetween?: string;
-  durationType?: string;
-  extraInfo?: string;
-  groupBy?: string;
+  /** @example "today" */
+  durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+  /** @example "conclusion:empty" */
+  extraInfo?:
+    | "conclusion:empty"
+    | "conclusion:not-empty"
+    | "desc:empty"
+    | "desc:not-empty"
+    | "mentor_note:not-empty"
+    | "mentor_note:empty";
+  /** Used in summary widget settings */
+  groupBy?: "minute" | "hour" | "month" | "date" | "week";
+  /** Headers are required only for CSV export method */
   headers?: string[];
+  /** @example 1 */
   id?: number;
+  /** @example [1] */
   ids?: number[];
+  /** @example "0.5,1.5" */
   leverageBetween?: string;
+  /** @example "-0.5,-1.5" */
   maeBetween?: string;
+  /** @example "0.5,1.5" */
   mfeBetween?: string;
   multiplier?: string;
+  /** @example "2019-01-01,2019-01-02" */
   openBetween?: string;
+  /** @example "0.5,1.5" */
   percentBetween?: string;
   profitBetween?: string;
+  /** @example "0.5,1.5" */
   profitDepositBetween?: string;
-  side?: string;
+  side?: "LONG" | "SHORT";
+  /** Select only open or only closed trades. */
+  state?: 0 | 1 | 2;
+  /** @example ["BTCUSDT"] */
   symbol?: string[];
-  symbol_params?: string;
+  /** @example "not:" */
+  symbol_params?: "not:";
   tags?: number[];
-  tags_params?: string;
+  /**
+   * string based params separated by ":"
+   * "not:" - exclude trades with tags specified
+   * "all:" - all provided tags must be included/excluded
+   * @example "not:all:"
+   */
+  tags_params?: "not:" | "all:" | "not:all:";
+  /** Default value comes from user profile settings. By default is "open_time" */
   trade_time?: string;
+  /** @example 1 */
   user_id?: number;
+  /**
+   * Turnover in USD - including all buy and sell orders value
+   * @example "0.5,1.5"
+   */
   volumeBetween?: string;
   volumeFrom?: number;
   volumeTo?: number;
+  /**
+   * By default archive trades are not included. If you want to include them,
+   * set this to true. Or set category id to 1 (Archive ID).
+   */
+  with_archive?: boolean;
 }
 
 export interface DtoTradeGroupShortLink {
@@ -994,11 +1055,7 @@ export interface DtoUserUpdateForm {
 
 export interface DtoWidgetCreateForm {
   filters?: DtoWidgetFilters;
-  /**
-   * @minLength 1
-   * @maxLength 255
-   * @example "income_usdt"
-   */
+  /** @example "income_usdt" */
   source: string;
   /**
    * @minLength 1
@@ -1006,11 +1063,7 @@ export interface DtoWidgetCreateForm {
    * @example "Profit factor"
    */
   title: string;
-  /**
-   * @minLength 1
-   * @maxLength 255
-   * @example "chart"
-   */
+  /** @example "chart" */
   type: string;
   /** @example "line" */
   type2?: string;
@@ -1018,13 +1071,21 @@ export interface DtoWidgetCreateForm {
 }
 
 export interface DtoWidgetFilters {
+  /**
+   * [UI] Color in hex format (alpha is optional)
+   * @example "#D81B60FF"
+   */
   color?: string;
+  /** [UI] to hide trades count on the chart */
   disabledCounter?: boolean;
-  durationType?: "today" | "yesterday" | "past1w" | "1m" | "7d" | "30d" | "90d";
   filter?: DtoTradeFilters;
+  /** [UI] Add moving average to the chart if possible */
   ma?: number;
+  /** [UI] now used only indirectly by calendar widget */
   mini?: boolean;
+  /** Makes server return relative values. Safe to share with public. */
   private?: boolean;
+  /** [UI] Sort by value or key */
   simpleSortBy?: "value_ask" | "value_desc" | "key_asc" | "key_desc";
 }
 
@@ -1128,6 +1189,7 @@ export interface ServicesBulkSignUpResponse {
   dashboard_id?: number;
   email?: string;
   error?: ServicesBulkSignUpResponseError;
+  user_id?: number;
 }
 
 export enum ServicesBulkSignUpResponseError {
@@ -1233,6 +1295,7 @@ export enum ServicesExchangeID {
   EXCHANGE_BITGET_FUTURES = 7,
   EXCHANGE_OKX_PERP_SWAPS = 8,
   EXCHANGE_OKX_SPOT = 9,
+  EXCHANGE_BINGX_FUTURES = 10,
   EXCHANGE_WLC_FUTURES = 11,
   EXCHANGE_WLC_SPOT = 21,
   EXCHANGE_TIGER_FUTURES = 12,
@@ -1802,6 +1865,7 @@ export interface ServicesTradeChartResponse {
 
 export interface ServicesTradeCountByWeek {
   api_key_id?: number;
+  avg_commission?: string;
   avg_loss?: string;
   avg_loss_mae?: string;
   avg_percent?: string;
@@ -1818,6 +1882,8 @@ export interface ServicesTradeCountByWeek {
   funding?: string;
   leverage?: string;
   long_count?: number;
+  max_leverage?: string;
+  min_leverage?: string;
   net_profit?: string;
   percent?: string;
   profit_deposit?: string;
@@ -1924,6 +1990,7 @@ export enum ServicesTradeState {
 
 export interface ServicesTradeSummary {
   api_key_id?: number;
+  avg_commission?: string;
   avg_loss?: string;
   avg_loss_mae?: string;
   avg_percent?: string;
@@ -1939,6 +2006,8 @@ export interface ServicesTradeSummary {
   funding?: string;
   leverage?: string;
   long_count?: number;
+  max_leverage?: string;
+  min_leverage?: string;
   net_profit?: string;
   percent?: string;
   profit_deposit?: string;

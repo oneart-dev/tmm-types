@@ -230,7 +230,7 @@ export interface DtoAnalyzerNoteForm {
 }
 export interface DtoApiKeyCreateForm {
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 11 | 21 | 12 | 22 | 13 | 14 | 15;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 11 | 21 | 12 | 22 | 13 | 14 | 15;
     extra_info?: string;
     key_private: string;
     key_public: string;
@@ -248,6 +248,7 @@ export interface DtoApiKeyUpdateNameForm {
 export interface DtoApiUserUpdateForm {
     ip?: string[];
     name: string;
+    userID?: number;
 }
 export interface DtoCategoryForm {
     id?: number;
@@ -405,15 +406,15 @@ export interface DtoTradeDrawingForm {
 }
 export interface DtoTradeFilters {
     api_key_id?: number[];
-    api_key_id_params?: string;
+    api_key_id_params?: "not:";
     category?: number[];
-    category_params?: string;
+    category_params?: "not:";
     closeBetween?: string;
     daysOfWeek?: number[];
     durationBetween?: string;
-    durationType?: string;
-    extraInfo?: string;
-    groupBy?: string;
+    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+    extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
+    groupBy?: "minute" | "hour" | "month" | "date" | "week";
     headers?: string[];
     id?: number;
     ids?: number[];
@@ -425,16 +426,18 @@ export interface DtoTradeFilters {
     percentBetween?: string;
     profitBetween?: string;
     profitDepositBetween?: string;
-    side?: string;
+    side?: "LONG" | "SHORT";
+    state?: 0 | 1 | 2;
     symbol?: string[];
-    symbol_params?: string;
+    symbol_params?: "not:";
     tags?: number[];
-    tags_params?: string;
+    tags_params?: "not:" | "all:" | "not:all:";
     trade_time?: string;
     user_id?: number;
     volumeBetween?: string;
     volumeFrom?: number;
     volumeTo?: number;
+    with_archive?: boolean;
 }
 export interface DtoTradeGroupShortLink {
     id: number[];
@@ -495,7 +498,6 @@ export interface DtoWidgetCreateForm {
 export interface DtoWidgetFilters {
     color?: string;
     disabledCounter?: boolean;
-    durationType?: "today" | "yesterday" | "past1w" | "1m" | "7d" | "30d" | "90d";
     filter?: DtoTradeFilters;
     ma?: number;
     mini?: boolean;
@@ -575,6 +577,7 @@ export interface ServicesBulkSignUpResponse {
     dashboard_id?: number;
     email?: string;
     error?: ServicesBulkSignUpResponseError;
+    user_id?: number;
 }
 export declare enum ServicesBulkSignUpResponseError {
     BulkSignUpResponseEmptyEmailList = "empty email list",
@@ -648,6 +651,7 @@ export declare enum ServicesExchangeID {
     EXCHANGE_BITGET_FUTURES = 7,
     EXCHANGE_OKX_PERP_SWAPS = 8,
     EXCHANGE_OKX_SPOT = 9,
+    EXCHANGE_BINGX_FUTURES = 10,
     EXCHANGE_WLC_FUTURES = 11,
     EXCHANGE_WLC_SPOT = 21,
     EXCHANGE_TIGER_FUTURES = 12,
@@ -1114,6 +1118,7 @@ export interface ServicesTradeChartResponse {
 }
 export interface ServicesTradeCountByWeek {
     api_key_id?: number;
+    avg_commission?: string;
     avg_loss?: string;
     avg_loss_mae?: string;
     avg_percent?: string;
@@ -1130,6 +1135,8 @@ export interface ServicesTradeCountByWeek {
     funding?: string;
     leverage?: string;
     long_count?: number;
+    max_leverage?: string;
+    min_leverage?: string;
     net_profit?: string;
     percent?: string;
     profit_deposit?: string;
@@ -1227,6 +1234,7 @@ export declare enum ServicesTradeState {
 }
 export interface ServicesTradeSummary {
     api_key_id?: number;
+    avg_commission?: string;
     avg_loss?: string;
     avg_loss_mae?: string;
     avg_percent?: string;
@@ -1242,6 +1250,8 @@ export interface ServicesTradeSummary {
     funding?: string;
     leverage?: string;
     long_count?: number;
+    max_leverage?: string;
+    min_leverage?: string;
     net_profit?: string;
     percent?: string;
     profit_deposit?: string;

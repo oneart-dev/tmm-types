@@ -83,66 +83,37 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   counterDashboardDetail = (
     id: number,
     query?: {
-      /** Trade ID */
-      id?: number;
-      /** Trade IDs */
-      ids?: number[];
-      /** Api key id */
       api_key_id?: number[];
-      /** Entry reason tag id */
-      tags?: number[];
       /**
-       * Trade time based on open time or close time
-       * @default "open_time"
+       * string based params separated by ":"
+       * "not:" - exclude trades with api key ids specified
        */
-      trade_time?: string;
-      /** Date period based on trade_time variable */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      api_key_id_params?: "not:";
       /**
-       * trade entry date
-       * @example ""2019-01-01,2019-01-31""
+       * Trades by default have no category.
+       * ID 1 is system category for archive trades. Excluded by default.
        */
-      openBetween?: string;
+      category?: number[];
       /**
-       * trade exit date
-       * @example ""2019-01-01,2019-01-31""
+       * string based params separated by ":"
+       * "not:" - exclude trades with category ids specified
        */
+      category_params?: "not:";
+      /** @example "2019-01-01,2019-01-02" */
       closeBetween?: string;
       /**
-       * trade percent
-       * @example ""1,2.5""
+       * Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday
+       * @example [2]
        */
-      percentBetween?: string;
+      daysOfWeek?: number[];
       /**
-       * trade net profit
-       * @example ""100,2500""
-       */
-      profitBetween?: string;
-      /**
-       * trade duration in milliseconds. Example: '1,60000' 1 minute max
-       * @example ""1000,60000""
+       * Duration specified in milliseconds
+       * Example: 1000,10000 - trades with duration between 1 and 10 seconds
        */
       durationBetween?: string;
-      /**
-       * trade leverage. Example: '0.5,3.5' from 0.5x to 3.5x
-       * @example ""0.5,3.5""
-       */
-      leverageBetween?: string;
-      /** trade side */
-      side?: "SHORT" | "LONG";
-      /** User ID. Only available for mentors to see students trades */
-      user_id?: string;
-      /** Category ID (1 - Archive) */
-      category_id?: number;
-      /** Trade Volume from */
-      volumeFrom?: number;
-      /** Trade Volume to */
-      volumeTo?: number;
-      /** Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday */
-      daysOfWeek?: number[];
-      /** trade ticker */
-      symbol?: string[];
-      /** trade extra info filled by user */
+      /** @example "today" */
+      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /** @example "conclusion:empty" */
       extraInfo?:
         | "conclusion:empty"
         | "conclusion:not-empty"
@@ -150,6 +121,59 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
         | "desc:not-empty"
         | "mentor_note:not-empty"
         | "mentor_note:empty";
+      /** Used in summary widget settings */
+      groupBy?: "minute" | "hour" | "month" | "date" | "week";
+      /** Headers are required only for CSV export method */
+      headers?: string[];
+      /** @example 1 */
+      id?: number;
+      /** @example [1] */
+      ids?: number[];
+      /** @example "0.5,1.5" */
+      leverageBetween?: string;
+      /** @example "-0.5,-1.5" */
+      maeBetween?: string;
+      /** @example "0.5,1.5" */
+      mfeBetween?: string;
+      multiplier?: string;
+      /** @example "2019-01-01,2019-01-02" */
+      openBetween?: string;
+      /** @example "0.5,1.5" */
+      percentBetween?: string;
+      profitBetween?: string;
+      /** @example "0.5,1.5" */
+      profitDepositBetween?: string;
+      side?: "LONG" | "SHORT";
+      /** Select only open or only closed trades. */
+      state?: 0 | 1 | 2;
+      /** @example ["BTCUSDT"] */
+      symbol?: string[];
+      /** @example "not:" */
+      symbol_params?: "not:";
+      tags?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with tags specified
+       * "all:" - all provided tags must be included/excluded
+       * @example "not:all:"
+       */
+      tags_params?: "not:" | "all:" | "not:all:";
+      /** Default value comes from user profile settings. By default is "open_time" */
+      trade_time?: string;
+      /** @example 1 */
+      user_id?: number;
+      /**
+       * Turnover in USD - including all buy and sell orders value
+       * @example "0.5,1.5"
+       */
+      volumeBetween?: string;
+      volumeFrom?: number;
+      volumeTo?: number;
+      /**
+       * By default archive trades are not included. If you want to include them,
+       * set this to true. Or set category id to 1 (Archive ID).
+       */
+      with_archive?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -176,66 +200,37 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   counterWidgetDetail = (
     id: number,
     query?: {
-      /** Trade ID */
-      id?: number;
-      /** Trade IDs */
-      ids?: number[];
-      /** Api key id */
       api_key_id?: number[];
-      /** Entry reason tag id */
-      tags?: number[];
       /**
-       * Trade time based on open time or close time
-       * @default "open_time"
+       * string based params separated by ":"
+       * "not:" - exclude trades with api key ids specified
        */
-      trade_time?: string;
-      /** Date period based on trade_time variable */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      api_key_id_params?: "not:";
       /**
-       * trade entry date
-       * @example ""2019-01-01,2019-01-31""
+       * Trades by default have no category.
+       * ID 1 is system category for archive trades. Excluded by default.
        */
-      openBetween?: string;
+      category?: number[];
       /**
-       * trade exit date
-       * @example ""2019-01-01,2019-01-31""
+       * string based params separated by ":"
+       * "not:" - exclude trades with category ids specified
        */
+      category_params?: "not:";
+      /** @example "2019-01-01,2019-01-02" */
       closeBetween?: string;
       /**
-       * trade percent
-       * @example ""1,2.5""
+       * Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday
+       * @example [2]
        */
-      percentBetween?: string;
+      daysOfWeek?: number[];
       /**
-       * trade net profit
-       * @example ""100,2500""
-       */
-      profitBetween?: string;
-      /**
-       * trade duration in milliseconds. Example: '1,60000' 1 minute max
-       * @example ""1000,60000""
+       * Duration specified in milliseconds
+       * Example: 1000,10000 - trades with duration between 1 and 10 seconds
        */
       durationBetween?: string;
-      /**
-       * trade leverage. Example: '0.5,3.5' from 0.5x to 3.5x
-       * @example ""0.5,3.5""
-       */
-      leverageBetween?: string;
-      /** trade side */
-      side?: "SHORT" | "LONG";
-      /** User ID. Only available for mentors to see students trades */
-      user_id?: string;
-      /** Category ID (1 - Archive) */
-      category_id?: number;
-      /** Trade Volume from */
-      volumeFrom?: number;
-      /** Trade Volume to */
-      volumeTo?: number;
-      /** Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday */
-      daysOfWeek?: number[];
-      /** trade ticker */
-      symbol?: string[];
-      /** trade extra info filled by user */
+      /** @example "today" */
+      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /** @example "conclusion:empty" */
       extraInfo?:
         | "conclusion:empty"
         | "conclusion:not-empty"
@@ -243,6 +238,59 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
         | "desc:not-empty"
         | "mentor_note:not-empty"
         | "mentor_note:empty";
+      /** Used in summary widget settings */
+      groupBy?: "minute" | "hour" | "month" | "date" | "week";
+      /** Headers are required only for CSV export method */
+      headers?: string[];
+      /** @example 1 */
+      id?: number;
+      /** @example [1] */
+      ids?: number[];
+      /** @example "0.5,1.5" */
+      leverageBetween?: string;
+      /** @example "-0.5,-1.5" */
+      maeBetween?: string;
+      /** @example "0.5,1.5" */
+      mfeBetween?: string;
+      multiplier?: string;
+      /** @example "2019-01-01,2019-01-02" */
+      openBetween?: string;
+      /** @example "0.5,1.5" */
+      percentBetween?: string;
+      profitBetween?: string;
+      /** @example "0.5,1.5" */
+      profitDepositBetween?: string;
+      side?: "LONG" | "SHORT";
+      /** Select only open or only closed trades. */
+      state?: 0 | 1 | 2;
+      /** @example ["BTCUSDT"] */
+      symbol?: string[];
+      /** @example "not:" */
+      symbol_params?: "not:";
+      tags?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with tags specified
+       * "all:" - all provided tags must be included/excluded
+       * @example "not:all:"
+       */
+      tags_params?: "not:" | "all:" | "not:all:";
+      /** Default value comes from user profile settings. By default is "open_time" */
+      trade_time?: string;
+      /** @example 1 */
+      user_id?: number;
+      /**
+       * Turnover in USD - including all buy and sell orders value
+       * @example "0.5,1.5"
+       */
+      volumeBetween?: string;
+      volumeFrom?: number;
+      volumeTo?: number;
+      /**
+       * By default archive trades are not included. If you want to include them,
+       * set this to true. Or set category id to 1 (Archive ID).
+       */
+      with_archive?: boolean;
     },
     params: RequestParams = {},
   ) =>
