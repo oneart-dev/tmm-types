@@ -72,11 +72,16 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_FUTURES"] = 10] = "EXCHANGE_BINGX_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_FUTURES"] = 11] = "EXCHANGE_WLC_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_SPOT"] = 21] = "EXCHANGE_WLC_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_BYBIT_SPOT"] = 23] = "EXCHANGE_WLC_BYBIT_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_BYBIT_LINEAR"] = 24] = "EXCHANGE_WLC_BYBIT_LINEAR";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_BYBIT_INVERSE"] = 25] = "EXCHANGE_WLC_BYBIT_INVERSE";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_FUTURES"] = 12] = "EXCHANGE_TIGER_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_SPOT"] = 22] = "EXCHANGE_TIGER_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BYBIT_SPOT"] = 13] = "EXCHANGE_TIGER_BYBIT_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BYBIT_LINEAR"] = 14] = "EXCHANGE_TIGER_BYBIT_LINEAR";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BYBIT_INVERSE"] = 15] = "EXCHANGE_TIGER_BYBIT_INVERSE";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_OKX_FUTURES"] = 32] = "EXCHANGE_TIGER_OKX_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_OKX_SPOT"] = 33] = "EXCHANGE_TIGER_OKX_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {
