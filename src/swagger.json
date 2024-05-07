@@ -18707,13 +18707,19 @@
                         7,
                         8,
                         9,
+                        10,
                         11,
                         21,
                         12,
                         22,
                         13,
                         14,
-                        15
+                        15,
+                        23,
+                        24,
+                        25,
+                        32,
+                        33
                     ]
                 },
                 "extra_info": {
@@ -20505,11 +20511,16 @@
                 10,
                 11,
                 21,
+                23,
+                24,
+                25,
                 12,
                 22,
                 13,
                 14,
-                15
+                15,
+                32,
+                33
             ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
@@ -20524,11 +20535,16 @@
                 "EXCHANGE_BINGX_FUTURES",
                 "EXCHANGE_WLC_FUTURES",
                 "EXCHANGE_WLC_SPOT",
+                "EXCHANGE_WLC_BYBIT_SPOT",
+                "EXCHANGE_WLC_BYBIT_LINEAR",
+                "EXCHANGE_WLC_BYBIT_INVERSE",
                 "EXCHANGE_TIGER_FUTURES",
                 "EXCHANGE_TIGER_SPOT",
                 "EXCHANGE_TIGER_BYBIT_SPOT",
                 "EXCHANGE_TIGER_BYBIT_LINEAR",
-                "EXCHANGE_TIGER_BYBIT_INVERSE"
+                "EXCHANGE_TIGER_BYBIT_INVERSE",
+                "EXCHANGE_TIGER_OKX_FUTURES",
+                "EXCHANGE_TIGER_OKX_SPOT"
             ]
         },
         "services.File": {

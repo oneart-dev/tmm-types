@@ -380,7 +380,7 @@ export interface DtoApiKeyCreateForm {
    * @example 1
    */
   enabled?: number;
-  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 11 | 21 | 12 | 22 | 13 | 14 | 15;
+  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1298,11 +1298,16 @@ export enum ServicesExchangeID {
   EXCHANGE_BINGX_FUTURES = 10,
   EXCHANGE_WLC_FUTURES = 11,
   EXCHANGE_WLC_SPOT = 21,
+  EXCHANGE_WLC_BYBIT_SPOT = 23,
+  EXCHANGE_WLC_BYBIT_LINEAR = 24,
+  EXCHANGE_WLC_BYBIT_INVERSE = 25,
   EXCHANGE_TIGER_FUTURES = 12,
   EXCHANGE_TIGER_SPOT = 22,
   EXCHANGE_TIGER_BYBIT_SPOT = 13,
   EXCHANGE_TIGER_BYBIT_LINEAR = 14,
   EXCHANGE_TIGER_BYBIT_INVERSE = 15,
+  EXCHANGE_TIGER_OKX_FUTURES = 32,
+  EXCHANGE_TIGER_OKX_SPOT = 33,
 }
 
 export interface ServicesFile {
