@@ -353,6 +353,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceWinPercent"] = "winning_percent";
     ServicesWidgetSource["WidgetSourceLossPercent"] = "loosing_percent";
     ServicesWidgetSource["WidgetSourceIncomeByApiKey"] = "income_usdt_api_keys";
+    ServicesWidgetSource["WidgetSourceIncomeStackedByApiKey"] = "income_usdt_stacked_by_api_keys";
     ServicesWidgetSource["WidgetSourceIncomeByEntryReasons"] = "tag_profit";
     ServicesWidgetSource["WidgetSourcePercentByEntryReasons"] = "tag_percent";
     ServicesWidgetSource["WidgetSourceEntryReasonCombination"] = "tag_percent_combinations";

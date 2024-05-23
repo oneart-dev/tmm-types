@@ -2266,6 +2266,7 @@ export enum ServicesWidgetSource {
   WidgetSourceWinPercent = "winning_percent",
   WidgetSourceLossPercent = "loosing_percent",
   WidgetSourceIncomeByApiKey = "income_usdt_api_keys",
+  WidgetSourceIncomeStackedByApiKey = "income_usdt_stacked_by_api_keys",
   WidgetSourceIncomeByEntryReasons = "tag_profit",
   WidgetSourcePercentByEntryReasons = "tag_percent",
   WidgetSourceEntryReasonCombination = "tag_percent_combinations",
