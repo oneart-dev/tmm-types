@@ -179,6 +179,12 @@ export var ServicesTelegramCloseNotification;
     ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationEnabled"] = 1] = "TelegramCloseNotificationEnabled";
     ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationDisabled"] = 2] = "TelegramCloseNotificationDisabled";
 })(ServicesTelegramCloseNotification || (ServicesTelegramCloseNotification = {}));
+export var ServicesTelegramConnectPreview;
+(function (ServicesTelegramConnectPreview) {
+    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewEnabled"] = 1] = "TelegramConnectPreviewEnabled";
+    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewClose"] = 2] = "TelegramConnectPreviewClose";
+    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewDisabled"] = 0] = "TelegramConnectPreviewDisabled";
+})(ServicesTelegramConnectPreview || (ServicesTelegramConnectPreview = {}));
 export var ServicesTelegramConnectPrivacy;
 (function (ServicesTelegramConnectPrivacy) {
     ServicesTelegramConnectPrivacy[ServicesTelegramConnectPrivacy["TelegramConnectPrivacyEnabled"] = 1] = "TelegramConnectPrivacyEnabled";
@@ -311,13 +317,6 @@ export var ServicesTransactionStatus;
     ServicesTransactionStatus["TransactionStatusCreated"] = "created";
     ServicesTransactionStatus["TransactionStatusPending"] = "pending";
 })(ServicesTransactionStatus || (ServicesTransactionStatus = {}));
-export var ServicesWLCStatus;
-(function (ServicesWLCStatus) {
-    ServicesWLCStatus[ServicesWLCStatus["WLCStatusNone"] = 0] = "WLCStatusNone";
-    ServicesWLCStatus[ServicesWLCStatus["WLCStatusNew"] = 1] = "WLCStatusNew";
-    ServicesWLCStatus[ServicesWLCStatus["WLCStatusNotReferral"] = 2] = "WLCStatusNotReferral";
-    ServicesWLCStatus[ServicesWLCStatus["WLCStatusReferral"] = 3] = "WLCStatusReferral";
-})(ServicesWLCStatus || (ServicesWLCStatus = {}));
 export var ServicesWidgetFiltersSortBy;
 (function (ServicesWidgetFiltersSortBy) {
     ServicesWidgetFiltersSortBy["WidgetFiltersSortByValueAsc"] = "value_asc";
@@ -337,6 +336,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceStdDevMAE"] = "std_dev_mae";
     ServicesWidgetSource["WidgetSourceRiskManagementValues"] = "risk_values_usd";
     ServicesWidgetSource["WidgetSourceNetProfit"] = "income_usdt";
+    ServicesWidgetSource["WidgetSourceIncomeStacked"] = "income_usdt_stacked";
     ServicesWidgetSource["WidgetSourceNetProfitCandleStick"] = "income_usdt_candlestick";
     ServicesWidgetSource["WidgetSourceProfitLoss"] = "profit_loss";
     ServicesWidgetSource["WidgetSourceFunding"] = "funding";

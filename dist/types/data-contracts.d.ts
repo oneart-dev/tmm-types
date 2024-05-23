@@ -392,6 +392,7 @@ export interface DtoTelegramConnectForm {
     language: "ru" | "en";
     name: string;
     new_trade_notification?: 0 | 1 | 2 | 3;
+    preview?: 0 | 1 | 2;
     privacy_mode?: 0 | 1;
 }
 export interface DtoTradeChartDataForm {
@@ -992,11 +993,17 @@ export interface ServicesTelegramConnect {
     language?: string;
     name?: string;
     new_trade_notification?: ServicesTelegramNotification;
+    preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesTelegramConnectPrivacy;
     status?: ServicesTelegramConnectStatus;
     updated_at?: string;
     user_id?: number;
     username?: string;
+}
+export declare enum ServicesTelegramConnectPreview {
+    TelegramConnectPreviewEnabled = 1,
+    TelegramConnectPreviewClose = 2,
+    TelegramConnectPreviewDisabled = 0
 }
 export declare enum ServicesTelegramConnectPrivacy {
     TelegramConnectPrivacyEnabled = 1,
@@ -1407,28 +1414,12 @@ export interface ServicesUserWithRelations {
     top_trader?: number;
     top_trader_api_key_id?: number;
     trial_available?: boolean;
-    wlc?: ServicesWLC;
 }
 export interface ServicesValidationErrorResponse {
     errors?: ServicesValidationErrors;
     status?: string;
 }
 export type ServicesValidationErrors = Record<string, string[]>;
-export interface ServicesWLC {
-    created_at?: string;
-    id?: number;
-    last_checked_at?: number;
-    status?: ServicesWLCStatus;
-    updated_at?: string;
-    user_id?: number;
-    wlc_id?: number;
-}
-export declare enum ServicesWLCStatus {
-    WLCStatusNone = 0,
-    WLCStatusNew = 1,
-    WLCStatusNotReferral = 2,
-    WLCStatusReferral = 3
-}
 export interface ServicesWidget {
     dashboardFilters?: ServicesWidgetFilters;
     dashboard_id?: number;
@@ -1473,6 +1464,7 @@ export declare enum ServicesWidgetSource {
     WidgetSourceStdDevMAE = "std_dev_mae",
     WidgetSourceRiskManagementValues = "risk_values_usd",
     WidgetSourceNetProfit = "income_usdt",
+    WidgetSourceIncomeStacked = "income_usdt_stacked",
     WidgetSourceNetProfitCandleStick = "income_usdt_candlestick",
     WidgetSourceProfitLoss = "profit_loss",
     WidgetSourceFunding = "funding",

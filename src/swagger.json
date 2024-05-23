@@ -19487,6 +19487,15 @@
                     ],
                     "example": 1
                 },
+                "preview": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
                 "privacy_mode": {
                     "type": "integer",
                     "enum": [
@@ -21541,6 +21550,14 @@
                         }
                     ]
                 },
+                "preview": {
+                    "description": "Preview mode (always disabled in private mode)\n0 - disabled\n1 - enabled for any notification\n2 - enabled for close notification only",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.TelegramConnectPreview"
+                        }
+                    ]
+                },
                 "privacy_mode": {
                     "description": "Privacy mode\n0 - disabled\n1 - enabled",
                     "allOf": [
@@ -21567,6 +21584,19 @@
                     "type": "string"
                 }
             }
+        },
+        "services.TelegramConnectPreview": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                0
+            ],
+            "x-enum-varnames": [
+                "TelegramConnectPreviewEnabled",
+                "TelegramConnectPreviewClose",
+                "TelegramConnectPreviewDisabled"
+            ]
         },
         "services.TelegramConnectPrivacy": {
             "type": "integer",
@@ -22778,9 +22808,6 @@
                 },
                 "trial_available": {
                     "type": "boolean"
-                },
-                "wlc": {
-                    "$ref": "#/definitions/services.WLC"
                 }
             }
         },
@@ -22804,47 +22831,6 @@
                     "type": "string"
                 }
             }
-        },
-        "services.WLC": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_checked_at": {
-                    "type": "integer"
-                },
-                "status": {
-                    "$ref": "#/definitions/services.WLCStatus"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "wlc_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "services.WLCStatus": {
-            "type": "integer",
-            "enum": [
-                0,
-                1,
-                2,
-                3
-            ],
-            "x-enum-varnames": [
-                "WLCStatusNone",
-                "WLCStatusNew",
-                "WLCStatusNotReferral",
-                "WLCStatusReferral"
-            ]
         },
         "services.Widget": {
             "type": "object",
@@ -22956,6 +22942,7 @@
                 "std_dev_mae",
                 "risk_values_usd",
                 "income_usdt",
+                "income_usdt_stacked",
                 "income_usdt_candlestick",
                 "profit_loss",
                 "funding",
@@ -23038,6 +23025,7 @@
                 "WidgetSourceStdDevMAE",
                 "WidgetSourceRiskManagementValues",
                 "WidgetSourceNetProfit",
+                "WidgetSourceIncomeStacked",
                 "WidgetSourceNetProfitCandleStick",
                 "WidgetSourceProfitLoss",
                 "WidgetSourceFunding",

@@ -826,6 +826,8 @@ export interface DtoTelegramConnectForm {
   /** @example 1 */
   new_trade_notification?: 0 | 1 | 2 | 3;
   /** @example 1 */
+  preview?: 0 | 1 | 2;
+  /** @example 1 */
   privacy_mode?: 0 | 1;
 }
 
@@ -1718,6 +1720,13 @@ export interface ServicesTelegramConnect {
    */
   new_trade_notification?: ServicesTelegramNotification;
   /**
+   * Preview mode (always disabled in private mode)
+   * 0 - disabled
+   * 1 - enabled for any notification
+   * 2 - enabled for close notification only
+   */
+  preview?: ServicesTelegramConnectPreview;
+  /**
    * Privacy mode
    * 0 - disabled
    * 1 - enabled
@@ -1732,6 +1741,12 @@ export interface ServicesTelegramConnect {
   updated_at?: string;
   user_id?: number;
   username?: string;
+}
+
+export enum ServicesTelegramConnectPreview {
+  TelegramConnectPreviewEnabled = 1,
+  TelegramConnectPreviewClose = 2,
+  TelegramConnectPreviewDisabled = 0,
 }
 
 export enum ServicesTelegramConnectPrivacy {
@@ -2175,7 +2190,6 @@ export interface ServicesUserWithRelations {
   top_trader?: number;
   top_trader_api_key_id?: number;
   trial_available?: boolean;
-  wlc?: ServicesWLC;
 }
 
 export interface ServicesValidationErrorResponse {
@@ -2185,23 +2199,6 @@ export interface ServicesValidationErrorResponse {
 }
 
 export type ServicesValidationErrors = Record<string, string[]>;
-
-export interface ServicesWLC {
-  created_at?: string;
-  id?: number;
-  last_checked_at?: number;
-  status?: ServicesWLCStatus;
-  updated_at?: string;
-  user_id?: number;
-  wlc_id?: number;
-}
-
-export enum ServicesWLCStatus {
-  WLCStatusNone = 0,
-  WLCStatusNew = 1,
-  WLCStatusNotReferral = 2,
-  WLCStatusReferral = 3,
-}
 
 export interface ServicesWidget {
   dashboardFilters?: ServicesWidgetFilters;
@@ -2252,6 +2249,7 @@ export enum ServicesWidgetSource {
   WidgetSourceStdDevMAE = "std_dev_mae",
   WidgetSourceRiskManagementValues = "risk_values_usd",
   WidgetSourceNetProfit = "income_usdt",
+  WidgetSourceIncomeStacked = "income_usdt_stacked",
   WidgetSourceNetProfitCandleStick = "income_usdt_candlestick",
   WidgetSourceProfitLoss = "profit_loss",
   WidgetSourceFunding = "funding",
