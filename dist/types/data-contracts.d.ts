@@ -1486,6 +1486,7 @@ export declare enum ServicesWidgetSource {
     WidgetSourceEntryReasonCombination = "tag_percent_combinations",
     WidgetSourceWinRateEntryReasonCombination = "tag_win_rate_combinations",
     WidgetSourceIncomeAccumulative = "income_usdt_accumulative",
+    WidgetSourceIncomeAccumulativeByApiKey = "income_usdt_accumulative_by_api_key",
     WidgetSourceVolumeAccumulative = "volume_usdt_accumulative",
     WidgetSourceAnonymousIncomeAccumulative = "income_usdt_anonymous_accumulative",
     WidgetAverageReturn = "average_return",

@@ -358,6 +358,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceEntryReasonCombination"] = "tag_percent_combinations";
     ServicesWidgetSource["WidgetSourceWinRateEntryReasonCombination"] = "tag_win_rate_combinations";
     ServicesWidgetSource["WidgetSourceIncomeAccumulative"] = "income_usdt_accumulative";
+    ServicesWidgetSource["WidgetSourceIncomeAccumulativeByApiKey"] = "income_usdt_accumulative_by_api_key";
     ServicesWidgetSource["WidgetSourceVolumeAccumulative"] = "volume_usdt_accumulative";
     ServicesWidgetSource["WidgetSourceAnonymousIncomeAccumulative"] = "income_usdt_anonymous_accumulative";
     ServicesWidgetSource["WidgetAverageReturn"] = "average_return";
