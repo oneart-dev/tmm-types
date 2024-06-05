@@ -87,6 +87,7 @@ export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {
     ServicesFileOwnerType["FileOwnerTypeTrade"] = "Trade";
     ServicesFileOwnerType["FileOwnerTypeTradePreview"] = "TradePreview";
+    ServicesFileOwnerType["FileOwnerTypeTradePreviewPrivate"] = "TradePreviewPrivate";
     ServicesFileOwnerType["FileOwnerTypeTeam"] = "Team";
     ServicesFileOwnerType["FileOwnerTypeTeamBG"] = "TeamBG";
     ServicesFileOwnerType["FileOwnerTypeUser"] = "User";

@@ -76,6 +76,10 @@ export interface ControllersFilesResponse {
     data?: ServicesFile[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersFilterPresetsListResponse {
+    data?: ServicesFilterPreset[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersHotCoins {
     "15M"?: string[];
     "1H"?: string[];
@@ -229,6 +233,7 @@ export interface DtoAnalyzerNoteForm {
     type: 2 | 3 | 4;
 }
 export interface DtoApiKeyCreateForm {
+    balances?: DtoBalanceRecord[];
     enabled?: number;
     exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
     extra_info?: string;
@@ -249,6 +254,10 @@ export interface DtoApiUserUpdateForm {
     ip?: string[];
     name: string;
     userID?: number;
+}
+export interface DtoBalanceRecord {
+    balance_usd: number;
+    updated_at: number;
 }
 export interface DtoCategoryForm {
     id?: number;
@@ -675,6 +684,7 @@ export interface ServicesFile {
 export declare enum ServicesFileOwnerType {
     FileOwnerTypeTrade = "Trade",
     FileOwnerTypeTradePreview = "TradePreview",
+    FileOwnerTypeTradePreviewPrivate = "TradePreviewPrivate",
     FileOwnerTypeTeam = "Team",
     FileOwnerTypeTeamBG = "TeamBG",
     FileOwnerTypeUser = "User",
