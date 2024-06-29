@@ -2,8 +2,8 @@ import { ContentType, HttpClient } from "./http-client";
 export class Stats extends HttpClient {
     constructor() {
         super(...arguments);
-        this.longShortRatioList = (params = {}) => this.request({
-            path: `/stats/long-short-ratio`,
+        this.serverList = (params = {}) => this.request({
+            path: `/stats/server`,
             method: "GET",
             type: ContentType.Json,
             format: "json",

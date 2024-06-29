@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiWarningResponse, ControllersDashboardCreateResponse, ControllersDashboardListResponse, ControllersLoadBoardResponse, ControllersShortUrlResponse, ControllersUnauthorizedResponse, DtoDashboardCreateForm, DtoDashboardUpdateForm, DtoDashboardsSortForm, DtoWidgetCreateForm, DtoWidgetUpdateForm, ServicesWidgetCreateResponse } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiWarningResponse, ControllersDashboardCreateResponse, ControllersDashboardListResponse, ControllersShortUrlResponse, ControllersUnauthorizedResponse, DtoDashboardCreateForm, DtoDashboardUpdateForm, DtoDashboardsSortForm, DtoWidgetCreateForm, DtoWidgetUpdateForm, ServicesLoadBoardResponseChunk, ServicesWidgetCreateResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     boardList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersDashboardListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
@@ -82,7 +82,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
     boardCreate: (id: number, payload: DtoDashboardUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     boardDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | void | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     cloneCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersDashboardCreateResponse, string | void | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    loadDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoadBoardResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    loadDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesLoadBoardResponseChunk, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     shortLinkCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersShortUrlResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Board.d.ts.map

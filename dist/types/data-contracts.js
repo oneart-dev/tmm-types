@@ -8,6 +8,7 @@ export var ServicesApiKeyEnabledStatus;
 (function (ServicesApiKeyEnabledStatus) {
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_ENABLED"] = 1] = "API_KEY_WS_ENABLED";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_DISABLED"] = 0] = "API_KEY_WS_DISABLED";
+    ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_FROZEN"] = 2] = "API_KEY_WS_FROZEN";
 })(ServicesApiKeyEnabledStatus || (ServicesApiKeyEnabledStatus = {}));
 export var ServicesApiKeyWebsocketStatus;
 (function (ServicesApiKeyWebsocketStatus) {
@@ -93,6 +94,14 @@ export var ServicesFileOwnerType;
     ServicesFileOwnerType["FileOwnerTypeUser"] = "User";
     ServicesFileOwnerType["FileOwnerTypePublicProfile"] = "PublicProfile";
 })(ServicesFileOwnerType || (ServicesFileOwnerType = {}));
+export var ServicesLoadLevel;
+(function (ServicesLoadLevel) {
+    ServicesLoadLevel["LoadLevelNone"] = "empty";
+    ServicesLoadLevel["LoadLevelLow"] = "low";
+    ServicesLoadLevel["LoadLevelMed"] = "med";
+    ServicesLoadLevel["LoadLevelHigh"] = "high";
+    ServicesLoadLevel["LoadLevelCritical"] = "critical";
+})(ServicesLoadLevel || (ServicesLoadLevel = {}));
 export var ServicesMembership;
 (function (ServicesMembership) {
     ServicesMembership["LEVEL_NOVICE"] = "novice";

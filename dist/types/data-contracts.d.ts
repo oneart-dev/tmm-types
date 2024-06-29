@@ -94,23 +94,10 @@ export interface ControllersLatestNotificationsResponse {
     data?: ServicesNotificationPublic[];
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersLoadBoardResponse {
-    dashboard?: ServicesDashboard;
-    errors?: Record<string, string>;
-    public_profile?: ServicesPublicProfile;
-    serverData?: Record<string, string>;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersLoginSuccessResponse {
     access_token?: string;
     expires_at?: number;
     status?: string;
-}
-export interface ControllersLongShortRatioResponse {
-    data?: number;
-    long?: number;
-    short?: number;
-    status?: ControllersResponseStatusMessage;
 }
 export interface ControllersMeSuccessResponse {
     data?: ServicesUserWithRelations;
@@ -174,6 +161,10 @@ export declare enum ControllersResponseStatusMessage {
     ResponseStatusSuccess = "success",
     ResponseStatusError = "error",
     ResponseStatusWarning = "warning"
+}
+export interface ControllersServerStatsResponse {
+    data?: ServicesPublicStats;
+    status?: ControllersResponseStatusMessage;
 }
 export interface ControllersShortUrlResponse {
     data?: string;
@@ -548,7 +539,8 @@ export interface ServicesApiKey {
 }
 export declare enum ServicesApiKeyEnabledStatus {
     API_KEY_WS_ENABLED = 1,
-    API_KEY_WS_DISABLED = 0
+    API_KEY_WS_DISABLED = 0,
+    API_KEY_WS_FROZEN = 2
 }
 export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_DISCONNECTED = 0,
@@ -631,6 +623,7 @@ export interface ServicesDiscordConnect {
     name?: string;
     new_trade_notification?: ServicesDiscordNotification;
     owner_id?: number;
+    preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesDiscordConnectPrivacy;
     status?: ServicesDiscordConnectStatus;
     updated_at?: string;
@@ -707,6 +700,19 @@ export interface ServicesKline {
     open?: number;
     timestamp?: number;
     volume?: number;
+}
+export interface ServicesLoadBoardResponseChunk {
+    errors?: string;
+    serverData?: string;
+    widget?: ServicesWidget;
+    widget_id?: number;
+}
+export declare enum ServicesLoadLevel {
+    LoadLevelNone = "empty",
+    LoadLevelLow = "low",
+    LoadLevelMed = "med",
+    LoadLevelHigh = "high",
+    LoadLevelCritical = "critical"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
@@ -889,6 +895,13 @@ export declare enum ServicesPublicProfileStatus {
     PublicProfileStatusON = 1,
     PublicProfileStatusOFF = 2,
     PublicProfileStatusBAN = 3
+}
+export interface ServicesPublicStats {
+    api_keys_connecting?: Record<string, ServicesLoadLevel>;
+    api_keys_connecting_queue?: Record<string, ServicesLoadLevel>;
+    trade_processing?: Record<string, ServicesLoadLevel>;
+    trade_processing_queue?: Record<string, ServicesLoadLevel>;
+    ws_queue?: ServicesLoadLevel;
 }
 export interface ServicesRiskManagement {
     api_key_id?: number;

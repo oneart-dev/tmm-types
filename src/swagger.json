@@ -1830,6 +1830,138 @@
                 }
             }
         },
+        "/api-key/{id}/freeze": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Freeze api key. If api key is frozen, then it will be disabled",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-key"
+                ],
+                "summary": "Freeze api key",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Api key id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api-key/{id}/funding-update": {
             "post": {
                 "security": [
@@ -5808,7 +5940,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.LoadBoardResponse"
+                            "$ref": "#/definitions/services.LoadBoardResponseChunk"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -10416,9 +10548,9 @@
                 }
             }
         },
-        "/stats/long-short-ratio": {
+        "/stats/server": {
             "get": {
-                "description": "Long/Short ratio",
+                "description": "Get server stats",
                 "consumes": [
                     "application/json"
                 ],
@@ -10428,12 +10560,12 @@
                 "tags": [
                     "Stats"
                 ],
-                "summary": "Long/Short ratio",
+                "summary": "Get server stats",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.LongShortRatioResponse"
+                            "$ref": "#/definitions/controllers.ServerStatsResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -18435,37 +18567,6 @@
                 }
             }
         },
-        "controllers.LoadBoardResponse": {
-            "type": "object",
-            "properties": {
-                "dashboard": {
-                    "$ref": "#/definitions/services.Dashboard"
-                },
-                "errors": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
-                "public_profile": {
-                    "$ref": "#/definitions/services.PublicProfile"
-                },
-                "serverData": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.LoginSuccessResponse": {
             "type": "object",
             "properties": {
@@ -18482,28 +18583,6 @@
                 "status": {
                     "description": "Status \"success\"",
                     "type": "string",
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.LongShortRatioResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "number"
-                },
-                "long": {
-                    "type": "number"
-                },
-                "short": {
-                    "type": "number"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
                     "example": "success"
                 }
             }
@@ -18769,6 +18848,22 @@
                 "ResponseStatusError",
                 "ResponseStatusWarning"
             ]
+        },
+        "controllers.ServerStatsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.PublicStats"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
         },
         "controllers.ShortUrlResponse": {
             "type": "object",
@@ -20551,11 +20646,13 @@
             "type": "integer",
             "enum": [
                 1,
-                0
+                0,
+                2
             ],
             "x-enum-varnames": [
                 "API_KEY_WS_ENABLED",
-                "API_KEY_WS_DISABLED"
+                "API_KEY_WS_DISABLED",
+                "API_KEY_WS_FROZEN"
             ]
         },
         "services.ApiKeyWebsocketStatus": {
@@ -20808,6 +20905,9 @@
                 "owner_id": {
                     "type": "integer"
                 },
+                "preview": {
+                    "$ref": "#/definitions/services.TelegramConnectPreview"
+                },
                 "privacy_mode": {
                     "description": "Privacy mode\n0 - disabled\n1 - enabled",
                     "allOf": [
@@ -21018,6 +21118,40 @@
                     "type": "number"
                 }
             }
+        },
+        "services.LoadBoardResponseChunk": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "string"
+                },
+                "serverData": {
+                    "type": "string"
+                },
+                "widget": {
+                    "$ref": "#/definitions/services.Widget"
+                },
+                "widget_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.LoadLevel": {
+            "type": "string",
+            "enum": [
+                "empty",
+                "low",
+                "med",
+                "high",
+                "critical"
+            ],
+            "x-enum-varnames": [
+                "LoadLevelNone",
+                "LoadLevelLow",
+                "LoadLevelMed",
+                "LoadLevelHigh",
+                "LoadLevelCritical"
+            ]
         },
         "services.Membership": {
             "type": "string",
@@ -21570,6 +21704,38 @@
                 "PublicProfileStatusOFF",
                 "PublicProfileStatusBAN"
             ]
+        },
+        "services.PublicStats": {
+            "type": "object",
+            "properties": {
+                "api_keys_connecting": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/services.LoadLevel"
+                    }
+                },
+                "api_keys_connecting_queue": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/services.LoadLevel"
+                    }
+                },
+                "trade_processing": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/services.LoadLevel"
+                    }
+                },
+                "trade_processing_queue": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/services.LoadLevel"
+                    }
+                },
+                "ws_queue": {
+                    "$ref": "#/definitions/services.LoadLevel"
+                }
+            }
         },
         "services.RiskManagement": {
             "type": "object",

@@ -12,22 +12,22 @@
 import {
   ControllersApiErrorResponse,
   ControllersHotCoinsResponse,
-  ControllersLongShortRatioResponse,
+  ControllersServerStatsResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Stats<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Long/Short ratio
+   * @description Get server stats
    *
    * @tags Stats
-   * @name LongShortRatioList
-   * @summary Long/Short ratio
-   * @request GET:/stats/long-short-ratio
+   * @name ServerList
+   * @summary Get server stats
+   * @request GET:/stats/server
    */
-  longShortRatioList = (params: RequestParams = {}) =>
-    this.request<ControllersLongShortRatioResponse, string | ControllersApiErrorResponse>({
-      path: `/stats/long-short-ratio`,
+  serverList = (params: RequestParams = {}) =>
+    this.request<ControllersServerStatsResponse, string | ControllersApiErrorResponse>({
+      path: `/stats/server`,
       method: "GET",
       type: ContentType.Json,
       format: "json",

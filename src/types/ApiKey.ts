@@ -160,6 +160,27 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
+   * @description Freeze api key. If api key is frozen, then it will be disabled
+   *
+   * @tags api-key
+   * @name FreezeCreate
+   * @summary Freeze api key
+   * @request POST:/api-key/{id}/freeze
+   * @secure
+   */
+  freezeCreate = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessResponse,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/api-key/${id}/freeze`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description update api key funding
    *
    * @tags api-key

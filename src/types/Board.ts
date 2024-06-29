@@ -15,7 +15,6 @@ import {
   ControllersApiWarningResponse,
   ControllersDashboardCreateResponse,
   ControllersDashboardListResponse,
-  ControllersLoadBoardResponse,
   ControllersShortUrlResponse,
   ControllersUnauthorizedResponse,
   DtoDashboardCreateForm,
@@ -23,6 +22,7 @@ import {
   DtoDashboardsSortForm,
   DtoWidgetCreateForm,
   DtoWidgetUpdateForm,
+  ServicesLoadBoardResponseChunk,
   ServicesWidgetCreateResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
@@ -497,7 +497,10 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   loadDetail = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersLoadBoardResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<
+      ServicesLoadBoardResponseChunk,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
       path: `/board/${id}/load`,
       method: "GET",
       secure: true,
