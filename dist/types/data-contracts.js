@@ -347,6 +347,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceRiskManagementValues"] = "risk_values_usd";
     ServicesWidgetSource["WidgetSourceNetProfit"] = "income_usdt";
     ServicesWidgetSource["WidgetSourceIncomeStacked"] = "income_usdt_stacked";
+    ServicesWidgetSource["WidgetSourceIncomeStackedNormalized"] = "income_usdt_stacked_normalized";
     ServicesWidgetSource["WidgetSourceNetProfitCandleStick"] = "income_usdt_candlestick";
     ServicesWidgetSource["WidgetSourceProfitLoss"] = "profit_loss";
     ServicesWidgetSource["WidgetSourceFunding"] = "funding";

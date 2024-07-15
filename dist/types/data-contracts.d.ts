@@ -1408,6 +1408,7 @@ export interface ServicesUserReferralSummary {
     referral_counter_member?: number;
 }
 export interface ServicesUserWithRelations {
+    api_keys?: ServicesApiKey[];
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
     created_at?: string;
@@ -1488,6 +1489,7 @@ export declare enum ServicesWidgetSource {
     WidgetSourceRiskManagementValues = "risk_values_usd",
     WidgetSourceNetProfit = "income_usdt",
     WidgetSourceIncomeStacked = "income_usdt_stacked",
+    WidgetSourceIncomeStackedNormalized = "income_usdt_stacked_normalized",
     WidgetSourceNetProfitCandleStick = "income_usdt_candlestick",
     WidgetSourceProfitLoss = "profit_loss",
     WidgetSourceFunding = "funding",
