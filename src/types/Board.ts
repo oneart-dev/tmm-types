@@ -113,6 +113,15 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      exit_tags?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with tags specified
+       * "all:" - all provided tags must be included/excluded
+       * "only:" - trades with tags specified only
+       * @example "not:all:"
+       */
+      exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
       /** @example "conclusion:empty" */
       extraInfo?:
         | "conclusion:empty"
@@ -155,9 +164,10 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
+       * "only:" - trades with tags specified only
        * @example "not:all:"
        */
-      tags_params?: "not:" | "all:" | "not:all:";
+      tags_params?: "not:" | "all:" | "not:all:" | "only:";
       /** Default value comes from user profile settings. By default is "open_time" */
       trade_time?: string;
       /** @example 1 */
@@ -230,6 +240,15 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      exit_tags?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with tags specified
+       * "all:" - all provided tags must be included/excluded
+       * "only:" - trades with tags specified only
+       * @example "not:all:"
+       */
+      exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
       /** @example "conclusion:empty" */
       extraInfo?:
         | "conclusion:empty"
@@ -272,9 +291,10 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
+       * "only:" - trades with tags specified only
        * @example "not:all:"
        */
-      tags_params?: "not:" | "all:" | "not:all:";
+      tags_params?: "not:" | "all:" | "not:all:" | "only:";
       /** Default value comes from user profile settings. By default is "open_time" */
       trade_time?: string;
       /** @example 1 */

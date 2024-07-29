@@ -228,13 +228,13 @@ export interface DtoApiKeyCreateForm {
     enabled?: number;
     exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
     extra_info?: string;
-    key_private: string;
+    key_private?: string;
     key_public: string;
     name: string;
 }
 export interface DtoApiKeyUpdateForm {
     extra_info?: string;
-    key_private: string;
+    key_private?: string;
     key_public: string;
     name: string;
 }
@@ -376,6 +376,7 @@ export interface DtoSymbolChartForm {
     user_id?: number;
 }
 export interface DtoTagForm {
+    column?: 1 | 2;
     id?: number;
     name?: string;
 }
@@ -414,6 +415,8 @@ export interface DtoTradeFilters {
     daysOfWeek?: number[];
     durationBetween?: string;
     durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+    exit_tags?: number[];
+    exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
     extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
     groupBy?: "minute" | "hour" | "month" | "date" | "week";
     headers?: string[];
@@ -432,7 +435,7 @@ export interface DtoTradeFilters {
     symbol?: string[];
     symbol_params?: "not:";
     tags?: number[];
-    tags_params?: "not:" | "all:" | "not:all:";
+    tags_params?: "not:" | "all:" | "not:all:" | "only:";
     trade_time?: string;
     user_id?: number;
     volumeBetween?: string;
@@ -449,10 +452,12 @@ export interface DtoTradeUpdateDescForm {
     video_link?: string;
 }
 export interface DtoTradeUpdateTagsBulkForm {
+    column?: 1 | 2;
     tags: DtoTagForm[];
     trade_id: number[];
 }
 export interface DtoTradeUpdateTagsForm {
+    column?: 1 | 2;
     tags?: DtoTagForm[];
 }
 export interface DtoTradesCategoryForm {
@@ -998,10 +1003,16 @@ export declare enum ServicesStudentStatus {
     StudentStatusRejected = 2
 }
 export interface ServicesTag {
+    column?: ServicesTagColumn;
     id?: number;
     name?: string;
     score?: number;
     user_id?: number;
+}
+export declare enum ServicesTagColumn {
+    TagColumnEntryReason = 1,
+    TagColumnExitReason = 2,
+    TagColumnConclusion = 3
 }
 export declare enum ServicesTelegramCloseNotification {
     TelegramCloseNotificationEnabled = 1,
@@ -1214,6 +1225,8 @@ export interface ServicesTradeFilters {
     daysOfWeek?: number[];
     durationBetween?: string;
     durationType?: ServicesTradeDurationType;
+    exit_tags?: number[];
+    exit_tags_params?: string;
     extraInfo?: ServicesTradeExtraInfoFilter;
     groupBy?: ServicesTradeGroupBy;
     headers?: string[];

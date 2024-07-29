@@ -14,6 +14,8 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         daysOfWeek?: number[];
         durationBetween?: string;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+        exit_tags?: number[];
+        exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
         groupBy?: "minute" | "hour" | "month" | "date" | "week";
         headers?: string[];
@@ -32,7 +34,7 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         symbol?: string[];
         symbol_params?: "not:";
         tags?: number[];
-        tags_params?: "not:" | "all:" | "not:all:";
+        tags_params?: "not:" | "all:" | "not:all:" | "only:";
         trade_time?: string;
         user_id?: number;
         volumeBetween?: string;
@@ -57,6 +59,8 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         daysOfWeek?: number[];
         durationBetween?: string;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+        exit_tags?: number[];
+        exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
         groupBy?: "minute" | "hour" | "month" | "date" | "week";
         headers?: string[];
@@ -75,7 +79,7 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         symbol?: string[];
         symbol_params?: "not:";
         tags?: number[];
-        tags_params?: "not:" | "all:" | "not:all:";
+        tags_params?: "not:" | "all:" | "not:all:" | "only:";
         trade_time?: string;
         user_id?: number;
         volumeBetween?: string;

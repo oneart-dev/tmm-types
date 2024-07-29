@@ -184,6 +184,12 @@ export var ServicesStudentStatus;
     ServicesStudentStatus[ServicesStudentStatus["StudentStatusAccepted"] = 1] = "StudentStatusAccepted";
     ServicesStudentStatus[ServicesStudentStatus["StudentStatusRejected"] = 2] = "StudentStatusRejected";
 })(ServicesStudentStatus || (ServicesStudentStatus = {}));
+export var ServicesTagColumn;
+(function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
+    ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
+    ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+})(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTelegramCloseNotification;
 (function (ServicesTelegramCloseNotification) {
     ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationEnabled"] = 1] = "TelegramCloseNotificationEnabled";

@@ -121,6 +121,28 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "conclusion:empty",
                             "conclusion:not-empty",
@@ -275,11 +297,12 @@
                         "enum": [
                             "not:",
                             "all:",
-                            "not:all:"
+                            "not:all:",
+                            "only:"
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -4165,6 +4188,28 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "conclusion:empty",
                             "conclusion:not-empty",
@@ -4319,11 +4364,12 @@
                         "enum": [
                             "not:",
                             "all:",
-                            "not:all:"
+                            "not:all:",
+                            "only:"
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -4553,6 +4599,28 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "conclusion:empty",
                             "conclusion:not-empty",
@@ -4707,11 +4775,12 @@
                         "enum": [
                             "not:",
                             "all:",
-                            "not:all:"
+                            "not:all:",
+                            "only:"
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -11354,6 +11423,28 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "conclusion:empty",
                             "conclusion:not-empty",
@@ -11508,11 +11599,12 @@
                         "enum": [
                             "not:",
                             "all:",
-                            "not:all:"
+                            "not:all:",
+                            "only:"
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -12484,6 +12576,28 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "conclusion:empty",
                             "conclusion:not-empty",
@@ -12638,11 +12752,12 @@
                         "enum": [
                             "not:",
                             "all:",
-                            "not:all:"
+                            "not:all:",
+                            "only:"
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -19188,7 +19303,6 @@
             "type": "object",
             "required": [
                 "exchange_id",
-                "key_private",
                 "key_public",
                 "name"
             ],
@@ -19259,7 +19373,6 @@
         "dto.ApiKeyUpdateForm": {
             "type": "object",
             "required": [
-                "key_private",
                 "key_public",
                 "name"
             ],
@@ -19925,6 +20038,14 @@
         "dto.TagForm": {
             "type": "object",
             "properties": {
+                "column": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -20130,6 +20251,23 @@
                     ],
                     "example": "today"
                 },
+                "exit_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "exit_tags_params": {
+                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                    "type": "string",
+                    "enum": [
+                        "not:",
+                        "all:",
+                        "not:all:",
+                        "only:"
+                    ],
+                    "example": "not:all:"
+                },
                 "extraInfo": {
                     "type": "string",
                     "enum": [
@@ -20242,12 +20380,13 @@
                     }
                 },
                 "tags_params": {
-                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded",
+                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
                     "type": "string",
                     "enum": [
                         "not:",
                         "all:",
-                        "not:all:"
+                        "not:all:",
+                        "only:"
                     ],
                     "example": "not:all:"
                 },
@@ -20316,6 +20455,14 @@
                 "trade_id"
             ],
             "properties": {
+                "column": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
                 "tags": {
                     "type": "array",
                     "items": {
@@ -20333,6 +20480,14 @@
         "dto.TradeUpdateTagsForm": {
             "type": "object",
             "properties": {
+                "column": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
                 "tags": {
                     "type": "array",
                     "items": {
@@ -22081,6 +22236,14 @@
         "services.Tag": {
             "type": "object",
             "properties": {
+                "column": {
+                    "description": "0 - entry reason\n1 - exit reason\n2 - conclusion",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.TagColumn"
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -22097,6 +22260,19 @@
                     "example": 1
                 }
             }
+        },
+        "services.TagColumn": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "x-enum-varnames": [
+                "TagColumnEntryReason",
+                "TagColumnExitReason",
+                "TagColumnConclusion"
+            ]
         },
         "services.TelegramCloseNotification": {
             "type": "integer",
@@ -22751,6 +22927,15 @@
                 },
                 "durationType": {
                     "$ref": "#/definitions/services.TradeDurationType"
+                },
+                "exit_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "exit_tags_params": {
+                    "type": "string"
                 },
                 "extraInfo": {
                     "$ref": "#/definitions/services.TradeExtraInfoFilter"

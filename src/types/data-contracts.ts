@@ -387,7 +387,7 @@ export interface DtoApiKeyCreateForm {
    * @maxLength 255
    * @example "ewf223fwfewf42f2f2ffwef2f"
    */
-  key_private: string;
+  key_private?: string;
   /**
    * @minLength 1
    * @maxLength 255
@@ -413,7 +413,7 @@ export interface DtoApiKeyUpdateForm {
    * @maxLength 255
    * @example "ewf223fwfewf42f2f2ffwef2f"
    */
-  key_private: string;
+  key_private?: string;
   /**
    * @minLength 1
    * @maxLength 255
@@ -796,6 +796,8 @@ export interface DtoSymbolChartForm {
 }
 
 export interface DtoTagForm {
+  /** @example 1 */
+  column?: 1 | 2;
   id?: number;
   /** @example "catching knife" */
   name?: string;
@@ -884,6 +886,15 @@ export interface DtoTradeFilters {
   durationBetween?: string;
   /** @example "today" */
   durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+  exit_tags?: number[];
+  /**
+   * string based params separated by ":"
+   * "not:" - exclude trades with tags specified
+   * "all:" - all provided tags must be included/excluded
+   * "only:" - trades with tags specified only
+   * @example "not:all:"
+   */
+  exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
   /** @example "conclusion:empty" */
   extraInfo?:
     | "conclusion:empty"
@@ -926,9 +937,10 @@ export interface DtoTradeFilters {
    * string based params separated by ":"
    * "not:" - exclude trades with tags specified
    * "all:" - all provided tags must be included/excluded
+   * "only:" - trades with tags specified only
    * @example "not:all:"
    */
-  tags_params?: "not:" | "all:" | "not:all:";
+  tags_params?: "not:" | "all:" | "not:all:" | "only:";
   /** Default value comes from user profile settings. By default is "open_time" */
   trade_time?: string;
   /** @example 1 */
@@ -965,11 +977,15 @@ export interface DtoTradeUpdateDescForm {
 }
 
 export interface DtoTradeUpdateTagsBulkForm {
+  /** @example 1 */
+  column?: 1 | 2;
   tags: DtoTagForm[];
   trade_id: number[];
 }
 
 export interface DtoTradeUpdateTagsForm {
+  /** @example 1 */
+  column?: 1 | 2;
   tags?: DtoTagForm[];
 }
 
@@ -1713,6 +1729,12 @@ export enum ServicesStudentStatus {
 }
 
 export interface ServicesTag {
+  /**
+   * 0 - entry reason
+   * 1 - exit reason
+   * 2 - conclusion
+   */
+  column?: ServicesTagColumn;
   id?: number;
   /** @example "catching knife" */
   name?: string;
@@ -1720,6 +1742,12 @@ export interface ServicesTag {
   score?: number;
   /** @example 1 */
   user_id?: number;
+}
+
+export enum ServicesTagColumn {
+  TagColumnEntryReason = 1,
+  TagColumnExitReason = 2,
+  TagColumnConclusion = 3,
 }
 
 export enum ServicesTelegramCloseNotification {
@@ -1978,6 +2006,8 @@ export interface ServicesTradeFilters {
   daysOfWeek?: number[];
   durationBetween?: string;
   durationType?: ServicesTradeDurationType;
+  exit_tags?: number[];
+  exit_tags_params?: string;
   extraInfo?: ServicesTradeExtraInfoFilter;
   groupBy?: ServicesTradeGroupBy;
   headers?: string[];

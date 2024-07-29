@@ -12,6 +12,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         durationBetween?: string | undefined;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        exit_tags?: number[] | undefined;
+        exit_tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
         groupBy?: "hour" | "minute" | "month" | "week" | "date" | undefined;
         headers?: string[] | undefined;
@@ -30,7 +32,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         symbol?: string[] | undefined;
         symbol_params?: "not:" | undefined;
         tags?: number[] | undefined;
-        tags_params?: "not:" | "all:" | "not:all:" | undefined;
+        tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         trade_time?: string | undefined;
         user_id?: number | undefined;
         volumeBetween?: string | undefined;
@@ -47,6 +49,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         durationBetween?: string | undefined;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        exit_tags?: number[] | undefined;
+        exit_tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
         groupBy?: "hour" | "minute" | "month" | "week" | "date" | undefined;
         headers?: string[] | undefined;
@@ -65,7 +69,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         symbol?: string[] | undefined;
         symbol_params?: "not:" | undefined;
         tags?: number[] | undefined;
-        tags_params?: "not:" | "all:" | "not:all:" | undefined;
+        tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         trade_time?: string | undefined;
         user_id?: number | undefined;
         volumeBetween?: string | undefined;
