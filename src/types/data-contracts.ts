@@ -42,6 +42,30 @@ export interface ControllersApiKeysList {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesTeamTopRow {
+  data?: ServicesTeamTopRow[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesTeam {
+  data?: ServicesTeam;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesTeamMember {
+  data?: ServicesTeamMember;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
+  data?: ServicesTeamWithStatsAndMember;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessResponse {
   data?: any;
   /** @example "success" */
@@ -812,6 +836,82 @@ export interface DtoTagsSortForm {
   tags: DtoTagsSort[];
 }
 
+export interface DtoTeamCreateForm {
+  /** @example "My team description" */
+  description?: string;
+  /**
+   * 1 - not required, 2 - required
+   * @minLength 5
+   * @maxLength 255
+   * @example "123456"
+   */
+  invite_code?: string;
+  /**
+   * @minLength 2
+   * @maxLength 255
+   * @example "My team"
+   */
+  name: string;
+  /**
+   * 1 - not required, 2 - required
+   * @example 1
+   */
+  required_show_pnl?: 1 | 2;
+  /**
+   * 1 - public, 2 - private
+   * @example 1
+   */
+  status: 1 | 2;
+}
+
+export interface DtoTeamMemberCreateForm {
+  /** @example "123456" */
+  invite_code?: string;
+  /**
+   * 2 - show pnl, 1 - hide pnl
+   * @example 1
+   */
+  show_pnl: 1 | 2;
+}
+
+export interface DtoTeamMemberUpdateForm {
+  /** @example "123456" */
+  invite_code?: string;
+  /**
+   * 2 - show pnl, 1 - hide pnl
+   * @example 1
+   */
+  show_pnl: 1 | 2;
+  /**
+   * 1 - pending, 2 - active, 3 - declined, 4 - revoked
+   * @example 2
+   */
+  status?: 2 | 3 | 4;
+}
+
+export interface DtoTeamUpdateForm {
+  /** @example "My team description" */
+  description?: string;
+  /**
+   * 1 - not required, 2 - required
+   * @minLength 5
+   * @maxLength 255
+   * @example "123456"
+   */
+  invite_code?: string;
+  /**
+   * @minLength 2
+   * @maxLength 255
+   * @example "My team"
+   */
+  name: string;
+  /**
+   * 1 - public, 2 - private
+   * @example 1
+   */
+  status: 1 | 2;
+}
+
 export interface DtoTelegramConnectForm {
   /**
    * @minItems 1
@@ -1180,7 +1280,6 @@ export enum ServicesApiKeyWebsocketStatus {
 }
 
 export interface ServicesApiKeysListPagination {
-  cacheService?: any;
   current_page?: number;
   data?: ServicesApiKey[];
   defaultSort?: boolean;
@@ -1190,9 +1289,7 @@ export interface ServicesApiKeysListPagination {
   sortBy?: string;
   sortDesc?: boolean;
   sort_fields?: string[];
-  table_name?: string;
   total?: number;
-  userID?: number;
 }
 
 export interface ServicesApiUser {
@@ -1518,6 +1615,21 @@ export enum ServicesOrigType {
   OrderOrigTypeLiquidation = "LIQUIDATION",
 }
 
+export interface ServicesPaginationResponseArrayServicesTeamMember {
+  current_page?: number;
+  data?: ServicesTeamMember[];
+  defaultSort?: boolean;
+  last_page?: number;
+  per_page?: number;
+  per_page_limit?: number;
+  sortBy?: string;
+  sortDesc?: boolean;
+  sort_fields?: string[];
+  /** @example "success" */
+  status?: string;
+  total?: number;
+}
+
 export enum ServicesPartnerID {
   PARTNER_ID_NONE = -1,
   PARTNER_ID_WLC = 1,
@@ -1650,7 +1762,6 @@ export interface ServicesRiskManagementLog {
 }
 
 export interface ServicesRiskManagementLogPagination {
-  cacheService?: any;
   current_page?: number;
   data?: ServicesRiskManagementLog[];
   defaultSort?: boolean;
@@ -1660,9 +1771,7 @@ export interface ServicesRiskManagementLogPagination {
   sortBy?: string;
   sortDesc?: boolean;
   sort_fields?: string[];
-  table_name?: string;
   total?: number;
-  userID?: number;
 }
 
 export enum ServicesRiskManagementLogType {
@@ -1672,7 +1781,6 @@ export enum ServicesRiskManagementLogType {
 }
 
 export interface ServicesRiskManagementPagination {
-  cacheService?: any;
   current_page?: number;
   data?: ServicesRiskManagement[];
   defaultSort?: boolean;
@@ -1682,9 +1790,7 @@ export interface ServicesRiskManagementPagination {
   sortBy?: string;
   sortDesc?: boolean;
   sort_fields?: string[];
-  table_name?: string;
   total?: number;
-  userID?: number;
 }
 
 export interface ServicesSafeUser {
@@ -1748,6 +1854,86 @@ export enum ServicesTagColumn {
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+}
+
+export interface ServicesTeam {
+  created_at?: string;
+  description?: string;
+  id?: number;
+  invite_code?: string;
+  name?: string;
+  required_show_pnl?: ServicesTeamRequiredShowPnl;
+  status?: ServicesTeamStatus;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export interface ServicesTeamMember {
+  created_at?: string;
+  id?: number;
+  show_pnl?: ServicesTeamMemberShowPnl;
+  status?: ServicesTeamMemberStatus;
+  team_id?: number;
+  updated_at?: string;
+  user?: ServicesSafeUser;
+  user_id?: number;
+}
+
+export enum ServicesTeamMemberShowPnl {
+  ShowPnlDisabled = 1,
+  ShowPnlEnabled = 2,
+}
+
+export enum ServicesTeamMemberStatus {
+  TeamMemberStatusPending = 1,
+  TeamMemberStatusActive = 2,
+  TeamMemberStatusDeclined = 3,
+  TeamMemberStatusRevoked = 4,
+}
+
+export enum ServicesTeamRequiredShowPnl {
+  TeamRequiredShowPnlNo = 1,
+  TeamRequiredShowPnlYes = 2,
+}
+
+export enum ServicesTeamStatus {
+  TeamStatusPublic = 1,
+  TeamStatusPrivate = 2,
+  TeamStatusClosed = 3,
+  TeamStatusBlocked = 4,
+}
+
+export enum ServicesTeamTopPeriod {
+  TeamTopPeriodToday = "today",
+  TeamTopPeriodWeek = "week",
+  TeamTopPeriodMonth = "month",
+}
+
+export interface ServicesTeamTopRow {
+  name?: string;
+  user_id?: number;
+  value?: string;
+}
+
+export enum ServicesTeamTopType {
+  TeamTopTypePnl = "pnl",
+  TeamTopTypePercent = "percent",
+  TeamTopTypeVolume = "volume",
+}
+
+export interface ServicesTeamWithStatsAndMember {
+  active_members_count?: number;
+  created_at?: string;
+  current_member?: ServicesTeamMember;
+  description?: string;
+  id?: number;
+  invite_code?: string;
+  name?: string;
+  pending_members_count?: number;
+  required_show_pnl?: ServicesTeamRequiredShowPnl;
+  status?: ServicesTeamStatus;
+  updated_at?: string;
+  user_id?: number;
 }
 
 export enum ServicesTelegramCloseNotification {
@@ -1888,6 +2074,7 @@ export interface ServicesTrade {
   avg_price_entry?: string;
   avg_price_exit?: string;
   category_id?: number;
+  category_name?: string;
   close_time?: number;
   closed_value?: string;
   commission?: string;
@@ -2105,7 +2292,6 @@ export enum ServicesTradeTimeColumn {
 }
 
 export interface ServicesTradesListPagination {
-  cacheService?: any;
   current_page?: number;
   data?: ServicesTrade[];
   defaultSort?: boolean;
@@ -2115,10 +2301,8 @@ export interface ServicesTradesListPagination {
   sortBy?: string;
   sortDesc?: boolean;
   sort_fields?: string[];
-  table_name?: string;
   total?: number;
   total_sum?: ServicesTradeSummary;
-  userID?: number;
 }
 
 export interface ServicesTransaction {
@@ -2185,7 +2369,6 @@ export enum ServicesTransactionStatus {
 }
 
 export interface ServicesTransactionsListPagination {
-  cacheService?: any;
   current_page?: number;
   data?: ServicesTransaction[];
   defaultSort?: boolean;
@@ -2195,9 +2378,7 @@ export interface ServicesTransactionsListPagination {
   sortBy?: string;
   sortDesc?: boolean;
   sort_fields?: string[];
-  table_name?: string;
   total?: number;
-  userID?: number;
 }
 
 export interface ServicesUIData {

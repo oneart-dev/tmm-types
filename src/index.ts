@@ -20,6 +20,7 @@ export * from './types/Notification';
 export * from './types/RiskManagement';
 export * from './types/Sse';
 export * from './types/Stats';
+export * from './types/Team';
 export * from './types/TelegramBot';
 export * from './types/Trades';
 export * from './types/Transaction';

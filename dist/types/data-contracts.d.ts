@@ -20,6 +20,22 @@ export interface ControllersApiKeysList {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesTeamTopRow {
+    data?: ServicesTeamTopRow[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesTeam {
+    data?: ServicesTeam;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesTeamMember {
+    data?: ServicesTeamMember;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
+    data?: ServicesTeamWithStatsAndMember;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessResponse {
     data?: any;
     status?: ControllersResponseStatusMessage;
@@ -387,6 +403,28 @@ export interface DtoTagsSort {
 export interface DtoTagsSortForm {
     tags: DtoTagsSort[];
 }
+export interface DtoTeamCreateForm {
+    description?: string;
+    invite_code?: string;
+    name: string;
+    required_show_pnl?: 1 | 2;
+    status: 1 | 2;
+}
+export interface DtoTeamMemberCreateForm {
+    invite_code?: string;
+    show_pnl: 1 | 2;
+}
+export interface DtoTeamMemberUpdateForm {
+    invite_code?: string;
+    show_pnl: 1 | 2;
+    status?: 2 | 3 | 4;
+}
+export interface DtoTeamUpdateForm {
+    description?: string;
+    invite_code?: string;
+    name: string;
+    status: 1 | 2;
+}
 export interface DtoTelegramConnectForm {
     api_keys: number[];
     close_trade_notification?: 1 | 2;
@@ -555,7 +593,6 @@ export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_RECONNECTING = 4
 }
 export interface ServicesApiKeysListPagination {
-    cacheService?: any;
     current_page?: number;
     data?: ServicesApiKey[];
     defaultSort?: boolean;
@@ -565,9 +602,7 @@ export interface ServicesApiKeysListPagination {
     sortBy?: string;
     sortDesc?: boolean;
     sort_fields?: string[];
-    table_name?: string;
     total?: number;
-    userID?: number;
 }
 export interface ServicesApiUser {
     api_key?: string;
@@ -832,6 +867,19 @@ export declare enum ServicesOrigType {
     OrderOrigTypeReverse = "REVERSE",
     OrderOrigTypeLiquidation = "LIQUIDATION"
 }
+export interface ServicesPaginationResponseArrayServicesTeamMember {
+    current_page?: number;
+    data?: ServicesTeamMember[];
+    defaultSort?: boolean;
+    last_page?: number;
+    per_page?: number;
+    per_page_limit?: number;
+    sortBy?: string;
+    sortDesc?: boolean;
+    sort_fields?: string[];
+    status?: string;
+    total?: number;
+}
 export declare enum ServicesPartnerID {
     PARTNER_ID_NONE = -1,
     PARTNER_ID_WLC = 1,
@@ -932,7 +980,6 @@ export interface ServicesRiskManagementLog {
     user_id?: number;
 }
 export interface ServicesRiskManagementLogPagination {
-    cacheService?: any;
     current_page?: number;
     data?: ServicesRiskManagementLog[];
     defaultSort?: boolean;
@@ -942,9 +989,7 @@ export interface ServicesRiskManagementLogPagination {
     sortBy?: string;
     sortDesc?: boolean;
     sort_fields?: string[];
-    table_name?: string;
     total?: number;
-    userID?: number;
 }
 export declare enum ServicesRiskManagementLogType {
     RiskManagementLogTypeTradeLoss = 1,
@@ -952,7 +997,6 @@ export declare enum ServicesRiskManagementLogType {
     RiskManagementLogTypeDayLoss = 3
 }
 export interface ServicesRiskManagementPagination {
-    cacheService?: any;
     current_page?: number;
     data?: ServicesRiskManagement[];
     defaultSort?: boolean;
@@ -962,9 +1006,7 @@ export interface ServicesRiskManagementPagination {
     sortBy?: string;
     sortDesc?: boolean;
     sort_fields?: string[];
-    table_name?: string;
     total?: number;
-    userID?: number;
 }
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
@@ -1013,6 +1055,76 @@ export declare enum ServicesTagColumn {
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3
+}
+export interface ServicesTeam {
+    created_at?: string;
+    description?: string;
+    id?: number;
+    invite_code?: string;
+    name?: string;
+    required_show_pnl?: ServicesTeamRequiredShowPnl;
+    status?: ServicesTeamStatus;
+    updated_at?: string;
+    user_id?: number;
+}
+export interface ServicesTeamMember {
+    created_at?: string;
+    id?: number;
+    show_pnl?: ServicesTeamMemberShowPnl;
+    status?: ServicesTeamMemberStatus;
+    team_id?: number;
+    updated_at?: string;
+    user?: ServicesSafeUser;
+    user_id?: number;
+}
+export declare enum ServicesTeamMemberShowPnl {
+    ShowPnlDisabled = 1,
+    ShowPnlEnabled = 2
+}
+export declare enum ServicesTeamMemberStatus {
+    TeamMemberStatusPending = 1,
+    TeamMemberStatusActive = 2,
+    TeamMemberStatusDeclined = 3,
+    TeamMemberStatusRevoked = 4
+}
+export declare enum ServicesTeamRequiredShowPnl {
+    TeamRequiredShowPnlNo = 1,
+    TeamRequiredShowPnlYes = 2
+}
+export declare enum ServicesTeamStatus {
+    TeamStatusPublic = 1,
+    TeamStatusPrivate = 2,
+    TeamStatusClosed = 3,
+    TeamStatusBlocked = 4
+}
+export declare enum ServicesTeamTopPeriod {
+    TeamTopPeriodToday = "today",
+    TeamTopPeriodWeek = "week",
+    TeamTopPeriodMonth = "month"
+}
+export interface ServicesTeamTopRow {
+    name?: string;
+    user_id?: number;
+    value?: string;
+}
+export declare enum ServicesTeamTopType {
+    TeamTopTypePnl = "pnl",
+    TeamTopTypePercent = "percent",
+    TeamTopTypeVolume = "volume"
+}
+export interface ServicesTeamWithStatsAndMember {
+    active_members_count?: number;
+    created_at?: string;
+    current_member?: ServicesTeamMember;
+    description?: string;
+    id?: number;
+    invite_code?: string;
+    name?: string;
+    pending_members_count?: number;
+    required_show_pnl?: ServicesTeamRequiredShowPnl;
+    status?: ServicesTeamStatus;
+    updated_at?: string;
+    user_id?: number;
 }
 export declare enum ServicesTelegramCloseNotification {
     TelegramCloseNotificationEnabled = 1,
@@ -1112,6 +1224,7 @@ export interface ServicesTrade {
     avg_price_entry?: string;
     avg_price_exit?: string;
     category_id?: number;
+    category_name?: string;
     close_time?: number;
     closed_value?: string;
     commission?: string;
@@ -1316,7 +1429,6 @@ export declare enum ServicesTradeTimeColumn {
     TradeCloseTime = "close_time"
 }
 export interface ServicesTradesListPagination {
-    cacheService?: any;
     current_page?: number;
     data?: ServicesTrade[];
     defaultSort?: boolean;
@@ -1326,10 +1438,8 @@ export interface ServicesTradesListPagination {
     sortBy?: string;
     sortDesc?: boolean;
     sort_fields?: string[];
-    table_name?: string;
     total?: number;
     total_sum?: ServicesTradeSummary;
-    userID?: number;
 }
 export interface ServicesTransaction {
     address?: string;
@@ -1390,7 +1500,6 @@ export declare enum ServicesTransactionStatus {
     TransactionStatusPending = "pending"
 }
 export interface ServicesTransactionsListPagination {
-    cacheService?: any;
     current_page?: number;
     data?: ServicesTransaction[];
     defaultSort?: boolean;
@@ -1400,9 +1509,7 @@ export interface ServicesTransactionsListPagination {
     sortBy?: string;
     sortDesc?: boolean;
     sort_fields?: string[];
-    table_name?: string;
     total?: number;
-    userID?: number;
 }
 export interface ServicesUIData {
     data?: string;

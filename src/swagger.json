@@ -47,7 +47,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "api_key_id",
                         "in": "query"
                     },
@@ -65,7 +65,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
                         "name": "category",
                         "in": "query"
@@ -90,7 +90,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             2
                         ],
@@ -125,7 +125,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -174,7 +174,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
                         "in": "query"
@@ -190,7 +190,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             1
                         ],
@@ -268,7 +268,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             "BTCUSDT"
                         ],
@@ -289,7 +289,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -4114,7 +4114,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "api_key_id",
                         "in": "query"
                     },
@@ -4132,7 +4132,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
                         "name": "category",
                         "in": "query"
@@ -4157,7 +4157,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             2
                         ],
@@ -4192,7 +4192,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -4241,7 +4241,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
                         "in": "query"
@@ -4257,7 +4257,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             1
                         ],
@@ -4335,7 +4335,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             "BTCUSDT"
                         ],
@@ -4356,7 +4356,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -4525,7 +4525,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "api_key_id",
                         "in": "query"
                     },
@@ -4543,7 +4543,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
                         "name": "category",
                         "in": "query"
@@ -4568,7 +4568,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             2
                         ],
@@ -4603,7 +4603,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -4652,7 +4652,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
                         "in": "query"
@@ -4668,7 +4668,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             1
                         ],
@@ -4746,7 +4746,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             "BTCUSDT"
                         ],
@@ -4767,7 +4767,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -10835,6 +10835,1097 @@
                 }
             }
         },
+        "/team": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Creates empty team. Owner may join team but its not required.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "create new team",
+                "parameters": [
+                    {
+                        "description": "Team form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_Team"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Get team by ID with count of active members. If endpoint is\ncalled by owner, it will return pending members count as well.\nIf team is private, user must provide invite code to get\naccess to team data.\nIf user submit join request, current member will be returned.\nUser can revoke join request at any time.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Get team by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team invite code",
+                        "name": "invite_code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TeamWithStatsAndMember"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Update team name, description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "update team",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Team update payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamUpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Deleting team",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "delete team",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/join": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Creates join request for the team. If team is private, user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "join team",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Team form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamMemberCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TeamMember"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/join/{user_id}": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "User can revoke join request. Team owner can decline or accept",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Update join request",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Team member form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamMemberUpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/members": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Get list of team members.\nAvailable only for team owner if team is private.\nOnly owner can use filters to search.\nNobody can see revoked members.\nBy default only active members are showing.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Get team members",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Descending order",
+                        "name": "sortDesc",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Items per page",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "name",
+                        "description": "Partion name search is supported",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            1,
+                            2
+                        ],
+                        "type": "integer",
+                        "example": 1,
+                        "x-enum-varnames": [
+                            "ShowPnlDisabled",
+                            "ShowPnlEnabled"
+                        ],
+                        "name": "show_pnl",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        "type": "integer",
+                        "example": 2,
+                        "x-enum-varnames": [
+                            "TeamMemberStatusPending",
+                            "TeamMemberStatusActive",
+                            "TeamMemberStatusDeclined",
+                            "TeamMemberStatusRevoked"
+                        ],
+                        "description": "Default value is 2 (active). Nobody can see revoked members.",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "example": 1,
+                        "name": "user_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/services.PaginationResponse-array_services_TeamMember"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/top": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Get top members of team",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team"
+                ],
+                "summary": "Members top",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "enum": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10,
+                                11,
+                                21,
+                                23,
+                                24,
+                                25,
+                                12,
+                                22,
+                                13,
+                                14,
+                                15,
+                                32,
+                                33
+                            ],
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "example": [
+                            1
+                        ],
+                        "name": "exchange_id",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "today",
+                            "week",
+                            "month"
+                        ],
+                        "type": "string",
+                        "example": "today",
+                        "x-enum-varnames": [
+                            "TeamTopPeriodToday",
+                            "TeamTopPeriodWeek",
+                            "TeamTopPeriodMonth"
+                        ],
+                        "name": "period",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "pnl",
+                            "percent",
+                            "volume"
+                        ],
+                        "type": "string",
+                        "example": "pnl",
+                        "x-enum-varnames": [
+                            "TeamTopTypePnl",
+                            "TeamTopTypePercent",
+                            "TeamTopTypeVolume"
+                        ],
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_TeamTopRow"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/telegram-bot": {
             "get": {
                 "security": [
@@ -11349,7 +12440,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "api_key_id",
                         "in": "query"
                     },
@@ -11367,7 +12458,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
                         "name": "category",
                         "in": "query"
@@ -11392,7 +12483,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             2
                         ],
@@ -11427,7 +12518,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -11476,7 +12567,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
                         "in": "query"
@@ -11492,7 +12583,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             1
                         ],
@@ -11570,7 +12661,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             "BTCUSDT"
                         ],
@@ -11591,7 +12682,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -12502,7 +13593,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "api_key_id",
                         "in": "query"
                     },
@@ -12520,7 +13611,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
                         "name": "category",
                         "in": "query"
@@ -12545,7 +13636,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             2
                         ],
@@ -12580,7 +13671,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -12629,7 +13720,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
                         "in": "query"
@@ -12645,7 +13736,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             1
                         ],
@@ -12723,7 +13814,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "example": [
                             "BTCUSDT"
                         ],
@@ -12744,7 +13835,7 @@
                         "items": {
                             "type": "integer"
                         },
-                        "collectionFormat": "csv",
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -18433,6 +19524,73 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_TeamTopRow": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TeamTopRow"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_Team": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.Team"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_TeamMember": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.TeamMember"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_TeamWithStatsAndMember": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.TeamWithStatsAndMember"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccessResponse": {
             "type": "object",
             "properties": {
@@ -20084,6 +21242,137 @@
                 }
             }
         },
+        "dto.TeamCreateForm": {
+            "type": "object",
+            "required": [
+                "name",
+                "status"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "My team description"
+                },
+                "invite_code": {
+                    "description": "1 - not required, 2 - required",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 5,
+                    "example": "123456"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 2,
+                    "example": "My team"
+                },
+                "required_show_pnl": {
+                    "description": "1 - not required, 2 - required",
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
+                "status": {
+                    "description": "1 - public, 2 - private",
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                }
+            }
+        },
+        "dto.TeamMemberCreateForm": {
+            "type": "object",
+            "required": [
+                "show_pnl"
+            ],
+            "properties": {
+                "invite_code": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "show_pnl": {
+                    "description": "2 - show pnl, 1 - hide pnl",
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                }
+            }
+        },
+        "dto.TeamMemberUpdateForm": {
+            "type": "object",
+            "required": [
+                "show_pnl"
+            ],
+            "properties": {
+                "invite_code": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "show_pnl": {
+                    "description": "2 - show pnl, 1 - hide pnl",
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                },
+                "status": {
+                    "description": "1 - pending, 2 - active, 3 - declined, 4 - revoked",
+                    "type": "integer",
+                    "enum": [
+                        2,
+                        3,
+                        4
+                    ],
+                    "example": 2
+                }
+            }
+        },
+        "dto.TeamUpdateForm": {
+            "type": "object",
+            "required": [
+                "name",
+                "status"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "My team description"
+                },
+                "invite_code": {
+                    "description": "1 - not required, 2 - required",
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 5,
+                    "example": "123456"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 2,
+                    "example": "My team"
+                },
+                "status": {
+                    "description": "1 - public, 2 - private",
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ],
+                    "example": 1
+                }
+            }
+        },
         "dto.TelegramConnectForm": {
             "type": "object",
             "required": [
@@ -20894,7 +22183,6 @@
         "services.ApiKeysListPagination": {
             "type": "object",
             "properties": {
-                "cacheService": {},
                 "current_page": {
                     "type": "integer"
                 },
@@ -20928,13 +22216,7 @@
                         "type": "string"
                     }
                 },
-                "table_name": {
-                    "type": "string"
-                },
                 "total": {
-                    "type": "integer"
-                },
-                "userID": {
                     "type": "integer"
                 }
             }
@@ -21693,6 +22975,51 @@
                 "OrderOrigTypeLiquidation"
             ]
         },
+        "services.PaginationResponse-array_services_TeamMember": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TeamMember"
+                    }
+                },
+                "defaultSort": {
+                    "type": "boolean"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "per_page": {
+                    "type": "integer"
+                },
+                "per_page_limit": {
+                    "type": "integer"
+                },
+                "sortBy": {
+                    "type": "string"
+                },
+                "sortDesc": {
+                    "type": "boolean"
+                },
+                "sort_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.PartnerID": {
             "type": "integer",
             "enum": [
@@ -22026,7 +23353,6 @@
         "services.RiskManagementLogPagination": {
             "type": "object",
             "properties": {
-                "cacheService": {},
                 "current_page": {
                     "type": "integer"
                 },
@@ -22060,13 +23386,7 @@
                         "type": "string"
                     }
                 },
-                "table_name": {
-                    "type": "string"
-                },
                 "total": {
-                    "type": "integer"
-                },
-                "userID": {
                     "type": "integer"
                 }
             }
@@ -22087,7 +23407,6 @@
         "services.RiskManagementPagination": {
             "type": "object",
             "properties": {
-                "cacheService": {},
                 "current_page": {
                     "type": "integer"
                 },
@@ -22121,13 +23440,7 @@
                         "type": "string"
                     }
                 },
-                "table_name": {
-                    "type": "string"
-                },
                 "total": {
-                    "type": "integer"
-                },
-                "userID": {
                     "type": "integer"
                 }
             }
@@ -22273,6 +23586,200 @@
                 "TagColumnExitReason",
                 "TagColumnConclusion"
             ]
+        },
+        "services.Team": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invite_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "required_show_pnl": {
+                    "$ref": "#/definitions/services.TeamRequiredShowPnl"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.TeamStatus"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.TeamMember": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "show_pnl": {
+                    "$ref": "#/definitions/services.TeamMemberShowPnl"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.TeamMemberStatus"
+                },
+                "team_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/services.SafeUser"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.TeamMemberShowPnl": {
+            "type": "integer",
+            "enum": [
+                1,
+                2
+            ],
+            "x-enum-varnames": [
+                "ShowPnlDisabled",
+                "ShowPnlEnabled"
+            ]
+        },
+        "services.TeamMemberStatus": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "x-enum-varnames": [
+                "TeamMemberStatusPending",
+                "TeamMemberStatusActive",
+                "TeamMemberStatusDeclined",
+                "TeamMemberStatusRevoked"
+            ]
+        },
+        "services.TeamRequiredShowPnl": {
+            "type": "integer",
+            "enum": [
+                1,
+                2
+            ],
+            "x-enum-varnames": [
+                "TeamRequiredShowPnlNo",
+                "TeamRequiredShowPnlYes"
+            ]
+        },
+        "services.TeamStatus": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "x-enum-varnames": [
+                "TeamStatusPublic",
+                "TeamStatusPrivate",
+                "TeamStatusClosed",
+                "TeamStatusBlocked"
+            ]
+        },
+        "services.TeamTopPeriod": {
+            "type": "string",
+            "enum": [
+                "today",
+                "week",
+                "month"
+            ],
+            "x-enum-varnames": [
+                "TeamTopPeriodToday",
+                "TeamTopPeriodWeek",
+                "TeamTopPeriodMonth"
+            ]
+        },
+        "services.TeamTopRow": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.TeamTopType": {
+            "type": "string",
+            "enum": [
+                "pnl",
+                "percent",
+                "volume"
+            ],
+            "x-enum-varnames": [
+                "TeamTopTypePnl",
+                "TeamTopTypePercent",
+                "TeamTopTypeVolume"
+            ]
+        },
+        "services.TeamWithStatsAndMember": {
+            "type": "object",
+            "properties": {
+                "active_members_count": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "current_member": {
+                    "$ref": "#/definitions/services.TeamMember"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invite_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "pending_members_count": {
+                    "type": "integer"
+                },
+                "required_show_pnl": {
+                    "$ref": "#/definitions/services.TeamRequiredShowPnl"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.TeamStatus"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
         },
         "services.TelegramCloseNotification": {
             "type": "integer",
@@ -22578,6 +24085,9 @@
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "category_name": {
+                    "type": "string"
                 },
                 "close_time": {
                     "type": "integer"
@@ -23208,7 +24718,6 @@
         "services.TradesListPagination": {
             "type": "object",
             "properties": {
-                "cacheService": {},
                 "current_page": {
                     "type": "integer"
                 },
@@ -23242,17 +24751,11 @@
                         "type": "string"
                     }
                 },
-                "table_name": {
-                    "type": "string"
-                },
                 "total": {
                     "type": "integer"
                 },
                 "total_sum": {
                     "$ref": "#/definitions/services.TradeSummary"
-                },
-                "userID": {
-                    "type": "integer"
                 }
             }
         },
@@ -23404,7 +24907,6 @@
         "services.TransactionsListPagination": {
             "type": "object",
             "properties": {
-                "cacheService": {},
                 "current_page": {
                     "type": "integer"
                 },
@@ -23438,13 +24940,7 @@
                         "type": "string"
                     }
                 },
-                "table_name": {
-                    "type": "string"
-                },
                 "total": {
-                    "type": "integer"
-                },
-                "userID": {
                     "type": "integer"
                 }
             }
@@ -23935,8 +25431,8 @@
         "ApiKey": {
             "description": "Use Header: \"API-KEY: *apikey*\"",
             "type": "apiKey",
-            "name": "api_key",
-            "in": "query"
+            "name": "API-KEY",
+            "in": "header"
         },
         "JWT": {
             "description": "Use: \"Bearer *token*\"",

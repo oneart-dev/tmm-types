@@ -190,6 +190,42 @@ export var ServicesTagColumn;
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
+export var ServicesTeamMemberShowPnl;
+(function (ServicesTeamMemberShowPnl) {
+    ServicesTeamMemberShowPnl[ServicesTeamMemberShowPnl["ShowPnlDisabled"] = 1] = "ShowPnlDisabled";
+    ServicesTeamMemberShowPnl[ServicesTeamMemberShowPnl["ShowPnlEnabled"] = 2] = "ShowPnlEnabled";
+})(ServicesTeamMemberShowPnl || (ServicesTeamMemberShowPnl = {}));
+export var ServicesTeamMemberStatus;
+(function (ServicesTeamMemberStatus) {
+    ServicesTeamMemberStatus[ServicesTeamMemberStatus["TeamMemberStatusPending"] = 1] = "TeamMemberStatusPending";
+    ServicesTeamMemberStatus[ServicesTeamMemberStatus["TeamMemberStatusActive"] = 2] = "TeamMemberStatusActive";
+    ServicesTeamMemberStatus[ServicesTeamMemberStatus["TeamMemberStatusDeclined"] = 3] = "TeamMemberStatusDeclined";
+    ServicesTeamMemberStatus[ServicesTeamMemberStatus["TeamMemberStatusRevoked"] = 4] = "TeamMemberStatusRevoked";
+})(ServicesTeamMemberStatus || (ServicesTeamMemberStatus = {}));
+export var ServicesTeamRequiredShowPnl;
+(function (ServicesTeamRequiredShowPnl) {
+    ServicesTeamRequiredShowPnl[ServicesTeamRequiredShowPnl["TeamRequiredShowPnlNo"] = 1] = "TeamRequiredShowPnlNo";
+    ServicesTeamRequiredShowPnl[ServicesTeamRequiredShowPnl["TeamRequiredShowPnlYes"] = 2] = "TeamRequiredShowPnlYes";
+})(ServicesTeamRequiredShowPnl || (ServicesTeamRequiredShowPnl = {}));
+export var ServicesTeamStatus;
+(function (ServicesTeamStatus) {
+    ServicesTeamStatus[ServicesTeamStatus["TeamStatusPublic"] = 1] = "TeamStatusPublic";
+    ServicesTeamStatus[ServicesTeamStatus["TeamStatusPrivate"] = 2] = "TeamStatusPrivate";
+    ServicesTeamStatus[ServicesTeamStatus["TeamStatusClosed"] = 3] = "TeamStatusClosed";
+    ServicesTeamStatus[ServicesTeamStatus["TeamStatusBlocked"] = 4] = "TeamStatusBlocked";
+})(ServicesTeamStatus || (ServicesTeamStatus = {}));
+export var ServicesTeamTopPeriod;
+(function (ServicesTeamTopPeriod) {
+    ServicesTeamTopPeriod["TeamTopPeriodToday"] = "today";
+    ServicesTeamTopPeriod["TeamTopPeriodWeek"] = "week";
+    ServicesTeamTopPeriod["TeamTopPeriodMonth"] = "month";
+})(ServicesTeamTopPeriod || (ServicesTeamTopPeriod = {}));
+export var ServicesTeamTopType;
+(function (ServicesTeamTopType) {
+    ServicesTeamTopType["TeamTopTypePnl"] = "pnl";
+    ServicesTeamTopType["TeamTopTypePercent"] = "percent";
+    ServicesTeamTopType["TeamTopTypeVolume"] = "volume";
+})(ServicesTeamTopType || (ServicesTeamTopType = {}));
 export var ServicesTelegramCloseNotification;
 (function (ServicesTelegramCloseNotification) {
     ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationEnabled"] = 1] = "TelegramCloseNotificationEnabled";
