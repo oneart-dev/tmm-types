@@ -12,6 +12,7 @@
 import {
   ControllersApiErrorResponse,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessString,
   ControllersDiscountResponse,
   ControllersTransactionCreateResponse,
   ControllersTransactionsListResponse,
@@ -143,6 +144,51 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       format: "json",
       ...params,
     });
+  /**
+   * @description Redirect to Stripe billing portal. If user is not subscribed to Stripe, return empty string
+   *
+   * @tags transactions
+   * @name RedirectList
+   * @summary Redirect to Stripe billing portal
+   * @request GET:/transactions/redirect
+   * @secure
+   */
+  redirectList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessString, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/transactions/redirect`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Disconnect stripe account
+   *
+   * @tags transactions
+   * @name StripeDelete
+   * @summary Disconnect stripe account
+   * @request DELETE:/transactions/stripe
+   * @secure
+   */
+  stripeDelete = (
+    query: {
+      /** User id */
+      user_id: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
+      {
+        path: `/transactions/stripe`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      },
+    );
   /**
    * @description once per account user can apply for 15 days trial by sending this request.
    *

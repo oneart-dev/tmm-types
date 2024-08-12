@@ -71,6 +71,7 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_PERP_SWAPS"] = 8] = "EXCHANGE_OKX_PERP_SWAPS";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_SPOT"] = 9] = "EXCHANGE_OKX_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_FUTURES"] = 10] = "EXCHANGE_BINGX_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_GATEIO_SPOT"] = 40] = "EXCHANGE_GATEIO_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_FUTURES"] = 11] = "EXCHANGE_WLC_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_SPOT"] = 21] = "EXCHANGE_WLC_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_BYBIT_SPOT"] = 23] = "EXCHANGE_WLC_BYBIT_SPOT";
@@ -178,6 +179,20 @@ export var ServicesShortUrlModelType;
     ServicesShortUrlModelType["ShortUrlModelTypeTradeGroup"] = "TradeGroup";
     ServicesShortUrlModelType["ShortUrlModelTypeDashboard"] = "Dashboard";
 })(ServicesShortUrlModelType || (ServicesShortUrlModelType = {}));
+export var ServicesStripeBillingCycle;
+(function (ServicesStripeBillingCycle) {
+    ServicesStripeBillingCycle[ServicesStripeBillingCycle["StripeBillingCycleMonthly"] = 1] = "StripeBillingCycleMonthly";
+    ServicesStripeBillingCycle[ServicesStripeBillingCycle["StripeBillingCycleHalfYearly"] = 2] = "StripeBillingCycleHalfYearly";
+    ServicesStripeBillingCycle[ServicesStripeBillingCycle["StripeBillingCycleYearly"] = 3] = "StripeBillingCycleYearly";
+})(ServicesStripeBillingCycle || (ServicesStripeBillingCycle = {}));
+export var ServicesStripeSubscriptionStatus;
+(function (ServicesStripeSubscriptionStatus) {
+    ServicesStripeSubscriptionStatus[ServicesStripeSubscriptionStatus["StripeSubscriptionStatusDisabled"] = 0] = "StripeSubscriptionStatusDisabled";
+    ServicesStripeSubscriptionStatus[ServicesStripeSubscriptionStatus["StripeSubscriptionStatusActive"] = 1] = "StripeSubscriptionStatusActive";
+    ServicesStripeSubscriptionStatus[ServicesStripeSubscriptionStatus["StripeSubscriptionStatusPastDue"] = 2] = "StripeSubscriptionStatusPastDue";
+    ServicesStripeSubscriptionStatus[ServicesStripeSubscriptionStatus["StripeSubscriptionStatusCanceled"] = 3] = "StripeSubscriptionStatusCanceled";
+    ServicesStripeSubscriptionStatus[ServicesStripeSubscriptionStatus["StripeSubscriptionStatusUnpaid"] = 4] = "StripeSubscriptionStatusUnpaid";
+})(ServicesStripeSubscriptionStatus || (ServicesStripeSubscriptionStatus = {}));
 export var ServicesStudentStatus;
 (function (ServicesStudentStatus) {
     ServicesStudentStatus[ServicesStudentStatus["StudentStatusRequest"] = 0] = "StudentStatusRequest";

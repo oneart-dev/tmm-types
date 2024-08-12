@@ -11785,6 +11785,7 @@
                                 8,
                                 9,
                                 10,
+                                40,
                                 11,
                                 21,
                                 23,
@@ -17414,6 +17415,221 @@
                 }
             }
         },
+        "/transactions/redirect": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Redirect to Stripe billing portal. If user is not subscribed to Stripe, return empty string",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Redirect to Stripe billing portal",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/stripe": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Disconnect stripe account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Disconnect stripe account",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/transactions/trial": {
             "put": {
                 "security": [
@@ -19591,6 +19807,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-string": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccessResponse": {
             "type": "object",
             "properties": {
@@ -20460,7 +20692,6 @@
         "dto.ApiKeyCreateForm": {
             "type": "object",
             "required": [
-                "exchange_id",
                 "key_public",
                 "name"
             ],
@@ -20478,30 +20709,7 @@
                     "example": 1
                 },
                 "exchange_id": {
-                    "type": "integer",
-                    "enum": [
-                        1,
-                        2,
-                        4,
-                        5,
-                        6,
-                        7,
-                        8,
-                        9,
-                        10,
-                        11,
-                        21,
-                        12,
-                        22,
-                        13,
-                        14,
-                        15,
-                        23,
-                        24,
-                        25,
-                        32,
-                        33
-                    ]
+                    "type": "integer"
                 },
                 "extra_info": {
                     "type": "string",
@@ -22486,6 +22694,7 @@
                 8,
                 9,
                 10,
+                40,
                 11,
                 21,
                 23,
@@ -22510,6 +22719,7 @@
                 "EXCHANGE_OKX_PERP_SWAPS",
                 "EXCHANGE_OKX_SPOT",
                 "EXCHANGE_BINGX_FUTURES",
+                "EXCHANGE_GATEIO_SPOT",
                 "EXCHANGE_WLC_FUTURES",
                 "EXCHANGE_WLC_SPOT",
                 "EXCHANGE_WLC_BYBIT_SPOT",
@@ -23493,6 +23703,65 @@
                 "ShortUrlModelTypeTrade",
                 "ShortUrlModelTypeTradeGroup",
                 "ShortUrlModelTypeDashboard"
+            ]
+        },
+        "services.Stripe": {
+            "type": "object",
+            "properties": {
+                "billing_cycle": {
+                    "$ref": "#/definitions/services.StripeBillingCycle"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "stripe_id": {
+                    "type": "string"
+                },
+                "subscription_status": {
+                    "$ref": "#/definitions/services.StripeSubscriptionStatus"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.StripeBillingCycle": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "x-enum-varnames": [
+                "StripeBillingCycleMonthly",
+                "StripeBillingCycleHalfYearly",
+                "StripeBillingCycleYearly"
+            ]
+        },
+        "services.StripeSubscriptionStatus": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "x-enum-varnames": [
+                "StripeSubscriptionStatusDisabled",
+                "StripeSubscriptionStatusActive",
+                "StripeSubscriptionStatusPastDue",
+                "StripeSubscriptionStatusCanceled",
+                "StripeSubscriptionStatusUnpaid"
             ]
         },
         "services.Student": {
@@ -25079,6 +25348,9 @@
                 },
                 "shard_id": {
                     "type": "integer"
+                },
+                "stripe": {
+                    "$ref": "#/definitions/services.Stripe"
                 },
                 "theme": {
                     "type": "integer"

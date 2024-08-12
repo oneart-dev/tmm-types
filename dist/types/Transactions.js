@@ -38,6 +38,23 @@ export class Transactions extends HttpClient {
             format: "json",
             ...params,
         });
+        this.redirectList = (params = {}) => this.request({
+            path: `/transactions/redirect`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.stripeDelete = (query, params = {}) => this.request({
+            path: `/transactions/stripe`,
+            method: "DELETE",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.trialUpdate = (params = {}) => this.request({
             path: `/transactions/trial`,
             method: "PUT",

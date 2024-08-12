@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersDiscountResponse, ControllersTransactionCreateResponse, ControllersTransactionsListResponse, ControllersUnauthorizedResponse, DtoTransactionCreateForm, ServicesTransactionsListPagination } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiSuccessString, ControllersDiscountResponse, ControllersTransactionCreateResponse, ControllersTransactionsListResponse, ControllersUnauthorizedResponse, DtoTransactionCreateForm, ServicesTransactionsListPagination } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Transactions<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     transactionsList: (query?: {
@@ -20,6 +20,10 @@ export declare class Transactions<SecurityDataType = unknown> extends HttpClient
         sortDesc?: boolean;
         itemsPerPage?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersTransactionsListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    redirectList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    stripeDelete: (query: {
+        user_id: number;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     trialUpdate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Transactions.d.ts.map

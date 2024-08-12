@@ -36,6 +36,10 @@ export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
     data?: ServicesTeamWithStatsAndMember;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessString {
+    data?: string;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessResponse {
     data?: any;
     status?: ControllersResponseStatusMessage;
@@ -242,7 +246,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
+    exchange_id?: number;
     extra_info?: string;
     key_private?: string;
     key_public: string;
@@ -695,6 +699,7 @@ export declare enum ServicesExchangeID {
     EXCHANGE_OKX_PERP_SWAPS = 8,
     EXCHANGE_OKX_SPOT = 9,
     EXCHANGE_BINGX_FUTURES = 10,
+    EXCHANGE_GATEIO_SPOT = 40,
     EXCHANGE_WLC_FUTURES = 11,
     EXCHANGE_WLC_SPOT = 21,
     EXCHANGE_WLC_BYBIT_SPOT = 23,
@@ -1025,6 +1030,28 @@ export declare enum ServicesShortUrlModelType {
     ShortUrlModelTypeTrade = "Trade",
     ShortUrlModelTypeTradeGroup = "TradeGroup",
     ShortUrlModelTypeDashboard = "Dashboard"
+}
+export interface ServicesStripe {
+    billing_cycle?: ServicesStripeBillingCycle;
+    created_at?: string;
+    id?: number;
+    level?: ServicesMembership;
+    stripe_id?: string;
+    subscription_status?: ServicesStripeSubscriptionStatus;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesStripeBillingCycle {
+    StripeBillingCycleMonthly = 1,
+    StripeBillingCycleHalfYearly = 2,
+    StripeBillingCycleYearly = 3
+}
+export declare enum ServicesStripeSubscriptionStatus {
+    StripeSubscriptionStatusDisabled = 0,
+    StripeSubscriptionStatusActive = 1,
+    StripeSubscriptionStatusPastDue = 2,
+    StripeSubscriptionStatusCanceled = 3,
+    StripeSubscriptionStatusUnpaid = 4
 }
 export interface ServicesStudent {
     contact?: string;
@@ -1553,6 +1580,7 @@ export interface ServicesUserWithRelations {
     referral_code?: string;
     referred_by?: number;
     shard_id?: number;
+    stripe?: ServicesStripe;
     theme?: number;
     timezone?: string;
     top_trader?: number;
