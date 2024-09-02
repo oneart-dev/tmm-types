@@ -1698,6 +1698,21 @@ export enum ServicesOrigType {
   OrderOrigTypeLiquidation = "LIQUIDATION",
 }
 
+export interface ServicesPaginationResponseArrayServicesNotificationTemplate {
+  current_page?: number;
+  data?: ServicesNotificationTemplate[];
+  defaultSort?: boolean;
+  last_page?: number;
+  per_page?: number;
+  per_page_limit?: number;
+  sortBy?: string;
+  sortDesc?: boolean;
+  sort_fields?: string[];
+  /** @example "success" */
+  status?: string;
+  total?: number;
+}
+
 export interface ServicesPaginationResponseArrayServicesTeamMember {
   current_page?: number;
   data?: ServicesTeamMember[];

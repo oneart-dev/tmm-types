@@ -2,6 +2,15 @@ import { ContentType, HttpClient } from "./http-client";
 export class NotificationTemplate extends HttpClient {
     constructor() {
         super(...arguments);
+        this.notificationTemplateList = (query, params = {}) => this.request({
+            path: `/notification-template`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.notificationTemplateUpdate = (payload, params = {}) => this.request({
             path: `/notification-template`,
             method: "PUT",

@@ -17,10 +17,46 @@ import {
   ControllersUnauthorizedResponse,
   DtoNotificationTemplateCreateForm,
   DtoNotificationTemplateUpdateForm,
+  ServicesPaginationResponseArrayServicesNotificationTemplate,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class NotificationTemplate<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * @description Get list of team members. Available only for team owner if team is private. Only owner can use filters to search. Nobody can see revoked members. By default only active members are showing.
+   *
+   * @tags team
+   * @name NotificationTemplateList
+   * @summary Get team members
+   * @request GET:/notification-template
+   * @secure
+   */
+  notificationTemplateList = (
+    query?: {
+      /** Page */
+      page?: number;
+      /** Sort by field */
+      sortBy?: string;
+      /** Descending order */
+      sortDesc?: boolean;
+      /** Items per page */
+      itemsPerPage?: number;
+      name?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ServicesPaginationResponseArrayServicesNotificationTemplate,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/notification-template`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Create notification template universal for any external notification (eg Telegram, Discord, etc.)
    *
