@@ -23770,7 +23770,7 @@
                 "name": {
                     "type": "string"
                 },
-                "teamplate": {
+                "template": {
                     "type": "string"
                 },
                 "updated_at": {

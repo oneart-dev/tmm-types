@@ -1637,7 +1637,7 @@ export interface ServicesNotificationTemplate {
   hide_tmm?: ServicesNotificationTemplateHideTMM;
   id?: number;
   name?: string;
-  teamplate?: string;
+  template?: string;
   updated_at?: string;
   user_id?: number;
 }
