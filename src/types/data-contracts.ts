@@ -48,6 +48,12 @@ export interface ControllersApiSuccessArrayServicesTeamTopRow {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesNotificationTemplate {
+  data?: ServicesNotificationTemplate;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTeam {
   data?: ServicesTeam;
   /** @example "success" */
@@ -406,7 +412,7 @@ export interface DtoApiKeyCreateForm {
    * @example 1
    */
   enabled?: number;
-  exchange_id?: number;
+  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
   /**
    * @minLength 1
    * @maxLength 255
@@ -630,6 +636,46 @@ export interface DtoNewPasswordCredentials {
    */
   password: string;
   token: string;
+}
+
+export interface DtoNotificationTemplateCreateForm {
+  /**
+   * 0 - default, 1 - hide TMM link
+   * @example 1
+   */
+  hide_tmm: 0 | 1;
+  /**
+   * @minLength 2
+   * @maxLength 255
+   * @example "My template"
+   */
+  name: string;
+  /**
+   * @minLength 5
+   * @maxLength 1000
+   * @example "Template text"
+   */
+  template: string;
+}
+
+export interface DtoNotificationTemplateUpdateForm {
+  /**
+   * 0 - default, 1 - hide TMM link
+   * @example 1
+   */
+  hide_tmm: 0 | 1;
+  /**
+   * @minLength 2
+   * @maxLength 255
+   * @example "My template"
+   */
+  name: string;
+  /**
+   * @minLength 5
+   * @maxLength 1000
+   * @example "Template text"
+   */
+  template: string;
 }
 
 export interface DtoPasswordResetCredentials {
@@ -924,8 +970,12 @@ export interface DtoTelegramConnectForm {
    * @example [2]
    */
   api_keys: number[];
+  /** @min 1 */
+  close_template_id?: number;
   /** @example 1 */
   close_trade_notification?: 1 | 2;
+  /** @min 1 */
+  execute_template_id?: number;
   /** @example "en" */
   language: "ru" | "en";
   /**
@@ -936,6 +986,8 @@ export interface DtoTelegramConnectForm {
   name: string;
   /** @example 1 */
   new_trade_notification?: 0 | 1 | 2 | 3;
+  /** @min 1 */
+  open_template_id?: number;
   /** @example 1 */
   preview?: 0 | 1 | 2;
   /** @example 1 */
@@ -1013,6 +1065,12 @@ export interface DtoTradeFilters {
   groupBy?: "minute" | "hour" | "month" | "date" | "week";
   /** Headers are required only for CSV export method */
   headers?: string[];
+  hours_of_day?: number[];
+  /**
+   * string based params separated by ":"
+   * "not:" - exclude trades with hours specified
+   */
+  hours_of_day_params?: string;
   /** @example 1 */
   id?: number;
   /** @example [1] */
@@ -1355,6 +1413,7 @@ export enum ServicesDiscordCloseNotification {
 export interface ServicesDiscordConnect {
   api_keys?: number[];
   channel_id?: number;
+  close_template_id?: number;
   /**
    * Close notification mode
    * 0 - disabled
@@ -1362,6 +1421,7 @@ export interface ServicesDiscordConnect {
    */
   close_trade_notification?: ServicesDiscordCloseNotification;
   created_at?: string;
+  execute_template_id?: number;
   guild_id?: number;
   hash?: string;
   id?: number;
@@ -1375,6 +1435,7 @@ export interface ServicesDiscordConnect {
    * 3 - execution only
    */
   new_trade_notification?: ServicesDiscordNotification;
+  open_template_id?: number;
   owner_id?: number;
   preview?: ServicesTelegramConnectPreview;
   /**
@@ -1569,6 +1630,21 @@ export interface ServicesNotificationPublic {
 export enum ServicesNotificationSeen {
   NotificationSeenNo = 0,
   NotificationSeenYes = 1,
+}
+
+export interface ServicesNotificationTemplate {
+  created_at?: string;
+  hide_tmm?: ServicesNotificationTemplateHideTMM;
+  id?: number;
+  name?: string;
+  teamplate?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export enum ServicesNotificationTemplateHideTMM {
+  NotificationTemplateHideTMMDefault = 0,
+  NotificationTemplateHideTMMEnabled = 1,
 }
 
 export interface ServicesOrder {
@@ -1975,6 +2051,7 @@ export enum ServicesTelegramCloseNotification {
 
 export interface ServicesTelegramConnect {
   api_keys?: number[];
+  close_template_id?: number;
   /**
    * Close notification mode
    * 0 - disabled
@@ -1982,6 +2059,7 @@ export interface ServicesTelegramConnect {
    */
   close_trade_notification?: ServicesTelegramCloseNotification;
   created_at?: string;
+  execute_template_id?: number;
   hash?: string;
   id?: number;
   language?: string;
@@ -1994,6 +2072,7 @@ export interface ServicesTelegramConnect {
    * 3 - execution only
    */
   new_trade_notification?: ServicesTelegramNotification;
+  open_template_id?: number;
   /**
    * Preview mode (always disabled in private mode)
    * 0 - disabled
@@ -2230,6 +2309,8 @@ export interface ServicesTradeFilters {
   extraInfo?: ServicesTradeExtraInfoFilter;
   groupBy?: ServicesTradeGroupBy;
   headers?: string[];
+  hours_of_day?: number[];
+  hours_of_day_params?: string;
   id?: number;
   ids?: number[];
   leverageBetween?: string;

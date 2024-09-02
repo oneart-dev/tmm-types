@@ -16,6 +16,8 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
         groupBy?: "minute" | "hour" | "month" | "date" | "week";
         headers?: string[];
+        hours_of_day?: number[];
+        hours_of_day_params?: string;
         id?: number;
         ids?: number[];
         leverageBetween?: string;

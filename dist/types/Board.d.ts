@@ -17,6 +17,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
         groupBy?: "hour" | "minute" | "month" | "week" | "date" | undefined;
         headers?: string[] | undefined;
+        hours_of_day?: number[] | undefined;
+        hours_of_day_params?: string | undefined;
         id?: number | undefined;
         ids?: number[] | undefined;
         leverageBetween?: string | undefined;
@@ -54,6 +56,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
         groupBy?: "hour" | "minute" | "month" | "week" | "date" | undefined;
         headers?: string[] | undefined;
+        hours_of_day?: number[] | undefined;
+        hours_of_day_params?: string | undefined;
         id?: number | undefined;
         ids?: number[] | undefined;
         leverageBetween?: string | undefined;

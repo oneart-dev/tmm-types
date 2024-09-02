@@ -180,6 +180,21 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "example": 1,
                         "name": "id",
@@ -4247,6 +4262,21 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "example": 1,
                         "name": "id",
@@ -4655,6 +4685,21 @@
                         "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
                         "in": "query"
                     },
                     {
@@ -9223,6 +9268,369 @@
                 }
             }
         },
+        "/notification-template": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Create notification template universal for any external\nnotification (eg Telegram, Discord, etc.)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification-template"
+                ],
+                "summary": "create new notification template",
+                "parameters": [
+                    {
+                        "description": "NotificationTemplate form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotificationTemplateCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_NotificationTemplate"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notification-template/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Update notification template name, description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification-template"
+                ],
+                "summary": "update notification template",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "NotificationTemplate id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "NotificationTemplate update payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotificationTemplateUpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Deleting notification template",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification-template"
+                ],
+                "summary": "delete notification template",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "NotificationTemplate id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/notification/latest": {
             "get": {
                 "security": [
@@ -12574,6 +12982,21 @@
                         "in": "query"
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "example": 1,
                         "name": "id",
@@ -13724,6 +14147,21 @@
                         "collectionFormat": "multi",
                         "description": "Headers are required only for CSV export method",
                         "name": "headers",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
                         "in": "query"
                     },
                     {
@@ -19759,6 +20197,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_NotificationTemplate": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.NotificationTemplate"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_Team": {
             "type": "object",
             "properties": {
@@ -20692,6 +21146,7 @@
         "dto.ApiKeyCreateForm": {
             "type": "object",
             "required": [
+                "exchange_id",
                 "key_public",
                 "name"
             ],
@@ -20709,7 +21164,31 @@
                     "example": 1
                 },
                 "exchange_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        40,
+                        11,
+                        21,
+                        12,
+                        22,
+                        13,
+                        14,
+                        15,
+                        23,
+                        24,
+                        25,
+                        32,
+                        33
+                    ]
                 },
                 "extra_info": {
                     "type": "string",
@@ -21096,6 +21575,68 @@
                 },
                 "token": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.NotificationTemplateCreateForm": {
+            "type": "object",
+            "required": [
+                "hide_tmm",
+                "name",
+                "template"
+            ],
+            "properties": {
+                "hide_tmm": {
+                    "description": "0 - default, 1 - hide TMM link",
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 2,
+                    "example": "My template"
+                },
+                "template": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "minLength": 5,
+                    "example": "Template text"
+                }
+            }
+        },
+        "dto.NotificationTemplateUpdateForm": {
+            "type": "object",
+            "required": [
+                "hide_tmm",
+                "name",
+                "template"
+            ],
+            "properties": {
+                "hide_tmm": {
+                    "description": "0 - default, 1 - hide TMM link",
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 2,
+                    "example": "My template"
+                },
+                "template": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "minLength": 5,
+                    "example": "Template text"
                 }
             }
         },
@@ -21599,6 +22140,10 @@
                         2
                     ]
                 },
+                "close_template_id": {
+                    "type": "integer",
+                    "minimum": 1
+                },
                 "close_trade_notification": {
                     "type": "integer",
                     "enum": [
@@ -21606,6 +22151,10 @@
                         2
                     ],
                     "example": 1
+                },
+                "execute_template_id": {
+                    "type": "integer",
+                    "minimum": 1
                 },
                 "language": {
                     "type": "string",
@@ -21630,6 +22179,10 @@
                         3
                     ],
                     "example": 1
+                },
+                "open_template_id": {
+                    "type": "integer",
+                    "minimum": 1
                 },
                 "preview": {
                     "type": "integer",
@@ -21794,6 +22347,16 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "hours_of_day": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "hours_of_day_params": {
+                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer",
@@ -22577,6 +23140,9 @@
                 "channel_id": {
                     "type": "integer"
                 },
+                "close_template_id": {
+                    "type": "integer"
+                },
                 "close_trade_notification": {
                     "description": "Close notification mode\n0 - disabled\n1 - enabled",
                     "allOf": [
@@ -22587,6 +23153,9 @@
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "execute_template_id": {
+                    "type": "integer"
                 },
                 "guild_id": {
                     "type": "integer"
@@ -22610,6 +23179,9 @@
                             "$ref": "#/definitions/services.DiscordNotification"
                         }
                     ]
+                },
+                "open_template_id": {
+                    "type": "integer"
                 },
                 "owner_id": {
                     "type": "integer"
@@ -23049,6 +23621,43 @@
             "x-enum-varnames": [
                 "NotificationSeenNo",
                 "NotificationSeenYes"
+            ]
+        },
+        "services.NotificationTemplate": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "hide_tmm": {
+                    "$ref": "#/definitions/services.NotificationTemplateHideTMM"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "teamplate": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.NotificationTemplateHideTMM": {
+            "type": "integer",
+            "enum": [
+                0,
+                1
+            ],
+            "x-enum-varnames": [
+                "NotificationTemplateHideTMMDefault",
+                "NotificationTemplateHideTMMEnabled"
             ]
         },
         "services.Order": {
@@ -24070,6 +24679,9 @@
                         "type": "integer"
                     }
                 },
+                "close_template_id": {
+                    "type": "integer"
+                },
                 "close_trade_notification": {
                     "description": "Close notification mode\n0 - disabled\n1 - enabled",
                     "allOf": [
@@ -24080,6 +24692,9 @@
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "execute_template_id": {
+                    "type": "integer"
                 },
                 "hash": {
                     "type": "string"
@@ -24100,6 +24715,9 @@
                             "$ref": "#/definitions/services.TelegramNotification"
                         }
                     ]
+                },
+                "open_template_id": {
+                    "type": "integer"
                 },
                 "preview": {
                     "description": "Preview mode (always disabled in private mode)\n0 - disabled\n1 - enabled for any notification\n2 - enabled for close notification only",
@@ -24727,6 +25345,15 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "hours_of_day": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "hours_of_day_params": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "integer"

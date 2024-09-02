@@ -17,6 +17,7 @@ export * from './types/Files';
 export * from './types/FilterPreset';
 export * from './types/MentorGroup';
 export * from './types/Notification';
+export * from './types/NotificationTemplate';
 export * from './types/RiskManagement';
 export * from './types/Sse';
 export * from './types/Stats';

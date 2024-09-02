@@ -24,6 +24,10 @@ export interface ControllersApiSuccessArrayServicesTeamTopRow {
     data?: ServicesTeamTopRow[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesNotificationTemplate {
+    data?: ServicesNotificationTemplate;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTeam {
     data?: ServicesTeam;
     status?: ControllersResponseStatusMessage;
@@ -246,7 +250,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id?: number;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
     extra_info?: string;
     key_private?: string;
     key_public: string;
@@ -330,6 +334,16 @@ export interface DtoNewPasswordCredentials {
     email: string;
     password: string;
     token: string;
+}
+export interface DtoNotificationTemplateCreateForm {
+    hide_tmm: 0 | 1;
+    name: string;
+    template: string;
+}
+export interface DtoNotificationTemplateUpdateForm {
+    hide_tmm: 0 | 1;
+    name: string;
+    template: string;
 }
 export interface DtoPasswordResetCredentials {
     email: string;
@@ -431,10 +445,13 @@ export interface DtoTeamUpdateForm {
 }
 export interface DtoTelegramConnectForm {
     api_keys: number[];
+    close_template_id?: number;
     close_trade_notification?: 1 | 2;
+    execute_template_id?: number;
     language: "ru" | "en";
     name: string;
     new_trade_notification?: 0 | 1 | 2 | 3;
+    open_template_id?: number;
     preview?: 0 | 1 | 2;
     privacy_mode?: 0 | 1;
 }
@@ -462,6 +479,8 @@ export interface DtoTradeFilters {
     extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
     groupBy?: "minute" | "hour" | "month" | "date" | "week";
     headers?: string[];
+    hours_of_day?: number[];
+    hours_of_day_params?: string;
     id?: number;
     ids?: number[];
     leverageBetween?: string;
@@ -658,14 +677,17 @@ export declare enum ServicesDiscordCloseNotification {
 export interface ServicesDiscordConnect {
     api_keys?: number[];
     channel_id?: number;
+    close_template_id?: number;
     close_trade_notification?: ServicesDiscordCloseNotification;
     created_at?: string;
+    execute_template_id?: number;
     guild_id?: number;
     hash?: string;
     id?: number;
     language?: string;
     name?: string;
     new_trade_notification?: ServicesDiscordNotification;
+    open_template_id?: number;
     owner_id?: number;
     preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesDiscordConnectPrivacy;
@@ -824,6 +846,19 @@ export interface ServicesNotificationPublic {
 export declare enum ServicesNotificationSeen {
     NotificationSeenNo = 0,
     NotificationSeenYes = 1
+}
+export interface ServicesNotificationTemplate {
+    created_at?: string;
+    hide_tmm?: ServicesNotificationTemplateHideTMM;
+    id?: number;
+    name?: string;
+    teamplate?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesNotificationTemplateHideTMM {
+    NotificationTemplateHideTMMDefault = 0,
+    NotificationTemplateHideTMMEnabled = 1
 }
 export interface ServicesOrder {
     api_key_id?: number;
@@ -1159,13 +1194,16 @@ export declare enum ServicesTelegramCloseNotification {
 }
 export interface ServicesTelegramConnect {
     api_keys?: number[];
+    close_template_id?: number;
     close_trade_notification?: ServicesTelegramCloseNotification;
     created_at?: string;
+    execute_template_id?: number;
     hash?: string;
     id?: number;
     language?: string;
     name?: string;
     new_trade_notification?: ServicesTelegramNotification;
+    open_template_id?: number;
     preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesTelegramConnectPrivacy;
     status?: ServicesTelegramConnectStatus;
@@ -1370,6 +1408,8 @@ export interface ServicesTradeFilters {
     extraInfo?: ServicesTradeExtraInfoFilter;
     groupBy?: ServicesTradeGroupBy;
     headers?: string[];
+    hours_of_day?: number[];
+    hours_of_day_params?: string;
     id?: number;
     ids?: number[];
     leverageBetween?: string;

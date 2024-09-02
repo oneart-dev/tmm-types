@@ -134,6 +134,12 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       groupBy?: "minute" | "hour" | "month" | "date" | "week";
       /** Headers are required only for CSV export method */
       headers?: string[];
+      hours_of_day?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with hours specified
+       */
+      hours_of_day_params?: string;
       /** @example 1 */
       id?: number;
       /** @example [1] */
@@ -261,6 +267,12 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       groupBy?: "minute" | "hour" | "month" | "date" | "week";
       /** Headers are required only for CSV export method */
       headers?: string[];
+      hours_of_day?: number[];
+      /**
+       * string based params separated by ":"
+       * "not:" - exclude trades with hours specified
+       */
+      hours_of_day_params?: string;
       /** @example 1 */
       id?: number;
       /** @example [1] */

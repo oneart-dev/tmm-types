@@ -130,6 +130,11 @@ export var ServicesNotificationSeen;
     ServicesNotificationSeen[ServicesNotificationSeen["NotificationSeenNo"] = 0] = "NotificationSeenNo";
     ServicesNotificationSeen[ServicesNotificationSeen["NotificationSeenYes"] = 1] = "NotificationSeenYes";
 })(ServicesNotificationSeen || (ServicesNotificationSeen = {}));
+export var ServicesNotificationTemplateHideTMM;
+(function (ServicesNotificationTemplateHideTMM) {
+    ServicesNotificationTemplateHideTMM[ServicesNotificationTemplateHideTMM["NotificationTemplateHideTMMDefault"] = 0] = "NotificationTemplateHideTMMDefault";
+    ServicesNotificationTemplateHideTMM[ServicesNotificationTemplateHideTMM["NotificationTemplateHideTMMEnabled"] = 1] = "NotificationTemplateHideTMMEnabled";
+})(ServicesNotificationTemplateHideTMM || (ServicesNotificationTemplateHideTMM = {}));
 export var ServicesOrderSide;
 (function (ServicesOrderSide) {
     ServicesOrderSide["OrderBuy"] = "BUY";
