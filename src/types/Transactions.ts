@@ -11,14 +11,14 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesTransaction,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesTransactionDiscount,
   ControllersApiSuccessString,
-  ControllersDiscountResponse,
   ControllersTransactionCreateResponse,
-  ControllersTransactionsListResponse,
   ControllersUnauthorizedResponse,
   DtoTransactionCreateForm,
-  ServicesTransactionsListPagination,
+  ServicesPaginationResponseArrayServicesTransaction,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -34,19 +34,19 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
    */
   transactionsList = (
     query?: {
-      /** Page */
+      /**
+       * @min 1
+       * @example 1
+       */
       page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /** Descending order */
-      sortDesc?: boolean;
-      /** Items per page */
       itemsPerPage?: number;
+      sortBy?: string;
+      sortDesc?: boolean;
     },
     params: RequestParams = {},
   ) =>
     this.request<
-      ServicesTransactionsListPagination,
+      ServicesPaginationResponseArrayServicesTransaction,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/transactions`,
@@ -88,23 +88,13 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
    * @request GET:/transactions/discount
    * @secure
    */
-  discountList = (
-    query?: {
-      /** Page */
-      page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /** Descending order */
-      sortDesc?: boolean;
-      /** Items per page */
-      itemsPerPage?: number;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<ControllersDiscountResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+  discountList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesTransactionDiscount,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
       path: `/transactions/discount`,
       method: "GET",
-      query: query,
       secure: true,
       type: ContentType.Json,
       format: "json",
@@ -119,26 +109,13 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
    * @request GET:/transactions/pending
    * @secure
    */
-  pendingList = (
-    query?: {
-      /** Page */
-      page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /** Descending order */
-      sortDesc?: boolean;
-      /** Items per page */
-      itemsPerPage?: number;
-    },
-    params: RequestParams = {},
-  ) =>
+  pendingList = (params: RequestParams = {}) =>
     this.request<
-      ControllersTransactionsListResponse,
+      ControllersApiSuccessArrayServicesTransaction,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/transactions/pending`,
       method: "GET",
-      query: query,
       secure: true,
       type: ContentType.Json,
       format: "json",

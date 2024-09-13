@@ -32,6 +32,11 @@ export var ServicesCVizorStatus;
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledTrends"] = 1] = "CVizorStatusEnabledTrends";
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledPRO"] = 2] = "CVizorStatusEnabledPRO";
 })(ServicesCVizorStatus || (ServicesCVizorStatus = {}));
+export var ServicesDashboardStatus;
+(function (ServicesDashboardStatus) {
+    ServicesDashboardStatus[ServicesDashboardStatus["DashboardStatusDefault"] = 0] = "DashboardStatusDefault";
+    ServicesDashboardStatus[ServicesDashboardStatus["DashboardStatusExport"] = 1] = "DashboardStatusExport";
+})(ServicesDashboardStatus || (ServicesDashboardStatus = {}));
 export var ServicesDefaultGroupField;
 (function (ServicesDefaultGroupField) {
     ServicesDefaultGroupField[ServicesDefaultGroupField["DefaultGroupFieldOpenTime"] = 1] = "DefaultGroupFieldOpenTime";
@@ -103,6 +108,11 @@ export var ServicesLoadLevel;
     ServicesLoadLevel["LoadLevelHigh"] = "high";
     ServicesLoadLevel["LoadLevelCritical"] = "critical";
 })(ServicesLoadLevel || (ServicesLoadLevel = {}));
+export var ServicesLocale;
+(function (ServicesLocale) {
+    ServicesLocale["LocaleRu"] = "ru";
+    ServicesLocale["LocaleEn"] = "en";
+})(ServicesLocale || (ServicesLocale = {}));
 export var ServicesMembership;
 (function (ServicesMembership) {
     ServicesMembership["LEVEL_NOVICE"] = "novice";
@@ -183,6 +193,7 @@ export var ServicesShortUrlModelType;
     ServicesShortUrlModelType["ShortUrlModelTypeTrade"] = "Trade";
     ServicesShortUrlModelType["ShortUrlModelTypeTradeGroup"] = "TradeGroup";
     ServicesShortUrlModelType["ShortUrlModelTypeDashboard"] = "Dashboard";
+    ServicesShortUrlModelType["ShortUrlModelTypeDashboardLayout"] = "DashboardLayout";
 })(ServicesShortUrlModelType || (ServicesShortUrlModelType = {}));
 export var ServicesStripeBillingCycle;
 (function (ServicesStripeBillingCycle) {

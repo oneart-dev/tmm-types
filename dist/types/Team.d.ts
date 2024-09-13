@@ -11,9 +11,9 @@ export declare class Team<SecurityDataType = unknown> extends HttpClient<Securit
     joinCreate: (id: number, userId: number, payload: DtoTeamMemberUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     membersDetail: (id: number, query?: {
         page?: number;
+        itemsPerPage?: number;
         sortBy?: string;
         sortDesc?: boolean;
-        itemsPerPage?: number;
         name?: string;
         show_pnl?: 1 | 2;
         status?: 1 | 2 | 3 | 4;

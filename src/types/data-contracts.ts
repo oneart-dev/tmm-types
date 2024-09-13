@@ -9,12 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface ControllersAPiKeyCreateResponse {
-  data?: ServicesApiKey;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersAnalyzerNotesResponse {
   data?: Record<string, ServicesAnalyzerNote[]>;
   /** @example "success" */
@@ -36,14 +30,62 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiKeysList {
+export interface ControllersApiSuccessArrayServicesApiKey {
   data?: ServicesApiKey[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesDashboard {
+  data?: ServicesDashboard[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesOrder {
+  data?: ServicesOrder[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesTag {
+  data?: ServicesTag[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
 
 export interface ControllersApiSuccessArrayServicesTeamTopRow {
   data?: ServicesTeamTopRow[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesTradeCountByWeek {
+  data?: ServicesTradeCountByWeek[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesTransaction {
+  data?: ServicesTransaction[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessInt64 {
+  data?: number;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesApiKey {
+  data?: ServicesApiKey;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesDashboard {
+  data?: ServicesDashboard;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -72,8 +114,19 @@ export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesTransactionDiscount {
+  data?: ServicesTransactionDiscount;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessString {
   data?: string;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessNoData {
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -117,26 +170,8 @@ export interface ControllersCategoryWithCounter {
   user_id?: number;
 }
 
-export interface ControllersDashboardCreateResponse {
-  data?: ServicesDashboard;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersDashboardListResponse {
-  data?: ServicesDashboard[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersDiscordListResponse {
   data?: ServicesDiscordConnect[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersDiscountResponse {
-  data?: ServicesTransactionDiscount;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -180,6 +215,22 @@ export interface ControllersHotCoinsResponse {
 
 export interface ControllersLatestNotificationsResponse {
   data?: ServicesNotificationPublic[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersLoadBoardResponse {
+  dashboard?: ServicesDashboard;
+  errors?: Record<string, string>;
+  public_profile?: ServicesPublicProfile;
+  serverData?: Record<string, string>;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersLoadLayoutResponse {
+  data?: ServicesDashboard;
+  public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -311,13 +362,6 @@ export interface ControllersServerStatsResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersShortUrlResponse {
-  /** @example "fDG3223D" */
-  data?: string;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersSseConnectResponse {
   data?: string;
   /** @example "success" */
@@ -353,21 +397,9 @@ export interface ControllersTopTradersSuccessResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersTradeChartDrawingsResponse {
-  data?: string;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersTransactionCreateResponse {
   data?: any;
   redirect_url?: string;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersTransactionsListResponse {
-  data?: ServicesTransaction[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -517,6 +549,19 @@ export interface DtoDashboardCreateForm {
   name: string;
 }
 
+export interface DtoDashboardExportForm {
+  /** @example "layout description" */
+  description?: string;
+  /** @example true */
+  keep_filters: boolean;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "Main board"
+   */
+  name: string;
+}
+
 export interface DtoDashboardSort {
   id: number;
   order: number;
@@ -643,9 +688,9 @@ export interface DtoNotificationTemplateCreateForm {
    * 0 - default, 1 - hide TMM link
    * @example 1
    */
-  hide_tmm: 0 | 1;
+  hide_tmm?: 0 | 1;
   /**
-   * @minLength 2
+   * @minLength 1
    * @maxLength 255
    * @example "My template"
    */
@@ -663,9 +708,9 @@ export interface DtoNotificationTemplateUpdateForm {
    * 0 - default, 1 - hide TMM link
    * @example 1
    */
-  hide_tmm: 0 | 1;
+  hide_tmm?: 0 | 1;
   /**
-   * @minLength 2
+   * @minLength 1
    * @maxLength 255
    * @example "My template"
    */
@@ -1298,10 +1343,6 @@ export interface ServicesAnalyzerNote {
   user_id?: number;
 }
 
-export interface ServicesAnalyzerWeekListResponse {
-  data?: ServicesTradeCountByWeek[];
-}
-
 export interface ServicesApiKey {
   created_at?: string;
   /**
@@ -1344,6 +1385,10 @@ export enum ServicesApiKeyWebsocketStatus {
 }
 
 export interface ServicesApiKeysListPagination {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesApiKey[];
   defaultSort?: boolean;
@@ -1390,14 +1435,22 @@ export enum ServicesCVizorStatus {
 }
 
 export interface ServicesDashboard {
+  description?: string;
   filters?: ServicesWidgetFilters;
   id?: number;
+  installs?: number;
   layouts?: string;
   name?: string;
   order?: number;
   over_limit?: boolean;
+  status?: ServicesDashboardStatus;
   user_id?: number;
   widgets?: ServicesWidget[];
+}
+
+export enum ServicesDashboardStatus {
+  DashboardStatusDefault = 0,
+  DashboardStatusExport = 1,
 }
 
 export enum ServicesDefaultGroupField {
@@ -1425,7 +1478,7 @@ export interface ServicesDiscordConnect {
   guild_id?: number;
   hash?: string;
   id?: number;
-  language?: string;
+  language?: ServicesLocale;
   name?: string;
   /**
    * Notification mode
@@ -1557,6 +1610,11 @@ export enum ServicesLoadLevel {
   LoadLevelMed = "med",
   LoadLevelHigh = "high",
   LoadLevelCritical = "critical",
+}
+
+export enum ServicesLocale {
+  LocaleRu = "ru",
+  LocaleEn = "en",
 }
 
 export enum ServicesMembership {
@@ -1699,6 +1757,10 @@ export enum ServicesOrigType {
 }
 
 export interface ServicesPaginationResponseArrayServicesNotificationTemplate {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesNotificationTemplate[];
   defaultSort?: boolean;
@@ -1714,8 +1776,31 @@ export interface ServicesPaginationResponseArrayServicesNotificationTemplate {
 }
 
 export interface ServicesPaginationResponseArrayServicesTeamMember {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesTeamMember[];
+  defaultSort?: boolean;
+  last_page?: number;
+  per_page?: number;
+  per_page_limit?: number;
+  sortBy?: string;
+  sortDesc?: boolean;
+  sort_fields?: string[];
+  /** @example "success" */
+  status?: string;
+  total?: number;
+}
+
+export interface ServicesPaginationResponseArrayServicesTransaction {
+  /**
+   * @min 1
+   * @example 1
+   */
+  current_page?: number;
+  data?: ServicesTransaction[];
   defaultSort?: boolean;
   last_page?: number;
   per_page?: number;
@@ -1860,6 +1945,10 @@ export interface ServicesRiskManagementLog {
 }
 
 export interface ServicesRiskManagementLogPagination {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesRiskManagementLog[];
   defaultSort?: boolean;
@@ -1879,6 +1968,10 @@ export enum ServicesRiskManagementLogType {
 }
 
 export interface ServicesRiskManagementPagination {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesRiskManagement[];
   defaultSort?: boolean;
@@ -1910,6 +2003,7 @@ export enum ServicesShortUrlModelType {
   ShortUrlModelTypeTrade = "Trade",
   ShortUrlModelTypeTradeGroup = "TradeGroup",
   ShortUrlModelTypeDashboard = "Dashboard",
+  ShortUrlModelTypeDashboardLayout = "DashboardLayout",
 }
 
 export interface ServicesStripe {
@@ -2077,7 +2171,7 @@ export interface ServicesTelegramConnect {
   execute_template_id?: number;
   hash?: string;
   id?: number;
-  language?: string;
+  language?: ServicesLocale;
   name?: string;
   /**
    * Notification mode
@@ -2420,6 +2514,10 @@ export enum ServicesTradeTimeColumn {
 }
 
 export interface ServicesTradesListPagination {
+  /**
+   * @min 1
+   * @example 1
+   */
   current_page?: number;
   data?: ServicesTrade[];
   defaultSort?: boolean;
@@ -2496,19 +2594,6 @@ export enum ServicesTransactionStatus {
   TransactionStatusPending = "pending",
 }
 
-export interface ServicesTransactionsListPagination {
-  current_page?: number;
-  data?: ServicesTransaction[];
-  defaultSort?: boolean;
-  last_page?: number;
-  per_page?: number;
-  per_page_limit?: number;
-  sortBy?: string;
-  sortDesc?: boolean;
-  sort_fields?: string[];
-  total?: number;
-}
-
 export interface ServicesUIData {
   data?: string;
   id?: number;
@@ -2542,7 +2627,7 @@ export interface ServicesUserWithRelations {
   guides_progress?: ServicesGuideProgress;
   id?: number;
   invite_code?: string;
-  language?: string;
+  language?: ServicesLocale;
   last_api_call_at?: string;
   league?: number;
   limits?: ServicesUserLimits;

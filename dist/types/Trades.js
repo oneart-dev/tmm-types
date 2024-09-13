@@ -53,9 +53,10 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
-        this.dayOrdersList = (apiKeyId, date, symbol, params = {}) => this.request({
+        this.dayOrdersList = (query, params = {}) => this.request({
             path: `/trades/day/orders`,
             method: "GET",
+            query: query,
             secure: true,
             type: ContentType.Json,
             format: "json",

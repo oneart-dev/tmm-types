@@ -37,7 +37,31 @@ export class Board extends HttpClient {
             format: "json",
             ...params,
         });
-        this.publicLoadDetail = (id, code, params = {}) => this.request({
+        this.layoutDetail = (code, params = {}) => this.request({
+            path: `/board/layout/${code}`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.layoutInstallCreate = (code, params = {}) => this.request({
+            path: `/board/layout/${code}/install`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.layoutsList = (params = {}) => this.request({
+            path: `/board/layouts`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.publicLoadDetail = (code, params = {}) => this.request({
             path: `/board/public/${code}/load`,
             method: "GET",
             type: ContentType.Json,
@@ -108,6 +132,15 @@ export class Board extends HttpClient {
         this.cloneCreate = (id, params = {}) => this.request({
             path: `/board/${id}/clone`,
             method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.exportCreate = (id, payload, params = {}) => this.request({
+            path: `/board/${id}/export`,
+            method: "POST",
+            body: payload,
             secure: true,
             type: ContentType.Json,
             format: "json",

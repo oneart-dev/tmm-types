@@ -38,8 +38,8 @@ export class Analyzer extends HttpClient {
             format: "json",
             ...params,
         });
-        this.chartDataCreate = (ticker, params = {}) => this.request({
-            path: `/analyzer/${ticker}/chart-data`,
+        this.chartDataCreate = (symbol, params = {}) => this.request({
+            path: `/analyzer/${symbol}/chart-data`,
             method: "POST",
             secure: true,
             type: ContentType.Json,

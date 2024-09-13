@@ -175,14 +175,14 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   membersDetail = (
     id: number,
     query?: {
-      /** Page */
+      /**
+       * @min 1
+       * @example 1
+       */
       page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /** Descending order */
-      sortDesc?: boolean;
-      /** Items per page */
       itemsPerPage?: number;
+      sortBy?: string;
+      sortDesc?: boolean;
       /**
        * Partion name search is supported
        * @example "name"

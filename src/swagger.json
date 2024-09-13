@@ -725,7 +725,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/services.AnalyzerWeekListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_TradeCountByWeek"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -805,7 +805,7 @@
                 }
             }
         },
-        "/analyzer/{ticker}/chart-data": {
+        "/analyzer/{symbol}/chart-data": {
             "post": {
                 "security": [
                     {
@@ -828,8 +828,8 @@
                     {
                         "type": "string",
                         "example": "BTCUSDT",
-                        "description": "Ticker",
-                        "name": "ticker",
+                        "description": "Symbol",
+                        "name": "symbol",
                         "in": "path",
                         "required": true
                     }
@@ -838,7 +838,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TradeChartDrawingsResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -1153,7 +1153,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.APiKeyCreateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ApiKey"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -1254,27 +1254,100 @@
                 "summary": "List API keys",
                 "parameters": [
                     {
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            40,
+                            11,
+                            21,
+                            23,
+                            24,
+                            25,
+                            12,
+                            22,
+                            13,
+                            14,
+                            15,
+                            32,
+                            33
+                        ],
                         "type": "integer",
-                        "description": "Page",
-                        "name": "page",
+                        "x-enum-varnames": [
+                            "EXCHANGE_BINANCE_FUTURES",
+                            "EXCHANGE_BYBIT_LINEAR",
+                            "EXCHANGE_FTX",
+                            "EXCHANGE_BINANCE_SPOT",
+                            "EXCHANGE_BYBIT_INVERSE",
+                            "EXCHANGE_BYBIT_SPOT",
+                            "EXCHANGE_BITGET_FUTURES",
+                            "EXCHANGE_OKX_PERP_SWAPS",
+                            "EXCHANGE_OKX_SPOT",
+                            "EXCHANGE_BINGX_FUTURES",
+                            "EXCHANGE_GATEIO_SPOT",
+                            "EXCHANGE_WLC_FUTURES",
+                            "EXCHANGE_WLC_SPOT",
+                            "EXCHANGE_WLC_BYBIT_SPOT",
+                            "EXCHANGE_WLC_BYBIT_LINEAR",
+                            "EXCHANGE_WLC_BYBIT_INVERSE",
+                            "EXCHANGE_TIGER_FUTURES",
+                            "EXCHANGE_TIGER_SPOT",
+                            "EXCHANGE_TIGER_BYBIT_SPOT",
+                            "EXCHANGE_TIGER_BYBIT_LINEAR",
+                            "EXCHANGE_TIGER_BYBIT_INVERSE",
+                            "EXCHANGE_TIGER_OKX_FUTURES",
+                            "EXCHANGE_TIGER_OKX_SPOT"
+                        ],
+                        "name": "exchange_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "from_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "frozen",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Sort by field",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "name": "not_frozen",
+                        "in": "query"
+                    },
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "example": 1,
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "sortBy",
                         "in": "query"
                     },
                     {
                         "type": "boolean",
-                        "description": "Descending order",
                         "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
                         "in": "query"
                     }
                 ],
@@ -1410,7 +1483,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiKeysList"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_ApiKey"
                         },
                         "headers": {
                             "version": {
@@ -1900,7 +1973,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -2264,7 +2337,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -2396,7 +2469,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -2528,7 +2601,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -3875,7 +3948,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Dashboard list include widgets attached to dashboard",
+                "description": "Dashboard list including widgets attached to dashboard",
                 "consumes": [
                     "application/json"
                 ],
@@ -3890,7 +3963,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.DashboardListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Dashboard"
                         },
                         "headers": {
                             "version": {
@@ -3992,7 +4065,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Create new dashboard",
+                "description": "Create new empty dashboard with specified name\nIf user reached dashboards limit throws error",
                 "consumes": [
                     "application/json"
                 ],
@@ -4002,7 +4075,7 @@
                 "tags": [
                     "dashboard"
                 ],
-                "summary": "add dashboard",
+                "summary": "Create dashboard",
                 "parameters": [
                     {
                         "description": "form payload",
@@ -4017,7 +4090,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.DashboardCreateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_Dashboard"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -4443,7 +4516,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-int64"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -4869,7 +4942,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-int64"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -4949,6 +5022,369 @@
                 }
             }
         },
+        "/board/layout/{code}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Load exported dashboard layout using short url",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dashboard"
+                ],
+                "summary": "Load dashboard layout",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "short url",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.LoadLayoutResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/board/layout/{code}/install": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Install dashboard layout",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dashboard"
+                ],
+                "summary": "Install dashboard layout",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Dashboard id",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_Dashboard"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/board/layouts": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "List exported by user dashboard layouts",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dashboard"
+                ],
+                "summary": "Dashboard layouts list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Dashboard"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/board/public/{code}/load": {
             "get": {
                 "description": "Load all dashboard widgets in bulk",
@@ -4964,9 +5400,9 @@
                 "summary": "Load widgets in bulk",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Dashboard id",
-                        "name": "id",
+                        "type": "string",
+                        "description": "short url",
+                        "name": "code",
                         "in": "path",
                         "required": true
                     }
@@ -4975,7 +5411,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.LoadBoardResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -5088,7 +5524,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -5289,7 +5725,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Create new widget attached to dashboard by ID",
+                "description": "Create new widget attached to dashboard by ID\nIf user reached widget limit throws error",
                 "consumes": [
                     "application/json"
                 ],
@@ -5549,7 +5985,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -5686,7 +6122,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -5796,7 +6232,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -5925,7 +6361,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.DashboardCreateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_Dashboard"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -6022,15 +6458,15 @@
                 }
             }
         },
-        "/board/{id}/load": {
-            "get": {
+        "/board/{id}/export": {
+            "post": {
                 "security": [
                     {
                         "ApiKey": [],
                         "JWT": []
                     }
                 ],
-                "description": "Load all dashboard widgets in bulk",
+                "description": "Export dashboard layout and return short url",
                 "consumes": [
                     "application/json"
                 ],
@@ -6040,7 +6476,147 @@
                 "tags": [
                     "dashboard"
                 ],
-                "summary": "Load widgets in bulk",
+                "summary": "Export dashboard layout",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Dashboard id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DashboardExportForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/board/{id}/load": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "This endpoint streams data using \"Transfer-Encoding: chunked\", allowing asynchronous\nloading of widgets in real-time.\n\nEach chunk of data is a JSON object representing a widget's data or errors.\nThe chunks are separated by the custom delimiter \"\\x02\\x03\\x04END\\x04\\x03\\x02\".\nClients should accumulate the streamed data until this delimiter is encountered.\nOnce the delimiter is detected, the client can safely split the chunks, parse each\nJSON object, and process the widget's data.\n\n**Client-side logic**:\n- Listen for data chunks from the server.\n- Accumulate the response until the delimiter is detected.\n- Split the response using the delimiter and process each JSON chunk individually.\n- Handle potential parsing errors for incomplete or malformed JSON objects.\n\n**Note**: The widgets are loaded asynchronously, so the client should wait for all\nchunks to be received before assuming that all widget data is complete.\n",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dashboard"
+                ],
+                "summary": "Load dashboard widgets asynchronously",
                 "parameters": [
                     {
                         "type": "integer",
@@ -6166,7 +6742,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ShortUrlResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -12129,27 +12705,25 @@
                         "required": true
                     },
                     {
+                        "minimum": 1,
                         "type": "integer",
-                        "description": "Page",
+                        "example": 1,
                         "name": "page",
                         "in": "query"
                     },
                     {
+                        "type": "integer",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Sort by field",
                         "name": "sortBy",
                         "in": "query"
                     },
                     {
                         "type": "boolean",
-                        "description": "Descending order",
                         "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
                         "in": "query"
                     },
                     {
@@ -12948,32 +13522,25 @@
                 "summary": "List trades",
                 "parameters": [
                     {
+                        "minimum": 1,
                         "type": "integer",
-                        "default": 1,
-                        "description": "Page",
+                        "example": 1,
                         "name": "page",
                         "in": "query"
                     },
                     {
+                        "type": "integer",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Sort by field",
                         "name": "sortBy",
                         "in": "query"
                     },
                     {
                         "type": "boolean",
-                        "default": true,
-                        "description": "Descending order",
                         "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "maximum": 150,
-                        "minimum": 1,
-                        "type": "integer",
-                        "default": 20,
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
                         "in": "query"
                     },
                     {
@@ -13398,7 +13965,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -13980,23 +14547,20 @@
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Api key id",
                         "name": "api_key_id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Date in format 'YYYY-MM-DD'",
                         "name": "date",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Ticker/Symbol",
                         "name": "symbol",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -14584,7 +15148,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -14717,7 +15281,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -15206,7 +15770,7 @@
         },
         "/trades/public/{code}/preview": {
             "get": {
-                "description": "Get trade preview",
+                "description": "Get trade preview. Preview is cached and regenerated only if",
                 "consumes": [
                     "application/json"
                 ],
@@ -15335,7 +15899,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generate short link for list of trade IDs. It will use privacy settings from the public profile settings.",
+                "description": "Generate short link for list of trade IDs. It will use privacy settings from the public profile settings.\nIt will return same link for the same trades.",
                 "consumes": [
                     "application/json"
                 ],
@@ -15360,7 +15924,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ShortUrlResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -15589,7 +16153,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Update tags for all selected trades",
+                "description": "Update tags for all selected trades. You can expect to\nreceive an update for each trade through the SSE channel.",
                 "consumes": [
                     "application/json"
                 ],
@@ -15614,7 +16178,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -15722,7 +16286,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Send list of tags ids with order to update entry reasons order",
+                "description": "Send list of tags ids with order to update tags order",
                 "consumes": [
                     "application/json"
                 ],
@@ -15867,7 +16431,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -16218,7 +16782,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "user drawings on the chart",
+                "description": "user drawings on the chart in JSON format. Returns unparsed JSON",
                 "consumes": [
                     "application/json"
                 ],
@@ -16250,7 +16814,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TradeChartDrawingsResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -16382,7 +16946,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -16631,7 +17195,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "List of orders for trade",
+                "description": "List of orders for the trade",
                 "consumes": [
                     "application/json"
                 ],
@@ -16655,7 +17219,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.OrdersListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Order"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -16763,7 +17327,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Save chart drawings for trade.",
+                "description": "Save chart drawings for the trade.",
                 "consumes": [
                     "application/json"
                 ],
@@ -16773,7 +17337,7 @@
                 "tags": [
                     "trades"
                 ],
-                "summary": "Save chart drawings for trade.",
+                "summary": "Save chart drawings for the trade.",
                 "parameters": [
                     {
                         "type": "integer",
@@ -16795,7 +17359,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -16903,7 +17467,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generate short link for trade. It will use privacy settings from the public profile settings.",
+                "description": "Generate short link for trade. It will use privacy settings from the public profile settings.\nIt will return same link for the same trade.",
                 "consumes": [
                     "application/json"
                 ],
@@ -16927,7 +17491,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ShortUrlResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -17067,7 +17631,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Tag"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -17207,7 +17771,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -17460,27 +18024,25 @@
                 "summary": "List user transactions",
                 "parameters": [
                     {
+                        "minimum": 1,
                         "type": "integer",
-                        "description": "Page",
+                        "example": 1,
                         "name": "page",
                         "in": "query"
                     },
                     {
+                        "type": "integer",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "Sort by field",
                         "name": "sortBy",
                         "in": "query"
                     },
                     {
                         "type": "boolean",
-                        "description": "Descending order",
                         "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
                         "in": "query"
                     }
                 ],
@@ -17488,7 +18050,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/services.TransactionsListPagination"
+                            "$ref": "#/definitions/services.PaginationResponse-array_services_Transaction"
                         },
                         "headers": {
                             "version": {
@@ -17714,37 +18276,11 @@
                     "transactions"
                 ],
                 "summary": "Discount data",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Page",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Sort by field",
-                        "name": "sortBy",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Descending order",
-                        "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.DiscountResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TransactionDiscount"
                         },
                         "headers": {
                             "version": {
@@ -17859,37 +18395,11 @@
                     "transactions"
                 ],
                 "summary": "List pending transactions",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Page",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Sort by field",
-                        "name": "sortBy",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "Descending order",
-                        "name": "sortDesc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Items per page",
-                        "name": "itemsPerPage",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.TransactionsListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Transaction"
                         },
                         "headers": {
                             "version": {
@@ -20211,22 +20721,6 @@
         }
     },
     "definitions": {
-        "controllers.APiKeyCreateResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.ApiKey"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.AnalyzerNotesResponse": {
             "type": "object",
             "properties": {
@@ -20291,13 +20785,70 @@
                 }
             }
         },
-        "controllers.ApiKeysList": {
+        "controllers.ApiSuccess-array_services_ApiKey": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.ApiKey"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_Dashboard": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Dashboard"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_Order": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Order"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_Tag": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Tag"
                     }
                 },
                 "status": {
@@ -20318,6 +20869,92 @@
                     "items": {
                         "$ref": "#/definitions/services.TeamTopRow"
                     }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_TradeCountByWeek": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TradeCountByWeek"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_Transaction": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Transaction"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-int64": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "integer"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ApiKey": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ApiKey"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_Dashboard": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.Dashboard"
                 },
                 "status": {
                     "allOf": [
@@ -20393,12 +21030,41 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_TransactionDiscount": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.TransactionDiscount"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-string": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "string"
                 },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccessNoData": {
+            "type": "object",
+            "properties": {
                 "status": {
                     "allOf": [
                         {
@@ -20517,41 +21183,6 @@
                 }
             }
         },
-        "controllers.DashboardCreateResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.Dashboard"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.DashboardListResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.Dashboard"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.DiscordListResponse": {
             "type": "object",
             "properties": {
@@ -20560,22 +21191,6 @@
                     "items": {
                         "$ref": "#/definitions/services.DiscordConnect"
                     }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.DiscountResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.TransactionDiscount"
                 },
                 "status": {
                     "allOf": [
@@ -20711,6 +21326,56 @@
                     "items": {
                         "$ref": "#/definitions/services.NotificationPublic"
                     }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.LoadBoardResponse": {
+            "type": "object",
+            "properties": {
+                "dashboard": {
+                    "$ref": "#/definitions/services.Dashboard"
+                },
+                "errors": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "public_profile": {
+                    "$ref": "#/definitions/services.PublicProfile"
+                },
+                "serverData": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.LoadLayoutResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.Dashboard"
+                },
+                "public_profile": {
+                    "$ref": "#/definitions/services.PublicProfile"
                 },
                 "status": {
                     "allOf": [
@@ -21020,23 +21685,6 @@
                 }
             }
         },
-        "controllers.ShortUrlResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "string",
-                    "example": "fDG3223D"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.SseConnectResponse": {
             "type": "object",
             "properties": {
@@ -21154,47 +21802,12 @@
                 }
             }
         },
-        "controllers.TradeChartDrawingsResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "string"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.TransactionCreateResponse": {
             "type": "object",
             "properties": {
                 "data": {},
                 "redirect_url": {
                     "type": "string"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.TransactionsListResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.Transaction"
-                    }
                 },
                 "status": {
                     "allOf": [
@@ -21485,6 +22098,29 @@
                 }
             }
         },
+        "dto.DashboardExportForm": {
+            "type": "object",
+            "required": [
+                "keep_filters",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "layout description"
+                },
+                "keep_filters": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "example": "Main board"
+                }
+            }
+        },
         "dto.DashboardSort": {
             "type": "object",
             "required": [
@@ -21713,7 +22349,6 @@
         "dto.NotificationTemplateCreateForm": {
             "type": "object",
             "required": [
-                "hide_tmm",
                 "name",
                 "template"
             ],
@@ -21730,7 +22365,7 @@
                 "name": {
                     "type": "string",
                     "maxLength": 255,
-                    "minLength": 2,
+                    "minLength": 1,
                     "example": "My template"
                 },
                 "template": {
@@ -21744,7 +22379,6 @@
         "dto.NotificationTemplateUpdateForm": {
             "type": "object",
             "required": [
-                "hide_tmm",
                 "name",
                 "template"
             ],
@@ -21761,7 +22395,7 @@
                 "name": {
                     "type": "string",
                     "maxLength": 255,
-                    "minLength": 2,
+                    "minLength": 1,
                     "example": "My template"
                 },
                 "template": {
@@ -22991,17 +23625,6 @@
                 }
             }
         },
-        "services.AnalyzerWeekListResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.TradeCountByWeek"
-                    }
-                }
-            }
-        },
         "services.ApiKey": {
             "type": "object",
             "properties": {
@@ -23087,7 +23710,9 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
@@ -23209,10 +23834,16 @@
         "services.Dashboard": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "filters": {
                     "$ref": "#/definitions/services.WidgetFilters"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "installs": {
                     "type": "integer"
                 },
                 "layouts": {
@@ -23227,6 +23858,9 @@
                 "over_limit": {
                     "type": "boolean"
                 },
+                "status": {
+                    "$ref": "#/definitions/services.DashboardStatus"
+                },
                 "user_id": {
                     "type": "integer"
                 },
@@ -23237,6 +23871,17 @@
                     }
                 }
             }
+        },
+        "services.DashboardStatus": {
+            "type": "integer",
+            "enum": [
+                0,
+                1
+            ],
+            "x-enum-varnames": [
+                "DashboardStatusDefault",
+                "DashboardStatusExport"
+            ]
         },
         "services.DefaultGroupField": {
             "type": "integer",
@@ -23299,7 +23944,7 @@
                     "type": "integer"
                 },
                 "language": {
-                    "type": "string"
+                    "$ref": "#/definitions/services.Locale"
                 },
                 "name": {
                     "type": "string"
@@ -23566,6 +24211,17 @@
                 "LoadLevelMed",
                 "LoadLevelHigh",
                 "LoadLevelCritical"
+            ]
+        },
+        "services.Locale": {
+            "type": "string",
+            "enum": [
+                "ru",
+                "en"
+            ],
+            "x-enum-varnames": [
+                "LocaleRu",
+                "LocaleEn"
             ]
         },
         "services.Membership": {
@@ -23930,7 +24586,9 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
@@ -23975,12 +24633,61 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.TeamMember"
+                    }
+                },
+                "defaultSort": {
+                    "type": "boolean"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "per_page": {
+                    "type": "integer"
+                },
+                "per_page_limit": {
+                    "type": "integer"
+                },
+                "sortBy": {
+                    "type": "string"
+                },
+                "sortDesc": {
+                    "type": "boolean"
+                },
+                "sort_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.PaginationResponse-array_services_Transaction": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Transaction"
                     }
                 },
                 "defaultSort": {
@@ -24350,7 +25057,9 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
@@ -24404,7 +25113,9 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
@@ -24483,12 +25194,14 @@
             "enum": [
                 "Trade",
                 "TradeGroup",
-                "Dashboard"
+                "Dashboard",
+                "DashboardLayout"
             ],
             "x-enum-varnames": [
                 "ShortUrlModelTypeTrade",
                 "ShortUrlModelTypeTradeGroup",
-                "ShortUrlModelTypeDashboard"
+                "ShortUrlModelTypeDashboard",
+                "ShortUrlModelTypeDashboardLayout"
             ]
         },
         "services.Stripe": {
@@ -24880,7 +25593,7 @@
                     "type": "integer"
                 },
                 "language": {
-                    "type": "string"
+                    "$ref": "#/definitions/services.Locale"
                 },
                 "name": {
                     "type": "string"
@@ -25792,7 +26505,9 @@
             "type": "object",
             "properties": {
                 "current_page": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
                 },
                 "data": {
                     "type": "array",
@@ -25977,47 +26692,6 @@
                 "TransactionStatusPending"
             ]
         },
-        "services.TransactionsListPagination": {
-            "type": "object",
-            "properties": {
-                "current_page": {
-                    "type": "integer"
-                },
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.Transaction"
-                    }
-                },
-                "defaultSort": {
-                    "type": "boolean"
-                },
-                "last_page": {
-                    "type": "integer"
-                },
-                "per_page": {
-                    "type": "integer"
-                },
-                "per_page_limit": {
-                    "type": "integer"
-                },
-                "sortBy": {
-                    "type": "string"
-                },
-                "sortDesc": {
-                    "type": "boolean"
-                },
-                "sort_fields": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "total": {
-                    "type": "integer"
-                }
-            }
-        },
         "services.UIData": {
             "type": "object",
             "properties": {
@@ -26115,7 +26789,7 @@
                     "type": "string"
                 },
                 "language": {
-                    "type": "string"
+                    "$ref": "#/definitions/services.Locale"
                 },
                 "last_api_call_at": {
                     "type": "string"

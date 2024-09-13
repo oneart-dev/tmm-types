@@ -13,13 +13,13 @@ import {
   ControllersAnalyzerNotesResponse,
   ControllersAnalyzerWeekResponse,
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesTradeCountByWeek,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessString,
   ControllersApiWarningResponse,
-  ControllersTradeChartDrawingsResponse,
   ControllersUnauthorizedResponse,
   DtoAnalyzerNoteForm,
   DtoSymbolChartForm,
-  ServicesAnalyzerWeekListResponse,
   ServicesTradeChartResponse,
   ServicesValidationErrorResponse,
 } from "./data-contracts";
@@ -233,7 +233,7 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
     params: RequestParams = {},
   ) =>
     this.request<
-      ServicesAnalyzerWeekListResponse,
+      ControllersApiSuccessArrayServicesTradeCountByWeek,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/analyzer/week-list`,
@@ -250,19 +250,19 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @tags analyzer
    * @name ChartDataCreate
    * @summary get data for chart
-   * @request POST:/analyzer/{ticker}/chart-data
+   * @request POST:/analyzer/{symbol}/chart-data
    * @secure
    */
-  chartDataCreate = (ticker: string, params: RequestParams = {}) =>
+  chartDataCreate = (symbol: string, params: RequestParams = {}) =>
     this.request<
-      ControllersTradeChartDrawingsResponse,
+      ControllersApiSuccessString,
       | ServicesValidationErrorResponse
       | ControllersUnauthorizedResponse
       | ControllersApiWarningResponse
       | string
       | ControllersApiErrorResponse
     >({
-      path: `/analyzer/${ticker}/chart-data`,
+      path: `/analyzer/${symbol}/chart-data`,
       method: "POST",
       secure: true,
       type: ContentType.Json,

@@ -1,7 +1,3 @@
-export interface ControllersAPiKeyCreateResponse {
-    data?: ServicesApiKey;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersAnalyzerNotesResponse {
     data?: Record<string, ServicesAnalyzerNote[]>;
     status?: ControllersResponseStatusMessage;
@@ -16,12 +12,44 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiKeysList {
+export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesDashboard {
+    data?: ServicesDashboard[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesOrder {
+    data?: ServicesOrder[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesTag {
+    data?: ServicesTag[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessArrayServicesTeamTopRow {
     data?: ServicesTeamTopRow[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesTradeCountByWeek {
+    data?: ServicesTradeCountByWeek[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesTransaction {
+    data?: ServicesTransaction[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessInt64 {
+    data?: number;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesApiKey {
+    data?: ServicesApiKey;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesDashboard {
+    data?: ServicesDashboard;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesNotificationTemplate {
@@ -40,8 +68,15 @@ export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
     data?: ServicesTeamWithStatsAndMember;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesTransactionDiscount {
+    data?: ServicesTransactionDiscount;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessString {
     data?: string;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessNoData {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessResponse {
@@ -71,20 +106,8 @@ export interface ControllersCategoryWithCounter {
     trades_user_count?: number;
     user_id?: number;
 }
-export interface ControllersDashboardCreateResponse {
-    data?: ServicesDashboard;
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersDashboardListResponse {
-    data?: ServicesDashboard[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersDiscountResponse {
-    data?: ServicesTransactionDiscount;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersExchange {
@@ -116,6 +139,18 @@ export interface ControllersHotCoinsResponse {
 }
 export interface ControllersLatestNotificationsResponse {
     data?: ServicesNotificationPublic[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersLoadBoardResponse {
+    dashboard?: ServicesDashboard;
+    errors?: Record<string, string>;
+    public_profile?: ServicesPublicProfile;
+    serverData?: Record<string, string>;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersLoadLayoutResponse {
+    data?: ServicesDashboard;
+    public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersLoginSuccessResponse {
@@ -190,10 +225,6 @@ export interface ControllersServerStatsResponse {
     data?: ServicesPublicStats;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersShortUrlResponse {
-    data?: string;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersSseConnectResponse {
     data?: string;
     status?: ControllersResponseStatusMessage;
@@ -219,17 +250,9 @@ export interface ControllersTopTradersSuccessResponse {
     monthly_top?: ServicesTop[];
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersTradeChartDrawingsResponse {
-    data?: string;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersTransactionCreateResponse {
     data?: any;
     redirect_url?: string;
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersTransactionsListResponse {
-    data?: ServicesTransaction[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersUIDataResponse {
@@ -285,6 +308,11 @@ export interface DtoCategoryListForm {
 export interface DtoDashboardCreateForm {
     name: string;
 }
+export interface DtoDashboardExportForm {
+    description?: string;
+    keep_filters: boolean;
+    name: string;
+}
 export interface DtoDashboardSort {
     id: number;
     order: number;
@@ -336,12 +364,12 @@ export interface DtoNewPasswordCredentials {
     token: string;
 }
 export interface DtoNotificationTemplateCreateForm {
-    hide_tmm: 0 | 1;
+    hide_tmm?: 0 | 1;
     name: string;
     template: string;
 }
 export interface DtoNotificationTemplateUpdateForm {
-    hide_tmm: 0 | 1;
+    hide_tmm?: 0 | 1;
     name: string;
     template: string;
 }
@@ -586,9 +614,6 @@ export interface ServicesAnalyzerNote {
     updated_at?: string;
     user_id?: number;
 }
-export interface ServicesAnalyzerWeekListResponse {
-    data?: ServicesTradeCountByWeek[];
-}
 export interface ServicesApiKey {
     created_at?: string;
     enabled?: ServicesApiKeyEnabledStatus;
@@ -657,14 +682,21 @@ export declare enum ServicesCVizorStatus {
     CVizorStatusEnabledPRO = 2
 }
 export interface ServicesDashboard {
+    description?: string;
     filters?: ServicesWidgetFilters;
     id?: number;
+    installs?: number;
     layouts?: string;
     name?: string;
     order?: number;
     over_limit?: boolean;
+    status?: ServicesDashboardStatus;
     user_id?: number;
     widgets?: ServicesWidget[];
+}
+export declare enum ServicesDashboardStatus {
+    DashboardStatusDefault = 0,
+    DashboardStatusExport = 1
 }
 export declare enum ServicesDefaultGroupField {
     DefaultGroupFieldOpenTime = 1,
@@ -684,7 +716,7 @@ export interface ServicesDiscordConnect {
     guild_id?: number;
     hash?: string;
     id?: number;
-    language?: string;
+    language?: ServicesLocale;
     name?: string;
     new_trade_notification?: ServicesDiscordNotification;
     open_template_id?: number;
@@ -780,6 +812,10 @@ export declare enum ServicesLoadLevel {
     LoadLevelMed = "med",
     LoadLevelHigh = "high",
     LoadLevelCritical = "critical"
+}
+export declare enum ServicesLocale {
+    LocaleRu = "ru",
+    LocaleEn = "en"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
@@ -923,6 +959,19 @@ export interface ServicesPaginationResponseArrayServicesNotificationTemplate {
 export interface ServicesPaginationResponseArrayServicesTeamMember {
     current_page?: number;
     data?: ServicesTeamMember[];
+    defaultSort?: boolean;
+    last_page?: number;
+    per_page?: number;
+    per_page_limit?: number;
+    sortBy?: string;
+    sortDesc?: boolean;
+    sort_fields?: string[];
+    status?: string;
+    total?: number;
+}
+export interface ServicesPaginationResponseArrayServicesTransaction {
+    current_page?: number;
+    data?: ServicesTransaction[];
     defaultSort?: boolean;
     last_page?: number;
     per_page?: number;
@@ -1077,7 +1126,8 @@ export interface ServicesShortUrl {
 export declare enum ServicesShortUrlModelType {
     ShortUrlModelTypeTrade = "Trade",
     ShortUrlModelTypeTradeGroup = "TradeGroup",
-    ShortUrlModelTypeDashboard = "Dashboard"
+    ShortUrlModelTypeDashboard = "Dashboard",
+    ShortUrlModelTypeDashboardLayout = "DashboardLayout"
 }
 export interface ServicesStripe {
     billing_cycle?: ServicesStripeBillingCycle;
@@ -1213,7 +1263,7 @@ export interface ServicesTelegramConnect {
     execute_template_id?: number;
     hash?: string;
     id?: number;
-    language?: string;
+    language?: ServicesLocale;
     name?: string;
     new_trade_notification?: ServicesTelegramNotification;
     open_template_id?: number;
@@ -1579,18 +1629,6 @@ export declare enum ServicesTransactionStatus {
     TransactionStatusCreated = "created",
     TransactionStatusPending = "pending"
 }
-export interface ServicesTransactionsListPagination {
-    current_page?: number;
-    data?: ServicesTransaction[];
-    defaultSort?: boolean;
-    last_page?: number;
-    per_page?: number;
-    per_page_limit?: number;
-    sortBy?: string;
-    sortDesc?: boolean;
-    sort_fields?: string[];
-    total?: number;
-}
 export interface ServicesUIData {
     data?: string;
     id?: number;
@@ -1621,7 +1659,7 @@ export interface ServicesUserWithRelations {
     guides_progress?: ServicesGuideProgress;
     id?: number;
     invite_code?: string;
-    language?: string;
+    language?: ServicesLocale;
     last_api_call_at?: string;
     league?: number;
     limits?: ServicesUserLimits;

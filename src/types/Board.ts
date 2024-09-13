@@ -11,13 +11,18 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesDashboard,
+  ControllersApiSuccessInt64,
+  ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesDashboard,
+  ControllersApiSuccessString,
   ControllersApiWarningResponse,
-  ControllersDashboardCreateResponse,
-  ControllersDashboardListResponse,
-  ControllersShortUrlResponse,
+  ControllersLoadBoardResponse,
+  ControllersLoadLayoutResponse,
   ControllersUnauthorizedResponse,
   DtoDashboardCreateForm,
+  DtoDashboardExportForm,
   DtoDashboardUpdateForm,
   DtoDashboardsSortForm,
   DtoWidgetCreateForm,
@@ -29,7 +34,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Dashboard list include widgets attached to dashboard
+   * @description Dashboard list including widgets attached to dashboard
    *
    * @tags dashboard
    * @name BoardList
@@ -39,7 +44,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   boardList = (params: RequestParams = {}) =>
     this.request<
-      ControllersDashboardListResponse,
+      ControllersApiSuccessArrayServicesDashboard,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/board`,
@@ -50,17 +55,17 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Create new dashboard
+   * @description Create new empty dashboard with specified name If user reached dashboards limit throws error
    *
    * @tags dashboard
    * @name BoardUpdate
-   * @summary add dashboard
+   * @summary Create dashboard
    * @request PUT:/board
    * @secure
    */
   boardUpdate = (payload: DtoDashboardCreateForm, params: RequestParams = {}) =>
     this.request<
-      ControllersDashboardCreateResponse,
+      ControllersApiSuccessServicesDashboard,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/board`,
@@ -193,17 +198,15 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/board/counter/dashboard/${id}`,
-        method: "GET",
-        query: query,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessInt64, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/counter/dashboard/${id}`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Returning count of trades with supplied new filters and dashboard filters as default
    *
@@ -326,17 +329,77 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
+    this.request<ControllersApiSuccessInt64, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/counter/widget/${id}`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Load exported dashboard layout using short url
+   *
+   * @tags dashboard
+   * @name LayoutDetail
+   * @summary Load dashboard layout
+   * @request GET:/board/layout/{code}
+   * @secure
+   */
+  layoutDetail = (code: string, params: RequestParams = {}) =>
+    this.request<ControllersLoadLayoutResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
       {
-        path: `/board/counter/widget/${id}`,
+        path: `/board/layout/${code}`,
         method: "GET",
-        query: query,
         secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
       },
     );
+  /**
+   * @description Install dashboard layout
+   *
+   * @tags dashboard
+   * @name LayoutInstallCreate
+   * @summary Install dashboard layout
+   * @request POST:/board/layout/{code}/install
+   * @secure
+   */
+  layoutInstallCreate = (code: string, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesDashboard,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/board/layout/${code}/install`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description List exported by user dashboard layouts
+   *
+   * @tags dashboard
+   * @name LayoutsList
+   * @summary Dashboard layouts list
+   * @request GET:/board/layouts
+   * @secure
+   */
+  layoutsList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesDashboard,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/board/layouts`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Load all dashboard widgets in bulk
    *
@@ -345,16 +408,14 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Load widgets in bulk
    * @request GET:/board/public/{code}/load
    */
-  publicLoadDetail = (id: number, code: string, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/board/public/${code}/load`,
-        method: "GET",
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+  publicLoadDetail = (code: string, params: RequestParams = {}) =>
+    this.request<ControllersLoadBoardResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/public/${code}/load`,
+      method: "GET",
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Send list of dashboard ids with order to update dashboard order
    *
@@ -365,17 +426,15 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   sortCreate = (payload: DtoDashboardsSortForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/board/sort`,
-        method: "POST",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/sort`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Load widget without creating or saving. Using for preview
    *
@@ -396,7 +455,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Create new widget attached to dashboard by ID
+   * @description Create new widget attached to dashboard by ID If user reached widget limit throws error
    *
    * @tags dashboard
    * @name WidgetUpdate
@@ -446,7 +505,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   widgetDelete = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | void | string | ControllersApiErrorResponse
     >({
       path: `/board/widget/${id}`,
@@ -466,17 +525,15 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   boardCreate = (id: number, payload: DtoDashboardUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/board/${id}`,
-        method: "POST",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/${id}`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Delete dashboard and all widgets attached to it
    *
@@ -488,7 +545,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   boardDelete = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | void | string | ControllersApiErrorResponse
     >({
       path: `/board/${id}`,
@@ -509,7 +566,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   cloneCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersDashboardCreateResponse,
+      ControllersApiSuccessServicesDashboard,
       ControllersUnauthorizedResponse | void | string | ControllersApiErrorResponse
     >({
       path: `/board/${id}/clone`,
@@ -520,11 +577,33 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Load all dashboard widgets in bulk
+   * @description Export dashboard layout and return short url
+   *
+   * @tags dashboard
+   * @name ExportCreate
+   * @summary Export dashboard layout
+   * @request POST:/board/{id}/export
+   * @secure
+   */
+  exportCreate = (id: number, payload: DtoDashboardExportForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessString,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/board/${id}/export`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description This endpoint streams data using "Transfer-Encoding: chunked", allowing asynchronous loading of widgets in real-time. Each chunk of data is a JSON object representing a widget's data or errors. The chunks are separated by the custom delimiter "\x02\x03\x04END\x04\x03\x02". Clients should accumulate the streamed data until this delimiter is encountered. Once the delimiter is detected, the client can safely split the chunks, parse each JSON object, and process the widget's data. **Client-side logic**: - Listen for data chunks from the server. - Accumulate the response until the delimiter is detected. - Split the response using the delimiter and process each JSON chunk individually. - Handle potential parsing errors for incomplete or malformed JSON objects. **Note**: The widgets are loaded asynchronously, so the client should wait for all chunks to be received before assuming that all widget data is complete.
    *
    * @tags dashboard
    * @name LoadDetail
-   * @summary Load widgets in bulk
+   * @summary Load dashboard widgets asynchronously
    * @request GET:/board/{id}/load
    * @secure
    */
@@ -551,7 +630,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   shortLinkCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersShortUrlResponse,
+      ControllersApiSuccessString,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/board/${id}/short-link`,

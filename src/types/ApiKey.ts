@@ -10,10 +10,11 @@
  */
 
 import {
-  ControllersAPiKeyCreateResponse,
   ControllersApiErrorResponse,
-  ControllersApiKeysList,
+  ControllersApiSuccessArrayServicesApiKey,
+  ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesApiKey,
   ControllersApiWarningResponse,
   ControllersUnauthorizedResponse,
   DtoApiKeyCreateForm,
@@ -35,7 +36,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   apiKeyUpdate = (payload: DtoApiKeyCreateForm, params: RequestParams = {}) =>
     this.request<
-      ControllersAPiKeyCreateResponse,
+      ControllersApiSuccessServicesApiKey,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key`,
@@ -57,14 +58,42 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   apiKeyList = (
     query?: {
-      /** Page */
+      exchange_id?:
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9
+        | 10
+        | 40
+        | 11
+        | 21
+        | 23
+        | 24
+        | 25
+        | 12
+        | 22
+        | 13
+        | 14
+        | 15
+        | 32
+        | 33;
+      from_id?: number;
+      frozen?: boolean;
+      name?: string;
+      not_frozen?: boolean;
+      /**
+       * @min 1
+       * @example 1
+       */
       page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /** Descending order */
-      sortDesc?: boolean;
-      /** Items per page */
       itemsPerPage?: number;
+      sortBy?: string;
+      sortDesc?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -89,7 +118,10 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * @secure
    */
   listDetail = (userId: number, params: RequestParams = {}) =>
-    this.request<ControllersApiKeysList, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<
+      ControllersApiSuccessArrayServicesApiKey,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
       path: `/api-key/list/${userId}`,
       method: "GET",
       secure: true,
@@ -170,7 +202,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   freezeCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key/${id}/freeze`,
@@ -232,7 +264,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   repairCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key/${id}/repair`,
@@ -253,7 +285,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   toggleCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key/${id}/toggle`,
@@ -274,7 +306,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   toggleExtendedCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key/${id}/toggle-extended`,

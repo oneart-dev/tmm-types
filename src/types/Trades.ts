@@ -11,15 +11,17 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesOrder,
+  ControllersApiSuccessArrayServicesTag,
+  ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessString,
   ControllersApiWarningResponse,
   ControllersCategoriesListResponse,
   ControllersOrdersListResponse,
   ControllersPublicTradeGroupResponse,
   ControllersPublicTradeResponse,
-  ControllersShortUrlResponse,
   ControllersTagsResponse,
-  ControllersTradeChartDrawingsResponse,
   ControllersUnauthorizedResponse,
   DtoCategoryListForm,
   DtoGlobalChartDataForm,
@@ -52,24 +54,13 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   tradesList = (
     query?: {
       /**
-       * Page
-       * @default 1
+       * @min 1
+       * @example 1
        */
       page?: number;
-      /** Sort by field */
-      sortBy?: string;
-      /**
-       * Descending order
-       * @default true
-       */
-      sortDesc?: boolean;
-      /**
-       * Items per page
-       * @min 1
-       * @max 150
-       * @default 20
-       */
       itemsPerPage?: number;
+      sortBy?: string;
+      sortDesc?: boolean;
       api_key_id?: number[];
       /**
        * string based params separated by ":"
@@ -200,7 +191,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   archiveAllCreate = (params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/archive-all`,
@@ -305,13 +296,21 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * @request GET:/trades/day/orders
    * @secure
    */
-  dayOrdersList = (apiKeyId: number, date: string, symbol: string, params: RequestParams = {}) =>
+  dayOrdersList = (
+    query: {
+      api_key_id: number;
+      date: string;
+      symbol: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ControllersOrdersListResponse,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/day/orders`,
       method: "GET",
+      query: query,
       secure: true,
       type: ContentType.Json,
       format: "json",
@@ -465,7 +464,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   globalSaveChartCreate = (id: number, ticker: string, payload: DtoGlobalChartDataForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/global/${ticker}/save-chart`,
@@ -487,7 +486,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   mergeCreate = (payload: DtoTradesMergeForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/merge`,
@@ -558,7 +557,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get trade preview
+   * @description Get trade preview. Preview is cached and regenerated only if
    *
    * @tags trades
    * @name PublicPreviewDetail
@@ -576,7 +575,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Generate short link for list of trade IDs. It will use privacy settings from the public profile settings.
+   * @description Generate short link for list of trade IDs. It will use privacy settings from the public profile settings. It will return same link for the same trades.
    *
    * @tags trades
    * @name ShortLinkGroupCreate
@@ -586,7 +585,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   shortLinkGroupCreate = (payload: DtoTradeGroupShortLink, params: RequestParams = {}) =>
     this.request<
-      ControllersShortUrlResponse,
+      ControllersApiSuccessString,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/short-link-group`,
@@ -619,7 +618,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update tags for all selected trades
+   * @description Update tags for all selected trades. You can expect to receive an update for each trade through the SSE channel.
    *
    * @tags trades
    * @name TagsCreate
@@ -629,7 +628,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   tagsCreate = (payload: DtoTradeUpdateTagsBulkForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/tags`,
@@ -641,7 +640,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Send list of tags ids with order to update entry reasons order
+   * @description Send list of tags ids with order to update tags order
    *
    * @tags trades
    * @name TagsSortCreate
@@ -674,7 +673,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   tagsCreate2 = (id: number, payload: DtoTagForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/tags/${id}`,
@@ -729,7 +728,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description user drawings on the chart
+   * @description user drawings on the chart in JSON format. Returns unparsed JSON
    *
    * @tags trades
    * @name ChartDataCreate
@@ -739,7 +738,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   chartDataCreate = (id: number, payload: DtoTradeDrawingForm, params: RequestParams = {}) =>
     this.request<
-      ControllersTradeChartDrawingsResponse,
+      ControllersApiSuccessString,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/chart-data`,
@@ -761,7 +760,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   closeCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/close`,
@@ -795,7 +794,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description List of orders for trade
+   * @description List of orders for the trade
    *
    * @tags trades
    * @name OrdersDetail
@@ -805,7 +804,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   ordersDetail = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersOrdersListResponse,
+      ControllersApiSuccessArrayServicesOrder,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/orders`,
@@ -816,17 +815,17 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Save chart drawings for trade.
+   * @description Save chart drawings for the trade.
    *
    * @tags trades
    * @name SaveChartCreate
-   * @summary Save chart drawings for trade.
+   * @summary Save chart drawings for the trade.
    * @request POST:/trades/{id}/save-chart
    * @secure
    */
   saveChartCreate = (id: number, payload: DtoTradeChartDataForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/save-chart`,
@@ -838,7 +837,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Generate short link for trade. It will use privacy settings from the public profile settings.
+   * @description Generate short link for trade. It will use privacy settings from the public profile settings. It will return same link for the same trade.
    *
    * @tags trades
    * @name ShortLinkCreate
@@ -848,7 +847,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   shortLinkCreate = (id: number, params: RequestParams = {}) =>
     this.request<
-      ControllersShortUrlResponse,
+      ControllersApiSuccessString,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/short-link`,
@@ -871,7 +870,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   tagsCreate3 = (id: number, payload: DtoTradeUpdateTagsForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessArrayServicesTag,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/tags`,
@@ -893,7 +892,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   updateCreate = (id: number, payload: DtoTradeUpdateDescForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessResponse,
+      ControllersApiSuccessNoData,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/${id}/update`,
