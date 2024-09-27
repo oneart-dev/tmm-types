@@ -23858,6 +23858,9 @@
                 "over_limit": {
                     "type": "boolean"
                 },
+                "short_url": {
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/services.DashboardStatus"
                 },
@@ -26998,9 +27001,13 @@
                 "income_usdt_api_keys",
                 "income_usdt_stacked_by_api_keys",
                 "tag_profit",
+                "exit_tag_loss",
                 "tag_percent",
+                "exit_tag_percent",
                 "tag_percent_combinations",
+                "exit_tag_percent_combinations",
                 "tag_win_rate_combinations",
+                "exit_tag_win_rate_combinations",
                 "income_usdt_accumulative",
                 "income_usdt_accumulative_by_api_key",
                 "volume_usdt_accumulative",
@@ -27084,9 +27091,13 @@
                 "WidgetSourceIncomeByApiKey",
                 "WidgetSourceIncomeStackedByApiKey",
                 "WidgetSourceIncomeByEntryReasons",
+                "WidgetSourceIncomeByExitReasons",
                 "WidgetSourcePercentByEntryReasons",
+                "WidgetSourcePercentByExitReasons",
                 "WidgetSourceEntryReasonCombination",
+                "WidgetSourceExitReasonCombination",
                 "WidgetSourceWinRateEntryReasonCombination",
+                "WidgetSourceWinRateExitReasonCombination",
                 "WidgetSourceIncomeAccumulative",
                 "WidgetSourceIncomeAccumulativeByApiKey",
                 "WidgetSourceVolumeAccumulative",

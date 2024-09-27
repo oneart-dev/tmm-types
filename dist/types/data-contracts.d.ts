@@ -690,6 +690,7 @@ export interface ServicesDashboard {
     name?: string;
     order?: number;
     over_limit?: boolean;
+    short_url?: string;
     status?: ServicesDashboardStatus;
     user_id?: number;
     widgets?: ServicesWidget[];
@@ -1747,9 +1748,13 @@ export declare enum ServicesWidgetSource {
     WidgetSourceIncomeByApiKey = "income_usdt_api_keys",
     WidgetSourceIncomeStackedByApiKey = "income_usdt_stacked_by_api_keys",
     WidgetSourceIncomeByEntryReasons = "tag_profit",
+    WidgetSourceIncomeByExitReasons = "exit_tag_loss",
     WidgetSourcePercentByEntryReasons = "tag_percent",
+    WidgetSourcePercentByExitReasons = "exit_tag_percent",
     WidgetSourceEntryReasonCombination = "tag_percent_combinations",
+    WidgetSourceExitReasonCombination = "exit_tag_percent_combinations",
     WidgetSourceWinRateEntryReasonCombination = "tag_win_rate_combinations",
+    WidgetSourceWinRateExitReasonCombination = "exit_tag_win_rate_combinations",
     WidgetSourceIncomeAccumulative = "income_usdt_accumulative",
     WidgetSourceIncomeAccumulativeByApiKey = "income_usdt_accumulative_by_api_key",
     WidgetSourceVolumeAccumulative = "volume_usdt_accumulative",
