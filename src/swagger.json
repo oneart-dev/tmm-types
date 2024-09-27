@@ -27001,7 +27001,7 @@
                 "income_usdt_api_keys",
                 "income_usdt_stacked_by_api_keys",
                 "tag_profit",
-                "exit_tag_loss",
+                "exit_tag_profit",
                 "tag_percent",
                 "exit_tag_percent",
                 "tag_percent_combinations",

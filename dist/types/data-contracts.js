@@ -439,7 +439,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceIncomeByApiKey"] = "income_usdt_api_keys";
     ServicesWidgetSource["WidgetSourceIncomeStackedByApiKey"] = "income_usdt_stacked_by_api_keys";
     ServicesWidgetSource["WidgetSourceIncomeByEntryReasons"] = "tag_profit";
-    ServicesWidgetSource["WidgetSourceIncomeByExitReasons"] = "exit_tag_loss";
+    ServicesWidgetSource["WidgetSourceIncomeByExitReasons"] = "exit_tag_profit";
     ServicesWidgetSource["WidgetSourcePercentByEntryReasons"] = "tag_percent";
     ServicesWidgetSource["WidgetSourcePercentByExitReasons"] = "exit_tag_percent";
     ServicesWidgetSource["WidgetSourceEntryReasonCombination"] = "tag_percent_combinations";

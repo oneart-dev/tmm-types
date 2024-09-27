@@ -1748,7 +1748,7 @@ export declare enum ServicesWidgetSource {
     WidgetSourceIncomeByApiKey = "income_usdt_api_keys",
     WidgetSourceIncomeStackedByApiKey = "income_usdt_stacked_by_api_keys",
     WidgetSourceIncomeByEntryReasons = "tag_profit",
-    WidgetSourceIncomeByExitReasons = "exit_tag_loss",
+    WidgetSourceIncomeByExitReasons = "exit_tag_profit",
     WidgetSourcePercentByEntryReasons = "tag_percent",
     WidgetSourcePercentByExitReasons = "exit_tag_percent",
     WidgetSourceEntryReasonCombination = "tag_percent_combinations",
