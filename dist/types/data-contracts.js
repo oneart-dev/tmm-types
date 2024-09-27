@@ -456,6 +456,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourcePayOffRatio"] = "pay_off_ratio";
     ServicesWidgetSource["WidgetSourceProfitFactor"] = "profit_factor";
     ServicesWidgetSource["WidgetSourceProfitFactorPerSymbol"] = "profit_factor_per_symbol";
+    ServicesWidgetSource["WidgetSourceWinRatePerSymbol"] = "win_rate_per_symbol";
     ServicesWidgetSource["WidgetSourceCounter"] = "counter";
     ServicesWidgetSource["WidgetSourceCounterByApiKey"] = "counter_api_keys";
     ServicesWidgetSource["WidgetSourceCommission"] = "commission_usdt";

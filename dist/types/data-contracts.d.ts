@@ -1765,6 +1765,7 @@ export declare enum ServicesWidgetSource {
     WidgetSourcePayOffRatio = "pay_off_ratio",
     WidgetSourceProfitFactor = "profit_factor",
     WidgetSourceProfitFactorPerSymbol = "profit_factor_per_symbol",
+    WidgetSourceWinRatePerSymbol = "win_rate_per_symbol",
     WidgetSourceCounter = "counter",
     WidgetSourceCounterByApiKey = "counter_api_keys",
     WidgetSourceCommission = "commission_usdt",
