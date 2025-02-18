@@ -12,6 +12,7 @@
 import {
   ControllersApiErrorResponse,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesFilterPreset,
   ControllersFilterPresetsListResponse,
   ControllersUnauthorizedResponse,
   DtoFilterPresetCreateForm,
@@ -50,17 +51,18 @@ export class FilterPreset<SecurityDataType = unknown> extends HttpClient<Securit
    * @secure
    */
   filterPresetUpdate = (payload: DtoFilterPresetCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/filter-preset`,
-        method: "PUT",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<
+      ControllersApiSuccessServicesFilterPreset,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/filter-preset`,
+      method: "PUT",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Create filter preset
    *

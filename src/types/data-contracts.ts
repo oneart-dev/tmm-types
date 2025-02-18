@@ -90,8 +90,20 @@ export interface ControllersApiSuccessServicesDashboard {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesFilterPreset {
+  data?: ServicesFilterPreset;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesNotificationTemplate {
   data?: ServicesNotificationTemplate;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesTag {
+  data?: ServicesTag;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -444,7 +456,7 @@ export interface DtoApiKeyCreateForm {
    * @example 1
    */
   enabled?: number;
-  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
+  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
   /**
    * @minLength 1
    * @maxLength 255
@@ -917,16 +929,33 @@ export interface DtoSymbolChartForm {
 }
 
 export interface DtoTagForm {
+  /**
+   * @minLength 5
+   * @maxLength 11
+   * @example "#ffffff"
+   */
+  color_bg?: string;
   /** @example 1 */
   column?: 1 | 2;
   id?: number;
+  /** @example 1 */
+  is_group?: 0 | 1;
   /** @example "catching knife" */
   name?: string;
+  /**
+   * @min 0
+   * @example 1
+   */
+  score?: number;
+  tags_id?: number[];
 }
 
 export interface DtoTagsSort {
   id: number;
-  order: number;
+  /** @min 0 */
+  order?: number;
+  /** @min 0 */
+  score?: number;
 }
 
 export interface DtoTagsSortForm {
@@ -1037,6 +1066,8 @@ export interface DtoTelegramConnectForm {
   preview?: 0 | 1 | 2;
   /** @example 1 */
   privacy_mode?: 0 | 1;
+  /** @example 1 */
+  risk_notification?: 0 | 1;
 }
 
 export interface DtoTradeChartDataForm {
@@ -1262,7 +1293,7 @@ export interface DtoUserUpdateForm {
   /** @example 1 */
   default_group_field?: 1 | 2;
   /** @example "1h" */
-  default_time_frame?: "1m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
+  default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
@@ -1279,6 +1310,8 @@ export interface DtoUserUpdateForm {
    * @example "12345678"
    */
   password: string;
+  /** @example "monday" */
+  start_of_week?: "sunday" | "monday";
   /** @example "UTC" */
   timezone: string;
 }
@@ -1499,6 +1532,12 @@ export interface ServicesDiscordConnect {
    */
   privacy_mode?: ServicesDiscordConnectPrivacy;
   /**
+   * Risk management notifications
+   * 0 - disabled
+   * 1 - enabled
+   */
+  risk_notification?: ServicesTelegramConnectRiskNotification;
+  /**
    * Connection status
    * 1 - new
    * 2 - connected
@@ -1534,6 +1573,7 @@ export enum ServicesExchangeID {
   EXCHANGE_BYBIT_INVERSE = 5,
   EXCHANGE_BYBIT_SPOT = 6,
   EXCHANGE_BITGET_FUTURES = 7,
+  EXCHANGE_BITGET_SPOT = 41,
   EXCHANGE_OKX_PERP_SWAPS = 8,
   EXCHANGE_OKX_SPOT = 9,
   EXCHANGE_BINGX_FUTURES = 10,
@@ -2053,6 +2093,8 @@ export enum ServicesStudentStatus {
 }
 
 export interface ServicesTag {
+  /** @example "#ffffff" */
+  color_bg?: string;
   /**
    * 0 - entry reason
    * 1 - exit reason
@@ -2060,10 +2102,13 @@ export interface ServicesTag {
    */
   column?: ServicesTagColumn;
   id?: number;
+  /** @example 0 */
+  is_group?: number;
   /** @example "catching knife" */
   name?: string;
   /** @example 98 */
   score?: number;
+  tags?: ServicesTag[];
   /** @example 1 */
   user_id?: number;
 }
@@ -2197,6 +2242,12 @@ export interface ServicesTelegramConnect {
    */
   privacy_mode?: ServicesTelegramConnectPrivacy;
   /**
+   * Risk management notifications
+   * 0 - disabled
+   * 1 - enabled
+   */
+  risk_notification?: ServicesTelegramConnectRiskNotification;
+  /**
    * Connection status
    * 1 - new
    * 2 - connected
@@ -2216,6 +2267,11 @@ export enum ServicesTelegramConnectPreview {
 export enum ServicesTelegramConnectPrivacy {
   TelegramConnectPrivacyEnabled = 1,
   TelegramConnectPrivacyDisabled = 0,
+}
+
+export enum ServicesTelegramConnectRiskNotification {
+  TelegramConnectRiskNotificationEnabled = 1,
+  TelegramConnectRiskNotificationDisabled = 0,
 }
 
 export enum ServicesTelegramConnectStatus {
@@ -2292,6 +2348,7 @@ export interface ServicesTopWinner {
 
 export interface ServicesTrade {
   api_key_id?: number;
+  archive?: number;
   avg_price_entry?: string;
   avg_price_exit?: string;
   category_id?: number;
@@ -2318,6 +2375,7 @@ export interface ServicesTrade {
   net_profit?: string;
   open_qty?: string;
   open_time?: number;
+  /** SubAccount       string          `json:"sub_account"` */
   orders?: ServicesOrder[];
   peak_qty?: string;
   percent?: string;
@@ -2328,7 +2386,6 @@ export interface ServicesTrade {
   risk_management_log?: ServicesRiskManagementLog[];
   short_url?: ServicesShortUrl;
   side?: ServicesTradeSide;
-  sub_account?: string;
   symbol?: string;
   t_t_tools_data?: string;
   t_t_tools_data_close?: string;
@@ -2412,6 +2469,7 @@ export interface ServicesTradeFilters {
   category_params?: string;
   closeBetween?: string;
   daysOfWeek?: number[];
+  daysOfWeek_params?: string;
   durationBetween?: string;
   durationType?: ServicesTradeDurationType;
   exit_tags?: number[];
@@ -2442,6 +2500,7 @@ export interface ServicesTradeFilters {
   volumeBetween?: string;
   volumeFrom?: number;
   volumeTo?: number;
+  widget_mode?: boolean;
 }
 
 export enum ServicesTradeGroupBy {
@@ -2614,6 +2673,11 @@ export interface ServicesUserReferralSummary {
   referral_counter_member?: number;
 }
 
+export enum ServicesUserStartOfWeek {
+  UserStartOfWeekSunday = "sunday",
+  UserStartOfWeekMonday = "monday",
+}
+
 export interface ServicesUserWithRelations {
   api_keys?: ServicesApiKey[];
   api_keys_list?: ServicesApiKey[];
@@ -2639,7 +2703,9 @@ export interface ServicesUserWithRelations {
   referral?: string;
   referral_code?: string;
   referred_by?: number;
+  session_reset_at?: number;
   shard_id?: number;
+  start_of_week?: ServicesUserStartOfWeek;
   stripe?: ServicesStripe;
   theme?: number;
   timezone?: string;

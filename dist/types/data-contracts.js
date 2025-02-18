@@ -73,6 +73,7 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_INVERSE"] = 5] = "EXCHANGE_BYBIT_INVERSE";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_SPOT"] = 6] = "EXCHANGE_BYBIT_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BITGET_FUTURES"] = 7] = "EXCHANGE_BITGET_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_BITGET_SPOT"] = 41] = "EXCHANGE_BITGET_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_PERP_SWAPS"] = 8] = "EXCHANGE_OKX_PERP_SWAPS";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_SPOT"] = 9] = "EXCHANGE_OKX_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_FUTURES"] = 10] = "EXCHANGE_BINGX_FUTURES";
@@ -273,6 +274,11 @@ export var ServicesTelegramConnectPrivacy;
     ServicesTelegramConnectPrivacy[ServicesTelegramConnectPrivacy["TelegramConnectPrivacyEnabled"] = 1] = "TelegramConnectPrivacyEnabled";
     ServicesTelegramConnectPrivacy[ServicesTelegramConnectPrivacy["TelegramConnectPrivacyDisabled"] = 0] = "TelegramConnectPrivacyDisabled";
 })(ServicesTelegramConnectPrivacy || (ServicesTelegramConnectPrivacy = {}));
+export var ServicesTelegramConnectRiskNotification;
+(function (ServicesTelegramConnectRiskNotification) {
+    ServicesTelegramConnectRiskNotification[ServicesTelegramConnectRiskNotification["TelegramConnectRiskNotificationEnabled"] = 1] = "TelegramConnectRiskNotificationEnabled";
+    ServicesTelegramConnectRiskNotification[ServicesTelegramConnectRiskNotification["TelegramConnectRiskNotificationDisabled"] = 0] = "TelegramConnectRiskNotificationDisabled";
+})(ServicesTelegramConnectRiskNotification || (ServicesTelegramConnectRiskNotification = {}));
 export var ServicesTelegramConnectStatus;
 (function (ServicesTelegramConnectStatus) {
     ServicesTelegramConnectStatus[ServicesTelegramConnectStatus["TelegramConnectStatusNew"] = 1] = "TelegramConnectStatusNew";
@@ -400,6 +406,11 @@ export var ServicesTransactionStatus;
     ServicesTransactionStatus["TransactionStatusCreated"] = "created";
     ServicesTransactionStatus["TransactionStatusPending"] = "pending";
 })(ServicesTransactionStatus || (ServicesTransactionStatus = {}));
+export var ServicesUserStartOfWeek;
+(function (ServicesUserStartOfWeek) {
+    ServicesUserStartOfWeek["UserStartOfWeekSunday"] = "sunday";
+    ServicesUserStartOfWeek["UserStartOfWeekMonday"] = "monday";
+})(ServicesUserStartOfWeek || (ServicesUserStartOfWeek = {}));
 export var ServicesWidgetFiltersSortBy;
 (function (ServicesWidgetFiltersSortBy) {
     ServicesWidgetFiltersSortBy["WidgetFiltersSortByValueAsc"] = "value_asc";

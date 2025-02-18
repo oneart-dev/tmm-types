@@ -173,6 +173,27 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       },
     );
   /**
+   * @description Sign out user from all devices including current device
+   *
+   * @tags auth
+   * @name SessionsResetCreate
+   * @summary Sign out user from all devices
+   * @request POST:/auth/sessions-reset
+   * @secure
+   */
+  sessionsResetCreate = (payload: DtoPasswordResetCredentials, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | string | ControllersApiErrorResponse>(
+      {
+        path: `/auth/sessions-reset`,
+        method: "POST",
+        body: payload,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      },
+    );
+  /**
    * @description Link from verification email point to this endpoint. Link valid for 1 hour If header "Accept" is "application/json" then response is json Overwise response is redirect `301` to dashboard
    *
    * @tags auth

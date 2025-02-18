@@ -52,8 +52,16 @@ export interface ControllersApiSuccessServicesDashboard {
     data?: ServicesDashboard;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesFilterPreset {
+    data?: ServicesFilterPreset;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesNotificationTemplate {
     data?: ServicesNotificationTemplate;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesTag {
+    data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesTeam {
@@ -273,7 +281,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
     extra_info?: string;
     key_private?: string;
     key_public: string;
@@ -438,13 +446,18 @@ export interface DtoSymbolChartForm {
     user_id?: number;
 }
 export interface DtoTagForm {
+    color_bg?: string;
     column?: 1 | 2;
     id?: number;
+    is_group?: 0 | 1;
     name?: string;
+    score?: number;
+    tags_id?: number[];
 }
 export interface DtoTagsSort {
     id: number;
-    order: number;
+    order?: number;
+    score?: number;
 }
 export interface DtoTagsSortForm {
     tags: DtoTagsSort[];
@@ -482,6 +495,7 @@ export interface DtoTelegramConnectForm {
     open_template_id?: number;
     preview?: 0 | 1 | 2;
     privacy_mode?: 0 | 1;
+    risk_notification?: 0 | 1;
 }
 export interface DtoTradeChartDataForm {
     data?: string;
@@ -575,11 +589,12 @@ export interface DtoUserTheme {
 }
 export interface DtoUserUpdateForm {
     default_group_field?: 1 | 2;
-    default_time_frame?: "1m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
+    default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
     email: string;
     language: "ru" | "en";
     name: string;
     password: string;
+    start_of_week?: "sunday" | "monday";
     timezone: string;
 }
 export interface DtoWidgetCreateForm {
@@ -724,6 +739,7 @@ export interface ServicesDiscordConnect {
     owner_id?: number;
     preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesDiscordConnectPrivacy;
+    risk_notification?: ServicesTelegramConnectRiskNotification;
     status?: ServicesDiscordConnectStatus;
     updated_at?: string;
     user_id?: number;
@@ -751,6 +767,7 @@ export declare enum ServicesExchangeID {
     EXCHANGE_BYBIT_INVERSE = 5,
     EXCHANGE_BYBIT_SPOT = 6,
     EXCHANGE_BITGET_FUTURES = 7,
+    EXCHANGE_BITGET_SPOT = 41,
     EXCHANGE_OKX_PERP_SWAPS = 8,
     EXCHANGE_OKX_SPOT = 9,
     EXCHANGE_BINGX_FUTURES = 10,
@@ -1171,10 +1188,13 @@ export declare enum ServicesStudentStatus {
     StudentStatusRejected = 2
 }
 export interface ServicesTag {
+    color_bg?: string;
     column?: ServicesTagColumn;
     id?: number;
+    is_group?: number;
     name?: string;
     score?: number;
+    tags?: ServicesTag[];
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
@@ -1270,6 +1290,7 @@ export interface ServicesTelegramConnect {
     open_template_id?: number;
     preview?: ServicesTelegramConnectPreview;
     privacy_mode?: ServicesTelegramConnectPrivacy;
+    risk_notification?: ServicesTelegramConnectRiskNotification;
     status?: ServicesTelegramConnectStatus;
     updated_at?: string;
     user_id?: number;
@@ -1283,6 +1304,10 @@ export declare enum ServicesTelegramConnectPreview {
 export declare enum ServicesTelegramConnectPrivacy {
     TelegramConnectPrivacyEnabled = 1,
     TelegramConnectPrivacyDisabled = 0
+}
+export declare enum ServicesTelegramConnectRiskNotification {
+    TelegramConnectRiskNotificationEnabled = 1,
+    TelegramConnectRiskNotificationDisabled = 0
 }
 export declare enum ServicesTelegramConnectStatus {
     TelegramConnectStatusNew = 1,
@@ -1350,6 +1375,7 @@ export interface ServicesTopWinner {
 }
 export interface ServicesTrade {
     api_key_id?: number;
+    archive?: number;
     avg_price_entry?: string;
     avg_price_exit?: string;
     category_id?: number;
@@ -1386,7 +1412,6 @@ export interface ServicesTrade {
     risk_management_log?: ServicesRiskManagementLog[];
     short_url?: ServicesShortUrl;
     side?: ServicesTradeSide;
-    sub_account?: string;
     symbol?: string;
     t_t_tools_data?: string;
     t_t_tools_data_close?: string;
@@ -1465,6 +1490,7 @@ export interface ServicesTradeFilters {
     category_params?: string;
     closeBetween?: string;
     daysOfWeek?: number[];
+    daysOfWeek_params?: string;
     durationBetween?: string;
     durationType?: ServicesTradeDurationType;
     exit_tags?: number[];
@@ -1495,6 +1521,7 @@ export interface ServicesTradeFilters {
     volumeBetween?: string;
     volumeFrom?: number;
     volumeTo?: number;
+    widget_mode?: boolean;
 }
 export declare enum ServicesTradeGroupBy {
     TradeGroupByMinute = "minute",
@@ -1646,6 +1673,10 @@ export interface ServicesUserReferralSummary {
     referral_counter?: number;
     referral_counter_member?: number;
 }
+export declare enum ServicesUserStartOfWeek {
+    UserStartOfWeekSunday = "sunday",
+    UserStartOfWeekMonday = "monday"
+}
 export interface ServicesUserWithRelations {
     api_keys?: ServicesApiKey[];
     api_keys_list?: ServicesApiKey[];
@@ -1671,7 +1702,9 @@ export interface ServicesUserWithRelations {
     referral?: string;
     referral_code?: string;
     referred_by?: number;
+    session_reset_at?: number;
     shard_id?: number;
+    start_of_week?: ServicesUserStartOfWeek;
     stripe?: ServicesStripe;
     theme?: number;
     timezone?: string;

@@ -1262,6 +1262,7 @@
                             5,
                             6,
                             7,
+                            41,
                             8,
                             9,
                             10,
@@ -1288,6 +1289,7 @@
                             "EXCHANGE_BYBIT_INVERSE",
                             "EXCHANGE_BYBIT_SPOT",
                             "EXCHANGE_BITGET_FUTURES",
+                            "EXCHANGE_BITGET_SPOT",
                             "EXCHANGE_OKX_PERP_SWAPS",
                             "EXCHANGE_OKX_SPOT",
                             "EXCHANGE_BINGX_FUTURES",
@@ -2246,6 +2248,138 @@
                         "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api-key/{id}/orders-archive": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "If the orders archive is not downloaded, it will be downloaded again.\nAvailable only for admin and not all exchanges. Can take a long time.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-key"
+                ],
+                "summary": "force download of orders archive",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Api key id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -3726,6 +3860,119 @@
                         "in": "body",
                         "schema": {
                             "$ref": "#/definitions/dto.NewPasswordCredentials"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sessions-reset": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Sign out user from all devices including current device",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign out user from all devices",
+                "parameters": [
+                    {
+                        "description": "Password reset payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.PasswordResetCredentials"
                         }
                     }
                 ],
@@ -8113,7 +8360,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FilterPreset"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -12896,6 +13143,7 @@
                                 5,
                                 6,
                                 7,
+                                41,
                                 8,
                                 9,
                                 10,
@@ -16431,7 +16679,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_Tag"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -19043,6 +19291,126 @@
                 }
             }
         },
+        "/user/{code}/redeem": {
+            "post": {
+                "description": "Redeem promo code",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Redeem promo code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "promo code",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "301": {
+                        "description": "Moved Permanently",
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "security": [
@@ -20966,11 +21334,43 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_FilterPreset": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FilterPreset"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_NotificationTemplate": {
             "type": "object",
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.NotificationTemplate"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_Tag": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.Tag"
                 },
                 "status": {
                     "allOf": [
@@ -21921,6 +22321,7 @@
                         9,
                         10,
                         40,
+                        41,
                         11,
                         21,
                         12,
@@ -22711,6 +23112,12 @@
         "dto.TagForm": {
             "type": "object",
             "properties": {
+                "color_bg": {
+                    "type": "string",
+                    "maxLength": 11,
+                    "minLength": 5,
+                    "example": "#ffffff"
+                },
                 "column": {
                     "type": "integer",
                     "enum": [
@@ -22722,24 +23129,47 @@
                 "id": {
                     "type": "integer"
                 },
+                "is_group": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 1
+                },
                 "name": {
                     "type": "string",
                     "example": "catching knife"
+                },
+                "score": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "example": 1
+                },
+                "tags_id": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
         "dto.TagsSort": {
             "type": "object",
             "required": [
-                "id",
-                "order"
+                "id"
             ],
             "properties": {
                 "id": {
                     "type": "integer"
                 },
                 "order": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "score": {
+                    "type": "integer",
+                    "minimum": 0
                 }
             }
         },
@@ -22960,6 +23390,14 @@
                     "example": 1
                 },
                 "privacy_mode": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": 1
+                },
+                "risk_notification": {
                     "type": "integer",
                     "enum": [
                         0,
@@ -23460,7 +23898,10 @@
                 "default_time_frame": {
                     "type": "string",
                     "enum": [
+                        "1s",
+                        "5s",
                         "1m",
+                        "3m",
                         "5m",
                         "15m",
                         "30m",
@@ -23494,6 +23935,14 @@
                     "maxLength": 200,
                     "minLength": 8,
                     "example": "12345678"
+                },
+                "start_of_week": {
+                    "type": "string",
+                    "enum": [
+                        "sunday",
+                        "monday"
+                    ],
+                    "example": "monday"
                 },
                 "timezone": {
                     "type": "string",
@@ -23977,6 +24426,14 @@
                         }
                     ]
                 },
+                "risk_notification": {
+                    "description": "Risk management notifications\n0 - disabled\n1 - enabled",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.TelegramConnectRiskNotification"
+                        }
+                    ]
+                },
                 "status": {
                     "description": "Connection status\n1 - new\n2 - connected",
                     "allOf": [
@@ -24043,6 +24500,7 @@
                 5,
                 6,
                 7,
+                41,
                 8,
                 9,
                 10,
@@ -24068,6 +24526,7 @@
                 "EXCHANGE_BYBIT_INVERSE",
                 "EXCHANGE_BYBIT_SPOT",
                 "EXCHANGE_BITGET_FUTURES",
+                "EXCHANGE_BITGET_SPOT",
                 "EXCHANGE_OKX_PERP_SWAPS",
                 "EXCHANGE_OKX_SPOT",
                 "EXCHANGE_BINGX_FUTURES",
@@ -25320,6 +25779,10 @@
         "services.Tag": {
             "type": "object",
             "properties": {
+                "color_bg": {
+                    "type": "string",
+                    "example": "#ffffff"
+                },
                 "column": {
                     "description": "0 - entry reason\n1 - exit reason\n2 - conclusion",
                     "allOf": [
@@ -25331,6 +25794,10 @@
                 "id": {
                     "type": "integer"
                 },
+                "is_group": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "name": {
                     "type": "string",
                     "example": "catching knife"
@@ -25338,6 +25805,12 @@
                 "score": {
                     "type": "integer",
                     "example": 98
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Tag"
+                    }
                 },
                 "user_id": {
                     "type": "integer",
@@ -25628,6 +26101,14 @@
                         }
                     ]
                 },
+                "risk_notification": {
+                    "description": "Risk management notifications\n0 - disabled\n1 - enabled",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.TelegramConnectRiskNotification"
+                        }
+                    ]
+                },
                 "status": {
                     "description": "Connection status\n1 - new\n2 - connected",
                     "allOf": [
@@ -25669,6 +26150,17 @@
             "x-enum-varnames": [
                 "TelegramConnectPrivacyEnabled",
                 "TelegramConnectPrivacyDisabled"
+            ]
+        },
+        "services.TelegramConnectRiskNotification": {
+            "type": "integer",
+            "enum": [
+                1,
+                0
+            ],
+            "x-enum-varnames": [
+                "TelegramConnectRiskNotificationEnabled",
+                "TelegramConnectRiskNotificationDisabled"
             ]
         },
         "services.TelegramConnectStatus": {
@@ -25857,6 +26349,9 @@
                 "api_key_id": {
                     "type": "integer"
                 },
+                "archive": {
+                    "type": "integer"
+                },
                 "avg_price_entry": {
                     "type": "string"
                 },
@@ -25942,6 +26437,7 @@
                     "type": "integer"
                 },
                 "orders": {
+                    "description": "SubAccount       string          `json:\"sub_account\"`",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.Order"
@@ -25976,9 +26472,6 @@
                 },
                 "side": {
                     "$ref": "#/definitions/services.TradeSide"
-                },
-                "sub_account": {
-                    "type": "string"
                 },
                 "symbol": {
                     "type": "string"
@@ -26212,6 +26705,9 @@
                         "type": "integer"
                     }
                 },
+                "daysOfWeek_params": {
+                    "type": "string"
+                },
                 "durationBetween": {
                     "type": "string"
                 },
@@ -26327,6 +26823,9 @@
                 },
                 "volumeTo": {
                     "type": "integer"
+                },
+                "widget_mode": {
+                    "type": "boolean"
                 }
             }
         },
@@ -26740,6 +27239,17 @@
                 }
             }
         },
+        "services.UserStartOfWeek": {
+            "type": "string",
+            "enum": [
+                "sunday",
+                "monday"
+            ],
+            "x-enum-varnames": [
+                "UserStartOfWeekSunday",
+                "UserStartOfWeekMonday"
+            ]
+        },
         "services.UserWithRelations": {
             "type": "object",
             "properties": {
@@ -26827,8 +27337,14 @@
                 "referred_by": {
                     "type": "integer"
                 },
+                "session_reset_at": {
+                    "type": "integer"
+                },
                 "shard_id": {
                     "type": "integer"
+                },
+                "start_of_week": {
+                    "$ref": "#/definitions/services.UserStartOfWeek"
                 },
                 "stripe": {
                     "$ref": "#/definitions/services.Stripe"

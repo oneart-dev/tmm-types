@@ -20,7 +20,7 @@ export declare class Team<SecurityDataType = unknown> extends HttpClient<Securit
         user_id?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesTeamMember, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     getTeam: (id: number, query: {
-        exchange_id?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 11 | 21 | 23 | 24 | 25 | 12 | 22 | 13 | 14 | 15 | 32 | 33)[];
+        exchange_id?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 41 | 8 | 9 | 10 | 40 | 11 | 21 | 23 | 24 | 25 | 12 | 22 | 13 | 14 | 15 | 32 | 33)[];
         period: "today" | "week" | "month";
         type: "pnl" | "percent" | "volume";
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesTeamTopRow, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;

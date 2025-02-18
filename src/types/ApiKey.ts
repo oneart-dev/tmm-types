@@ -66,6 +66,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | 5
         | 6
         | 7
+        | 41
         | 8
         | 9
         | 10
@@ -253,6 +254,27 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         ...params,
       },
     );
+  /**
+   * @description If the orders archive is not downloaded, it will be downloaded again. Available only for admin and not all exchanges. Can take a long time.
+   *
+   * @tags api-key
+   * @name OrdersArchiveCreate
+   * @summary force download of orders archive
+   * @request POST:/api-key/{id}/orders-archive
+   * @secure
+   */
+  ordersArchiveCreate = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/api-key/${id}/orders-archive`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Drop and restore api key connection to the exchange
    *

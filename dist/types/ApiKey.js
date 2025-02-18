@@ -78,6 +78,14 @@ export class ApiKey extends HttpClient {
             format: "json",
             ...params,
         });
+        this.ordersArchiveCreate = (id, params = {}) => this.request({
+            path: `/api-key/${id}/orders-archive`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.repairCreate = (id, params = {}) => this.request({
             path: `/api-key/${id}/repair`,
             method: "POST",

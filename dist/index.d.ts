@@ -20,6 +20,7 @@ export * from './types/Trades';
 export * from './types/Transaction';
 export * from './types/Transactions';
 export * from './types/UiData';
+export * from './types/User';
 export * from './types/Users';
 export * from './types/data-contracts';
 export * from './types/http-client';

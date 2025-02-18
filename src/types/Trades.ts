@@ -15,6 +15,7 @@ import {
   ControllersApiSuccessArrayServicesTag,
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesTag,
   ControllersApiSuccessString,
   ControllersApiWarningResponse,
   ControllersCategoriesListResponse,
@@ -673,7 +674,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   tagsCreate2 = (id: number, payload: DtoTagForm, params: RequestParams = {}) =>
     this.request<
-      ControllersApiSuccessNoData,
+      ControllersApiSuccessServicesTag,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/tags/${id}`,

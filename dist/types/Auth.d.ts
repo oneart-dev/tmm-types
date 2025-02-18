@@ -9,6 +9,7 @@ export declare class Auth<SecurityDataType = unknown> extends HttpClient<Securit
     refreshList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersRefreshSuccessResponse, string | ControllersUnauthorizedResponse>>;
     registerCreate: (payload: DtoSignUpCredentials, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoginSuccessResponse, string | ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
     resetCreate: (payload: DtoNewPasswordCredentials, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
+    sessionsResetCreate: (payload: DtoPasswordResetCredentials, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
     verifyDetail: (token: number, userId: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | void | ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
 }
 //# sourceMappingURL=Auth.d.ts.map
