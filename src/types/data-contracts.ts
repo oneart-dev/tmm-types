@@ -84,6 +84,12 @@ export interface ControllersApiSuccessServicesApiKey {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesApiUser {
+  data?: ServicesApiUser;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesDashboard {
   data?: ServicesDashboard;
   /** @example "success" */
@@ -733,6 +739,13 @@ export interface DtoNotificationTemplateUpdateForm {
    * @example "Template text"
    */
   template: string;
+}
+
+export interface DtoOauth2SwapForm {
+  /** @example "1234567890" */
+  code: string;
+  /** @example "1234567890" */
+  key: string;
 }
 
 export interface DtoPasswordResetCredentials {
@@ -1440,9 +1453,16 @@ export interface ServicesApiUser {
   id?: number;
   ip?: string[];
   name?: string;
+  read_only?: ServicesApiUserRead;
+  type?: ServicesApiUserType;
   updated_at?: string;
   user?: ServicesSafeUser;
   user_id?: number;
+}
+
+export enum ServicesApiUserRead {
+  API_USER_READ_WRITE = 1,
+  API_USER_READ_ONLY = 2,
 }
 
 export interface ServicesBulkSignUpResponse {
@@ -1590,6 +1610,8 @@ export enum ServicesExchangeID {
   EXCHANGE_TIGER_BYBIT_INVERSE = 15,
   EXCHANGE_TIGER_OKX_FUTURES = 32,
   EXCHANGE_TIGER_OKX_SPOT = 33,
+  EXCHANGE_TIGER_BINANCE_FUTURES = 42,
+  EXCHANGE_TIGER_BINANCE_SPOT = 43,
 }
 
 export interface ServicesFile {
@@ -2867,4 +2889,9 @@ export enum ServicesWidgetType2 {
   WidgetType2TreeMap = "treemap",
   WidgetType2Bubble = "bubble",
   WidgetType2CandleStick = "candlestick",
+}
+
+export enum ServicesApiUserType {
+  API_USER_TYPE_USER_CREATED = 1,
+  API_USER_TYPE_OAUTH_CREATED = 2,
 }

@@ -48,6 +48,10 @@ export interface ControllersApiSuccessServicesApiKey {
     data?: ServicesApiKey;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesApiUser {
+    data?: ServicesApiUser;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesDashboard {
     data?: ServicesDashboard;
     status?: ControllersResponseStatusMessage;
@@ -381,6 +385,10 @@ export interface DtoNotificationTemplateUpdateForm {
     name: string;
     template: string;
 }
+export interface DtoOauth2SwapForm {
+    code: string;
+    key: string;
+}
 export interface DtoPasswordResetCredentials {
     email: string;
 }
@@ -673,9 +681,15 @@ export interface ServicesApiUser {
     id?: number;
     ip?: string[];
     name?: string;
+    read_only?: ServicesApiUserRead;
+    type?: ServicesApiUserType;
     updated_at?: string;
     user?: ServicesSafeUser;
     user_id?: number;
+}
+export declare enum ServicesApiUserRead {
+    API_USER_READ_WRITE = 1,
+    API_USER_READ_ONLY = 2
 }
 export interface ServicesBulkSignUpResponse {
     api_key?: string;
@@ -783,7 +797,9 @@ export declare enum ServicesExchangeID {
     EXCHANGE_TIGER_BYBIT_LINEAR = 14,
     EXCHANGE_TIGER_BYBIT_INVERSE = 15,
     EXCHANGE_TIGER_OKX_FUTURES = 32,
-    EXCHANGE_TIGER_OKX_SPOT = 33
+    EXCHANGE_TIGER_OKX_SPOT = 33,
+    EXCHANGE_TIGER_BINANCE_FUTURES = 42,
+    EXCHANGE_TIGER_BINANCE_SPOT = 43
 }
 export interface ServicesFile {
     file_path?: string;
@@ -1855,5 +1871,9 @@ export declare enum ServicesWidgetType2 {
     WidgetType2TreeMap = "treemap",
     WidgetType2Bubble = "bubble",
     WidgetType2CandleStick = "candlestick"
+}
+export declare enum ServicesApiUserType {
+    API_USER_TYPE_USER_CREATED = 1,
+    API_USER_TYPE_OAUTH_CREATED = 2
 }
 //# sourceMappingURL=data-contracts.d.ts.map

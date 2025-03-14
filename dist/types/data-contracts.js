@@ -18,6 +18,11 @@ export var ServicesApiKeyWebsocketStatus;
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_ERROR"] = 3] = "API_KEY_WS_ERROR";
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_RECONNECTING"] = 4] = "API_KEY_WS_RECONNECTING";
 })(ServicesApiKeyWebsocketStatus || (ServicesApiKeyWebsocketStatus = {}));
+export var ServicesApiUserRead;
+(function (ServicesApiUserRead) {
+    ServicesApiUserRead[ServicesApiUserRead["API_USER_READ_WRITE"] = 1] = "API_USER_READ_WRITE";
+    ServicesApiUserRead[ServicesApiUserRead["API_USER_READ_ONLY"] = 2] = "API_USER_READ_ONLY";
+})(ServicesApiUserRead || (ServicesApiUserRead = {}));
 export var ServicesBulkSignUpResponseError;
 (function (ServicesBulkSignUpResponseError) {
     ServicesBulkSignUpResponseError["BulkSignUpResponseEmptyEmailList"] = "empty email list";
@@ -90,6 +95,8 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BYBIT_INVERSE"] = 15] = "EXCHANGE_TIGER_BYBIT_INVERSE";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_OKX_FUTURES"] = 32] = "EXCHANGE_TIGER_OKX_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_OKX_SPOT"] = 33] = "EXCHANGE_TIGER_OKX_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BINANCE_FUTURES"] = 42] = "EXCHANGE_TIGER_BINANCE_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BINANCE_SPOT"] = 43] = "EXCHANGE_TIGER_BINANCE_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {
@@ -527,4 +534,9 @@ export var ServicesWidgetType2;
     ServicesWidgetType2["WidgetType2Bubble"] = "bubble";
     ServicesWidgetType2["WidgetType2CandleStick"] = "candlestick";
 })(ServicesWidgetType2 || (ServicesWidgetType2 = {}));
+export var ServicesApiUserType;
+(function (ServicesApiUserType) {
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
+})(ServicesApiUserType || (ServicesApiUserType = {}));
 //# sourceMappingURL=data-contracts.js.map

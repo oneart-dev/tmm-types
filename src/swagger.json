@@ -1278,7 +1278,9 @@
                             14,
                             15,
                             32,
-                            33
+                            33,
+                            42,
+                            43
                         ],
                         "type": "integer",
                         "x-enum-varnames": [
@@ -1305,7 +1307,9 @@
                             "EXCHANGE_TIGER_BYBIT_LINEAR",
                             "EXCHANGE_TIGER_BYBIT_INVERSE",
                             "EXCHANGE_TIGER_OKX_FUTURES",
-                            "EXCHANGE_TIGER_OKX_SPOT"
+                            "EXCHANGE_TIGER_OKX_SPOT",
+                            "EXCHANGE_TIGER_BINANCE_FUTURES",
+                            "EXCHANGE_TIGER_BINANCE_SPOT"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -10953,6 +10957,244 @@
                 }
             }
         },
+        "/oauth2/sse/{key}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ],
+                "description": "Use the Stream for Server-Sent Events (SSE) to receive messages from the server.\n\nAuthorization must be provided through the Authorization header with a Bearer token or the API-KEY Header. Use a polyfill to modify the standard browser implementation if necessary.\n\n## Events:\n\n| Event ID             | Return Object      | Description                                                                         | Action Required                                  |\n| -------------------- | ------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------ |\n| `trade`              | Trade              | Triggered only when a new trade is opened.                                          | None                                             |\n| `trades`             | Empty              | Signals to update the trades list. Common after an API key connection.              | Update trades list                               |\n| `profile`            | Empty              | Indicates a need to update user data.                                               | Update user data using `/auth/me`                |\n| `transaction`        | Empty              | Signals that the list of transactions and their payment statuses should be updated. | Update list of transactions and payment statuses |\n| `risk-management`    | RiskManagementLog  | Sent if a new risk management violation occurs.                                     | None                                             |\n| `trade-update`       | Trade              | Sent after trade data is updated, including new executions on the exchange.         | None                                             |\n| `notification`       | NotificationPublic | Indicates a new notification.                                                       | None                                             |\n| `apikey`             | ApiKey             | Sent when the API key's status changes, e.g., from disconnected to connected.       | None                                             |\n| `telegram-connected` | TelegramConnect    | Indicates a successful connection to Telegram.                                      | None                                             |\n| `discord-connected`  | DiscordConnect     | Indicates a successful connection to Discord.                                       | None                                             |\n",
+                "produces": [
+                    "text/event-stream"
+                ],
+                "tags": [
+                    "sse"
+                ],
+                "summary": "SSE stream for oauth2 clients",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth2/token": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ],
+                "description": "Swap oauth2 token to api key. Token is valid for 1 minute.\nApi key has no expiration date.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Swap oauth2 token to api key",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Oauth2SwapForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ApiUser"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "301": {
+                        "description": "Moved Permanently",
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/risk-management": {
             "put": {
                 "security": [
@@ -13159,7 +13401,9 @@
                                 14,
                                 15,
                                 32,
-                                33
+                                33,
+                                42,
+                                43
                             ],
                             "type": "integer"
                         },
@@ -19291,6 +19535,149 @@
                 }
             }
         },
+        "/user/oauth2": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Get oauth2 token",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get oauth2 token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "only code is supported",
+                        "name": "response_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "client id",
+                        "name": "client_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "redirect uri",
+                        "name": "redirect_uri",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "state",
+                        "name": "state",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "301": {
+                        "description": "Moved Permanently",
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user/{code}/redeem": {
             "post": {
                 "description": "Redeem promo code",
@@ -21318,6 +21705,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_ApiUser": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ApiUser"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_Dashboard": {
             "type": "object",
             "properties": {
@@ -22807,6 +23210,23 @@
                 }
             }
         },
+        "dto.Oauth2SwapForm": {
+            "type": "object",
+            "required": [
+                "code",
+                "key"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "1234567890"
+                },
+                "key": {
+                    "type": "string",
+                    "example": "1234567890"
+                }
+            }
+        },
         "dto.PasswordResetCredentials": {
             "type": "object",
             "required": [
@@ -24219,6 +24639,12 @@
                 "name": {
                     "type": "string"
                 },
+                "read_only": {
+                    "$ref": "#/definitions/services.ApiUserRead"
+                },
+                "type": {
+                    "$ref": "#/definitions/services.apiUserType"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -24229,6 +24655,17 @@
                     "type": "integer"
                 }
             }
+        },
+        "services.ApiUserRead": {
+            "type": "integer",
+            "enum": [
+                1,
+                2
+            ],
+            "x-enum-varnames": [
+                "API_USER_READ_WRITE",
+                "API_USER_READ_ONLY"
+            ]
         },
         "services.BulkSignUpResponse": {
             "type": "object",
@@ -24516,7 +24953,9 @@
                 14,
                 15,
                 32,
-                33
+                33,
+                42,
+                43
             ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
@@ -24542,7 +24981,9 @@
                 "EXCHANGE_TIGER_BYBIT_LINEAR",
                 "EXCHANGE_TIGER_BYBIT_INVERSE",
                 "EXCHANGE_TIGER_OKX_FUTURES",
-                "EXCHANGE_TIGER_OKX_SPOT"
+                "EXCHANGE_TIGER_OKX_SPOT",
+                "EXCHANGE_TIGER_BINANCE_FUTURES",
+                "EXCHANGE_TIGER_BINANCE_SPOT"
             ]
         },
         "services.File": {
@@ -27703,6 +28144,17 @@
                 "WidgetType2TreeMap",
                 "WidgetType2Bubble",
                 "WidgetType2CandleStick"
+            ]
+        },
+        "services.apiUserType": {
+            "type": "integer",
+            "enum": [
+                1,
+                2
+            ],
+            "x-enum-varnames": [
+                "API_USER_TYPE_USER_CREATED",
+                "API_USER_TYPE_OAUTH_CREATED"
             ]
         }
     },
