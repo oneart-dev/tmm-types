@@ -1280,7 +1280,9 @@
                             32,
                             33,
                             42,
-                            43
+                            43,
+                            44,
+                            45
                         ],
                         "type": "integer",
                         "x-enum-varnames": [
@@ -1309,7 +1311,9 @@
                             "EXCHANGE_TIGER_OKX_FUTURES",
                             "EXCHANGE_TIGER_OKX_SPOT",
                             "EXCHANGE_TIGER_BINANCE_FUTURES",
-                            "EXCHANGE_TIGER_BINANCE_SPOT"
+                            "EXCHANGE_TIGER_BINANCE_SPOT",
+                            "EXCHANGE_TIGERX_OKX_FUTURES",
+                            "EXCHANGE_TIGERX_OKX_SPOT"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -13403,7 +13407,9 @@
                                 32,
                                 33,
                                 42,
-                                43
+                                43,
+                                44,
+                                45
                             ],
                             "type": "integer"
                         },
@@ -22736,7 +22742,11 @@
                         24,
                         25,
                         32,
-                        33
+                        33,
+                        42,
+                        43,
+                        44,
+                        45
                     ]
                 },
                 "extra_info": {
@@ -24955,7 +24965,9 @@
                 32,
                 33,
                 42,
-                43
+                43,
+                44,
+                45
             ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
@@ -24983,7 +24995,9 @@
                 "EXCHANGE_TIGER_OKX_FUTURES",
                 "EXCHANGE_TIGER_OKX_SPOT",
                 "EXCHANGE_TIGER_BINANCE_FUTURES",
-                "EXCHANGE_TIGER_BINANCE_SPOT"
+                "EXCHANGE_TIGER_BINANCE_SPOT",
+                "EXCHANGE_TIGERX_OKX_FUTURES",
+                "EXCHANGE_TIGERX_OKX_SPOT"
             ]
         },
         "services.File": {

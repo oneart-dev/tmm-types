@@ -462,7 +462,34 @@ export interface DtoApiKeyCreateForm {
    * @example 1
    */
   enabled?: number;
-  exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33;
+  exchange_id:
+    | 1
+    | 2
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 40
+    | 41
+    | 11
+    | 21
+    | 12
+    | 22
+    | 13
+    | 14
+    | 15
+    | 23
+    | 24
+    | 25
+    | 32
+    | 33
+    | 42
+    | 43
+    | 44
+    | 45;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1612,6 +1639,8 @@ export enum ServicesExchangeID {
   EXCHANGE_TIGER_OKX_SPOT = 33,
   EXCHANGE_TIGER_BINANCE_FUTURES = 42,
   EXCHANGE_TIGER_BINANCE_SPOT = 43,
+  EXCHANGE_TIGERX_OKX_FUTURES = 44,
+  EXCHANGE_TIGERX_OKX_SPOT = 45,
 }
 
 export interface ServicesFile {
