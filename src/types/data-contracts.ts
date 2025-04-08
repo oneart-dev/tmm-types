@@ -315,6 +315,12 @@ export interface ControllersOrdersListResponse {
   trades?: ServicesTrade[];
 }
 
+export interface ControllersPnlEntry {
+  counter?: number;
+  dateValue?: string;
+  value?: string;
+}
+
 export interface ControllersPublicProfileResponse {
   data?: ServicesPublicProfile;
   /** @example "success" */
@@ -328,12 +334,14 @@ export interface ControllersPublicProfileStatsResponse {
 }
 
 export interface ControllersPublicTradeGroupResponse {
+  cumulative_pnl?: Record<string, ControllersPnlEntry>;
   data?: ServicesTrade[];
   from?: number;
   public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   to?: number;
+  win_rate?: ControllersPnlEntry;
 }
 
 export interface ControllersPublicTradeResponse {
@@ -914,8 +922,12 @@ export interface DtoRiskManagementCreateForm {
   max_leverage?: string;
   /** @example "3.0" */
   per_day?: string;
+  /** @example "3.0" */
+  per_day_usd?: string;
   /** @example "0.1" */
   per_trade?: string;
+  /** @example "0.1" */
+  per_trade_usd?: string;
 }
 
 export interface DtoRiskManagementUpdateForm {
@@ -927,8 +939,12 @@ export interface DtoRiskManagementUpdateForm {
   max_leverage?: string;
   /** @example "3.0" */
   per_day?: string;
+  /** @example "3.0" */
+  per_day_usd?: string;
   /** @example "0.1" */
   per_trade?: string;
+  /** @example "0.1" */
+  per_trade_usd?: string;
 }
 
 export interface DtoSignUpCredentials {
@@ -1003,6 +1019,18 @@ export interface DtoTagsSortForm {
 }
 
 export interface DtoTeamCreateForm {
+  /**
+   * timestamp in milliseconds
+   * @min 0
+   * @example 1546300800000
+   */
+  custom_from?: number;
+  /**
+   * timestamp in milliseconds
+   * @min 0
+   * @example 1546300800000
+   */
+  custom_to?: number;
   /** @example "My team description" */
   description?: string;
   /**
@@ -1056,6 +1084,18 @@ export interface DtoTeamMemberUpdateForm {
 }
 
 export interface DtoTeamUpdateForm {
+  /**
+   * timestamp in milliseconds
+   * @min 0
+   * @example 1546300800000
+   */
+  custom_from?: number;
+  /**
+   * timestamp in milliseconds
+   * @min 0
+   * @example 1546300800000
+   */
+  custom_to?: number;
   /** @example "My team description" */
   description?: string;
   /**
@@ -1447,6 +1487,7 @@ export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_ENABLED = 1,
   API_KEY_WS_DISABLED = 0,
   API_KEY_WS_FROZEN = 2,
+  API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
 }
 
 export enum ServicesApiKeyWebsocketStatus {
@@ -2018,7 +2059,9 @@ export interface ServicesRiskManagement {
   id?: number;
   max_leverage?: string;
   per_day?: string;
+  per_day_usd?: string;
   per_trade?: string;
+  per_trade_usd?: string;
   updated_at?: string;
 }
 
@@ -2057,6 +2100,8 @@ export enum ServicesRiskManagementLogType {
   RiskManagementLogTypeTradeLoss = 1,
   RiskManagementLogTypeTradeLeverage = 2,
   RiskManagementLogTypeDayLoss = 3,
+  RiskManagementLogTypeTradeLossUSD = 4,
+  RiskManagementLogTypeDayLossUSD = 5,
 }
 
 export interface ServicesRiskManagementPagination {
@@ -2172,6 +2217,8 @@ export enum ServicesTagColumn {
 
 export interface ServicesTeam {
   created_at?: string;
+  custom_from?: number;
+  custom_to?: number;
   description?: string;
   id?: number;
   invite_code?: string;
@@ -2184,6 +2231,8 @@ export interface ServicesTeam {
 
 export interface ServicesTeamMember {
   created_at?: string;
+  custom_from?: number;
+  custom_to?: number;
   id?: number;
   show_pnl?: ServicesTeamMemberShowPnl;
   status?: ServicesTeamMemberStatus;
@@ -2239,6 +2288,8 @@ export interface ServicesTeamWithStatsAndMember {
   active_members_count?: number;
   created_at?: string;
   current_member?: ServicesTeamMember;
+  custom_from?: number;
+  custom_to?: number;
   description?: string;
   id?: number;
   invite_code?: string;

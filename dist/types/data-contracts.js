@@ -9,6 +9,7 @@ export var ServicesApiKeyEnabledStatus;
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_ENABLED"] = 1] = "API_KEY_WS_ENABLED";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_DISABLED"] = 0] = "API_KEY_WS_DISABLED";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_FROZEN"] = 2] = "API_KEY_WS_FROZEN";
+    ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_BLOCKED_HIGH_LOAD"] = 3] = "API_KEY_WS_BLOCKED_HIGH_LOAD";
 })(ServicesApiKeyEnabledStatus || (ServicesApiKeyEnabledStatus = {}));
 export var ServicesApiKeyWebsocketStatus;
 (function (ServicesApiKeyWebsocketStatus) {
@@ -197,6 +198,8 @@ export var ServicesRiskManagementLogType;
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLoss"] = 1] = "RiskManagementLogTypeTradeLoss";
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLeverage"] = 2] = "RiskManagementLogTypeTradeLeverage";
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeDayLoss"] = 3] = "RiskManagementLogTypeDayLoss";
+    ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLossUSD"] = 4] = "RiskManagementLogTypeTradeLossUSD";
+    ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeDayLossUSD"] = 5] = "RiskManagementLogTypeDayLossUSD";
 })(ServicesRiskManagementLogType || (ServicesRiskManagementLogType = {}));
 export var ServicesShortUrlModelType;
 (function (ServicesShortUrlModelType) {

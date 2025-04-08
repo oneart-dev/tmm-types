@@ -198,6 +198,11 @@ export interface ControllersOrdersListResponse {
     status?: ControllersResponseStatusMessage;
     trades?: ServicesTrade[];
 }
+export interface ControllersPnlEntry {
+    counter?: number;
+    dateValue?: string;
+    value?: string;
+}
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
@@ -207,11 +212,13 @@ export interface ControllersPublicProfileStatsResponse {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersPublicTradeGroupResponse {
+    cumulative_pnl?: Record<string, ControllersPnlEntry>;
     data?: ServicesTrade[];
     from?: number;
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
     to?: number;
+    win_rate?: ControllersPnlEntry;
 }
 export interface ControllersPublicTradeResponse {
     data?: ServicesTrade;
@@ -429,14 +436,18 @@ export interface DtoRiskManagementCreateForm {
     enabled?: boolean;
     max_leverage?: string;
     per_day?: string;
+    per_day_usd?: string;
     per_trade?: string;
+    per_trade_usd?: string;
 }
 export interface DtoRiskManagementUpdateForm {
     api_key_id?: number;
     id?: number;
     max_leverage?: string;
     per_day?: string;
+    per_day_usd?: string;
     per_trade?: string;
+    per_trade_usd?: string;
 }
 export interface DtoSignUpCredentials {
     email: string;
@@ -471,6 +482,8 @@ export interface DtoTagsSortForm {
     tags: DtoTagsSort[];
 }
 export interface DtoTeamCreateForm {
+    custom_from?: number;
+    custom_to?: number;
     description?: string;
     invite_code?: string;
     name: string;
@@ -487,6 +500,8 @@ export interface DtoTeamMemberUpdateForm {
     status?: 2 | 3 | 4;
 }
 export interface DtoTeamUpdateForm {
+    custom_from?: number;
+    custom_to?: number;
     description?: string;
     invite_code?: string;
     name: string;
@@ -654,7 +669,8 @@ export interface ServicesApiKey {
 export declare enum ServicesApiKeyEnabledStatus {
     API_KEY_WS_ENABLED = 1,
     API_KEY_WS_DISABLED = 0,
-    API_KEY_WS_FROZEN = 2
+    API_KEY_WS_FROZEN = 2,
+    API_KEY_WS_BLOCKED_HIGH_LOAD = 3
 }
 export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_DISCONNECTED = 0,
@@ -1101,7 +1117,9 @@ export interface ServicesRiskManagement {
     id?: number;
     max_leverage?: string;
     per_day?: string;
+    per_day_usd?: string;
     per_trade?: string;
+    per_trade_usd?: string;
     updated_at?: string;
 }
 export interface ServicesRiskManagementLog {
@@ -1132,7 +1150,9 @@ export interface ServicesRiskManagementLogPagination {
 export declare enum ServicesRiskManagementLogType {
     RiskManagementLogTypeTradeLoss = 1,
     RiskManagementLogTypeTradeLeverage = 2,
-    RiskManagementLogTypeDayLoss = 3
+    RiskManagementLogTypeDayLoss = 3,
+    RiskManagementLogTypeTradeLossUSD = 4,
+    RiskManagementLogTypeDayLossUSD = 5
 }
 export interface ServicesRiskManagementPagination {
     current_page?: number;
@@ -1222,6 +1242,8 @@ export declare enum ServicesTagColumn {
 }
 export interface ServicesTeam {
     created_at?: string;
+    custom_from?: number;
+    custom_to?: number;
     description?: string;
     id?: number;
     invite_code?: string;
@@ -1233,6 +1255,8 @@ export interface ServicesTeam {
 }
 export interface ServicesTeamMember {
     created_at?: string;
+    custom_from?: number;
+    custom_to?: number;
     id?: number;
     show_pnl?: ServicesTeamMemberShowPnl;
     status?: ServicesTeamMemberStatus;
@@ -1280,6 +1304,8 @@ export interface ServicesTeamWithStatsAndMember {
     active_members_count?: number;
     created_at?: string;
     current_member?: ServicesTeamMember;
+    custom_from?: number;
+    custom_to?: number;
     description?: string;
     id?: number;
     invite_code?: string;
