@@ -91,6 +91,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       frozen?: boolean;
       name?: string;
       not_frozen?: boolean;
+      websocket_status?: (0 | 1 | 2 | 3 | 4)[];
       /**
        * @min 1
        * @example 1

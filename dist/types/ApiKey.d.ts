@@ -8,6 +8,7 @@ export declare class ApiKey<SecurityDataType = unknown> extends HttpClient<Secur
         frozen?: boolean;
         name?: string;
         not_frozen?: boolean;
+        websocket_status?: (0 | 1 | 2 | 3 | 4)[];
         page?: number;
         itemsPerPage?: number;
         sortBy?: string;

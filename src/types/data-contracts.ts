@@ -54,8 +54,8 @@ export interface ControllersApiSuccessArrayServicesTag {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessArrayServicesTeamTopRow {
-  data?: ServicesTeamTopRow[];
+export interface ControllersApiSuccessArrayServicesTeamData {
+  data?: ServicesTeamData[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1882,6 +1882,7 @@ export enum ServicesOrderType {
   OrderTypeLimit = "LIMIT",
   OrderTypeMarket = "MARKET",
   OrderTypeFunding = "FUNDING",
+  OrderTypeLiquidation = "LIQUIDATION",
 }
 
 export enum ServicesOrigType {
@@ -2229,6 +2230,28 @@ export interface ServicesTeam {
   user_id?: number;
 }
 
+export interface ServicesTeamData {
+  api_key_id?: number;
+  exchange_id?: ServicesExchangeID;
+  name?: string;
+  percent_14days?: string;
+  percent_month?: string;
+  percent_today?: string;
+  percent_week?: string;
+  percent_yesterday?: string;
+  pnl_14days?: string;
+  pnl_month?: string;
+  pnl_today?: string;
+  pnl_week?: string;
+  pnl_yesterday?: string;
+  qty_14days?: string;
+  qty_month?: string;
+  qty_today?: string;
+  qty_week?: string;
+  qty_yesterday?: string;
+  user_id?: number;
+}
+
 export interface ServicesTeamMember {
   created_at?: string;
   custom_from?: number;
@@ -2268,14 +2291,11 @@ export enum ServicesTeamStatus {
 
 export enum ServicesTeamTopPeriod {
   TeamTopPeriodToday = "today",
-  TeamTopPeriodWeek = "week",
-  TeamTopPeriodMonth = "month",
-}
-
-export interface ServicesTeamTopRow {
-  name?: string;
-  user_id?: number;
-  value?: string;
+  TeamTopPeriodYesterday = "yesterday",
+  TeamTopPeriod7Days = "7days",
+  TeamTopPeriod14Days = "14days",
+  TeamTopPeriod30Days = "30days",
+  TeamTopPeriodCustom = "custom",
 }
 
 export enum ServicesTeamTopType {

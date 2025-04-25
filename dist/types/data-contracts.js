@@ -168,6 +168,7 @@ export var ServicesOrderType;
     ServicesOrderType["OrderTypeLimit"] = "LIMIT";
     ServicesOrderType["OrderTypeMarket"] = "MARKET";
     ServicesOrderType["OrderTypeFunding"] = "FUNDING";
+    ServicesOrderType["OrderTypeLiquidation"] = "LIQUIDATION";
 })(ServicesOrderType || (ServicesOrderType = {}));
 export var ServicesOrigType;
 (function (ServicesOrigType) {
@@ -261,8 +262,11 @@ export var ServicesTeamStatus;
 export var ServicesTeamTopPeriod;
 (function (ServicesTeamTopPeriod) {
     ServicesTeamTopPeriod["TeamTopPeriodToday"] = "today";
-    ServicesTeamTopPeriod["TeamTopPeriodWeek"] = "week";
-    ServicesTeamTopPeriod["TeamTopPeriodMonth"] = "month";
+    ServicesTeamTopPeriod["TeamTopPeriodYesterday"] = "yesterday";
+    ServicesTeamTopPeriod["TeamTopPeriod7Days"] = "7days";
+    ServicesTeamTopPeriod["TeamTopPeriod14Days"] = "14days";
+    ServicesTeamTopPeriod["TeamTopPeriod30Days"] = "30days";
+    ServicesTeamTopPeriod["TeamTopPeriodCustom"] = "custom";
 })(ServicesTeamTopPeriod || (ServicesTeamTopPeriod = {}));
 export var ServicesTeamTopType;
 (function (ServicesTeamTopType) {

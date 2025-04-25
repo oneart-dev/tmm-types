@@ -11,7 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
-  ControllersApiSuccessArrayServicesTeamTopRow,
+  ControllersApiSuccessArrayServicesTeamData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTeam,
   ControllersApiSuccessServicesTeamMember,
@@ -259,14 +259,16 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
         | 45
       )[];
       /** @example "today" */
-      period: "today" | "week" | "month";
+      period: "today" | "yesterday" | "7days" | "14days" | "30days" | "custom";
+      /** @example false */
+      sortAsc?: true | false;
       /** @example "pnl" */
       type: "pnl" | "percent" | "volume";
     },
     params: RequestParams = {},
   ) =>
     this.request<
-      ControllersApiSuccessArrayServicesTeamTopRow,
+      ControllersApiSuccessArrayServicesTeamData,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/team/${id}/top`,

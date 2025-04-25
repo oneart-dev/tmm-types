@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesTeamTopRow, ControllersApiSuccessResponse, ControllersApiSuccessServicesTeam, ControllersApiSuccessServicesTeamMember, ControllersApiSuccessServicesTeamWithStatsAndMember, ControllersApiWarningResponse, ControllersUnauthorizedResponse, DtoTeamCreateForm, DtoTeamMemberCreateForm, DtoTeamMemberUpdateForm, DtoTeamUpdateForm, ServicesPaginationResponseArrayServicesTeamMember } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesTeamData, ControllersApiSuccessResponse, ControllersApiSuccessServicesTeam, ControllersApiSuccessServicesTeamMember, ControllersApiSuccessServicesTeamWithStatsAndMember, ControllersApiWarningResponse, ControllersUnauthorizedResponse, DtoTeamCreateForm, DtoTeamMemberCreateForm, DtoTeamMemberUpdateForm, DtoTeamUpdateForm, ServicesPaginationResponseArrayServicesTeamMember } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     teamUpdate: (payload: DtoTeamCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesTeam, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
@@ -21,8 +21,9 @@ export declare class Team<SecurityDataType = unknown> extends HttpClient<Securit
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesTeamMember, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     getTeam: (id: number, query: {
         exchange_id?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 41 | 8 | 9 | 10 | 40 | 11 | 21 | 23 | 24 | 25 | 12 | 22 | 13 | 14 | 15 | 32 | 33 | 42 | 43 | 44 | 45)[];
-        period: "today" | "week" | "month";
+        period: "today" | "yesterday" | "7days" | "14days" | "30days" | "custom";
+        sortAsc?: true | false;
         type: "pnl" | "percent" | "volume";
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesTeamTopRow, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesTeamData, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Team.d.ts.map
