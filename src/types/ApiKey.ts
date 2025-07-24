@@ -239,6 +239,27 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
+   * @description Create new clone of api key with new id. All trades will be No data loss will occur. Available only for admin. Can take a long time.
+   *
+   * @tags api-key
+   * @name MigrateToNewIdCreate
+   * @summary migrate api key to new id
+   * @request POST:/api-key/{id}/migrate-to-new-id
+   * @secure
+   */
+  migrateToNewIdCreate = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/api-key/${id}/migrate-to-new-id`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Simple endpoint to update api key name
    *
    * @tags api-key

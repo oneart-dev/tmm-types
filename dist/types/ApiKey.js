@@ -69,6 +69,14 @@ export class ApiKey extends HttpClient {
             format: "json",
             ...params,
         });
+        this.migrateToNewIdCreate = (id, params = {}) => this.request({
+            path: `/api-key/${id}/migrate-to-new-id`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.nameCreate = (id, payload, params = {}) => this.request({
             path: `/api-key/${id}/name`,
             method: "POST",

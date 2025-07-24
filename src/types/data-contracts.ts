@@ -18,6 +18,7 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
   balanceGain?: string;
   balanceHistory?: string;
+  cumulativeHistory?: string;
   data?: ServicesTradeSummary[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
@@ -54,8 +55,8 @@ export interface ControllersApiSuccessArrayServicesTag {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessArrayServicesTeamData {
-  data?: ServicesTeamData[];
+export interface ControllersApiSuccessArrayServicesTeamTopData {
+  data?: ServicesTeamTopData[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -2230,28 +2231,6 @@ export interface ServicesTeam {
   user_id?: number;
 }
 
-export interface ServicesTeamData {
-  api_key_id?: number;
-  exchange_id?: ServicesExchangeID;
-  name?: string;
-  percent_14days?: string;
-  percent_month?: string;
-  percent_today?: string;
-  percent_week?: string;
-  percent_yesterday?: string;
-  pnl_14days?: string;
-  pnl_month?: string;
-  pnl_today?: string;
-  pnl_week?: string;
-  pnl_yesterday?: string;
-  qty_14days?: string;
-  qty_month?: string;
-  qty_today?: string;
-  qty_week?: string;
-  qty_yesterday?: string;
-  user_id?: number;
-}
-
 export interface ServicesTeamMember {
   created_at?: string;
   custom_from?: number;
@@ -2287,6 +2266,18 @@ export enum ServicesTeamStatus {
   TeamStatusPrivate = 2,
   TeamStatusClosed = 3,
   TeamStatusBlocked = 4,
+}
+
+export interface ServicesTeamTopData {
+  api_key_id?: number;
+  email?: string;
+  exchange_id?: ServicesExchangeID;
+  name?: string;
+  percent?: string;
+  pnl?: string;
+  qty?: string;
+  user_id?: number;
+  value?: string;
 }
 
 export enum ServicesTeamTopPeriod {
@@ -2899,6 +2890,7 @@ export enum ServicesWidgetSource {
   WidgetSourceProfitLoss = "profit_loss",
   WidgetSourceFunding = "funding",
   WidgetSourcePercent = "income_percent",
+  WidgetSourcePercentBySymbol = "income_percent_by_symbol",
   WidgetSourcePercentToDeposit = "income_percent_balance",
   WidgetSourcePercentToDepositCumulative = "income_percent_balance_cumulative",
   WidgetSourceAvgPercentToDeposit = "avg_income_percent_balance",

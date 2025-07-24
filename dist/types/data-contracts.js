@@ -452,6 +452,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceProfitLoss"] = "profit_loss";
     ServicesWidgetSource["WidgetSourceFunding"] = "funding";
     ServicesWidgetSource["WidgetSourcePercent"] = "income_percent";
+    ServicesWidgetSource["WidgetSourcePercentBySymbol"] = "income_percent_by_symbol";
     ServicesWidgetSource["WidgetSourcePercentToDeposit"] = "income_percent_balance";
     ServicesWidgetSource["WidgetSourcePercentToDepositCumulative"] = "income_percent_balance_cumulative";
     ServicesWidgetSource["WidgetSourceAvgPercentToDeposit"] = "avg_income_percent_balance";
