@@ -24,6 +24,11 @@ export var ServicesApiUserRead;
     ServicesApiUserRead[ServicesApiUserRead["API_USER_READ_WRITE"] = 1] = "API_USER_READ_WRITE";
     ServicesApiUserRead[ServicesApiUserRead["API_USER_READ_ONLY"] = 2] = "API_USER_READ_ONLY";
 })(ServicesApiUserRead || (ServicesApiUserRead = {}));
+export var ServicesApiUserType;
+(function (ServicesApiUserType) {
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
+})(ServicesApiUserType || (ServicesApiUserType = {}));
 export var ServicesBulkSignUpResponseError;
 (function (ServicesBulkSignUpResponseError) {
     ServicesBulkSignUpResponseError["BulkSignUpResponseEmptyEmailList"] = "empty email list";
@@ -84,6 +89,7 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_OKX_SPOT"] = 9] = "EXCHANGE_OKX_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_FUTURES"] = 10] = "EXCHANGE_BINGX_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_GATEIO_SPOT"] = 40] = "EXCHANGE_GATEIO_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_GATEIO_FUTURES"] = 46] = "EXCHANGE_GATEIO_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_FUTURES"] = 11] = "EXCHANGE_WLC_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_SPOT"] = 21] = "EXCHANGE_WLC_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_WLC_BYBIT_SPOT"] = 23] = "EXCHANGE_WLC_BYBIT_SPOT";
@@ -544,9 +550,4 @@ export var ServicesWidgetType2;
     ServicesWidgetType2["WidgetType2Bubble"] = "bubble";
     ServicesWidgetType2["WidgetType2CandleStick"] = "candlestick";
 })(ServicesWidgetType2 || (ServicesWidgetType2 = {}));
-export var ServicesApiUserType;
-(function (ServicesApiUserType) {
-    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
-    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
-})(ServicesApiUserType || (ServicesApiUserType = {}));
 //# sourceMappingURL=data-contracts.js.map

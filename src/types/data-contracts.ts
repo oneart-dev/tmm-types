@@ -18,7 +18,6 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
   balanceGain?: string;
   balanceHistory?: string;
-  cumulativeHistory?: string;
   data?: ServicesTradeSummary[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
@@ -1177,6 +1176,39 @@ export interface DtoTradeFilters {
    * "not:" - exclude trades with api key ids specified
    */
   api_key_id_params?: "not:";
+  /** @example "0,10000" */
+  avgTrades15m6h?: string;
+  /** @example "0,40000" */
+  avgTrades1h24h?: string;
+  /**
+   * Moving averages of trades
+   * @example "0,1000"
+   */
+  avgTrades1m30m?: string;
+  /** @example "0,20000" */
+  avgTrades30m12h?: string;
+  /** @example "0,5000" */
+  avgTrades5m2h?: string;
+  /** @example "0,1000000" */
+  avgVolume15m6h?: string;
+  /** @example "0,5000000" */
+  avgVolume1h24h?: string;
+  /**
+   * Moving averages of volume
+   * @example "0,100000"
+   */
+  avgVolume1m30m?: string;
+  /** @example "0,2000000" */
+  avgVolume30m12h?: string;
+  /** @example "0,500000" */
+  avgVolume5m2h?: string;
+  /** @example "-0.8,0.8" */
+  btcCorr1m50?: string;
+  /**
+   * BTC correlation [-1,1]
+   * @example "-0.8,0.8"
+   */
+  btcCorr5m20?: string;
   /**
    * Trades by default have no category.
    * ID 1 is system category for archive trades. Excluded by default.
@@ -1218,6 +1250,11 @@ export interface DtoTradeFilters {
     | "desc:not-empty"
     | "mentor_note:not-empty"
     | "mentor_note:empty";
+  /**
+   * Funding rate, e.g. "-0.01,0.01"
+   * @example "-0.01,0.01"
+   */
+  fundingRate?: string;
   /** Used in summary widget settings */
   groupBy?: "minute" | "hour" | "month" | "date" | "week";
   /** Headers are required only for CSV export method */
@@ -1239,10 +1276,40 @@ export interface DtoTradeFilters {
   /** @example "0.5,1.5" */
   mfeBetween?: string;
   multiplier?: string;
+  /** @example "0,2" */
+  natr1m30?: string;
+  /**
+   * NATR
+   * @example "0,2"
+   */
+  natr5m14?: string;
   /** @example "2019-01-01,2019-01-02" */
   openBetween?: string;
   /** @example "0.5,1.5" */
   percentBetween?: string;
+  /** @example "-2,2" */
+  priceRange12h?: string;
+  /** @example "-2,2" */
+  priceRange15m?: string;
+  /** @example "-2,2" */
+  priceRange1h?: string;
+  /**
+   * Price range (normalized), e.g. "-2,2"
+   * @example "-2,2"
+   */
+  priceRange1m?: string;
+  /** @example "-2,2" */
+  priceRange24h?: string;
+  /** @example "-2,2" */
+  priceRange2h?: string;
+  /** @example "-2,2" */
+  priceRange30m?: string;
+  /** @example "-2,2" */
+  priceRange4h?: string;
+  /** @example "-2,2" */
+  priceRange5m?: string;
+  /** @example "-2,2" */
+  priceRange6h?: string;
   profitBetween?: string;
   /** @example "0.5,1.5" */
   profitDepositBetween?: string;
@@ -1264,14 +1331,86 @@ export interface DtoTradeFilters {
   tags_params?: "not:" | "all:" | "not:all:" | "only:";
   /** Default value comes from user profile settings. By default is "open_time" */
   trade_time?: string;
+  /** @example "0,150000" */
+  trades12h?: string;
+  /** @example "0,10000" */
+  trades15m?: string;
+  /** @example "0,40000" */
+  trades1h?: string;
+  /**
+   * Trades count per window
+   * @example "0,1000"
+   */
+  trades1m?: string;
+  /** @example "0,200000" */
+  trades24h?: string;
+  /** @example "0,60000" */
+  trades2h?: string;
+  /** @example "0,20000" */
+  trades30m?: string;
+  /** @example "0,80000" */
+  trades4h?: string;
+  /** @example "0,5000" */
+  trades5m?: string;
+  /** @example "0,100000" */
+  trades6h?: string;
+  /** @example "-3,3" */
+  tradesSpike15m6h?: string;
+  /** @example "-3,3" */
+  tradesSpike1h24h?: string;
+  /**
+   * Trades spikes
+   * @example "-3,3"
+   */
+  tradesSpike1m30m?: string;
+  /** @example "-3,3" */
+  tradesSpike30m12h?: string;
+  /** @example "-3,3" */
+  tradesSpike5m2h?: string;
   /** @example 1 */
   user_id?: number;
+  /** @example "0,20000000" */
+  volume12h?: string;
+  /** @example "0,1000000" */
+  volume15m?: string;
+  /** @example "0,5000000" */
+  volume1h?: string;
+  /**
+   * Volumes (USD or native units—match your backend), counts per window
+   * @example "0,100000"
+   */
+  volume1m?: string;
+  /** @example "0,30000000" */
+  volume24h?: string;
+  /** @example "0,8000000" */
+  volume2h?: string;
+  /** @example "0,2000000" */
+  volume30m?: string;
+  /** @example "0,12000000" */
+  volume4h?: string;
+  /** @example "0,500000" */
+  volume5m?: string;
+  /** @example "0,16000000" */
+  volume6h?: string;
   /**
    * Turnover in USD - including all buy and sell orders value
    * @example "0.5,1.5"
    */
   volumeBetween?: string;
   volumeFrom?: number;
+  /** @example "-3,3" */
+  volumeSpike15m6h?: string;
+  /** @example "-3,3" */
+  volumeSpike1h24h?: string;
+  /**
+   * Volume spikes (ratio/z-score as you define), keep 1h24h included
+   * @example "-3,3"
+   */
+  volumeSpike1m30m?: string;
+  /** @example "-3,3" */
+  volumeSpike30m12h?: string;
+  /** @example "-3,3" */
+  volumeSpike5m2h?: string;
   volumeTo?: number;
   /**
    * By default archive trades are not included. If you want to include them,
@@ -1467,6 +1606,9 @@ export interface ServicesApiKey {
   enabled?: ServicesApiKeyEnabledStatus;
   exchange_id?: ServicesExchangeID;
   extra_info?: string;
+  flag1?: number;
+  flag2?: number;
+  flag3?: number;
   id?: number;
   key_public?: string;
   name?: string;
@@ -1525,13 +1667,18 @@ export interface ServicesApiUser {
   read_only?: ServicesApiUserRead;
   type?: ServicesApiUserType;
   updated_at?: string;
-  user?: ServicesSafeUser;
+  user?: ServicesUnSafeUser;
   user_id?: number;
 }
 
 export enum ServicesApiUserRead {
   API_USER_READ_WRITE = 1,
   API_USER_READ_ONLY = 2,
+}
+
+export enum ServicesApiUserType {
+  API_USER_TYPE_USER_CREATED = 1,
+  API_USER_TYPE_OAUTH_CREATED = 2,
 }
 
 export interface ServicesBulkSignUpResponse {
@@ -1667,6 +1814,7 @@ export enum ServicesExchangeID {
   EXCHANGE_OKX_SPOT = 9,
   EXCHANGE_BINGX_FUTURES = 10,
   EXCHANGE_GATEIO_SPOT = 40,
+  EXCHANGE_GATEIO_FUTURES = 46,
   EXCHANGE_WLC_FUTURES = 11,
   EXCHANGE_WLC_SPOT = 21,
   EXCHANGE_WLC_BYBIT_SPOT = 23,
@@ -2503,6 +2651,7 @@ export interface ServicesTrade {
   t_t_tools_data?: string;
   t_t_tools_data_close?: string;
   tags?: ServicesTag[];
+  trade_extra?: ServicesTradeExtra;
   updated_at?: string;
   user_id?: number;
   video_link?: string;
@@ -2564,6 +2713,69 @@ export enum ServicesTradeDurationType {
   TradeDurationType90D = "90d",
 }
 
+export interface ServicesTradeExtra {
+  avgTrades15m6h?: number;
+  avgTrades1h24h?: number;
+  avgTrades1m30m?: number;
+  avgTrades30m12h?: number;
+  avgTrades5m2h?: number;
+  avgVolume15m6h?: number;
+  avgVolume1h24h?: number;
+  avgVolume1m30m?: number;
+  avgVolume30m12h?: number;
+  avgVolume5m2h?: number;
+  btcCorr1m50?: number;
+  btcCorr5m20?: number;
+  fundingRate?: number;
+  natr1m30?: number;
+  /** available for all users */
+  natr5m14?: number;
+  priceRange12h?: number;
+  priceRange15m?: number;
+  priceRange1h?: number;
+  priceRange1m?: number;
+  /** available for all users */
+  priceRange24h?: number;
+  priceRange2h?: number;
+  priceRange30m?: number;
+  priceRange4h?: number;
+  /** available for all users */
+  priceRange5m?: number;
+  priceRange6h?: number;
+  trades12h?: number;
+  trades15m?: number;
+  trades1h?: number;
+  trades1m?: number;
+  /** available for all users */
+  trades24h?: number;
+  trades2h?: number;
+  trades30m?: number;
+  trades4h?: number;
+  trades5m?: number;
+  trades6h?: number;
+  tradesSpike15m6h?: number;
+  tradesSpike1h24h?: number;
+  tradesSpike1m30m?: number;
+  tradesSpike30m12h?: number;
+  tradesSpike5m2h?: number;
+  volume12h?: number;
+  volume15m?: number;
+  volume1h?: number;
+  volume1m?: number;
+  /** available for all users */
+  volume24h?: number;
+  volume2h?: number;
+  volume30m?: number;
+  volume4h?: number;
+  volume5m?: number;
+  volume6h?: number;
+  volumeSpike15m6h?: number;
+  volumeSpike1h24h?: number;
+  volumeSpike1m30m?: number;
+  volumeSpike30m12h?: number;
+  volumeSpike5m2h?: number;
+}
+
 export enum ServicesTradeExtraInfoFilter {
   TradeExtraInfoFilterEntryReasonsEmpty = "tags:empty",
   TradeExtraInfoFilterEntryReasonsNotEmpty = "tags:not-empty",
@@ -2578,6 +2790,18 @@ export enum ServicesTradeExtraInfoFilter {
 export interface ServicesTradeFilters {
   api_key_id?: number[];
   api_key_id_params?: string;
+  avgTrades15m6h?: string;
+  avgTrades1h24h?: string;
+  avgTrades1m30m?: string;
+  avgTrades30m12h?: string;
+  avgTrades5m2h?: string;
+  avgVolume15m6h?: string;
+  avgVolume1h24h?: string;
+  avgVolume1m30m?: string;
+  avgVolume30m12h?: string;
+  avgVolume5m2h?: string;
+  btcCorr1m50?: string;
+  btcCorr5m20?: string;
   category?: number[];
   category_params?: string;
   closeBetween?: string;
@@ -2588,6 +2812,7 @@ export interface ServicesTradeFilters {
   exit_tags?: number[];
   exit_tags_params?: string;
   extraInfo?: ServicesTradeExtraInfoFilter;
+  fundingRate?: string;
   groupBy?: ServicesTradeGroupBy;
   headers?: string[];
   hours_of_day?: number[];
@@ -2598,8 +2823,21 @@ export interface ServicesTradeFilters {
   maeBetween?: string;
   mfeBetween?: string;
   multiplier?: string;
+  natr1m30?: string;
+  natr5m14?: string;
   openBetween?: string;
+  orders_extended?: boolean;
   percentBetween?: string;
+  priceRange12h?: string;
+  priceRange15m?: string;
+  priceRange1h?: string;
+  priceRange1m?: string;
+  priceRange24h?: string;
+  priceRange2h?: string;
+  priceRange30m?: string;
+  priceRange4h?: string;
+  priceRange5m?: string;
+  priceRange6h?: string;
   profitBetween?: string;
   profitDepositBetween?: string;
   side?: string;
@@ -2609,9 +2847,39 @@ export interface ServicesTradeFilters {
   tags?: number[];
   tags_params?: string;
   trade_time?: "open_time" | "close_time";
+  trades12h?: string;
+  trades15m?: string;
+  trades1h?: string;
+  trades1m?: string;
+  trades24h?: string;
+  trades2h?: string;
+  trades30m?: string;
+  trades4h?: string;
+  trades5m?: string;
+  trades6h?: string;
+  tradesSpike15m6h?: string;
+  tradesSpike1h24h?: string;
+  tradesSpike1m30m?: string;
+  tradesSpike30m12h?: string;
+  tradesSpike5m2h?: string;
   user_id?: number;
+  volume12h?: string;
+  volume15m?: string;
+  volume1h?: string;
+  volume1m?: string;
+  volume24h?: string;
+  volume2h?: string;
+  volume30m?: string;
+  volume4h?: string;
+  volume5m?: string;
+  volume6h?: string;
   volumeBetween?: string;
   volumeFrom?: number;
+  volumeSpike15m6h?: string;
+  volumeSpike1h24h?: string;
+  volumeSpike1m30m?: string;
+  volumeSpike30m12h?: string;
+  volumeSpike5m2h?: string;
   volumeTo?: number;
   widget_mode?: boolean;
 }
@@ -2771,6 +3039,13 @@ export interface ServicesUIData {
   data?: string;
   id?: number;
   user_id?: number;
+}
+
+export interface ServicesUnSafeUser {
+  avatar?: ServicesFile;
+  email?: string;
+  id?: number;
+  name?: string;
 }
 
 export interface ServicesUserLimits {
@@ -2981,9 +3256,4 @@ export enum ServicesWidgetType2 {
   WidgetType2TreeMap = "treemap",
   WidgetType2Bubble = "bubble",
   WidgetType2CandleStick = "candlestick",
-}
-
-export enum ServicesApiUserType {
-  API_USER_TYPE_USER_CREATED = 1,
-  API_USER_TYPE_OAUTH_CREATED = 2,
 }

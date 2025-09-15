@@ -27,7 +27,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Trading summary by week or day. Include balance history only for premium membership
+   * @description Trading summary by week or day. Include balance history only for premium membership. You can pass skipData and skipBalance to skip trade data and balance history to improve response time.
    *
    * @tags analyzer
    * @name AnalyzerList
@@ -37,6 +37,10 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
    */
   analyzerList = (
     query?: {
+      /** Pass true to skip trade data */
+      skipData?: boolean;
+      /** Pass true to skip balance history */
+      skipBalance?: boolean;
       /** Filter: Type: week, day, month */
       type?: string;
       api_key_id?: number[];
@@ -45,6 +49,39 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
        * "not:" - exclude trades with api key ids specified
        */
       api_key_id_params?: "not:";
+      /** @example "0,10000" */
+      avgTrades15m6h?: string;
+      /** @example "0,40000" */
+      avgTrades1h24h?: string;
+      /**
+       * Moving averages of trades
+       * @example "0,1000"
+       */
+      avgTrades1m30m?: string;
+      /** @example "0,20000" */
+      avgTrades30m12h?: string;
+      /** @example "0,5000" */
+      avgTrades5m2h?: string;
+      /** @example "0,1000000" */
+      avgVolume15m6h?: string;
+      /** @example "0,5000000" */
+      avgVolume1h24h?: string;
+      /**
+       * Moving averages of volume
+       * @example "0,100000"
+       */
+      avgVolume1m30m?: string;
+      /** @example "0,2000000" */
+      avgVolume30m12h?: string;
+      /** @example "0,500000" */
+      avgVolume5m2h?: string;
+      /** @example "-0.8,0.8" */
+      btcCorr1m50?: string;
+      /**
+       * BTC correlation [-1,1]
+       * @example "-0.8,0.8"
+       */
+      btcCorr5m20?: string;
       /**
        * Trades by default have no category.
        * ID 1 is system category for archive trades. Excluded by default.
@@ -86,6 +123,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
         | "desc:not-empty"
         | "mentor_note:not-empty"
         | "mentor_note:empty";
+      /**
+       * Funding rate, e.g. "-0.01,0.01"
+       * @example "-0.01,0.01"
+       */
+      fundingRate?: string;
       /** Used in summary widget settings */
       groupBy?: "minute" | "hour" | "month" | "date" | "week";
       /** Headers are required only for CSV export method */
@@ -107,10 +149,40 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       /** @example "0.5,1.5" */
       mfeBetween?: string;
       multiplier?: string;
+      /** @example "0,2" */
+      natr1m30?: string;
+      /**
+       * NATR
+       * @example "0,2"
+       */
+      natr5m14?: string;
       /** @example "2019-01-01,2019-01-02" */
       openBetween?: string;
       /** @example "0.5,1.5" */
       percentBetween?: string;
+      /** @example "-2,2" */
+      priceRange12h?: string;
+      /** @example "-2,2" */
+      priceRange15m?: string;
+      /** @example "-2,2" */
+      priceRange1h?: string;
+      /**
+       * Price range (normalized), e.g. "-2,2"
+       * @example "-2,2"
+       */
+      priceRange1m?: string;
+      /** @example "-2,2" */
+      priceRange24h?: string;
+      /** @example "-2,2" */
+      priceRange2h?: string;
+      /** @example "-2,2" */
+      priceRange30m?: string;
+      /** @example "-2,2" */
+      priceRange4h?: string;
+      /** @example "-2,2" */
+      priceRange5m?: string;
+      /** @example "-2,2" */
+      priceRange6h?: string;
       profitBetween?: string;
       /** @example "0.5,1.5" */
       profitDepositBetween?: string;
@@ -132,14 +204,86 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       tags_params?: "not:" | "all:" | "not:all:" | "only:";
       /** Default value comes from user profile settings. By default is "open_time" */
       trade_time?: string;
+      /** @example "0,150000" */
+      trades12h?: string;
+      /** @example "0,10000" */
+      trades15m?: string;
+      /** @example "0,40000" */
+      trades1h?: string;
+      /**
+       * Trades count per window
+       * @example "0,1000"
+       */
+      trades1m?: string;
+      /** @example "0,200000" */
+      trades24h?: string;
+      /** @example "0,60000" */
+      trades2h?: string;
+      /** @example "0,20000" */
+      trades30m?: string;
+      /** @example "0,80000" */
+      trades4h?: string;
+      /** @example "0,5000" */
+      trades5m?: string;
+      /** @example "0,100000" */
+      trades6h?: string;
+      /** @example "-3,3" */
+      tradesSpike15m6h?: string;
+      /** @example "-3,3" */
+      tradesSpike1h24h?: string;
+      /**
+       * Trades spikes
+       * @example "-3,3"
+       */
+      tradesSpike1m30m?: string;
+      /** @example "-3,3" */
+      tradesSpike30m12h?: string;
+      /** @example "-3,3" */
+      tradesSpike5m2h?: string;
       /** @example 1 */
       user_id?: number;
+      /** @example "0,20000000" */
+      volume12h?: string;
+      /** @example "0,1000000" */
+      volume15m?: string;
+      /** @example "0,5000000" */
+      volume1h?: string;
+      /**
+       * Volumes (USD or native units—match your backend), counts per window
+       * @example "0,100000"
+       */
+      volume1m?: string;
+      /** @example "0,30000000" */
+      volume24h?: string;
+      /** @example "0,8000000" */
+      volume2h?: string;
+      /** @example "0,2000000" */
+      volume30m?: string;
+      /** @example "0,12000000" */
+      volume4h?: string;
+      /** @example "0,500000" */
+      volume5m?: string;
+      /** @example "0,16000000" */
+      volume6h?: string;
       /**
        * Turnover in USD - including all buy and sell orders value
        * @example "0.5,1.5"
        */
       volumeBetween?: string;
       volumeFrom?: number;
+      /** @example "-3,3" */
+      volumeSpike15m6h?: string;
+      /** @example "-3,3" */
+      volumeSpike1h24h?: string;
+      /**
+       * Volume spikes (ratio/z-score as you define), keep 1h24h included
+       * @example "-3,3"
+       */
+      volumeSpike1m30m?: string;
+      /** @example "-3,3" */
+      volumeSpike30m12h?: string;
+      /** @example "-3,3" */
+      volumeSpike5m2h?: string;
       volumeTo?: number;
       /**
        * By default archive trades are not included. If you want to include them,

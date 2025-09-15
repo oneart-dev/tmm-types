@@ -241,6 +241,7 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
         | 9
         | 10
         | 40
+        | 46
         | 11
         | 21
         | 23

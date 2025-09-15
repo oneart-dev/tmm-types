@@ -66,7 +66,7 @@ export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityData
   /**
    * @description Delete api key
    *
-   * @tags risk-management
+   * @tags api-user
    * @name ApiUserDelete
    * @summary Delete api key
    * @request DELETE:/api-user/{id}

@@ -71,6 +71,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | 9
         | 10
         | 40
+        | 46
         | 11
         | 21
         | 23

@@ -3,7 +3,7 @@ import { HttpClient, RequestParams } from "./http-client";
 export declare class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     apiKeyUpdate: (payload: DtoApiKeyCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesApiKey, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     apiKeyList: (query?: {
-        exchange_id?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 41 | 8 | 9 | 10 | 40 | 11 | 21 | 23 | 24 | 25 | 12 | 22 | 13 | 14 | 15 | 32 | 33 | 42 | 43 | 44 | 45;
+        exchange_id?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 41 | 8 | 9 | 10 | 40 | 46 | 11 | 21 | 23 | 24 | 25 | 12 | 22 | 13 | 14 | 15 | 32 | 33 | 42 | 43 | 44 | 45;
         from_id?: number;
         frozen?: boolean;
         name?: string;
