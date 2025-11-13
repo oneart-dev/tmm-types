@@ -20,6 +20,7 @@ import {
   DtoApiKeyCreateForm,
   DtoApiKeyUpdateForm,
   DtoApiKeyUpdateNameForm,
+  DtoBatchApiKeyCreateForm,
   ServicesApiKeysListPagination,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
@@ -87,7 +88,8 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | 42
         | 43
         | 44
-        | 45;
+        | 45
+        | 50;
       from_id?: number;
       frozen?: boolean;
       name?: string;
@@ -115,6 +117,25 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         ...params,
       },
     );
+  /**
+   * @description Add new api keys in batch
+   *
+   * @tags api-key
+   * @name BatchUpdate
+   * @summary add batch of api keys
+   * @request PUT:/api-key/batch
+   * @secure
+   */
+  batchUpdate = (payload: DtoBatchApiKeyCreateForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/api-key/batch`,
+      method: "PUT",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description List API keys belongs to user
    *

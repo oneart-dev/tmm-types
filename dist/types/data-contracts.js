@@ -106,6 +106,7 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGER_BINANCE_SPOT"] = 43] = "EXCHANGE_TIGER_BINANCE_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGERX_OKX_FUTURES"] = 44] = "EXCHANGE_TIGERX_OKX_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_TIGERX_OKX_SPOT"] = 45] = "EXCHANGE_TIGERX_OKX_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_HYPERLIQUID_FUTURES"] = 50] = "EXCHANGE_HYPERLIQUID_FUTURES";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {

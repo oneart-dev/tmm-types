@@ -20,6 +20,15 @@ export class ApiKey extends HttpClient {
             format: "json",
             ...params,
         });
+        this.batchUpdate = (payload, params = {}) => this.request({
+            path: `/api-key/batch`,
+            method: "PUT",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.listDetail = (userId, params = {}) => this.request({
             path: `/api-key/list/${userId}`,
             method: "GET",

@@ -228,6 +228,14 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.shortLinkDelete = (id, params = {}) => this.request({
+            path: `/trades/${id}/short-link`,
+            method: "DELETE",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.tagsCreate3 = (id, payload, params = {}) => this.request({
             path: `/trades/${id}/tags`,
             method: "POST",

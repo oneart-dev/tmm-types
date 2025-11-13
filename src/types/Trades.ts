@@ -1139,6 +1139,27 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
+   * @description Delete short link by trade id. Return no error if short link not found
+   *
+   * @tags trades
+   * @name ShortLinkDelete
+   * @summary Delete short link
+   * @request DELETE:/trades/{id}/short-link
+   * @secure
+   */
+  shortLinkDelete = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/${id}/short-link`,
+      method: "DELETE",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Endpoint accept list of all tags belongs to the trade. Empty list will remove all tags. Tag with zero ID will be created and attached to the trade.
    *
    * @tags trades

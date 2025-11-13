@@ -497,7 +497,9 @@ export interface DtoApiKeyCreateForm {
     | 42
     | 43
     | 44
-    | 45;
+    | 45
+    | 46
+    | 50;
   /**
    * @minLength 1
    * @maxLength 255
@@ -514,7 +516,7 @@ export interface DtoApiKeyCreateForm {
    * @maxLength 255
    * @example "ewf223fwfewf42f2f2ffwef2f"
    */
-  key_public: string;
+  key_public?: string;
   /**
    * @minLength 1
    * @maxLength 255
@@ -540,7 +542,7 @@ export interface DtoApiKeyUpdateForm {
    * @maxLength 255
    * @example "ewf223fwfewf42f2f2ffwef2f"
    */
-  key_public: string;
+  key_public?: string;
   /**
    * @minLength 1
    * @maxLength 255
@@ -575,6 +577,35 @@ export interface DtoBalanceRecord {
   balance_usd: number;
   /** @example 1716547554782 */
   updated_at: number;
+}
+
+export interface DtoBatchApiKeyCreateForm {
+  balances?: DtoBalanceRecord[];
+  /** @uniqueItems true */
+  exchange_id: number[];
+  /**
+   * @minLength 1
+   * @maxLength 255
+   */
+  extra_info?: string;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "ewf223fwfewf42f2f2ffwef2f"
+   */
+  key_private?: string;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "ewf223fwfewf42f2f2ffwef2f"
+   */
+  key_public?: string;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "Main account"
+   */
+  name: string;
 }
 
 export interface DtoCategoryForm {
@@ -1831,6 +1862,7 @@ export enum ServicesExchangeID {
   EXCHANGE_TIGER_BINANCE_SPOT = 43,
   EXCHANGE_TIGERX_OKX_FUTURES = 44,
   EXCHANGE_TIGERX_OKX_SPOT = 45,
+  EXCHANGE_HYPERLIQUID_FUTURES = 50,
 }
 
 export interface ServicesFile {
