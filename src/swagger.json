@@ -2338,118 +2338,6 @@
                 }
             }
         },
-        "/api-key/{id}/balance-update": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKey": [],
-                        "JWT": []
-                    }
-                ],
-                "description": "update api key balance",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "api-key"
-                ],
-                "summary": "update api key balance",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Api key id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Limit exceeded",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api-key/{id}/freeze": {
             "post": {
                 "security": [
@@ -3415,6 +3303,118 @@
                         "description": "Locked",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api-key/{id}/update-balance": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "update api key balance",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-key"
+                ],
+                "summary": "update api key balance",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Api key id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -26790,7 +26790,6 @@
                 "email",
                 "language",
                 "name",
-                "password",
                 "timezone"
             ],
             "properties": {
@@ -26836,12 +26835,6 @@
                     "maxLength": 100,
                     "minLength": 3,
                     "example": "Nick"
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 200,
-                    "minLength": 8,
-                    "example": "12345678"
                 },
                 "start_of_week": {
                     "type": "string",
@@ -27225,6 +27218,23 @@
                 "CVizorStatusEnabledTrends",
                 "CVizorStatusEnabledPRO"
             ]
+        },
+        "services.Category": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
         },
         "services.Dashboard": {
             "type": "object",
@@ -30657,6 +30667,12 @@
                 "avatar": {
                     "$ref": "#/definitions/services.File"
                 },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Category"
+                    }
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -30737,6 +30753,12 @@
                 },
                 "stripe": {
                     "$ref": "#/definitions/services.Stripe"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Tag"
+                    }
                 },
                 "theme": {
                     "type": "integer"

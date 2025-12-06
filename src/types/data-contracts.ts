@@ -1555,12 +1555,6 @@ export interface DtoUserUpdateForm {
    * @example "Nick"
    */
   name: string;
-  /**
-   * @minLength 8
-   * @maxLength 200
-   * @example "12345678"
-   */
-  password: string;
   /** @example "monday" */
   start_of_week?: "sunday" | "monday";
   /** @example "UTC" */
@@ -1732,6 +1726,13 @@ export enum ServicesCVizorStatus {
   CVizorStatusDisabled = 0,
   CVizorStatusEnabledTrends = 1,
   CVizorStatusEnabledPRO = 2,
+}
+
+export interface ServicesCategory {
+  id?: number;
+  name?: string;
+  order?: number;
+  user_id?: number;
 }
 
 export interface ServicesDashboard {
@@ -3102,6 +3103,7 @@ export interface ServicesUserWithRelations {
   api_keys?: ServicesApiKey[];
   api_keys_list?: ServicesApiKey[];
   avatar?: ServicesFile;
+  categories?: ServicesCategory[];
   created_at?: string;
   cvizor?: ServicesCVizorStatus;
   default_group_field?: ServicesDefaultGroupField;
@@ -3127,6 +3129,7 @@ export interface ServicesUserWithRelations {
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
   stripe?: ServicesStripe;
+  tags?: ServicesTag[];
   theme?: number;
   timezone?: string;
   top_trader?: number;

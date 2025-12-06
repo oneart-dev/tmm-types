@@ -54,14 +54,6 @@ export class ApiKey extends HttpClient {
             format: "json",
             ...params,
         });
-        this.balanceUpdateCreate = (id, params = {}) => this.request({
-            path: `/api-key/${id}/balance-update`,
-            method: "POST",
-            secure: true,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
         this.freezeCreate = (id, params = {}) => this.request({
             path: `/api-key/${id}/freeze`,
             method: "POST",
@@ -121,6 +113,14 @@ export class ApiKey extends HttpClient {
         });
         this.toggleExtendedCreate = (id, params = {}) => this.request({
             path: `/api-key/${id}/toggle-extended`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.updateBalanceCreate = (id, params = {}) => this.request({
+            path: `/api-key/${id}/update-balance`,
             method: "POST",
             secure: true,
             type: ContentType.Json,

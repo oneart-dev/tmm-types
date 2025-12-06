@@ -679,7 +679,6 @@ export interface DtoUserUpdateForm {
     email: string;
     language: "ru" | "en";
     name: string;
-    password: string;
     start_of_week?: "sunday" | "monday";
     timezone: string;
 }
@@ -795,6 +794,12 @@ export declare enum ServicesCVizorStatus {
     CVizorStatusDisabled = 0,
     CVizorStatusEnabledTrends = 1,
     CVizorStatusEnabledPRO = 2
+}
+export interface ServicesCategory {
+    id?: number;
+    name?: string;
+    order?: number;
+    user_id?: number;
 }
 export interface ServicesDashboard {
     description?: string;
@@ -1927,6 +1932,7 @@ export interface ServicesUserWithRelations {
     api_keys?: ServicesApiKey[];
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
+    categories?: ServicesCategory[];
     created_at?: string;
     cvizor?: ServicesCVizorStatus;
     default_group_field?: ServicesDefaultGroupField;
@@ -1952,6 +1958,7 @@ export interface ServicesUserWithRelations {
     shard_id?: number;
     start_of_week?: ServicesUserStartOfWeek;
     stripe?: ServicesStripe;
+    tags?: ServicesTag[];
     theme?: number;
     timezone?: string;
     top_trader?: number;

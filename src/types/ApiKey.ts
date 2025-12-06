@@ -200,26 +200,6 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description update api key balance
-   *
-   * @tags api-key
-   * @name BalanceUpdateCreate
-   * @summary update api key balance
-   * @request POST:/api-key/{id}/balance-update
-   * @secure
-   */
-  balanceUpdateCreate = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/api-key/${id}/balance-update`,
-        method: "POST",
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
-  /**
    * @description Freeze api key. If api key is frozen, then it will be disabled
    *
    * @tags api-key
@@ -386,4 +366,24 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       format: "json",
       ...params,
     });
+  /**
+   * @description update api key balance
+   *
+   * @tags api-key
+   * @name UpdateBalanceCreate
+   * @summary update api key balance
+   * @request POST:/api-key/{id}/update-balance
+   * @secure
+   */
+  updateBalanceCreate = (id: number, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
+      {
+        path: `/api-key/${id}/update-balance`,
+        method: "POST",
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      },
+    );
 }
