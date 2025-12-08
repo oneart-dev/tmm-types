@@ -30745,6 +30745,9 @@
                 "referral_code": {
                     "type": "string"
                 },
+                "referral_summary": {
+                    "$ref": "#/definitions/services.UserReferralSummary"
+                },
                 "referred_by": {
                     "type": "integer"
                 },

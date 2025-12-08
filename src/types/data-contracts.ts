@@ -3125,6 +3125,7 @@ export interface ServicesUserWithRelations {
   privileges?: string[];
   referral?: string;
   referral_code?: string;
+  referral_summary?: ServicesUserReferralSummary;
   referred_by?: number;
   risk_management?: ServicesRiskManagement[];
   session_reset_at?: number;
