@@ -30685,6 +30685,12 @@
                 "default_time_frame": {
                     "type": "string"
                 },
+                "discord": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.DiscordConnect"
+                    }
+                },
                 "email": {
                     "type": "string"
                 },
@@ -30742,6 +30748,12 @@
                 "referred_by": {
                     "type": "integer"
                 },
+                "risk_management": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.RiskManagement"
+                    }
+                },
                 "session_reset_at": {
                     "type": "integer"
                 },
@@ -30758,6 +30770,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.Tag"
+                    }
+                },
+                "telegram": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TelegramConnect"
                     }
                 },
                 "theme": {

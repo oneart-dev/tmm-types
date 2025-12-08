@@ -3108,6 +3108,7 @@ export interface ServicesUserWithRelations {
   cvizor?: ServicesCVizorStatus;
   default_group_field?: ServicesDefaultGroupField;
   default_time_frame?: string;
+  discord?: ServicesDiscordConnect[];
   email?: string;
   email_verified_at?: string;
   filter_presets?: ServicesFilterPreset[];
@@ -3125,11 +3126,13 @@ export interface ServicesUserWithRelations {
   referral?: string;
   referral_code?: string;
   referred_by?: number;
+  risk_management?: ServicesRiskManagement[];
   session_reset_at?: number;
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
   stripe?: ServicesStripe;
   tags?: ServicesTag[];
+  telegram?: ServicesTelegramConnect[];
   theme?: number;
   timezone?: string;
   top_trader?: number;
