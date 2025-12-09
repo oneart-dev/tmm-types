@@ -1952,6 +1952,7 @@ export interface ServicesUserWithRelations {
     membership_valid_until?: number;
     name?: string;
     privileges?: string[];
+    public_profile?: ServicesPublicProfile;
     referral?: string;
     referral_code?: string;
     referral_summary?: ServicesUserReferralSummary;

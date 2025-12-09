@@ -30739,6 +30739,9 @@
                         "type": "string"
                     }
                 },
+                "public_profile": {
+                    "$ref": "#/definitions/services.PublicProfile"
+                },
                 "referral": {
                     "type": "string"
                 },
