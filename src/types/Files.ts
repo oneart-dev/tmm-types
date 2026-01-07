@@ -20,11 +20,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Upload images. Image should belong to model with owner type and owner id.
+   * @description Uploads one or more images and associates them with a specified model by owner type and ID.
    *
    * @tags files
    * @name UploadImageCreate
-   * @summary Upload images
+   * @summary Upload Images
    * @request POST:/files/upload/image/{model}/{id}
    * @secure
    */
@@ -38,11 +38,11 @@ export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Delete file
+   * @description Deletes a file based on its owner type and ID.
    *
    * @tags files
    * @name FilesDelete
-   * @summary Delete file
+   * @summary Delete File
    * @request DELETE:/files/{model}/{id}
    * @secure
    */

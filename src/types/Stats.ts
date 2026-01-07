@@ -18,11 +18,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Stats<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Get server stats
+   * @description Retrieves public statistics for the server.
    *
    * @tags Stats
    * @name ServerList
-   * @summary Get server stats
+   * @summary Get Server Statistics
    * @request GET:/stats/server
    */
   serverList = (params: RequestParams = {}) =>
@@ -34,11 +34,11 @@ export class Stats<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description List of hot coins
+   * @description Retrieves a list of 'hot' coins based on recent trading activity.
    *
    * @tags Stats
    * @name TopCoinsList
-   * @summary List of hot coins
+   * @summary Get Hot Coins
    * @request GET:/stats/top-coins
    */
   topCoinsList = (params: RequestParams = {}) =>

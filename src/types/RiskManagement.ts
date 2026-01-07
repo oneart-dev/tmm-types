@@ -22,11 +22,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class RiskManagement<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Create risk management rule
+   * @description Creates a new risk management rule.
    *
    * @tags risk-management
    * @name RiskManagementUpdate
-   * @summary Create risk management rule
+   * @summary Create Risk Management Rule
    * @request PUT:/risk-management
    * @secure
    */
@@ -43,11 +43,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       },
     );
   /**
-   * @description Update risk management rule
+   * @description Updates an existing risk management rule.
    *
    * @tags risk-management
    * @name RiskManagementCreate
-   * @summary Update risk management rule
+   * @summary Update Risk Management Rule
    * @request POST:/risk-management
    * @secure
    */
@@ -64,11 +64,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       },
     );
   /**
-   * @description List of all risk management rules
+   * @description Retrieves a paginated list of all risk management rules.
    *
    * @tags risk-management
    * @name RiskManagementList
-   * @summary List of all risk management rules
+   * @summary List Risk Management Rules
    * @request GET:/risk-management/
    * @secure
    */
@@ -98,11 +98,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       ...params,
     });
   /**
-   * @description List of all violations recorded by system with pagination support
+   * @description Retrieves a paginated list of all risk management violations recorded by the system.
    *
    * @tags risk-management
    * @name GetRiskManagement
-   * @summary Log of violations
+   * @summary List Risk Management Violations
    * @request GET:/risk-management/log
    * @secure
    */
@@ -132,11 +132,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       ...params,
     });
   /**
-   * @description Delete risk management rule
+   * @description Deletes a risk management rule.
    *
    * @tags risk-management
    * @name RiskManagementDelete
-   * @summary Delete risk management rule
+   * @summary Delete Risk Management Rule
    * @request DELETE:/risk-management/{id}
    * @secure
    */
@@ -152,11 +152,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       },
     );
   /**
-   * @description Toggle risk management on/off
+   * @description Enables or disables a risk management rule.
    *
    * @tags risk-management
    * @name ToggleCreate
-   * @summary Toggle risk management on/off
+   * @summary Toggle Risk Management Rule
    * @request POST:/risk-management/{id}/toggle
    * @secure
    */

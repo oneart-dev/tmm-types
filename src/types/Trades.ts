@@ -44,11 +44,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List trades with pagination and filters Multiple values example: ```&api_key_id=1&api_key_id=2&api_key_id=3```
+   * @description Retrieves a paginated and filterable list of trades. For multiple values in a filter, repeat the query parameter (e.g., `&api_key_id=1&api_key_id=2`).
    *
    * @tags trades
    * @name TradesList
-   * @summary List trades
+   * @summary List Trades
    * @request GET:/trades/
    * @secure
    */
@@ -322,11 +322,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Moving all trades to archive category.
+   * @description Moves all of the user's trades to the archive category.
    *
    * @tags trades
    * @name ArchiveAllCreate
-   * @summary Archive all trades
+   * @summary Archive All Trades
    * @request POST:/trades/archive-all
    * @secure
    */
@@ -343,11 +343,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Categories list include default archive category. You can't delete or modify default archive category.
+   * @description Retrieves a comprehensive list of categories, including a default archive category. The default archive category cannot be modified or deleted.
    *
    * @tags trades
    * @name CategoriesList
-   * @summary Categories list
+   * @summary Retrieve a list of categories
    * @request GET:/trades/categories
    * @secure
    */
@@ -364,11 +364,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update all categories
+   * @description Allows for the bulk update of categories.
    *
    * @tags trades
    * @name CategoriesCreate
-   * @summary Update all categories
+   * @summary Update multiple categories
    * @request POST:/trades/categories
    * @secure
    */
@@ -386,11 +386,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update category
+   * @description Updates the details of a specific category identified by its ID.
    *
    * @tags trades
    * @name CategoriesCreate2
-   * @summary Update category
+   * @summary Update an existing category
    * @request POST:/trades/categories/{id}
    * @originalName categoriesCreate
    * @duplicate
@@ -409,11 +409,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Delete category
+   * @description Deletes a specific category identified by its ID. The default archive category cannot be deleted.
    *
    * @tags trades
    * @name CategoriesDelete
-   * @summary Delete category
+   * @summary Delete a category
    * @request DELETE:/trades/categories/{id}
    * @secure
    */
@@ -429,11 +429,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description List of orders for full day
+   * @description Retrieves the list of orders placed on a specific day.
    *
    * @tags trades
    * @name DayOrdersList
-   * @summary get order list for full day
+   * @summary Get Orders for a Full Day
    * @request GET:/trades/day/orders
    * @secure
    */
@@ -458,11 +458,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Export trades to file with filters Multiple values example: ```&api_key_id=1&api_key_id=2&api_key_id=3```
+   * @description Exports a list of trades to a file (e.g., CSV) based on the provided filters. For multiple values, repeat the query parameter.
    *
    * @tags trades
    * @name ExportDetail
-   * @summary Export trades to file
+   * @summary Export Trades to File
    * @request GET:/trades/export/{format}
    * @secure
    */
@@ -735,11 +735,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Save chart drawings for ticker
+   * @description Saves chart drawings that apply globally to a specific ticker.
    *
    * @tags trades
    * @name GlobalSaveChartCreate
-   * @summary Save chart drawings for ticker
+   * @summary Save Global Chart Drawings for Ticker
    * @request POST:/trades/global/{ticker}/save-chart
    * @secure
    */
@@ -757,11 +757,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Merge trades with same api key, symbol and side overwise return error
+   * @description Merges multiple trades into one. An error is returned if the trades do not have the same API key, symbol, and side.
    *
    * @tags trades
    * @name MergeCreate
-   * @summary Merge trades
+   * @summary Merge Trades
    * @request POST:/trades/merge
    * @secure
    */
@@ -779,11 +779,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get trades group by short url hash
+   * @description Retrieves a group of public trades using a short URL hash.
    *
    * @tags trades
    * @name PublicGroupDetail
-   * @summary Get trades group by short url hash
+   * @summary Get Public Trade Group by Short URL
    * @request GET:/trades/public-group/{code}
    */
   publicGroupDetail = (code: string, params: RequestParams = {}) =>
@@ -798,11 +798,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get trade by short url hash
+   * @description Retrieves a public trade using its short URL hash.
    *
    * @tags trades
    * @name PublicDetail
-   * @summary Get trade by short url hash
+   * @summary Get Public Trade by Short URL
    * @request GET:/trades/public/{code}
    */
   publicDetail = (code: string, params: RequestParams = {}) =>
@@ -817,11 +817,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description get klines for chart using hash from short url
+   * @description Retrieves kline data for a public trade's chart using its short URL hash.
    *
    * @tags trades
    * @name PublicLoadCandlesDataCreate
-   * @summary get klines for chart using hash from short url
+   * @summary Get Public Klines for Chart
    * @request POST:/trades/public/{code}/loadCandlesData
    * @deprecated
    */
@@ -838,11 +838,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get trade preview. Preview is cached and regenerated only if
+   * @description Generates a preview image for a trade. The preview is cached and will only be regenerated if the trade was updated more than 5 minutes ago.
    *
    * @tags trades
    * @name PublicPreviewDetail
-   * @summary Get trade preview
+   * @summary Get Trade Preview Image
    * @request GET:/trades/public/{code}/preview
    */
   publicPreviewDetail = (code: string, params: RequestParams = {}) =>
@@ -856,11 +856,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Generate short link for list of trade IDs. It will use privacy settings from the public profile settings. It will return same link for the same trades.
+   * @description Generates a shareable short link for a group of trades, respecting the user's public profile privacy settings. The same link will be returned for the same group of trades.
    *
    * @tags trades
    * @name ShortLinkGroupCreate
-   * @summary Generate short link for group of trades
+   * @summary Generate Short Link for Trade Group
    * @request POST:/trades/short-link-group
    * @secure
    */
@@ -878,11 +878,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get all tags created by user and attached at least for one trade
+   * @description Retrieves all tags that the user has created and applied to at least one trade.
    *
    * @tags trades
    * @name TagsList
-   * @summary Get all tags
+   * @summary Get All Tags
    * @request GET:/trades/tags
    * @secure
    */
@@ -899,11 +899,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update tags for all selected trades. You can expect to receive an update for each trade through the SSE channel.
+   * @description Updates the tags for a selection of trades. An update for each trade will be sent through the SSE channel.
    *
    * @tags trades
    * @name TagsCreate
-   * @summary Update tags for all selected trades
+   * @summary Update Tags for Multiple Trades
    * @request POST:/trades/tags
    * @secure
    */
@@ -921,11 +921,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Send list of tags ids with order to update tags order
+   * @description Updates the display order of tags by providing an ordered list of their IDs.
    *
    * @tags trades
    * @name TagsSortCreate
-   * @summary Sort entry reasons
+   * @summary Sort Tags
    * @request POST:/trades/tags/sort
    * @secure
    */
@@ -942,11 +942,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Update tag
+   * @description Updates the properties of a tag.
    *
    * @tags trades
    * @name TagsCreate2
-   * @summary Update tag
+   * @summary Update Tag
    * @request POST:/trades/tags/{id}
    * @originalName tagsCreate
    * @duplicate
@@ -966,11 +966,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Delete tag will remove tag from all trades. ⚠️ CAUTION: this action is irreversible. ⚠️
+   * @description Deletes a tag and removes it from all associated trades. ⚠️ CAUTION: this action is irreversible. ⚠️
    *
    * @tags trades
    * @name TagsDelete
-   * @summary Delete tag
+   * @summary Delete Tag
    * @request DELETE:/trades/tags/{id}
    * @secure
    */
@@ -987,11 +987,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update trades category
+   * @description Updates the category association for a collection of trades.
    *
    * @tags trades
    * @name UpdateCategoryCreate
-   * @summary Update trades category
+   * @summary Update trade category for multiple trades
    * @request POST:/trades/update-category
    * @secure
    */
@@ -1009,11 +1009,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description user drawings on the chart in JSON format. Returns unparsed JSON
+   * @description Retrieves user-created drawings for a chart in an unparsed JSON format.
    *
    * @tags trades
    * @name ChartDataCreate
-   * @summary get drawings for chart
+   * @summary Get Chart Drawings
    * @request POST:/trades/{id}/chart-data
    * @secure
    */
@@ -1031,11 +1031,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Close trade. Only for SPOT trades. If trade has no sell orders it will move it to archive category.
+   * @description Closes a trade. This is applicable only to SPOT trades. If a trade has no sell orders, it will be moved to the archive category.
    *
    * @tags trades
    * @name CloseCreate
-   * @summary Close trade
+   * @summary Close Trade
    * @request POST:/trades/{id}/close
    * @secure
    */
@@ -1052,11 +1052,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Get klines for chart with interval selected. Will include user drawings on the chart
+   * @description Retrieves kline data for a trade's chart with a selected interval. The response includes any user-created drawings on the chart.
    *
    * @tags trades
    * @name LoadCandlesDataCreate
-   * @summary get klines for chart
+   * @summary Get Klines for Chart
    * @request POST:/trades/{id}/loadCandlesData
    * @deprecated
    * @secure
@@ -1075,11 +1075,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description List of orders for the trade
+   * @description Retrieves the list of orders associated with a specific trade.
    *
    * @tags trades
    * @name OrdersDetail
-   * @summary get order list for trade
+   * @summary Get Orders for a Trade
    * @request GET:/trades/{id}/orders
    * @secure
    */
@@ -1096,11 +1096,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Save chart drawings for the trade.
+   * @description Saves the drawings for a specific trade's chart.
    *
    * @tags trades
    * @name SaveChartCreate
-   * @summary Save chart drawings for the trade.
+   * @summary Save Trade Chart Drawings
    * @request POST:/trades/{id}/save-chart
    * @secure
    */
@@ -1118,11 +1118,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Generate short link for trade. It will use privacy settings from the public profile settings. It will return same link for the same trade.
+   * @description Generates a shareable short link for a trade, respecting the user's public profile privacy settings. The same link will be returned for the same trade.
    *
    * @tags trades
    * @name ShortLinkCreate
-   * @summary Generate short link
+   * @summary Generate Trade Short Link
    * @request POST:/trades/{id}/short-link
    * @secure
    */
@@ -1139,11 +1139,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Delete short link by trade id. Return no error if short link not found
+   * @description Deletes a short link by its associated trade ID. No error is returned if the short link does not exist.
    *
    * @tags trades
    * @name ShortLinkDelete
-   * @summary Delete short link
+   * @summary Delete Trade Short Link
    * @request DELETE:/trades/{id}/short-link
    * @secure
    */
@@ -1160,11 +1160,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Endpoint accept list of all tags belongs to the trade. Empty list will remove all tags. Tag with zero ID will be created and attached to the trade.
+   * @description Updates the tags for a trade. Providing an empty list will remove all tags. A tag with an ID of zero will be newly created and attached.
    *
    * @tags trades
    * @name TagsCreate3
-   * @summary Update trade tags
+   * @summary Update Trade Tags
    * @request POST:/trades/{id}/tags
    * @originalName tagsCreate
    * @duplicate
@@ -1184,11 +1184,11 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update trade description, conclusion and video link
+   * @description Updates a trade's description, conclusion, and video link.
    *
    * @tags trades
    * @name UpdateCreate
-   * @summary Update trade description
+   * @summary Update Trade Description
    * @request POST:/trades/{id}/update
    * @secure
    */

@@ -19,31 +19,28 @@ import { HttpClient, RequestParams } from "./http-client";
 
 export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Get oauth2 token
+   * @description Generates a temporary authorization code for third-party integration. This code can be exchanged for an API key.
    *
    * @tags users
    * @name Oauth2Create
-   * @summary Get oauth2 token
+   * @summary Initiate OAuth2 authorization flow
    * @request POST:/user/oauth2
    * @secure
    */
   oauth2Create = (
-    query?: {
-      /** only code is supported */
+    query: {
+      /** Response type (only 'code' supported) */
       response_type?: string;
-      /** client id */
-      client_id?: string;
-      /** redirect uri */
+      /** Client ID assigned to the 3rd party service */
+      client_id: string;
+      /** Authorized redirect URL */
       redirect_uri?: string;
-      /** state */
+      /** Anti-forgery state token */
       state?: string;
     },
     params: RequestParams = {},
   ) =>
-    this.request<
-      ControllersApiSuccessString,
-      void | ServicesValidationErrorResponse | string | ControllersApiErrorResponse
-    >({
+    this.request<ControllersApiSuccessString, ServicesValidationErrorResponse>({
       path: `/user/oauth2`,
       method: "POST",
       query: query,
@@ -52,18 +49,15 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Redeem promo code
+   * @description Redeems a promotional code to activate specific features, membership levels, or bonuses. Validates expiration and usage limits.
    *
    * @tags auth
    * @name RedeemCreate
-   * @summary Redeem promo code
+   * @summary Apply promotional code
    * @request POST:/user/{code}/redeem
    */
   redeemCreate = (code: string, params: RequestParams = {}) =>
-    this.request<
-      ControllersApiSuccessNoData,
-      void | ServicesValidationErrorResponse | string | ControllersApiErrorResponse
-    >({
+    this.request<ControllersApiSuccessNoData, ServicesValidationErrorResponse | ControllersApiErrorResponse>({
       path: `/user/${code}/redeem`,
       method: "POST",
       format: "json",

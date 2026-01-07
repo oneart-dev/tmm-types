@@ -27,11 +27,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Trading summary by week or day. Include balance history only for premium membership. You can pass skipData and skipBalance to skip trade data and balance history to improve response time.
+   * @description Provides a detailed trading summary for a specific week, day, or month. Balance history is included for premium members. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.
    *
    * @tags analyzer
    * @name AnalyzerList
-   * @summary Trading summary by week or day
+   * @summary Get Detailed Trading Analysis by Time Period
    * @request GET:/analyzer/
    * @secure
    */
@@ -306,11 +306,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       ...params,
     });
   /**
-   * @description Get list of all analyzer notes added by user
+   * @description Fetches a list of all analyzer notes created by the user, with optional filtering by date range and note type.
    *
    * @tags analyzer
    * @name NotesList
-   * @summary Get analyzer notes
+   * @summary Retrieve Analyzer Notes
    * @request GET:/analyzer/notes
    * @secure
    */
@@ -339,11 +339,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       ...params,
     });
   /**
-   * @description Update or create analyzer note. If id provided it will update existing note otherwise it will create new one
+   * @description Creates a new analyzer note or updates an existing one. If an ID is provided in the payload, the corresponding note will be updated; otherwise, a new note is created.
    *
    * @tags analyzer
    * @name NotesCreate
-   * @summary Update or create
+   * @summary Create or Update an Analyzer Note
    * @request POST:/analyzer/notes
    * @secure
    */
@@ -361,11 +361,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       ...params,
     });
   /**
-   * @description Trading summary by week or day. Include balance history only for premium membership
+   * @description Retrieves a trading summary aggregated by week or day. Balance history is only included for premium members.
    *
    * @tags analyzer
    * @name WeekListList
-   * @summary Trading summary by week or day
+   * @summary Retrieve Trading Summary by Time Period
    * @request GET:/analyzer/week-list
    * @secure
    */
@@ -389,11 +389,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       ...params,
     });
   /**
-   * @description get user drawings on the chart
+   * @description Retrieves user-created drawings for a specific chart symbol.
    *
    * @tags analyzer
    * @name ChartDataCreate
-   * @summary get data for chart
+   * @summary Get Chart Drawings
    * @request POST:/analyzer/{symbol}/chart-data
    * @secure
    */
@@ -414,11 +414,11 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       ...params,
     });
   /**
-   * @description Get klines for chart with interval selected. Will include user drawings on the chart
+   * @description Retrieves historical Kline data (candlesticks) for a specified ticker and interval. The response includes any user-created drawings on the chart.
    *
    * @tags analyzer
    * @name LoadCandlesDataCreate
-   * @summary get klines for chart
+   * @summary Get Kline Data for a Ticker
    * @request POST:/analyzer/{ticker}/loadCandlesData
    * @deprecated
    * @secure

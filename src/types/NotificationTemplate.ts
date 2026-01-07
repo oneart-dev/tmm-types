@@ -23,11 +23,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class NotificationTemplate<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Get list of team members. Available only for team owner if team is private. Only owner can use filters to search. Nobody can see revoked members. By default only active members are showing.
+   * @description Retrieves a paginated list of notification templates.
    *
-   * @tags team
+   * @tags notification-template
    * @name NotificationTemplateList
-   * @summary Get team members
+   * @summary List Notification Templates
    * @request GET:/notification-template
    * @secure
    */
@@ -58,11 +58,11 @@ export class NotificationTemplate<SecurityDataType = unknown> extends HttpClient
       ...params,
     });
   /**
-   * @description Create notification template universal for any external notification (eg Telegram, Discord, etc.)
+   * @description Creates a new notification template that can be used for any external notification service (e.g., Telegram, Discord).
    *
    * @tags notification-template
    * @name NotificationTemplateUpdate
-   * @summary create new notification template
+   * @summary Create Notification Template
    * @request PUT:/notification-template
    * @secure
    */
@@ -80,11 +80,11 @@ export class NotificationTemplate<SecurityDataType = unknown> extends HttpClient
       ...params,
     });
   /**
-   * @description Update notification template name, description
+   * @description Updates the name and description of a notification template.
    *
    * @tags notification-template
    * @name NotificationTemplateCreate
-   * @summary update notification template
+   * @summary Update Notification Template
    * @request POST:/notification-template/{id}
    * @secure
    */
@@ -101,11 +101,11 @@ export class NotificationTemplate<SecurityDataType = unknown> extends HttpClient
       },
     );
   /**
-   * @description Deleting notification template
+   * @description Deletes a notification template.
    *
    * @tags notification-template
    * @name NotificationTemplateDelete
-   * @summary delete notification template
+   * @summary Delete Notification Template
    * @request DELETE:/notification-template/{id}
    * @secure
    */

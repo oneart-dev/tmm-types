@@ -14,7 +14,6 @@ import {
   ControllersApiSuccessServicesApiUser,
   ControllersUnauthorizedResponse,
   DtoOauth2SwapForm,
-  ServicesValidationErrorResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -24,7 +23,7 @@ export class Oauth2<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    *
    * @tags sse
    * @name GetOauth2
-   * @summary SSE stream for oauth2 clients
+   * @summary SSE Stream for OAuth2 Clients
    * @request GET:/oauth2/sse/{key}
    * @secure
    */
@@ -36,19 +35,16 @@ export class Oauth2<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Swap oauth2 token to api key. Token is valid for 1 minute. Api key has no expiration date.
+   * @description Exchanges a 1-minute temporary OAuth2 token for a permanent User API Key. This request must be authenticated with the 3rd party's service API key.
    *
    * @tags users
    * @name TokenCreate
-   * @summary Swap oauth2 token to api key
+   * @summary Exchange authorization code for API key
    * @request POST:/oauth2/token
    * @secure
    */
   tokenCreate = (payload: DtoOauth2SwapForm, params: RequestParams = {}) =>
-    this.request<
-      ControllersApiSuccessServicesApiUser,
-      void | ServicesValidationErrorResponse | string | ControllersApiErrorResponse
-    >({
+    this.request<ControllersApiSuccessServicesApiUser, ControllersUnauthorizedResponse>({
       path: `/oauth2/token`,
       method: "POST",
       body: payload,

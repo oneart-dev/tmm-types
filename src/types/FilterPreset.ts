@@ -21,11 +21,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class FilterPreset<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List filter presets
+   * @description Retrieves a list of all saved filter presets for the user.
    *
    * @tags filter-preset
    * @name FilterPresetList
-   * @summary List filter presets
+   * @summary List Filter Presets
    * @request GET:/filter-preset
    * @secure
    */
@@ -42,11 +42,11 @@ export class FilterPreset<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Create filter preset
+   * @description Creates a new filter preset.
    *
    * @tags filter-preset
    * @name FilterPresetUpdate
-   * @summary Create filter preset
+   * @summary Create Filter Preset
    * @request PUT:/filter-preset
    * @secure
    */
@@ -64,11 +64,11 @@ export class FilterPreset<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Create filter preset
+   * @description Updates an existing filter preset.
    *
    * @tags filter-preset
    * @name FilterPresetCreate
-   * @summary Create filter preset
+   * @summary Update Filter Preset
    * @request POST:/filter-preset/{id}
    * @secure
    */
@@ -85,11 +85,11 @@ export class FilterPreset<SecurityDataType = unknown> extends HttpClient<Securit
       },
     );
   /**
-   * @description Delete filter preset
+   * @description Deletes a filter preset.
    *
    * @tags filter-preset
    * @name FilterPresetDelete
-   * @summary Delete filter preset
+   * @summary Delete Filter Preset
    * @request DELETE:/filter-preset/{id}
    * @secure
    */

@@ -25,11 +25,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class MentorGroup<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Create mentorship group
+   * @description Creates a new mentorship group.
    *
    * @tags mentor-group
    * @name MentorGroupUpdate
-   * @summary Create mentorship group
+   * @summary Create Mentorship Group
    * @request PUT:/mentor-group
    * @secure
    */
@@ -46,11 +46,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description List of mentor groups belongs to user. Joined by user. Public groups.
+   * @description Retrieves a comprehensive list of mentor groups, including those owned by the user, joined by the user, and public groups.
    *
    * @tags mentor-group
    * @name MentorGroupList
-   * @summary List mentor groups
+   * @summary List Mentor Groups
    * @request GET:/mentor-group/
    * @secure
    */
@@ -73,11 +73,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description List mentor groups with accepted students
+   * @description Retrieves a list of mentor groups that have accepted students.
    *
    * @tags mentor-group
    * @name ActiveList
-   * @summary List mentor groups with accepted students
+   * @summary List Active Mentor Groups
    * @request GET:/mentor-group/active
    * @secure
    */
@@ -94,11 +94,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       ...params,
     });
   /**
-   * @description Return group if invite code is valid
+   * @description Retrieves group details if the provided invite code is valid.
    *
    * @tags mentor-group
    * @name InviteDetail
-   * @summary Return group if invite code is valid
+   * @summary Get Group by Invite Code
    * @request GET:/mentor-group/invite/{invite}
    * @secure
    */
@@ -112,11 +112,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       ...params,
     });
   /**
-   * @description Set all notes as read belongs to the trade. Available only for students.
+   * @description Marks all mentor notes for a specific trade as read. This action is available only to students.
    *
    * @tags mentor-group
    * @name NoteReadCreate
-   * @summary Set note as read
+   * @summary Mark Mentor Notes as Read
    * @request POST:/mentor-group/note/read/{trade_id}
    * @secure
    */
@@ -132,11 +132,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Create note for the trade. Available only for mentors.
+   * @description Creates a note for a specific trade. This action is available only to mentors.
    *
    * @tags mentor-group
    * @name NoteCreate
-   * @summary Create note for the trade
+   * @summary Create Mentor Note for a Trade
    * @request POST:/mentor-group/note/{user_id}/{trade_id}
    * @secure
    */
@@ -153,11 +153,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Available for group owner only.
+   * @description Retrieves the details of a mentorship group. This action is available to the group owner only.
    *
    * @tags mentor-group
    * @name MentorGroupDetail
-   * @summary Get mentorship group by id
+   * @summary Get Mentorship Group by ID
    * @request GET:/mentor-group/{id}
    * @secure
    */
@@ -174,11 +174,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       ...params,
     });
   /**
-   * @description Update mentorship group
+   * @description Updates the details of a mentorship group.
    *
    * @tags mentor-group
    * @name MentorGroupCreate
-   * @summary Update mentorship group
+   * @summary Update Mentorship Group
    * @request POST:/mentor-group/{id}
    * @secure
    */
@@ -195,11 +195,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Delete mentorship group
+   * @description Deletes a mentorship group.
    *
    * @tags mentor-group
    * @name MentorGroupDelete
-   * @summary Delete mentorship group
+   * @summary Delete Mentorship Group
    * @request DELETE:/mentor-group/{id}
    * @secure
    */
@@ -215,11 +215,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description User can exit mentorship group at any time.
+   * @description Allows a user to leave a mentorship group at any time.
    *
    * @tags mentor-group
    * @name ExitCreate
-   * @summary Exit mentorship group
+   * @summary Exit Mentorship Group
    * @request POST:/mentor-group/{id}/exit
    * @secure
    */
@@ -235,11 +235,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Send request to join mentorship group. If group is private invite code is required. All requests are pending until group owner approves or rejects them.
+   * @description Submits a request to join a mentorship group. An invite code is required for private groups. All requests are held in a pending state until approved or rejected by the group owner.
    *
    * @tags mentor-group
    * @name JoinUpdate
-   * @summary Send request to join mentorship group
+   * @summary Request to Join Mentorship Group
    * @request PUT:/mentor-group/{id}/join
    * @secure
    */
@@ -256,11 +256,11 @@ export class MentorGroup<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Mentor of sub mentor can accept or decline join request. If request is accepted, student will be added to mentor group and receive email notification. If request is declined, student will receive email notification.
+   * @description Allows a mentor or sub-mentor to accept or decline a student's request to join a group. The student will receive an email notification upon acceptance or rejection.
    *
    * @tags mentor-group
    * @name MentorGroupCreate2
-   * @summary Accept or decline join request
+   * @summary Set Join Request Status
    * @request POST:/mentor-group/{id}/{status}/{user_id}
    * @originalName mentorGroupCreate
    * @duplicate

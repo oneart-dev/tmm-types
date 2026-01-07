@@ -78,7 +78,6 @@ export class Users extends HttpClient {
         this.publicDetail = (url, params = {}) => this.request({
             path: `/users/public/${url}`,
             method: "GET",
-            secure: true,
             format: "json",
             ...params,
         });
@@ -86,7 +85,6 @@ export class Users extends HttpClient {
             path: `/users/public/${url}/stats`,
             method: "GET",
             query: query,
-            secure: true,
             format: "json",
             ...params,
         });
@@ -94,7 +92,6 @@ export class Users extends HttpClient {
             path: `/users/public/${url}/trades`,
             method: "GET",
             query: query,
-            secure: true,
             format: "json",
             ...params,
         });

@@ -19,11 +19,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Exchanges<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List of all available to connect exchanges
+   * @description Retrieves a list of all exchanges available for connection.
    *
    * @tags exchange
    * @name ExchangesList
-   * @summary Exchanges list
+   * @summary List Available Exchanges
    * @request GET:/exchanges
    * @secure
    */
@@ -37,11 +37,11 @@ export class Exchanges<SecurityDataType = unknown> extends HttpClient<SecurityDa
       ...params,
     });
   /**
-   * @description Combined tickers list for all user api keys
+   * @description Retrieves a combined list of tickers from all of the user's connected API keys.
    *
    * @tags exchange
    * @name TickersList
-   * @summary Tickers list
+   * @summary Get Tickers List
    * @request GET:/exchanges/tickers
    * @secure
    */

@@ -64,16 +64,15 @@ export class Auth extends HttpClient {
             format: "json",
             ...params,
         });
-        this.sessionsResetCreate = (payload, params = {}) => this.request({
+        this.sessionsResetCreate = (params = {}) => this.request({
             path: `/auth/sessions-reset`,
             method: "POST",
-            body: payload,
             secure: true,
             type: ContentType.Json,
             format: "json",
             ...params,
         });
-        this.verifyDetail = (token, userId, params = {}) => this.request({
+        this.verifyDetail = (userId, token, params = {}) => this.request({
             path: `/auth/verify/${userId}/${token}`,
             method: "GET",
             format: "json",

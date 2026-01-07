@@ -20,11 +20,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class DiscordBot<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List of all discord bot connections
+   * @description Retrieves a list of all Discord bot connections for the user.
    *
    * @tags discord-bot
    * @name DiscordBotList
-   * @summary List
+   * @summary List Discord Bot Connections
    * @request GET:/discord-bot
    * @secure
    */
@@ -41,11 +41,11 @@ export class DiscordBot<SecurityDataType = unknown> extends HttpClient<SecurityD
       ...params,
     });
   /**
-   * @description Create discord bot connection
+   * @description Creates a new Discord bot connection.
    *
    * @tags discord-bot
    * @name DiscordBotUpdate
-   * @summary Create
+   * @summary Create Discord Bot Connection
    * @request PUT:/discord-bot
    * @secure
    */
@@ -62,11 +62,11 @@ export class DiscordBot<SecurityDataType = unknown> extends HttpClient<SecurityD
       },
     );
   /**
-   * @description Update discord bot settings
+   * @description Updates the settings for a Discord bot connection.
    *
    * @tags discord-bot
    * @name DiscordBotCreate
-   * @summary Update
+   * @summary Update Discord Bot Connection
    * @request POST:/discord-bot/{id}
    * @secure
    */
@@ -83,11 +83,11 @@ export class DiscordBot<SecurityDataType = unknown> extends HttpClient<SecurityD
       },
     );
   /**
-   * @description Delete discord bot connection
+   * @description Deletes a Discord bot connection.
    *
    * @tags discord-bot
    * @name DiscordBotDelete
-   * @summary Delete discord bot connection
+   * @summary Delete Discord Bot Connection
    * @request DELETE:/discord-bot/{id}
    * @secure
    */

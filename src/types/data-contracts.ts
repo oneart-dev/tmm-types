@@ -272,12 +272,8 @@ export interface ControllersLoginSuccessResponse {
 }
 
 export interface ControllersMeSuccessResponse {
-  /** Access token for internal authorization */
   data?: ServicesUserWithRelations;
-  /**
-   * Status "success"
-   * @example "success"
-   */
+  /** @example "success" */
   status?: string;
 }
 
@@ -1685,6 +1681,7 @@ export interface ServicesApiKeysListPagination {
 
 export interface ServicesApiUser {
   api_key?: string;
+  api_key_safe?: string;
   created_at?: string;
   id?: number;
   ip?: string[];
@@ -3100,7 +3097,6 @@ export enum ServicesUserStartOfWeek {
 }
 
 export interface ServicesUserWithRelations {
-  api_keys?: ServicesApiKey[];
   api_keys_list?: ServicesApiKey[];
   avatar?: ServicesFile;
   categories?: ServicesCategory[];

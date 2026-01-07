@@ -21,11 +21,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Create api key
+   * @description Creates a new API user.
    *
    * @tags api-user
    * @name ApiUserUpdate
-   * @summary Create api key
+   * @summary Create API User
    * @request PUT:/api-user
    * @secure
    */
@@ -43,11 +43,11 @@ export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityData
       ...params,
     });
   /**
-   * @description List of all api keys
+   * @description Retrieves a list of all API users associated with the current user.
    *
    * @tags api-user
    * @name ApiUserList
-   * @summary List of all api keys
+   * @summary List All API Users
    * @request GET:/api-user/
    * @secure
    */
@@ -64,11 +64,11 @@ export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityData
       ...params,
     });
   /**
-   * @description Delete api key
+   * @description Deletes an API user.
    *
    * @tags api-user
    * @name ApiUserDelete
-   * @summary Delete api key
+   * @summary Delete API User
    * @request DELETE:/api-user/{id}
    * @secure
    */

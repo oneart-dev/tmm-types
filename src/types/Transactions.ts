@@ -24,11 +24,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Transactions<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List user transactions with pagination
+   * @description Retrieves a paginated list of the user's transactions.
    *
    * @tags transactions
    * @name TransactionsList
-   * @summary List user transactions
+   * @summary List User Transactions
    * @request GET:/transactions
    * @secure
    */
@@ -58,11 +58,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description create new transaction. Only one transaction can be active at a time. If there is already active transaction return error. If redirect url is not empty you should follow the link to complete the transaction. (Stripe integration)
+   * @description Creates a new transaction. Only one transaction can be active at a time. If a redirect URL is returned, the user must navigate to it to complete the transaction (e.g., for Stripe payments).
    *
    * @tags transactions
    * @name TransactionsUpdate
-   * @summary create new transaction
+   * @summary Create New Transaction
    * @request PUT:/transactions
    * @secure
    */
@@ -80,11 +80,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description If user has available discount, it will be returned here
+   * @description Retrieves information about any available discounts for the user.
    *
    * @tags transactions
    * @name DiscountList
-   * @summary Discount data
+   * @summary Get Discount Information
    * @request GET:/transactions/discount
    * @secure
    */
@@ -101,11 +101,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description List pending transactions. Pending transactions are transactions that are in pending(created) state, have not been processed yet and can be canceled by user.
+   * @description Retrieves a list of pending transactions that have not yet been processed and can be canceled by the user.
    *
    * @tags transactions
    * @name PendingList
-   * @summary List pending transactions
+   * @summary List Pending Transactions
    * @request GET:/transactions/pending
    * @secure
    */
@@ -122,11 +122,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Redirect to Stripe billing portal. If user is not subscribed to Stripe, return empty string
+   * @description Redirects the user to the Stripe billing portal. If the user is not subscribed, an empty string is returned.
    *
    * @tags transactions
    * @name RedirectList
-   * @summary Redirect to Stripe billing portal
+   * @summary Redirect to Stripe Billing Portal
    * @request GET:/transactions/redirect
    * @secure
    */
@@ -140,11 +140,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Disconnect stripe account
+   * @description Disconnects the user's Stripe account.
    *
    * @tags transactions
    * @name StripeDelete
-   * @summary Disconnect stripe account
+   * @summary Disconnect Stripe Account
    * @request DELETE:/transactions/stripe
    * @secure
    */
@@ -167,11 +167,11 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       },
     );
   /**
-   * @description once per account user can apply for 15 days trial by sending this request.
+   * @description Allows a user to apply for a 15-day trial, available once per account.
    *
    * @tags transactions
    * @name TrialUpdate
-   * @summary apply for 15 days trial
+   * @summary Apply for 15-Day Trial
    * @request PUT:/transactions/trial
    * @secure
    */

@@ -19,11 +19,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Transaction<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Cancel transaction. Transaction must be in pending state. Any other state will return error.
+   * @description Cancels a transaction. The transaction must be in a pending state; otherwise, an error will be returned.
    *
    * @tags transactions
    * @name CancelCreate
-   * @summary Cancel transaction
+   * @summary Cancel Transaction
    * @request POST:/transaction/{id}/cancel
    * @secure
    */

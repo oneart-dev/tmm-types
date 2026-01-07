@@ -27,11 +27,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Add new api key
+   * @description Adds a new API key to the user's account.
    *
    * @tags api-key
    * @name ApiKeyUpdate
-   * @summary add api key
+   * @summary Add New API Key
    * @request PUT:/api-key
    * @secure
    */
@@ -49,11 +49,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description List API keys with pagination
+   * @description Retrieves a paginated list of the current user's API keys.
    *
    * @tags api-key
    * @name ApiKeyList
-   * @summary List API keys
+   * @summary List API Keys with Pagination
    * @request GET:/api-key/
    * @secure
    */
@@ -118,11 +118,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Add new api keys in batch
+   * @description Adds multiple API keys in a single batch request.
    *
    * @tags api-key
    * @name BatchUpdate
-   * @summary add batch of api keys
+   * @summary Add API Keys in Batch
    * @request PUT:/api-key/batch
    * @secure
    */
@@ -137,11 +137,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description List API keys belongs to user
+   * @description Retrieves a list of all API keys belonging to a specific user.
    *
    * @tags api-key
    * @name ListDetail
-   * @summary List API keys belongs to user
+   * @summary List User's API Keys
    * @request GET:/api-key/list/{user_id}
    * @secure
    */
@@ -158,11 +158,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Update api key. If key public or key secret changed will reload connection to the exchange Changing exchange_id do not supported
+   * @description Updates an API key. If the public or secret key is changed, the connection to the exchange will be reloaded. Changing the exchange_id is not supported.
    *
    * @tags api-key
    * @name ApiKeyCreate
-   * @summary update api key
+   * @summary Update API Key
    * @request POST:/api-key/{id}
    * @secure
    */
@@ -179,11 +179,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Deleting api key will delete all trades and records associated with the api key
+   * @description Permanently deletes an API key and all associated trades and records.
    *
    * @tags api-key
    * @name ApiKeyDelete
-   * @summary delete api key
+   * @summary Delete API Key
    * @request DELETE:/api-key/{id}
    * @secure
    */
@@ -200,11 +200,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Freeze api key. If api key is frozen, then it will be disabled
+   * @description Permanently disables an API key. A frozen key does not count towards the active connection limit. Free-tier users are limited to 3 frozen keys. This action is irreversible.
    *
    * @tags api-key
    * @name FreezeCreate
-   * @summary Freeze api key
+   * @summary Freeze API Key
    * @request POST:/api-key/{id}/freeze
    * @secure
    */
@@ -221,11 +221,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description update api key funding
+   * @description Manually triggers an update for the API key's funding information.
    *
    * @tags api-key
    * @name FundingUpdateCreate
-   * @summary update api key funding
+   * @summary Update API Key Funding
    * @request POST:/api-key/{id}/funding-update
    * @secure
    */
@@ -241,11 +241,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Create new clone of api key with new id. All trades will be No data loss will occur. Available only for admin. Can take a long time.
+   * @description Clones an API key to a new ID, moving all associated trades and updating all relations. This administrative action ensures no data loss but may be time-consuming.
    *
    * @tags api-key
    * @name MigrateToNewIdCreate
-   * @summary migrate api key to new id
+   * @summary Migrate API Key to New ID
    * @request POST:/api-key/{id}/migrate-to-new-id
    * @secure
    */
@@ -262,11 +262,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Simple endpoint to update api key name
+   * @description Updates the name of an API key.
    *
    * @tags api-key
    * @name NameCreate
-   * @summary change name
+   * @summary Update API Key Name
    * @request POST:/api-key/{id}/name
    * @secure
    */
@@ -283,11 +283,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description If the orders archive is not downloaded, it will be downloaded again. Available only for admin and not all exchanges. Can take a long time.
+   * @description Initiates a download of the orders archive if it hasn't been downloaded previously. This is an admin-only action, is not supported by all exchanges, and can take a significant amount of time.
    *
    * @tags api-key
    * @name OrdersArchiveCreate
-   * @summary force download of orders archive
+   * @summary Force Download of Orders Archive
    * @request POST:/api-key/{id}/orders-archive
    * @secure
    */
@@ -304,11 +304,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Drop and restore api key connection to the exchange
+   * @description Resets and restores the API key's connection to the exchange.
    *
    * @tags api-key
    * @name RepairCreate
-   * @summary connection to exchange repair
+   * @summary Repair Exchange Connection
    * @request POST:/api-key/{id}/repair
    * @secure
    */
@@ -325,11 +325,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Toggle connection status. If connection is active, then it will be disabled. If connection is disabled, then it will be enabled.
+   * @description Enables or disables the API key's connection to the exchange.
    *
    * @tags api-key
    * @name ToggleCreate
-   * @summary Toggle connection status
+   * @summary Toggle Connection Status
    * @request POST:/api-key/{id}/toggle
    * @secure
    */
@@ -346,11 +346,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Works only for Binance SPOT exchange. Toggle enables/disables extended list of tickers. If enabled connection time will be increased significantly.
+   * @description Enables or disables the extended list of tickers, exclusively for the Binance SPOT exchange. Enabling this feature may significantly increase connection time.
    *
    * @tags api-key
    * @name ToggleExtendedCreate
-   * @summary Toggle extended list of tickers
+   * @summary Toggle Extended Ticker List (Binance SPOT)
    * @request POST:/api-key/{id}/toggle-extended
    * @secure
    */
@@ -367,11 +367,11 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description update api key balance
+   * @description Manually triggers an update for the API key's balance information.
    *
    * @tags api-key
    * @name UpdateBalanceCreate
-   * @summary update api key balance
+   * @summary Update API Key Balance
    * @request POST:/api-key/{id}/update-balance
    * @secure
    */

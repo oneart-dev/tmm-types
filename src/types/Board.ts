@@ -34,11 +34,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Dashboard list including widgets attached to dashboard
+   * @description Retrieves a list of user dashboards, including their associated widgets.
    *
    * @tags dashboard
    * @name BoardList
-   * @summary Dashboards list
+   * @summary List Dashboards
    * @request GET:/board
    * @secure
    */
@@ -55,11 +55,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Create new empty dashboard with specified name If user reached dashboards limit throws error
+   * @description Creates a new, empty dashboard with a specified name. An error is returned if the user has reached their dashboard limit.
    *
    * @tags dashboard
    * @name BoardUpdate
-   * @summary Create dashboard
+   * @summary Create Dashboard
    * @request PUT:/board
    * @secure
    */
@@ -77,11 +77,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Returning count of trades with supplied new filters
+   * @description Returns the count of trades for a dashboard based on the supplied filters.
    *
    * @tags dashboard
    * @name CounterDashboardDetail
-   * @summary Get trades count for dashboard
+   * @summary Get Dashboard Trade Count
    * @request GET:/board/counter/dashboard/{id}
    * @secure
    */
@@ -348,11 +348,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Returning count of trades with supplied new filters and dashboard filters as default
+   * @description Returns the count of trades for a widget, applying both the widget's filters and the dashboard's default filters.
    *
    * @tags dashboard
    * @name CounterWidgetDetail
-   * @summary Get trades count for widget
+   * @summary Get Widget Trade Count
    * @request GET:/board/counter/widget/{id}
    * @secure
    */
@@ -619,11 +619,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Load exported dashboard layout using short url
+   * @description Loads an exported dashboard layout using a short URL code.
    *
    * @tags dashboard
    * @name LayoutDetail
-   * @summary Load dashboard layout
+   * @summary Load Dashboard Layout
    * @request GET:/board/layout/{code}
    * @secure
    */
@@ -639,11 +639,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       },
     );
   /**
-   * @description Install dashboard layout
+   * @description Installs a dashboard layout from a short URL code into the user's account.
    *
    * @tags dashboard
    * @name LayoutInstallCreate
-   * @summary Install dashboard layout
+   * @summary Install Dashboard Layout
    * @request POST:/board/layout/{code}/install
    * @secure
    */
@@ -660,11 +660,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description List exported by user dashboard layouts
+   * @description Retrieves a list of dashboard layouts that the user has exported.
    *
    * @tags dashboard
    * @name LayoutsList
-   * @summary Dashboard layouts list
+   * @summary List Dashboard Layouts
    * @request GET:/board/layouts
    * @secure
    */
@@ -681,11 +681,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Load all dashboard widgets in bulk
+   * @description Loads all widgets for a public dashboard in bulk using a short URL code.
    *
    * @tags dashboard
    * @name PublicLoadDetail
-   * @summary Load widgets in bulk
+   * @summary Load Public Board Widgets in Bulk
    * @request GET:/board/public/{code}/load
    */
   publicLoadDetail = (code: string, params: RequestParams = {}) =>
@@ -697,11 +697,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Send list of dashboard ids with order to update dashboard order
+   * @description Updates the display order of dashboards by providing an ordered list of their IDs.
    *
    * @tags dashboard
    * @name SortCreate
-   * @summary Sort dashboards
+   * @summary Sort Dashboards
    * @request POST:/board/sort
    * @secure
    */
@@ -716,11 +716,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Load widget without creating or saving. Using for preview
+   * @description Loads a widget for preview purposes without saving it.
    *
    * @tags dashboard
    * @name WidgetTempCreate
-   * @summary load widget without creating or saving
+   * @summary Load Temporary Widget
    * @request POST:/board/widget-temp
    * @secure
    */
@@ -735,11 +735,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Create new widget attached to dashboard by ID If user reached widget limit throws error
+   * @description Creates and attaches a new widget to a specified dashboard. An error is returned if the user has reached their widget limit.
    *
    * @tags dashboard
    * @name WidgetUpdate
-   * @summary add widget to dashboard
+   * @summary Add Widget to Dashboard
    * @request PUT:/board/widget/{id}
    * @secure
    */
@@ -754,11 +754,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Widget update
+   * @description Updates the properties of a widget.
    *
    * @tags dashboard
    * @name WidgetCreate
-   * @summary Widget update
+   * @summary Update Widget
    * @request POST:/board/widget/{id}
    * @secure
    */
@@ -775,11 +775,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       },
     );
   /**
-   * @description Delete widget
+   * @description Deletes a widget from a dashboard.
    *
    * @tags dashboard
    * @name WidgetDelete
-   * @summary Delete widget
+   * @summary Delete Widget
    * @request DELETE:/board/widget/{id}
    * @secure
    */
@@ -796,11 +796,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Update dashboard
+   * @description Updates the properties of a dashboard.
    *
    * @tags dashboard
    * @name BoardCreate
-   * @summary Update dashboard
+   * @summary Update Dashboard
    * @request POST:/board/{id}
    * @secure
    */
@@ -815,11 +815,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Delete dashboard and all widgets attached to it
+   * @description Deletes a dashboard and all of its associated widgets.
    *
    * @tags dashboard
    * @name BoardDelete
-   * @summary Delete dashboard
+   * @summary Delete Dashboard
    * @request DELETE:/board/{id}
    * @secure
    */
@@ -836,11 +836,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Clone exist dashboard with all widgets attached to it. Will throw error if user reached limit of boards or limit of widgets
+   * @description Creates a duplicate of an existing dashboard, including all of its widgets. An error is returned if the user has reached their limit for either dashboards or widgets.
    *
    * @tags dashboard
    * @name CloneCreate
-   * @summary Clone dashboard
+   * @summary Clone Dashboard
    * @request POST:/board/{id}/clone
    * @secure
    */
@@ -857,11 +857,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Export dashboard layout and return short url
+   * @description Exports a dashboard's layout and returns a short URL for sharing.
    *
    * @tags dashboard
    * @name ExportCreate
-   * @summary Export dashboard layout
+   * @summary Export Dashboard Layout
    * @request POST:/board/{id}/export
    * @secure
    */
@@ -883,7 +883,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    *
    * @tags dashboard
    * @name LoadDetail
-   * @summary Load dashboard widgets asynchronously
+   * @summary Load Dashboard Widgets Asynchronously
    * @request GET:/board/{id}/load
    * @secure
    */
@@ -900,11 +900,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generate short link for dashboard. Using this link you can share your dashboard with other users.
+   * @description Generates a shareable short link for a dashboard.
    *
    * @tags dashboard
    * @name ShortLinkCreate
-   * @summary Generate short link
+   * @summary Generate Dashboard Short Link
    * @request POST:/board/{id}/short-link
    * @secure
    */

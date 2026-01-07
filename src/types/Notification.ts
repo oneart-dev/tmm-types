@@ -20,11 +20,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Notification<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List of latest notifications for the user. Notification can be seen and interact.
+   * @description Retrieves a list of the user's latest notifications, which can be marked as seen or interacted with.
    *
    * @tags notification
    * @name LatestList
-   * @summary List of latest notifications for the user
+   * @summary Get Latest Notifications
    * @request GET:/notification/latest
    * @secure
    */
@@ -41,11 +41,11 @@ export class Notification<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Save user interaction with notification
+   * @description Records a user's interaction with a notification.
    *
    * @tags notification
    * @name InteractCreate
-   * @summary Save user interaction with notification
+   * @summary Record Notification Interaction
    * @request POST:/notification/{id}/interact
    * @secure
    */
@@ -62,11 +62,11 @@ export class Notification<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Make notification as seen
+   * @description Marks a notification as seen.
    *
    * @tags notification
    * @name SeenCreate
-   * @summary Make notification as seen
+   * @summary Mark Notification as Seen
    * @request POST:/notification/{id}/seen
    * @secure
    */

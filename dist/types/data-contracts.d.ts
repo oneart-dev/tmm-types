@@ -758,6 +758,7 @@ export interface ServicesApiKeysListPagination {
 }
 export interface ServicesApiUser {
     api_key?: string;
+    api_key_safe?: string;
     created_at?: string;
     id?: number;
     ip?: string[];
@@ -1929,7 +1930,6 @@ export declare enum ServicesUserStartOfWeek {
     UserStartOfWeekMonday = "monday"
 }
 export interface ServicesUserWithRelations {
-    api_keys?: ServicesApiKey[];
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
     categories?: ServicesCategory[];

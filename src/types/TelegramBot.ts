@@ -20,11 +20,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class TelegramBot<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description List of all telegram bot connections
+   * @description Retrieves a list of all Telegram bot connections for the user.
    *
    * @tags telegram-bot
    * @name TelegramBotList
-   * @summary List
+   * @summary List Telegram Bot Connections
    * @request GET:/telegram-bot
    * @secure
    */
@@ -41,11 +41,11 @@ export class TelegramBot<SecurityDataType = unknown> extends HttpClient<Security
       ...params,
     });
   /**
-   * @description Create telegram bot connection
+   * @description Creates a new Telegram bot connection.
    *
    * @tags telegram-bot
    * @name TelegramBotUpdate
-   * @summary Create
+   * @summary Create Telegram Bot Connection
    * @request PUT:/telegram-bot
    * @secure
    */
@@ -62,11 +62,11 @@ export class TelegramBot<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Update telegram bot settings
+   * @description Updates the settings for a Telegram bot connection.
    *
    * @tags telegram-bot
    * @name TelegramBotCreate
-   * @summary Update
+   * @summary Update Telegram Bot Connection
    * @request POST:/telegram-bot/{id}
    * @secure
    */
@@ -83,11 +83,11 @@ export class TelegramBot<SecurityDataType = unknown> extends HttpClient<Security
       },
     );
   /**
-   * @description Delete telegram bot connection
+   * @description Deletes a Telegram bot connection.
    *
    * @tags telegram-bot
    * @name TelegramBotDelete
-   * @summary Delete telegram bot connection
+   * @summary Delete Telegram Bot Connection
    * @request DELETE:/telegram-bot/{id}
    * @secure
    */

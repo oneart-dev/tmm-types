@@ -20,11 +20,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class UiData<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Its the form of persistent local storage
+   * @description Retrieves UI data, which acts as a form of persistent local storage for the frontend.
    *
    * @tags ui-data
    * @name UiDataList
-   * @summary UI data getter
+   * @summary Get UI Data
    * @request GET:/ui-data
    * @secure
    */
@@ -38,11 +38,11 @@ export class UiData<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Save local storage data
+   * @description Saves UI data, which acts as a form of persistent local storage for the frontend.
    *
    * @tags ui-data
    * @name UiDataUpdate
-   * @summary Save UI data
+   * @summary Save UI Data
    * @request PUT:/ui-data
    * @secure
    */

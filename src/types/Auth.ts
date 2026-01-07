@@ -26,16 +26,16 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description In case link expired or email lost user can request new verification email
+   * @description Resends the account verification email if the previous link has expired or was not received.
    *
    * @tags auth
    * @name EmailResendCreate
-   * @summary Resend verification email
+   * @summary Request new verification link
    * @request POST:/auth/email/resend
    * @secure
    */
   emailResendCreate = (params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string>({
+    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse>({
       path: `/auth/email/resend`,
       method: "POST",
       secure: true,
@@ -44,30 +44,28 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Request reset email with link to change password
+   * @description Triggers a password reset process by sending an email with a unique recovery link to the specified address.
    *
    * @tags auth
    * @name ForgotCreate
-   * @summary Reset password request
+   * @summary Initiate password recovery
    * @request POST:/auth/forgot
    */
   forgotCreate = (payload: DtoPasswordResetCredentials, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/auth/forgot`,
-        method: "POST",
-        body: payload,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | ControllersApiErrorResponse>({
+      path: `/auth/forgot`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
-   * @description get JWT token to communicate with API. Expires in 1 hour if not refreshed
+   * @description Authenticates a user and returns a JWT token for API communication. The token expires in 1 hour if not refreshed.
    *
    * @tags auth
    * @name LoginCreate
-   * @summary User login
+   * @summary User Login
    * @request POST:/auth/login
    */
   loginCreate = (payload: DtoLoginCredentials, params: RequestParams = {}) =>
@@ -83,11 +81,11 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description User logout
+   * @description Logs the user out of the current session.
    *
    * @tags auth
    * @name LogoutCreate
-   * @summary User logout
+   * @summary User Logout
    * @request POST:/auth/logout
    */
   logoutCreate = (params: RequestParams = {}) =>
@@ -99,16 +97,16 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Endpoint to get full information about account
+   * @description Fetches the complete profile for the authenticated user, including API keys, trading categories, custom tags, public profile status, and active integrations (Telegram/Discord/Risk Management).
    *
    * @tags auth
    * @name GetAuth
-   * @summary Get my account info
+   * @summary Retrieve account profile
    * @request GET:/auth/me
    * @secure
    */
   getAuth = (params: RequestParams = {}) =>
-    this.request<ControllersMeSuccessResponse, void | string>({
+    this.request<ControllersMeSuccessResponse, ControllersUnauthorizedResponse>({
       path: `/auth/me`,
       method: "GET",
       secure: true,
@@ -116,11 +114,11 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Generate new token to replace exist one
+   * @description Generates a new JWT token to replace an existing, unexpired one.
    *
    * @tags auth
    * @name RefreshList
-   * @summary Refresh JWT token
+   * @summary Refresh JWT Token
    * @request GET:/auth/refresh
    * @secure
    */
@@ -134,18 +132,15 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Create new user and obtain JWT token. User have to confirm account by following the link in the email
+   * @description Creates a new user profile and returns an initial JWT authentication token. Users must verify their email via the link sent to their inbox to gain full access.
    *
    * @tags auth
    * @name RegisterCreate
-   * @summary Register new user
+   * @summary Register a new user account
    * @request POST:/auth/register
    */
   registerCreate = (payload: DtoSignUpCredentials, params: RequestParams = {}) =>
-    this.request<
-      ControllersLoginSuccessResponse,
-      ServicesValidationErrorResponse | string | ControllersApiErrorResponse
-    >({
+    this.request<ControllersLoginSuccessResponse, ServicesValidationErrorResponse | ControllersApiErrorResponse>({
       path: `/auth/register`,
       method: "POST",
       body: payload,
@@ -154,58 +149,50 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description After getting token from email user able to change password by providing token
+   * @description Finalizes the password recovery process. Requires a valid token received via email and the new password.
    *
    * @tags auth
    * @name ResetCreate
-   * @summary Change password
+   * @summary Complete password reset
    * @request POST:/auth/reset
    */
   resetCreate = (payload: DtoNewPasswordCredentials, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/auth/reset`,
-        method: "POST",
-        body: payload,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | ControllersApiErrorResponse>({
+      path: `/auth/reset`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
-   * @description Sign out user from all devices including current device
+   * @description Forcefully signs out the user from all connected devices and browsers by resetting the session security timestamp.
    *
    * @tags auth
    * @name SessionsResetCreate
-   * @summary Sign out user from all devices
+   * @summary Invalidate all active sessions
    * @request POST:/auth/sessions-reset
    * @secure
    */
-  sessionsResetCreate = (payload: DtoPasswordResetCredentials, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/auth/sessions-reset`,
-        method: "POST",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+  sessionsResetCreate = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, ControllersApiErrorResponse>({
+      path: `/auth/sessions-reset`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
-   * @description Link from verification email point to this endpoint. Link valid for 1 hour If header "Accept" is "application/json" then response is json Overwise response is redirect `301` to dashboard
+   * @description Validates the verification token sent via email. If requested via a browser (Accept: text/html), it redirects to the dashboard. If requested via API, it returns a JSON response. Link is valid for 1 hour.
    *
    * @tags auth
    * @name VerifyDetail
-   * @summary Verify email
+   * @summary Confirm account email
    * @request GET:/auth/verify/{user_id}/{token}
    */
-  verifyDetail = (token: number, userId: string, params: RequestParams = {}) =>
-    this.request<
-      ControllersApiSuccessResponse,
-      void | ServicesValidationErrorResponse | string | ControllersApiErrorResponse
-    >({
+  verifyDetail = (userId: number, token: string, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, void | ServicesValidationErrorResponse | ControllersApiErrorResponse>({
       path: `/auth/verify/${userId}/${token}`,
       method: "GET",
       format: "json",

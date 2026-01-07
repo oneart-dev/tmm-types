@@ -14,11 +14,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Candles<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Get Candles list. Tf or interval is required.
+   * @description Retrieves historical candlestick data for a given exchange, symbol, and time interval. Either a timeframe 'tf' or an 'interval' must be provided.
    *
    * @tags candles
    * @name ListList
-   * @summary Get Candles list
+   * @summary Retrieve Candlestick Data
    * @request GET:/candles/list
    * @secure
    */

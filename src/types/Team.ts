@@ -28,11 +28,11 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Creates empty team. Owner may join team but its not required.
+   * @description Creates a new, empty team. The owner is not required to be a member.
    *
    * @tags team
    * @name TeamUpdate
-   * @summary create new team
+   * @summary Create New Team
    * @request PUT:/team
    * @secure
    */
@@ -50,11 +50,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Get team by ID with count of active members. If endpoint is called by owner, it will return pending members count as well. If team is private, user must provide invite code to get access to team data. If user submit join request, current member will be returned. User can revoke join request at any time.
+   * @description Retrieves team details by ID, including a count of active members. If called by the owner, it also returns the pending members count. For private teams, an invite code is required to access data. If the user has a pending join request, their membership status will be returned. A user can revoke their join request at any time.
    *
    * @tags team
    * @name TeamDetail
-   * @summary Get team by ID
+   * @summary Get Team by ID
    * @request GET:/team/{id}
    * @secure
    */
@@ -79,11 +79,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Update team name, description
+   * @description Updates a team's name and description.
    *
    * @tags team
    * @name TeamCreate
-   * @summary update team
+   * @summary Update Team
    * @request POST:/team/{id}
    * @secure
    */
@@ -100,11 +100,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       },
     );
   /**
-   * @description Deleting team
+   * @description Deletes a team.
    *
    * @tags team
    * @name TeamDelete
-   * @summary delete team
+   * @summary Delete Team
    * @request DELETE:/team/{id}
    * @secure
    */
@@ -121,11 +121,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Creates join request for the team. If team is private, user
+   * @description Creates a request to join a team. For private teams, an invite code is required, and the team owner must approve the request.
    *
    * @tags team
    * @name JoinUpdate
-   * @summary join team
+   * @summary Join Team
    * @request PUT:/team/{id}/join
    * @secure
    */
@@ -143,11 +143,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description User can revoke join request. Team owner can decline or accept
+   * @description Allows a user to revoke a join request, or a team owner to accept or decline it. A revoked request cannot be altered by the team owner.
    *
    * @tags team
    * @name JoinCreate
-   * @summary Update join request
+   * @summary Update Join Request
    * @request POST:/team/{id}/join/{user_id}
    * @secure
    */
@@ -164,11 +164,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       },
     );
   /**
-   * @description Get list of team members. Available only for team owner if team is private. Only owner can use filters to search. Nobody can see revoked members. By default only active members are showing.
+   * @description Retrieves a list of team members. For private teams, this is available only to the team owner, who can also use filters for searching. Revoked members are not visible, and by default, only active members are shown.
    *
    * @tags team
    * @name MembersDetail
-   * @summary Get team members
+   * @summary Get Team Members
    * @request GET:/team/{id}/members
    * @secure
    */
@@ -216,11 +216,11 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Get top members of team
+   * @description Retrieves the top-performing members of a team.
    *
    * @tags team
    * @name GetTeam
-   * @summary Members top
+   * @summary Get Top Team Members
    * @request GET:/team/{id}/top
    * @secure
    */
