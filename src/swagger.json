@@ -1653,6 +1653,38 @@
                             "EXCHANGE_TIGER_BINANCE_FUTURES": "suppport fast repair",
                             "EXCHANGE_TIGER_BINANCE_SPOT": "suppport fast repair"
                         },
+                        "x-enum-descriptions": [
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "",
+                            "",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "",
+                            "",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            "suppport fast repair",
+                            ""
+                        ],
                         "x-enum-varnames": [
                             "EXCHANGE_BINANCE_FUTURES",
                             "EXCHANGE_BYBIT_LINEAR",
@@ -8068,9 +8100,7 @@
                             "type": "array",
                             "items": {
                                 "type": "array",
-                                "items": {
-                                    "type": "object"
-                                }
+                                "items": {}
                             }
                         },
                         "headers": {
@@ -23316,8 +23346,13 @@
                     "minLength": 2,
                     "example": "My API key"
                 },
+                "read_only": {
+                    "type": "boolean",
+                    "example": true
+                },
                 "userID": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },
@@ -25349,6 +25384,7 @@
         },
         "services.ApiKeyEnabledStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 0,
@@ -25364,6 +25400,7 @@
         },
         "services.ApiKeyWebsocketStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -25465,6 +25502,7 @@
         },
         "services.ApiUserRead": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -25476,6 +25514,7 @@
         },
         "services.ApiUserType": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -25609,6 +25648,7 @@
         },
         "services.DefaultGroupField": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -25620,6 +25660,7 @@
         },
         "services.DiscordCloseNotification": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -25727,6 +25768,7 @@
         },
         "services.DiscordConnectPrivacy": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 0
@@ -25738,6 +25780,7 @@
         },
         "services.DiscordConnectStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -25749,6 +25792,7 @@
         },
         "services.DiscordNotification": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -25810,6 +25854,38 @@
                 "EXCHANGE_TIGER_BINANCE_FUTURES": "suppport fast repair",
                 "EXCHANGE_TIGER_BINANCE_SPOT": "suppport fast repair"
             },
+            "x-enum-descriptions": [
+                "suppport fast repair",
+                "suppport fast repair",
+                "",
+                "",
+                "suppport fast repair",
+                "suppport fast repair",
+                "",
+                "",
+                "suppport fast repair",
+                "suppport fast repair",
+                "",
+                "suppport fast repair",
+                "suppport fast repair",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "suppport fast repair",
+                "suppport fast repair",
+                "suppport fast repair",
+                "suppport fast repair",
+                ""
+            ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
                 "EXCHANGE_BYBIT_LINEAR",
@@ -26109,6 +26185,7 @@
         },
         "services.NoteType": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 4,
                 3,
@@ -26122,6 +26199,7 @@
         },
         "services.NotificationInteract": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1
@@ -26162,6 +26240,7 @@
         },
         "services.NotificationSeen": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1
@@ -26487,6 +26566,7 @@
         },
         "services.PartnerID": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 -1,
                 1,
@@ -26658,6 +26738,7 @@
         },
         "services.PublicProfileShowTrades": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -26705,6 +26786,7 @@
         },
         "services.PublicProfileStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -26866,6 +26948,7 @@
         },
         "services.RiskManagementLogType": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -27007,6 +27090,7 @@
         },
         "services.StripeBillingCycle": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -27020,6 +27104,7 @@
         },
         "services.StripeSubscriptionStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -27075,6 +27160,7 @@
         },
         "services.StudentStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -27130,6 +27216,7 @@
         },
         "services.TagColumn": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -27379,6 +27466,7 @@
         },
         "services.TelegramCloseNotification": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -27482,6 +27570,7 @@
         },
         "services.TelegramConnectPreview": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -27495,6 +27584,7 @@
         },
         "services.TelegramConnectPrivacy": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 0
@@ -27506,6 +27596,7 @@
         },
         "services.TelegramConnectRiskNotification": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 0
@@ -27517,6 +27608,7 @@
         },
         "services.TelegramConnectStatus": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2
@@ -27528,6 +27620,7 @@
         },
         "services.TelegramNotification": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 0,
                 1,
@@ -27628,6 +27721,7 @@
         },
         "services.TopLeague": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2,
@@ -27651,6 +27745,7 @@
         },
         "services.TopType": {
             "type": "integer",
+            "format": "int32",
             "enum": [
                 1,
                 2

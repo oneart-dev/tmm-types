@@ -310,6 +310,7 @@ export interface DtoApiKeyUpdateNameForm {
 export interface DtoApiUserUpdateForm {
     ip?: string[];
     name: string;
+    read_only?: boolean;
     userID?: number;
 }
 export interface DtoBalanceRecord {

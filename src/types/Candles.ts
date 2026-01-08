@@ -42,7 +42,7 @@ export class Candles<SecurityDataType = unknown> extends HttpClient<SecurityData
     },
     params: RequestParams = {},
   ) =>
-    this.request<object[][], ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<any[][], ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
       path: `/candles/list`,
       method: "GET",
       query: query,

@@ -565,6 +565,9 @@ export interface DtoApiUserUpdateForm {
    * @example "My API key"
    */
   name: string;
+  /** @example true */
+  read_only?: boolean;
+  /** @format int64 */
   userID?: number;
 }
 
@@ -1647,6 +1650,7 @@ export interface ServicesApiKey {
   websocket_updated_at?: number;
 }
 
+/** @format int32 */
 export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_ENABLED = 1,
   API_KEY_WS_DISABLED = 0,
@@ -1654,6 +1658,7 @@ export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
 }
 
+/** @format int32 */
 export enum ServicesApiKeyWebsocketStatus {
   API_KEY_WS_DISCONNECTED = 0,
   API_KEY_WS_CONNECTED = 1,
@@ -1693,11 +1698,13 @@ export interface ServicesApiUser {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesApiUserRead {
   API_USER_READ_WRITE = 1,
   API_USER_READ_ONLY = 2,
 }
 
+/** @format int32 */
 export enum ServicesApiUserType {
   API_USER_TYPE_USER_CREATED = 1,
   API_USER_TYPE_OAUTH_CREATED = 2,
@@ -1752,11 +1759,13 @@ export enum ServicesDashboardStatus {
   DashboardStatusExport = 1,
 }
 
+/** @format int32 */
 export enum ServicesDefaultGroupField {
   DefaultGroupFieldOpenTime = 1,
   DefaultGroupFieldCloseTime = 2,
 }
 
+/** @format int32 */
 export enum ServicesDiscordCloseNotification {
   DiscordCloseNotificationEnabled = 1,
   DiscordCloseNotificationDisabled = 2,
@@ -1813,16 +1822,19 @@ export interface ServicesDiscordConnect {
   username?: string;
 }
 
+/** @format int32 */
 export enum ServicesDiscordConnectPrivacy {
   DiscordConnectPrivacyEnabled = 1,
   DiscordConnectPrivacyDisabled = 0,
 }
 
+/** @format int32 */
 export enum ServicesDiscordConnectStatus {
   DiscordConnectStatusNew = 1,
   DiscordConnectStatusConnected = 2,
 }
 
+/** @format int32 */
 export enum ServicesDiscordNotification {
   DiscordNotificationDisabled = 0,
   DiscordNotificationTradeAll = 1,
@@ -1975,12 +1987,14 @@ export interface ServicesMentorNote {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesNoteType {
   NoteTypeMonth = 4,
   NoteTypeWeek = 3,
   NoteTypeDay = 2,
 }
 
+/** @format int32 */
 export enum ServicesNotificationInteract {
   NotificationInteractNo = 0,
   NotificationInteractYes = 1,
@@ -1997,6 +2011,7 @@ export interface ServicesNotificationPublic {
   title?: string;
 }
 
+/** @format int32 */
 export enum ServicesNotificationSeen {
   NotificationSeenNo = 0,
   NotificationSeenYes = 1,
@@ -2126,6 +2141,7 @@ export interface ServicesPaginationResponseArrayServicesTransaction {
   total?: number;
 }
 
+/** @format int32 */
 export enum ServicesPartnerID {
   PARTNER_ID_NONE = -1,
   PARTNER_ID_WLC = 1,
@@ -2200,6 +2216,7 @@ export interface ServicesPublicProfileLayout {
   y?: number;
 }
 
+/** @format int32 */
 export enum ServicesPublicProfileShowTrades {
   PublicProfileShowTradesDisabled = 0,
   PublicProfileShowTradesAll = 1,
@@ -2218,6 +2235,7 @@ export interface ServicesPublicProfileStats {
   profit_factor?: number;
 }
 
+/** @format int32 */
 export enum ServicesPublicProfileStatus {
   PublicProfileStatusON = 1,
   PublicProfileStatusOFF = 2,
@@ -2276,6 +2294,7 @@ export interface ServicesRiskManagementLogPagination {
   total?: number;
 }
 
+/** @format int32 */
 export enum ServicesRiskManagementLogType {
   RiskManagementLogTypeTradeLoss = 1,
   RiskManagementLogTypeTradeLeverage = 2,
@@ -2334,12 +2353,14 @@ export interface ServicesStripe {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesStripeBillingCycle {
   StripeBillingCycleMonthly = 1,
   StripeBillingCycleHalfYearly = 2,
   StripeBillingCycleYearly = 3,
 }
 
+/** @format int32 */
 export enum ServicesStripeSubscriptionStatus {
   StripeSubscriptionStatusDisabled = 0,
   StripeSubscriptionStatusActive = 1,
@@ -2362,6 +2383,7 @@ export interface ServicesStudent {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesStudentStatus {
   StudentStatusRequest = 0,
   StudentStatusAccepted = 1,
@@ -2389,6 +2411,7 @@ export interface ServicesTag {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesTagColumn {
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
@@ -2490,6 +2513,7 @@ export interface ServicesTeamWithStatsAndMember {
   user_id?: number;
 }
 
+/** @format int32 */
 export enum ServicesTelegramCloseNotification {
   TelegramCloseNotificationEnabled = 1,
   TelegramCloseNotificationDisabled = 2,
@@ -2549,27 +2573,32 @@ export interface ServicesTelegramConnect {
   username?: string;
 }
 
+/** @format int32 */
 export enum ServicesTelegramConnectPreview {
   TelegramConnectPreviewEnabled = 1,
   TelegramConnectPreviewClose = 2,
   TelegramConnectPreviewDisabled = 0,
 }
 
+/** @format int32 */
 export enum ServicesTelegramConnectPrivacy {
   TelegramConnectPrivacyEnabled = 1,
   TelegramConnectPrivacyDisabled = 0,
 }
 
+/** @format int32 */
 export enum ServicesTelegramConnectRiskNotification {
   TelegramConnectRiskNotificationEnabled = 1,
   TelegramConnectRiskNotificationDisabled = 0,
 }
 
+/** @format int32 */
 export enum ServicesTelegramConnectStatus {
   TelegramConnectStatusNew = 1,
   TelegramConnectStatusConnected = 2,
 }
 
+/** @format int32 */
 export enum ServicesTelegramNotification {
   TelegramNotificationDisabled = 0,
   TelegramNotificationTradeAll = 1,
@@ -2608,6 +2637,7 @@ export interface ServicesTop {
   value_pnl?: string;
 }
 
+/** @format int32 */
 export enum ServicesTopLeague {
   TopLeagueMoon = 1,
   TopLeagueStar = 2,
@@ -2619,6 +2649,7 @@ export enum ServicesTopLeague {
   TopLeaguePRO = 8,
 }
 
+/** @format int32 */
 export enum ServicesTopType {
   TopTypeDay = 1,
   TopTypeMonth = 2,

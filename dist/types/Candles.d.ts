@@ -8,6 +8,6 @@ export declare class Candles<SecurityDataType = unknown> extends HttpClient<Secu
         interval?: string;
         from?: number;
         to?: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<object[][], string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any[][], string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Candles.d.ts.map
