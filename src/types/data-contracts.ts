@@ -48,6 +48,12 @@ export interface ControllersApiSuccessArrayServicesOrder {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
+  data?: ServicesRiskManagementBacktestResult[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesTag {
   data?: ServicesTag[];
   /** @example "success" */
@@ -2261,6 +2267,22 @@ export interface ServicesRiskManagement {
   per_trade?: string;
   per_trade_usd?: string;
   updated_at?: string;
+}
+
+export interface ServicesRiskManagementBacktestResult {
+  /** Rule 3: Daily Stop Loss (The Cutoff) */
+  count_daily_viol?: number;
+  /** Rule 1: Max Leverage */
+  count_lev_viol?: number;
+  /** Rule 2: Max Loss Per Trade */
+  count_trade_viol?: number;
+  date?: string;
+  gain_daily?: string;
+  gain_lev?: string;
+  gain_trade?: string;
+  profit_usd_adjusted?: string;
+  profit_usd_original?: string;
+  trades_count?: number;
 }
 
 export interface ServicesRiskManagementLog {

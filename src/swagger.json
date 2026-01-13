@@ -12395,6 +12395,789 @@
                 }
             }
         },
+        "/risk-management/backtest": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Backtests a risk management rule against historical trade data.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "risk-management"
+                ],
+                "summary": "Backtest Risk Management Rule",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "api_key_id",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:"
+                        ],
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with api key ids specified",
+                        "name": "api_key_id_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,10000",
+                        "name": "avgTrades15m6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,40000",
+                        "name": "avgTrades1h24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,1000",
+                        "description": "Moving averages of trades",
+                        "name": "avgTrades1m30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,20000",
+                        "name": "avgTrades30m12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,5000",
+                        "name": "avgTrades5m2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,1000000",
+                        "name": "avgVolume15m6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,5000000",
+                        "name": "avgVolume1h24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,100000",
+                        "description": "Moving averages of volume",
+                        "name": "avgVolume1m30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,2000000",
+                        "name": "avgVolume30m12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,500000",
+                        "name": "avgVolume5m2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-0.8,0.8",
+                        "name": "btcCorr1m50",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-0.8,0.8",
+                        "description": "BTC correlation [-1,1]",
+                        "name": "btcCorr5m20",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Trades by default have no category.\nID 1 is system category for archive trades. Excluded by default.",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:"
+                        ],
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with category ids specified",
+                        "name": "category_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "2019-01-01,2019-01-02",
+                        "name": "closeBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "example": [
+                            2
+                        ],
+                        "description": "Days of week 1=Sunday, 2=Monday, 3=Tuesday, 4=Wednesday, 5=Thursday, 6=Friday, 7=Saturday",
+                        "name": "daysOfWeek",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Duration specified in milliseconds\nExample: 1000,10000 - trades with duration between 1 and 10 seconds",
+                        "name": "durationBetween",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "today",
+                            "yesterday",
+                            "past1w",
+                            "1w",
+                            "1m",
+                            "7d",
+                            "30d",
+                            "90d"
+                        ],
+                        "type": "string",
+                        "example": "today",
+                        "name": "durationType",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "exit_tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "exit_tags_params",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "conclusion:empty",
+                            "conclusion:not-empty",
+                            "desc:empty",
+                            "desc:not-empty",
+                            "mentor_note:not-empty",
+                            "mentor_note:empty"
+                        ],
+                        "type": "string",
+                        "example": "conclusion:empty",
+                        "name": "extraInfo",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-0.01,0.01",
+                        "description": "Funding rate, e.g. \"-0.01,0.01\"",
+                        "name": "fundingRate",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "minute",
+                            "hour",
+                            "month",
+                            "date",
+                            "week"
+                        ],
+                        "type": "string",
+                        "description": "Used in summary widget settings",
+                        "name": "groupBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Headers are required only for CSV export method",
+                        "name": "headers",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "hours_of_day",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with hours specified",
+                        "name": "hours_of_day_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "example": [
+                            1
+                        ],
+                        "name": "ids",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0.5,1.5",
+                        "name": "leverageBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-0.5,-1.5",
+                        "name": "maeBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0.5,1.5",
+                        "name": "mfeBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "multiplier",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,2",
+                        "name": "natr1m30",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,2",
+                        "description": "NATR",
+                        "name": "natr5m14",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "2019-01-01,2019-01-02",
+                        "name": "openBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0.5,1.5",
+                        "name": "percentBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange15m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange1h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "description": "Price range (normalized), e.g. \"-2,2\"",
+                        "name": "priceRange1m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange4h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange5m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-2,2",
+                        "name": "priceRange6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "profitBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0.5,1.5",
+                        "name": "profitDepositBetween",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "LONG",
+                            "SHORT"
+                        ],
+                        "type": "string",
+                        "name": "side",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            0,
+                            1,
+                            2
+                        ],
+                        "type": "integer",
+                        "description": "Select only open or only closed trades.",
+                        "name": "state",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "example": [
+                            "BTCUSDT"
+                        ],
+                        "name": "symbol",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:"
+                        ],
+                        "type": "string",
+                        "example": "not:",
+                        "name": "symbol_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tags",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "name": "tags_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Default value comes from user profile settings. By default is \"open_time\"",
+                        "name": "trade_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,150000",
+                        "name": "trades12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,10000",
+                        "name": "trades15m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,40000",
+                        "name": "trades1h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,1000",
+                        "description": "Trades count per window",
+                        "name": "trades1m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,200000",
+                        "name": "trades24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,60000",
+                        "name": "trades2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,20000",
+                        "name": "trades30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,80000",
+                        "name": "trades4h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,5000",
+                        "name": "trades5m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,100000",
+                        "name": "trades6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "tradesSpike15m6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "tradesSpike1h24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "description": "Trades spikes",
+                        "name": "tradesSpike1m30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "tradesSpike30m12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "tradesSpike5m2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "example": 1,
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,20000000",
+                        "name": "volume12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,1000000",
+                        "name": "volume15m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,5000000",
+                        "name": "volume1h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,100000",
+                        "description": "Volumes (USD or native units—match your backend), counts per window",
+                        "name": "volume1m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,30000000",
+                        "name": "volume24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,8000000",
+                        "name": "volume2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,2000000",
+                        "name": "volume30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,12000000",
+                        "name": "volume4h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,500000",
+                        "name": "volume5m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0,16000000",
+                        "name": "volume6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "0.5,1.5",
+                        "description": "Turnover in USD - including all buy and sell orders value",
+                        "name": "volumeBetween",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "volumeFrom",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "volumeSpike15m6h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "volumeSpike1h24h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "description": "Volume spikes (ratio/z-score as you define), keep 1h24h included",
+                        "name": "volumeSpike1m30m",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "volumeSpike30m12h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "-3,3",
+                        "name": "volumeSpike5m2h",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "volumeTo",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "By default archive trades are not included. If you want to include them,\nset this to true. Or set category id to 1 (Archive ID).",
+                        "name": "with_archive",
+                        "in": "query"
+                    },
+                    {
+                        "description": "form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RiskManagementCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_RiskManagementBacktestResult"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/risk-management/log": {
             "get": {
                 "security": [
@@ -22091,6 +22874,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_RiskManagementBacktestResult": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.RiskManagementBacktestResult"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_Tag": {
             "type": "object",
             "properties": {
@@ -26862,6 +27664,44 @@
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "services.RiskManagementBacktestResult": {
+            "type": "object",
+            "properties": {
+                "count_daily_viol": {
+                    "description": "Rule 3: Daily Stop Loss (The Cutoff)",
+                    "type": "integer"
+                },
+                "count_lev_viol": {
+                    "description": "Rule 1: Max Leverage",
+                    "type": "integer"
+                },
+                "count_trade_viol": {
+                    "description": "Rule 2: Max Loss Per Trade",
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "gain_daily": {
+                    "type": "string"
+                },
+                "gain_lev": {
+                    "type": "string"
+                },
+                "gain_trade": {
+                    "type": "string"
+                },
+                "profit_usd_adjusted": {
+                    "type": "string"
+                },
+                "profit_usd_original": {
+                    "type": "string"
+                },
+                "trades_count": {
+                    "type": "integer"
                 }
             }
         },

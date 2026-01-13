@@ -24,6 +24,10 @@ export interface ControllersApiSuccessArrayServicesOrder {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
+    data?: ServicesRiskManagementBacktestResult[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesTag {
     data?: ServicesTag[];
     status?: ControllersResponseStatusMessage;
@@ -1201,6 +1205,18 @@ export interface ServicesRiskManagement {
     per_trade?: string;
     per_trade_usd?: string;
     updated_at?: string;
+}
+export interface ServicesRiskManagementBacktestResult {
+    count_daily_viol?: number;
+    count_lev_viol?: number;
+    count_trade_viol?: number;
+    date?: string;
+    gain_daily?: string;
+    gain_lev?: string;
+    gain_trade?: string;
+    profit_usd_adjusted?: string;
+    profit_usd_original?: string;
+    trades_count?: number;
 }
 export interface ServicesRiskManagementLog {
     api_key_id?: number;

@@ -29,6 +29,16 @@ export class RiskManagement extends HttpClient {
             format: "json",
             ...params,
         });
+        this.backtestCreate = (payload, query, params = {}) => this.request({
+            path: `/risk-management/backtest`,
+            method: "POST",
+            query: query,
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.getRiskManagement = (query, params = {}) => this.request({
             path: `/risk-management/log`,
             method: "GET",
