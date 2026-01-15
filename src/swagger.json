@@ -27682,7 +27682,10 @@
                     "description": "Rule 2: Max Loss Per Trade",
                     "type": "integer"
                 },
-                "date": {
+                "counter": {
+                    "type": "integer"
+                },
+                "dateValue": {
                     "type": "string"
                 },
                 "gain_daily": {
@@ -27699,9 +27702,6 @@
                 },
                 "profit_usd_original": {
                     "type": "string"
-                },
-                "trades_count": {
-                    "type": "integer"
                 }
             }
         },

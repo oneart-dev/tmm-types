@@ -2276,13 +2276,13 @@ export interface ServicesRiskManagementBacktestResult {
   count_lev_viol?: number;
   /** Rule 2: Max Loss Per Trade */
   count_trade_viol?: number;
-  date?: string;
+  counter?: number;
+  dateValue?: string;
   gain_daily?: string;
   gain_lev?: string;
   gain_trade?: string;
   profit_usd_adjusted?: string;
   profit_usd_original?: string;
-  trades_count?: number;
 }
 
 export interface ServicesRiskManagementLog {

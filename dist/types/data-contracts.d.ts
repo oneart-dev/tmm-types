@@ -1210,13 +1210,13 @@ export interface ServicesRiskManagementBacktestResult {
     count_daily_viol?: number;
     count_lev_viol?: number;
     count_trade_viol?: number;
-    date?: string;
+    counter?: number;
+    dateValue?: string;
     gain_daily?: string;
     gain_lev?: string;
     gain_trade?: string;
     profit_usd_adjusted?: string;
     profit_usd_original?: string;
-    trades_count?: number;
 }
 export interface ServicesRiskManagementLog {
     api_key_id?: number;
