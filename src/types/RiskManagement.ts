@@ -99,17 +99,22 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       ...params,
     });
   /**
-   * @description Backtests a risk management rule against historical trade data.
+   * @description Simulates the impact of specific risk management constraints on historical trade data to visualize potential equity curve improvements. ### Operational Logic: The simulation processes trades chronologically, applying three layers of protection: 1. **Volume Scaling:** Adjusts position sizes if the used leverage exceeded the set maximum. 2. **Trade Protection:** Simulates a virtual stop-loss. If a trade's maximum intraday drawdown (MAE) hit the loss limit, the trade is converted into a fixed loss at that limit, even if the trade eventually closed in profit. 3. **Daily Circuit Breaker:** Monitors cumulative daily performance. Once the daily loss limit is reached, the "terminal is closed," and subsequent trades for that day are voided. ### Simulation Modes: - **Optimistic (default):** Idealized execution. If a trade crosses the daily loss threshold, it is liquidated at the exact moment the limit is hit, capping the day precisely at the limit. - **Realistic:** Market reality execution. If a trade crosses the daily threshold, its full loss is recorded (representing slippage or high volatility), but no further trades are permitted for the remainder of the day.
    *
    * @tags risk-management
    * @name BacktestCreate
-   * @summary Backtest Risk Management Rule
+   * @summary Backtest Risk Management Rules
    * @request POST:/risk-management/backtest
    * @secure
    */
   backtestCreate = (
     payload: DtoRiskManagementCreateForm,
     query?: {
+      /**
+       * Backtest mode: optimistic or realistic
+       * @default "optimistic"
+       */
+      mode?: "optimistic" | "realistic";
       api_key_id?: number[];
       /**
        * string based params separated by ":"
@@ -362,7 +367,7 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
   ) =>
     this.request<
       ControllersApiSuccessArrayServicesRiskManagementBacktestResult,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
     >({
       path: `/risk-management/backtest`,
       method: "POST",

@@ -10,6 +10,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         itemsPerPage?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesRiskManagementPagination, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     backtestCreate: (payload: DtoRiskManagementCreateForm, query?: {
+        mode?: "optimistic" | "realistic";
         api_key_id?: number[];
         api_key_id_params?: "not:";
         avgTrades15m6h?: string;
@@ -102,7 +103,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         volumeSpike5m2h?: string;
         volumeTo?: number;
         with_archive?: boolean;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesRiskManagementBacktestResult, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesRiskManagementBacktestResult, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     getRiskManagement: (query?: {
         page?: number;
         sortBy?: string;

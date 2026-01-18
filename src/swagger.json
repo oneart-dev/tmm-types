@@ -4,7 +4,7 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "\u003cimg src=\"/logo.svg\" width=\"220\" height=\"auto\"\n    alt=\"Trader Make Money Logo\" /\u003e\n\n# Trader Make Money API Reference\n\nWelcome to the **Trader Make Money (TMM)** API. Our API allows you to programmatically access trade data, manage risk settings, and integrate your trading journal with external tools.\n\n---\n\n## 1. Access Points\n\nThe API is accessible via a primary endpoint and mirrors for redundancy.\n\n| Environment   | Base URL                              |\n| :------------ | :------------------------------------ |\n| **Main**      | `https://tradermake.money/api/v2`     |\n| **Mirror EU** | `https://tradermakemoney.com/api/v2`  |\n| **Mirror RU** | `https://tradersmakemoney.com/api/v2` |\n\n---\n\n## 2. Authentication\n\nThe TMM API supports two authentication methods. If both are provided, the **JWT Token** takes precedence. If the provided JWT is invalid, the request will return a `401 Unauthorized` error, even if a valid API Key is present.\n\n### A. API Key\n\nGenerated via the `PUT /api-user` endpoint.\n\n- **Header:** `API-KEY: \u003cyour_api_key\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"API-KEY: your_api_key_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n### B. JWT Token\n\nObtained via `POST /auth/login`. Recommended for interactive applications.\n\n- **Header:** `Authorization: Bearer \u003cyour_jwt_token\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"Authorization: Bearer your_jwt_token_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n**Automatic Token Refresh:**\nA new JWT token is returned in the response headers of every successful request. Update your stored token with the latest one to maintain an active session without manual refreshing.\n\n---\n\n## 3. Rate Limiting\n\nWe enforce rate limits to ensure platform stability. Headers include:\n\n| Header                  | Description                                     |\n| :---------------------- | :---------------------------------------------- |\n| `x-ratelimit-limit`     | Max requests allowed in the current window.     |\n| `x-ratelimit-remaining` | Requests remaining in the current window.       |\n| `x-ratelimit-reset`     | Unix timestamp (seconds) when the limit resets. |\n\n**Important:** Exceeding limits results in a `429 Too Many Requests` error. Persistent violations may lead to account or IP restrictions.\n\n---\n\n## OAuth2 Integration for Third-Party Services\n\nWe provide OAuth2 support for partners and third-party developers who want to integrate TraderMakeMoney (TMM) directly into their platforms. This flow allows your users to securely link their TMM accounts to your service without manually copy-pasting API keys.\n\n### Prerequisites\n\n- **Active Payment Plan:** OAuth2 connection creation is exclusively available to users with a paid plan.\n- **Free Account Restriction:** Requests initiated by users on a free plan will fail.\n  - **Status Code:** `402 Payment Required`\n  - **Response Body:** `{\"error\": \"free account can't use oauth\"}`\n\n### 1. Registration\n\nTo begin integration, please contact us at **info@tradermake.money** to obtain your `client_id` and a `private_key` for your service.\n\n### 2. Authorization Flow\n\nYou must implement a \"Connect to TMM\" button in your interface. This button should redirect users to the following authorization URL:\n\n```text\nhttps://tradermake.money/app2/account/auth2/authorize/{client_id}?redirect_uri={your_redirect_uri}\u0026response_type=code\u0026client_id={client_id}\n```\n\n### 3. Exchanging Code for a Permanent API Key\n\nOnce the user authorizes the connection, TMM will redirect them back to your `redirect_uri` with a temporary `code`. You have **1 minute** to exchange this code for a permanent User API Key using the following endpoint:\n\n**POST** `/oauth2/token`\n\n**Headers:**\n\n- `API-KEY`: Your service's `private_key` (issued by TMM)\n- `Content-Type`: `application/json`\n\n**Request Body:**\n\n```json\n{\n  \"code\": \"temporary_code_from_redirect\",\n  \"client_id\": \"your_client_id\"\n}\n```\n\n### 4. Usage\n\nThe response will contain a permanent **User API Key**. Once obtained, store this key securely. All subsequent requests to the TMM API on behalf of this user should use the standard **API-KEY** authentication header as described in the **Authentication** section.\n\n---\n\n## 4. Recent Changelog\n\n### 2025 Updates\n\n- **Oct 29:** Added `PUT /api-key/batch` for bulk management.\n- **Sep 01:** Updated `GET /analyzer/` with `skipData` and `skipBalance` flags.\n- **Jul 24:** Added `income_percent_by_symbol` widget.\n- **Jul 18:** **API Key Migration**: Added `POST /api-key/{id}/migrate-to-new-id`. Reassigns all related data (trades, orders, etc.). (Admins only).\n- **Apr 22:** Added `websocket_status[]` multi-value filter for API keys (Enum `ApiKeyWebsocketStatus`).\n- **Apr 11:** Enhanced `/top` (Teams) endpoint. Now returns detailed user statistics (`pnl`, `percent`, `qty`) for today, yesterday, 7d, 14d, 30d, and custom periods.\n- **Apr 10:** Added `yesterday` and `14days` aggregation intervals for Teams.\n- **Apr 08:** `GET /trades/public-group/{code}` updated for cumulative income and win rate widgets.\n- **Apr 03:** **Risk Management Expansion**: Added support for fixed USD loss limits (`per_trade_usd`, `per_day_usd`). Updated Telegram/Discord notifications.\n- **Apr 01:** Updated Teams with custom 'from' and 'to' date support.\n- **Mar 25:** New Exchange Support: **Tiger X OKX** (Spot \u0026 Futures, IDs 44 \u0026 45).\n- **Mar 19:** New Exchange Support: **Tiger X Binance** (Spot \u0026 Futures, IDs 42 \u0026 43).\n- **Mar 18:** Fixed widget limits for free accounts on Public Profiles.\n- **Mar 03:** **OAuth2 \u0026 SSE**: Added OAuth2 support and SSE stream (`/user/oauth2`, `/oauth2/token`, `/oauth2/sse/{key}`).\n- **Feb 19:** New Exchange Support: **Bitget Spot** (ID 41).\n- **Feb 06:** Added `start_of_week` user setting (Monday/Sunday) for analytics.\n\n---\n\n## 5. Technical Remarks\n\n1. **Timeframes:** All timestamps are in **milliseconds**.\n2. **Performance:** Only the first 10 trades in a list include order data by default. Use `GET /trades/{trade_id}/orders` for the full list.\n",
+        "description": "\u003cimg src=\"/logo.svg\" width=\"220\" height=\"auto\"\n    alt=\"Trader Make Money Logo\" /\u003e\n\n# Trader Make Money API Reference\n\nWelcome to the **Trader Make Money (TMM)** API. Our API allows you to programmatically access trade data, manage risk settings, and integrate your trading journal with external tools.\n\n---\n\n## 1. Access Points\n\nThe API is accessible via a primary endpoint and mirrors for redundancy.\n\n| Environment   | Base URL                              |\n| :------------ | :------------------------------------ |\n| **Main**      | `https://tradermake.money/api/v2`     |\n| **Mirror EU** | `https://tradermakemoney.com/api/v2`  |\n| **Mirror RU** | `https://tradersmakemoney.com/api/v2` |\n\n---\n\n## 2. Authentication\n\nThe TMM API supports two authentication methods. If both are provided, the **JWT Token** takes precedence. If the provided JWT is invalid, the request will return a `401 Unauthorized` error, even if a valid API Key is present.\n\n### A. API Key\n\nGenerated via the `PUT /api-user` endpoint.\n\n- **Header:** `API-KEY: \u003cyour_api_key\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"API-KEY: your_api_key_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n### B. JWT Token\n\nObtained via `POST /auth/login`. Recommended for interactive applications.\n\n- **Header:** `Authorization: Bearer \u003cyour_jwt_token\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"Authorization: Bearer your_jwt_token_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n**Automatic Token Refresh:**\nA new JWT token is returned in the response headers of every successful request. Update your stored token with the latest one to maintain an active session without manual refreshing.\n\n---\n\n## 3. Rate Limiting\n\nWe enforce rate limits to ensure platform stability. Headers include:\n\n| Header                  | Description                                     |\n| :---------------------- | :---------------------------------------------- |\n| `x-ratelimit-limit`     | Max requests allowed in the current window.     |\n| `x-ratelimit-remaining` | Requests remaining in the current window.       |\n| `x-ratelimit-reset`     | Unix timestamp (seconds) when the limit resets. |\n\n**Important:** Exceeding limits results in a `429 Too Many Requests` error. Persistent violations may lead to account or IP restrictions.\n\n---\n\n## OAuth2 Integration for Third-Party Services\n\nWe provide OAuth2 support for partners and third-party developers who want to integrate TraderMakeMoney (TMM) directly into their platforms. This flow allows your users to securely link their TMM accounts to your service without manually copy-pasting API keys.\n\n### Prerequisites\n\n- **Active Payment Plan:** OAuth2 connection creation is exclusively available to users with a paid plan.\n- **Free Account Restriction:** Requests initiated by users on a free plan will fail.\n  - **Status Code:** `402 Payment Required`\n  - **Response Body:** `{\"error\": \"free account can't use oauth\"}`\n\n### 1. Registration\n\nTo begin integration, please contact us at **info@tradermake.money** to obtain your `client_id` and a `private_key` for your service.\n\n### 2. Authorization Flow\n\nYou must implement a \"Connect to TMM\" button in your interface. This button should redirect users to the following authorization URL:\n\n```text\nhttps://tradermake.money/app2/account/auth2/authorize/{client_id}?redirect_uri={your_redirect_uri}\u0026response_type=code\u0026client_id={client_id}\n```\n\n### 3. Exchanging Code for a Permanent API Key\n\nOnce the user authorizes the connection, TMM will redirect them back to your `redirect_uri` with a temporary `code`. You have **1 minute** to exchange this code for a permanent User API Key using the following endpoint:\n\n**POST** `/oauth2/token`\n\n**Headers:**\n\n- `API-KEY`: Your service's `private_key` (issued by TMM)\n- `Content-Type`: `application/json`\n\n**Request Body:**\n\n```json\n{\n  \"code\": \"temporary_code_from_redirect\",\n  \"client_id\": \"your_client_id\"\n}\n```\n\n### 4. Usage\n\nThe response will contain a permanent **User API Key**. Once obtained, store this key securely. All subsequent requests to the TMM API on behalf of this user should use the standard **API-KEY** authentication header as described in the **Authentication** section.\n\n---\n\n## 4. Recent Changelog\n\n### 2026 Updates\n\n- **Jan 16:** **Risk Management Backtest Engine**: Added `POST /risk-management/backtest` for simulating trading rules on historical data.\n- **Jan 14:** Corrected Bitget Spot trading fee calculation.\n- **Jan 06:** Migrated API documentation from Swagger UI to Scalar UI for a better user experience.\n- **Jan 02:** Extended the `/me` endpoint to include additional user information.\n\n### 2025 Updates\n\n- **Dec 12:** Implemented a rolling cache for trade deduplication to optimize memory usage.\n- **Dec 09:** Updated trade categories to support user-specific assignments.\n- **Dec 02:** Added a debouncer for handling high-frequency API requests more efficiently.\n- **Nov 28:** Fixed sorting for trade tags.\n- **Nov 16:** New Exchange Support: **Hyperliquid** (Futures).\n- **Nov 05:** Corrected currency handling for MNT on Bybit.\n- **Oct 29:** Added `PUT /api-key/batch` for bulk management.\n- **Sep 01:** Updated `GET /analyzer/` with `skipData` and `skipBalance` flags.\n- **Jul 24:** Added `income_percent_by_symbol` widget.\n- **Jul 18:** **API Key Migration**: Added `POST /api-key/{id}/migrate-to-new-id`. Reassigns all related data (trades, orders, etc.). (Admins only).\n- **Apr 22:** Added `websocket_status[]` multi-value filter for API keys (Enum `ApiKeyWebsocketStatus`).\n- **Apr 11:** Enhanced `/top` (Teams) endpoint. Now returns detailed user statistics (`pnl`, `percent`, `qty`) for today, yesterday, 7d, 14d, 30d, and custom periods.\n- **Apr 10:** Added `yesterday` and `14days` aggregation intervals for Teams.\n- **Apr 08:** `GET /trades/public-group/{code}` updated for cumulative income and win rate widgets.\n- **Apr 03:** **Risk Management Expansion**: Added support for fixed USD loss limits (`per_trade_usd`, `per_day_usd`). Updated Telegram/Discord notifications.\n- **Apr 01:** Updated Teams with custom 'from' and 'to' date support.\n- **Mar 25:** New Exchange Support: **Tiger X OKX** (Spot \u0026 Futures, IDs 44 \u0026 45).\n- **Mar 19:** New Exchange Support: **Tiger X Binance** (Spot \u0026 Futures, IDs 42 \u0026 43).\n- **Mar 18:** Fixed widget limits for free accounts on Public Profiles.\n- **Mar 03:** **OAuth2 \u0026 SSE**: Added OAuth2 support and SSE stream (`/user/oauth2`, `/oauth2/token`, `/oauth2/sse/{key}`).\n- **Feb 19:** New Exchange Support: **Bitget Spot** (ID 41).\n- **Feb 06:** Added `start_of_week` user setting (Monday/Sunday) for analytics.\n\n---\n\n## 5. Technical Remarks\n\n1. **Timeframes:** All timestamps are in **milliseconds**.\n2. **Performance:** Only the first 10 trades in a list include order data by default. Use `GET /trades/{trade_id}/orders` for the full list.\n",
         "title": "TMM API",
         "termsOfService": "https://tradermake.money/terms-and-conditions/",
         "contact": {
@@ -12403,7 +12403,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Backtests a risk management rule against historical trade data.",
+                "description": "Simulates the impact of specific risk management constraints on historical trade data to visualize potential equity curve improvements.\n\n### Operational Logic:\nThe simulation processes trades chronologically, applying three layers of protection:\n1. **Volume Scaling:** Adjusts position sizes if the used leverage exceeded the set maximum.\n2. **Trade Protection:** Simulates a virtual stop-loss. If a trade's maximum intraday drawdown (MAE) hit the loss limit, the trade is converted into a fixed loss at that limit, even if the trade eventually closed in profit.\n3. **Daily Circuit Breaker:** Monitors cumulative daily performance. Once the daily loss limit is reached, the \"terminal is closed,\" and subsequent trades for that day are voided.\n\n### Simulation Modes:\n- **Optimistic (default):** Idealized execution. If a trade crosses the daily loss threshold, it is liquidated at the exact moment the limit is hit, capping the day precisely at the limit.\n- **Realistic:** Market reality execution. If a trade crosses the daily threshold, its full loss is recorded (representing slippage or high volatility), but no further trades are permitted for the remainder of the day.",
                 "consumes": [
                     "application/json"
                 ],
@@ -12413,8 +12413,19 @@
                 "tags": [
                     "risk-management"
                 ],
-                "summary": "Backtest Risk Management Rule",
+                "summary": "Backtest Risk Management Rules",
                 "parameters": [
+                    {
+                        "enum": [
+                            "optimistic",
+                            "realistic"
+                        ],
+                        "type": "string",
+                        "default": "optimistic",
+                        "description": "Backtest mode: optimistic or realistic",
+                        "name": "mode",
+                        "in": "query"
+                    },
                     {
                         "type": "array",
                         "items": {
@@ -13070,9 +13081,10 @@
                         "in": "query"
                     },
                     {
-                        "description": "form payload",
+                        "description": "Risk management configuration to test",
                         "name": "payload",
                         "in": "body",
+                        "required": true,
                         "schema": {
                             "$ref": "#/definitions/dto.RiskManagementCreateForm"
                         }
@@ -13083,96 +13095,18 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-array_services_RiskManagementBacktestResult"
-                        },
-                        "headers": {
-                            "version": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            },
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/controllers.UnauthorizedResponse"
-                        },
-                        "headers": {
-                            "version": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            },
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Limit exceeded",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "headers": {
-                            "version": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            },
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        },
-                        "headers": {
-                            "version": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            },
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
                         }
                     }
                 }
@@ -28929,7 +28863,9 @@
                 "1m",
                 "7d",
                 "30d",
-                "90d"
+                "90d",
+                "180d",
+                "365d"
             ],
             "x-enum-varnames": [
                 "TradeDurationTypeToday",
@@ -28939,7 +28875,9 @@
                 "TradeDurationType1m",
                 "TradeDurationType7d",
                 "TradeDurationType30d",
-                "TradeDurationType90d"
+                "TradeDurationType90d",
+                "TradeDurationType180d",
+                "TradeDurationType365d"
             ]
         },
         "services.TradeExtra": {

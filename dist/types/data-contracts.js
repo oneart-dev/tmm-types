@@ -340,6 +340,8 @@ export var ServicesTradeDurationType;
     ServicesTradeDurationType["TradeDurationType7D"] = "7d";
     ServicesTradeDurationType["TradeDurationType30D"] = "30d";
     ServicesTradeDurationType["TradeDurationType90D"] = "90d";
+    ServicesTradeDurationType["TradeDurationType180D"] = "180d";
+    ServicesTradeDurationType["TradeDurationType365D"] = "365d";
 })(ServicesTradeDurationType || (ServicesTradeDurationType = {}));
 export var ServicesTradeExtraInfoFilter;
 (function (ServicesTradeExtraInfoFilter) {

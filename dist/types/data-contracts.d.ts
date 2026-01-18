@@ -1621,7 +1621,9 @@ export declare enum ServicesTradeDurationType {
     TradeDurationType1M = "1m",
     TradeDurationType7D = "7d",
     TradeDurationType30D = "30d",
-    TradeDurationType90D = "90d"
+    TradeDurationType90D = "90d",
+    TradeDurationType180D = "180d",
+    TradeDurationType365D = "365d"
 }
 export interface ServicesTradeExtra {
     avgTrades15m6h?: number;
