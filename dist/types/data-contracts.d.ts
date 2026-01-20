@@ -446,16 +446,6 @@ export interface DtoPublicProfileUpdateForm {
 }
 export interface DtoRiskManagementCreateForm {
     api_key_id?: number;
-    enabled?: boolean;
-    max_leverage?: string;
-    per_day?: string;
-    per_day_usd?: string;
-    per_trade?: string;
-    per_trade_usd?: string;
-}
-export interface DtoRiskManagementUpdateForm {
-    api_key_id?: number;
-    id?: number;
     max_leverage?: string;
     per_day?: string;
     per_day_usd?: string;

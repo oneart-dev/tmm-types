@@ -11,15 +11,6 @@ export class RiskManagement extends HttpClient {
             format: "json",
             ...params,
         });
-        this.riskManagementCreate = (payload, params = {}) => this.request({
-            path: `/risk-management`,
-            method: "POST",
-            body: payload,
-            secure: true,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
         this.riskManagementList = (query, params = {}) => this.request({
             path: `/risk-management/`,
             method: "GET",
@@ -43,6 +34,15 @@ export class RiskManagement extends HttpClient {
             path: `/risk-management/log`,
             method: "GET",
             query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.riskManagementCreate = (id, payload, params = {}) => this.request({
+            path: `/risk-management/${id}`,
+            method: "POST",
+            body: payload,
             secure: true,
             type: ContentType.Json,
             format: "json",

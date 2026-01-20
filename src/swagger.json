@@ -12137,117 +12137,6 @@
                         }
                     }
                 }
-            },
-            "post": {
-                "security": [
-                    {
-                        "ApiKey": [],
-                        "JWT": []
-                    }
-                ],
-                "description": "Updates an existing risk management rule.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "risk-management"
-                ],
-                "summary": "Update Risk Management Rule",
-                "parameters": [
-                    {
-                        "description": "form payload",
-                        "name": "payload",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/dto.RiskManagementUpdateForm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Limit exceeded",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        },
-                        "headers": {
-                            "x-ratelimit-limit": {
-                                "type": "integer",
-                                "description": "20"
-                            },
-                            "x-ratelimit-remaining": {
-                                "type": "integer",
-                                "description": "19"
-                            },
-                            "x-ratelimit-reset": {
-                                "type": "integer",
-                                "description": "1654898909"
-                            }
-                        }
-                    }
-                }
             }
         },
         "/risk-management/": {
@@ -13258,6 +13147,124 @@
             }
         },
         "/risk-management/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Updates an existing risk management rule.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "risk-management"
+                ],
+                "summary": "Update Risk Management Rule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RiskManagementCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -24713,43 +24720,6 @@
             "type": "object",
             "properties": {
                 "api_key_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "enabled": {
-                    "type": "boolean",
-                    "example": true
-                },
-                "max_leverage": {
-                    "type": "string",
-                    "example": "1.0"
-                },
-                "per_day": {
-                    "type": "string",
-                    "example": "3.0"
-                },
-                "per_day_usd": {
-                    "type": "string",
-                    "example": "3.0"
-                },
-                "per_trade": {
-                    "type": "string",
-                    "example": "0.1"
-                },
-                "per_trade_usd": {
-                    "type": "string",
-                    "example": "0.1"
-                }
-            }
-        },
-        "dto.RiskManagementUpdateForm": {
-            "type": "object",
-            "properties": {
-                "api_key_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "id": {
                     "type": "integer",
                     "example": 1
                 },

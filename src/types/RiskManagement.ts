@@ -15,7 +15,6 @@ import {
   ControllersApiSuccessResponse,
   ControllersUnauthorizedResponse,
   DtoRiskManagementCreateForm,
-  DtoRiskManagementUpdateForm,
   ServicesRiskManagementLogPagination,
   ServicesRiskManagementPagination,
 } from "./data-contracts";
@@ -36,27 +35,6 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       {
         path: `/risk-management`,
         method: "PUT",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
-  /**
-   * @description Updates an existing risk management rule.
-   *
-   * @tags risk-management
-   * @name RiskManagementCreate
-   * @summary Update Risk Management Rule
-   * @request POST:/risk-management
-   * @secure
-   */
-  riskManagementCreate = (payload: DtoRiskManagementUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/risk-management`,
-        method: "POST",
         body: payload,
         secure: true,
         type: ContentType.Json,
@@ -412,6 +390,27 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       format: "json",
       ...params,
     });
+  /**
+   * @description Updates an existing risk management rule.
+   *
+   * @tags risk-management
+   * @name RiskManagementCreate
+   * @summary Update Risk Management Rule
+   * @request POST:/risk-management/{id}
+   * @secure
+   */
+  riskManagementCreate = (id: number, payload: DtoRiskManagementCreateForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
+      {
+        path: `/risk-management/${id}`,
+        method: "POST",
+        body: payload,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      },
+    );
   /**
    * @description Deletes a risk management rule.
    *
