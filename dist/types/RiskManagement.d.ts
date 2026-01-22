@@ -104,6 +104,10 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         with_archive?: boolean;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesRiskManagementBacktestResult, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     getRiskManagement: (query?: {
+        api_key_id?: number;
+        date?: string;
+        trade_id?: number;
+        type?: 1 | 2 | 3 | 4 | 5;
         page?: number;
         sortBy?: string;
         sortDesc?: boolean;

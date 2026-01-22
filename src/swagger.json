@@ -13023,6 +13023,41 @@
                 "parameters": [
                     {
                         "type": "integer",
+                        "name": "api_key_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "trade_id",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        "type": "integer",
+                        "format": "int32",
+                        "x-enum-varnames": [
+                            "RiskManagementLogTypeTradeLoss",
+                            "RiskManagementLogTypeTradeLeverage",
+                            "RiskManagementLogTypeDayLoss",
+                            "RiskManagementLogTypeTradeLossUSD",
+                            "RiskManagementLogTypeDayLossUSD"
+                        ],
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Page",
                         "name": "page",
                         "in": "query"

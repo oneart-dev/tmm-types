@@ -367,6 +367,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
    */
   getRiskManagement = (
     query?: {
+      api_key_id?: number;
+      date?: string;
+      trade_id?: number;
+      /** @format int32 */
+      type?: 1 | 2 | 3 | 4 | 5;
       /** Page */
       page?: number;
       /** Sort by field */
