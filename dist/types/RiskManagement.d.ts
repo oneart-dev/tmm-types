@@ -106,6 +106,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
     getRiskManagement: (query?: {
         api_key_id?: number;
         date?: string;
+        symbol?: string;
         trade_id?: number;
         type?: 1 | 2 | 3 | 4 | 5;
         page?: number;

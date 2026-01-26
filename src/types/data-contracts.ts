@@ -950,17 +950,20 @@ export interface DtoPublicProfileUpdateForm {
 }
 
 export interface DtoRiskManagementCreateForm {
-  /** @example 1 */
+  /**
+   * Empty means global settings for all API keys combined. Only 1 global settings allowed.
+   * @example 1
+   */
   api_key_id?: number;
-  /** @example "1.0" */
+  /** @example "1.8" */
   max_leverage?: string;
-  /** @example "3.0" */
+  /** @example "2.84" */
   per_day?: string;
-  /** @example "3.0" */
+  /** @example "837.32" */
   per_day_usd?: string;
-  /** @example "0.1" */
+  /** @example "12.05" */
   per_trade?: string;
-  /** @example "0.1" */
+  /** @example "120.55" */
   per_trade_usd?: string;
 }
 
@@ -3161,6 +3164,7 @@ export interface ServicesUserWithRelations {
   referral_summary?: ServicesUserReferralSummary;
   referred_by?: number;
   risk_management?: ServicesRiskManagement[];
+  risk_management_log?: ServicesRiskManagementLog[];
   session_reset_at?: number;
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;

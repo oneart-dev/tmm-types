@@ -13032,6 +13032,12 @@
                         "in": "query"
                     },
                     {
+                        "maxLength": 50,
+                        "type": "string",
+                        "name": "symbol",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "trade_id",
                         "in": "query"
@@ -24755,28 +24761,29 @@
             "type": "object",
             "properties": {
                 "api_key_id": {
+                    "description": "Empty means global settings for all API keys combined. Only 1 global settings allowed.",
                     "type": "integer",
                     "example": 1
                 },
                 "max_leverage": {
                     "type": "string",
-                    "example": "1.0"
+                    "example": "1.8"
                 },
                 "per_day": {
                     "type": "string",
-                    "example": "3.0"
+                    "example": "2.84"
                 },
                 "per_day_usd": {
                     "type": "string",
-                    "example": "3.0"
+                    "example": "837.32"
                 },
                 "per_trade": {
                     "type": "string",
-                    "example": "0.1"
+                    "example": "12.05"
                 },
                 "per_trade_usd": {
                     "type": "string",
-                    "example": "0.1"
+                    "example": "120.55"
                 }
             }
         },
@@ -29946,6 +29953,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.RiskManagement"
+                    }
+                },
+                "risk_management_log": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.RiskManagementLog"
                     }
                 },
                 "session_reset_at": {

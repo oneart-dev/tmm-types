@@ -1967,6 +1967,7 @@ export interface ServicesUserWithRelations {
     referral_summary?: ServicesUserReferralSummary;
     referred_by?: number;
     risk_management?: ServicesRiskManagement[];
+    risk_management_log?: ServicesRiskManagementLog[];
     session_reset_at?: number;
     shard_id?: number;
     start_of_week?: ServicesUserStartOfWeek;
