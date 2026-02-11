@@ -29,6 +29,11 @@ export var ServicesApiUserType;
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
 })(ServicesApiUserType || (ServicesApiUserType = {}));
+export var ServicesBaseConnectionProvider;
+(function (ServicesBaseConnectionProvider) {
+    ServicesBaseConnectionProvider["TelegramConnection"] = "telegram";
+    ServicesBaseConnectionProvider["DiscordConnection"] = "discord";
+})(ServicesBaseConnectionProvider || (ServicesBaseConnectionProvider = {}));
 export var ServicesBulkSignUpResponseError;
 (function (ServicesBulkSignUpResponseError) {
     ServicesBulkSignUpResponseError["BulkSignUpResponseEmptyEmailList"] = "empty email list";
@@ -43,6 +48,11 @@ export var ServicesCVizorStatus;
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledTrends"] = 1] = "CVizorStatusEnabledTrends";
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledPRO"] = 2] = "CVizorStatusEnabledPRO";
 })(ServicesCVizorStatus || (ServicesCVizorStatus = {}));
+export var ServicesConnectionStatus;
+(function (ServicesConnectionStatus) {
+    ServicesConnectionStatus[ServicesConnectionStatus["TelegramConnectStatusNew"] = 1] = "TelegramConnectStatusNew";
+    ServicesConnectionStatus[ServicesConnectionStatus["TelegramConnectStatusConnected"] = 2] = "TelegramConnectStatusConnected";
+})(ServicesConnectionStatus || (ServicesConnectionStatus = {}));
 export var ServicesDashboardStatus;
 (function (ServicesDashboardStatus) {
     ServicesDashboardStatus[ServicesDashboardStatus["DashboardStatusDefault"] = 0] = "DashboardStatusDefault";
@@ -53,28 +63,6 @@ export var ServicesDefaultGroupField;
     ServicesDefaultGroupField[ServicesDefaultGroupField["DefaultGroupFieldOpenTime"] = 1] = "DefaultGroupFieldOpenTime";
     ServicesDefaultGroupField[ServicesDefaultGroupField["DefaultGroupFieldCloseTime"] = 2] = "DefaultGroupFieldCloseTime";
 })(ServicesDefaultGroupField || (ServicesDefaultGroupField = {}));
-export var ServicesDiscordCloseNotification;
-(function (ServicesDiscordCloseNotification) {
-    ServicesDiscordCloseNotification[ServicesDiscordCloseNotification["DiscordCloseNotificationEnabled"] = 1] = "DiscordCloseNotificationEnabled";
-    ServicesDiscordCloseNotification[ServicesDiscordCloseNotification["DiscordCloseNotificationDisabled"] = 2] = "DiscordCloseNotificationDisabled";
-})(ServicesDiscordCloseNotification || (ServicesDiscordCloseNotification = {}));
-export var ServicesDiscordConnectPrivacy;
-(function (ServicesDiscordConnectPrivacy) {
-    ServicesDiscordConnectPrivacy[ServicesDiscordConnectPrivacy["DiscordConnectPrivacyEnabled"] = 1] = "DiscordConnectPrivacyEnabled";
-    ServicesDiscordConnectPrivacy[ServicesDiscordConnectPrivacy["DiscordConnectPrivacyDisabled"] = 0] = "DiscordConnectPrivacyDisabled";
-})(ServicesDiscordConnectPrivacy || (ServicesDiscordConnectPrivacy = {}));
-export var ServicesDiscordConnectStatus;
-(function (ServicesDiscordConnectStatus) {
-    ServicesDiscordConnectStatus[ServicesDiscordConnectStatus["DiscordConnectStatusNew"] = 1] = "DiscordConnectStatusNew";
-    ServicesDiscordConnectStatus[ServicesDiscordConnectStatus["DiscordConnectStatusConnected"] = 2] = "DiscordConnectStatusConnected";
-})(ServicesDiscordConnectStatus || (ServicesDiscordConnectStatus = {}));
-export var ServicesDiscordNotification;
-(function (ServicesDiscordNotification) {
-    ServicesDiscordNotification[ServicesDiscordNotification["DiscordNotificationDisabled"] = 0] = "DiscordNotificationDisabled";
-    ServicesDiscordNotification[ServicesDiscordNotification["DiscordNotificationTradeAll"] = 1] = "DiscordNotificationTradeAll";
-    ServicesDiscordNotification[ServicesDiscordNotification["DiscordNotificationTradeOpenOnly"] = 2] = "DiscordNotificationTradeOpenOnly";
-    ServicesDiscordNotification[ServicesDiscordNotification["DiscordNotificationTradeExecutionOnly"] = 3] = "DiscordNotificationTradeExecutionOnly";
-})(ServicesDiscordNotification || (ServicesDiscordNotification = {}));
 export var ServicesExchangeID;
 (function (ServicesExchangeID) {
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINANCE_FUTURES"] = 1] = "EXCHANGE_BINANCE_FUTURES";
@@ -281,39 +269,6 @@ export var ServicesTeamTopType;
     ServicesTeamTopType["TeamTopTypePercent"] = "percent";
     ServicesTeamTopType["TeamTopTypeVolume"] = "volume";
 })(ServicesTeamTopType || (ServicesTeamTopType = {}));
-export var ServicesTelegramCloseNotification;
-(function (ServicesTelegramCloseNotification) {
-    ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationEnabled"] = 1] = "TelegramCloseNotificationEnabled";
-    ServicesTelegramCloseNotification[ServicesTelegramCloseNotification["TelegramCloseNotificationDisabled"] = 2] = "TelegramCloseNotificationDisabled";
-})(ServicesTelegramCloseNotification || (ServicesTelegramCloseNotification = {}));
-export var ServicesTelegramConnectPreview;
-(function (ServicesTelegramConnectPreview) {
-    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewEnabled"] = 1] = "TelegramConnectPreviewEnabled";
-    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewClose"] = 2] = "TelegramConnectPreviewClose";
-    ServicesTelegramConnectPreview[ServicesTelegramConnectPreview["TelegramConnectPreviewDisabled"] = 0] = "TelegramConnectPreviewDisabled";
-})(ServicesTelegramConnectPreview || (ServicesTelegramConnectPreview = {}));
-export var ServicesTelegramConnectPrivacy;
-(function (ServicesTelegramConnectPrivacy) {
-    ServicesTelegramConnectPrivacy[ServicesTelegramConnectPrivacy["TelegramConnectPrivacyEnabled"] = 1] = "TelegramConnectPrivacyEnabled";
-    ServicesTelegramConnectPrivacy[ServicesTelegramConnectPrivacy["TelegramConnectPrivacyDisabled"] = 0] = "TelegramConnectPrivacyDisabled";
-})(ServicesTelegramConnectPrivacy || (ServicesTelegramConnectPrivacy = {}));
-export var ServicesTelegramConnectRiskNotification;
-(function (ServicesTelegramConnectRiskNotification) {
-    ServicesTelegramConnectRiskNotification[ServicesTelegramConnectRiskNotification["TelegramConnectRiskNotificationEnabled"] = 1] = "TelegramConnectRiskNotificationEnabled";
-    ServicesTelegramConnectRiskNotification[ServicesTelegramConnectRiskNotification["TelegramConnectRiskNotificationDisabled"] = 0] = "TelegramConnectRiskNotificationDisabled";
-})(ServicesTelegramConnectRiskNotification || (ServicesTelegramConnectRiskNotification = {}));
-export var ServicesTelegramConnectStatus;
-(function (ServicesTelegramConnectStatus) {
-    ServicesTelegramConnectStatus[ServicesTelegramConnectStatus["TelegramConnectStatusNew"] = 1] = "TelegramConnectStatusNew";
-    ServicesTelegramConnectStatus[ServicesTelegramConnectStatus["TelegramConnectStatusConnected"] = 2] = "TelegramConnectStatusConnected";
-})(ServicesTelegramConnectStatus || (ServicesTelegramConnectStatus = {}));
-export var ServicesTelegramNotification;
-(function (ServicesTelegramNotification) {
-    ServicesTelegramNotification[ServicesTelegramNotification["TelegramNotificationDisabled"] = 0] = "TelegramNotificationDisabled";
-    ServicesTelegramNotification[ServicesTelegramNotification["TelegramNotificationTradeAll"] = 1] = "TelegramNotificationTradeAll";
-    ServicesTelegramNotification[ServicesTelegramNotification["TelegramNotificationTradeOpenOnly"] = 2] = "TelegramNotificationTradeOpenOnly";
-    ServicesTelegramNotification[ServicesTelegramNotification["TelegramNotificationTradeExecutionOnly"] = 3] = "TelegramNotificationTradeExecutionOnly";
-})(ServicesTelegramNotification || (ServicesTelegramNotification = {}));
 export var ServicesTopLeague;
 (function (ServicesTopLeague) {
     ServicesTopLeague[ServicesTopLeague["TopLeagueMoon"] = 1] = "TopLeagueMoon";

@@ -36,6 +36,12 @@ export interface ControllersApiSuccessArrayServicesApiKey {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesBaseConnection {
+  data?: ServicesBaseConnection[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesDashboard {
   data?: ServicesDashboard[];
   /** @example "success" */
@@ -1138,37 +1144,7 @@ export interface DtoTeamUpdateForm {
   status: 1 | 2;
 }
 
-export interface DtoTelegramConnectForm {
-  /**
-   * @minItems 1
-   * @example [2]
-   */
-  api_keys: number[];
-  /** @min 1 */
-  close_template_id?: number;
-  /** @example 1 */
-  close_trade_notification?: 1 | 2;
-  /** @min 1 */
-  execute_template_id?: number;
-  /** @example "en" */
-  language: "ru" | "en";
-  /**
-   * @minLength 1
-   * @maxLength 255
-   * @example "Personal account"
-   */
-  name: string;
-  /** @example 1 */
-  new_trade_notification?: 0 | 1 | 2 | 3;
-  /** @min 1 */
-  open_template_id?: number;
-  /** @example 1 */
-  preview?: 0 | 1 | 2;
-  /** @example 1 */
-  privacy_mode?: 0 | 1;
-  /** @example 1 */
-  risk_notification?: 0 | 1;
-}
+export type DtoTelegramConnectForm = object;
 
 export interface DtoTradeChartDataForm {
   /** @example "[]" */
@@ -1700,6 +1676,40 @@ export enum ServicesApiUserType {
   API_USER_TYPE_OAUTH_CREATED = 2,
 }
 
+export interface ServicesBaseConnection {
+  api_keys?: number[];
+  close_template_id?: number;
+  close_trade_notify?: boolean;
+  close_trade_preview?: boolean;
+  created_at?: string;
+  execute_template_id?: number;
+  execute_trade_notify?: boolean;
+  execute_trade_preview?: boolean;
+  id?: number;
+  language?: ServicesLocale;
+  name?: string;
+  new_trade_notify?: boolean;
+  new_trade_preview?: boolean;
+  /** Templates (Using pointers to handle NULLs from DB) */
+  open_template_id?: number;
+  privacy_mode?: boolean;
+  provider?: ServicesBaseConnectionProvider;
+  risk_notification?: boolean;
+  /**
+   * Connection status
+   * 1 - new
+   * 2 - connected
+   */
+  status?: ServicesConnectionStatus;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export enum ServicesBaseConnectionProvider {
+  TelegramConnection = "telegram",
+  DiscordConnection = "discord",
+}
+
 export interface ServicesBulkSignUpResponse {
   api_key?: string;
   dashboard_id?: number;
@@ -1729,6 +1739,12 @@ export interface ServicesCategory {
   user_id?: number;
 }
 
+/** @format int32 */
+export enum ServicesConnectionStatus {
+  TelegramConnectStatusNew = 1,
+  TelegramConnectStatusConnected = 2,
+}
+
 export interface ServicesDashboard {
   description?: string;
   filters?: ServicesWidgetFilters;
@@ -1755,81 +1771,38 @@ export enum ServicesDefaultGroupField {
   DefaultGroupFieldCloseTime = 2,
 }
 
-/** @format int32 */
-export enum ServicesDiscordCloseNotification {
-  DiscordCloseNotificationEnabled = 1,
-  DiscordCloseNotificationDisabled = 2,
-}
-
 export interface ServicesDiscordConnect {
   api_keys?: number[];
   channel_id?: number;
   close_template_id?: number;
-  /**
-   * Close notification mode
-   * 0 - disabled
-   * 1 - enabled
-   */
-  close_trade_notification?: ServicesDiscordCloseNotification;
+  close_trade_notify?: boolean;
+  close_trade_preview?: boolean;
   created_at?: string;
   execute_template_id?: number;
+  execute_trade_notify?: boolean;
+  execute_trade_preview?: boolean;
   guild_id?: number;
   hash?: string;
   id?: number;
   language?: ServicesLocale;
   name?: string;
-  /**
-   * Notification mode
-   * 0 - disabled
-   * 1 - all
-   * 2 - open only
-   * 3 - execution only
-   */
-  new_trade_notification?: ServicesDiscordNotification;
+  new_trade_notify?: boolean;
+  new_trade_preview?: boolean;
+  /** Templates (Using pointers to handle NULLs from DB) */
   open_template_id?: number;
   owner_id?: number;
-  preview?: ServicesTelegramConnectPreview;
-  /**
-   * Privacy mode
-   * 0 - disabled
-   * 1 - enabled
-   */
-  privacy_mode?: ServicesDiscordConnectPrivacy;
-  /**
-   * Risk management notifications
-   * 0 - disabled
-   * 1 - enabled
-   */
-  risk_notification?: ServicesTelegramConnectRiskNotification;
+  privacy_mode?: boolean;
+  provider?: ServicesBaseConnectionProvider;
+  risk_notification?: boolean;
   /**
    * Connection status
    * 1 - new
    * 2 - connected
    */
-  status?: ServicesDiscordConnectStatus;
+  status?: ServicesConnectionStatus;
   updated_at?: string;
   user_id?: number;
   username?: string;
-}
-
-/** @format int32 */
-export enum ServicesDiscordConnectPrivacy {
-  DiscordConnectPrivacyEnabled = 1,
-  DiscordConnectPrivacyDisabled = 0,
-}
-
-/** @format int32 */
-export enum ServicesDiscordConnectStatus {
-  DiscordConnectStatusNew = 1,
-  DiscordConnectStatusConnected = 2,
-}
-
-/** @format int32 */
-export enum ServicesDiscordNotification {
-  DiscordNotificationDisabled = 0,
-  DiscordNotificationTradeAll = 1,
-  DiscordNotificationTradeOpenOnly = 2,
-  DiscordNotificationTradeExecutionOnly = 3,
 }
 
 export enum ServicesExchangeID {
@@ -2519,97 +2492,35 @@ export interface ServicesTeamWithStatsAndMember {
   user_id?: number;
 }
 
-/** @format int32 */
-export enum ServicesTelegramCloseNotification {
-  TelegramCloseNotificationEnabled = 1,
-  TelegramCloseNotificationDisabled = 2,
-}
-
 export interface ServicesTelegramConnect {
   api_keys?: number[];
   close_template_id?: number;
-  /**
-   * Close notification mode
-   * 0 - disabled
-   * 1 - enabled
-   */
-  close_trade_notification?: ServicesTelegramCloseNotification;
+  close_trade_notify?: boolean;
+  close_trade_preview?: boolean;
   created_at?: string;
   execute_template_id?: number;
+  execute_trade_notify?: boolean;
+  execute_trade_preview?: boolean;
   hash?: string;
   id?: number;
   language?: ServicesLocale;
   name?: string;
-  /**
-   * Notification mode
-   * 0 - disabled
-   * 1 - all
-   * 2 - open only
-   * 3 - execution only
-   */
-  new_trade_notification?: ServicesTelegramNotification;
+  new_trade_notify?: boolean;
+  new_trade_preview?: boolean;
+  /** Templates (Using pointers to handle NULLs from DB) */
   open_template_id?: number;
-  /**
-   * Preview mode (always disabled in private mode)
-   * 0 - disabled
-   * 1 - enabled for any notification
-   * 2 - enabled for close notification only
-   */
-  preview?: ServicesTelegramConnectPreview;
-  /**
-   * Privacy mode
-   * 0 - disabled
-   * 1 - enabled
-   */
-  privacy_mode?: ServicesTelegramConnectPrivacy;
-  /**
-   * Risk management notifications
-   * 0 - disabled
-   * 1 - enabled
-   */
-  risk_notification?: ServicesTelegramConnectRiskNotification;
+  privacy_mode?: boolean;
+  provider?: ServicesBaseConnectionProvider;
+  risk_notification?: boolean;
   /**
    * Connection status
    * 1 - new
    * 2 - connected
    */
-  status?: ServicesTelegramConnectStatus;
+  status?: ServicesConnectionStatus;
   updated_at?: string;
   user_id?: number;
   username?: string;
-}
-
-/** @format int32 */
-export enum ServicesTelegramConnectPreview {
-  TelegramConnectPreviewEnabled = 1,
-  TelegramConnectPreviewClose = 2,
-  TelegramConnectPreviewDisabled = 0,
-}
-
-/** @format int32 */
-export enum ServicesTelegramConnectPrivacy {
-  TelegramConnectPrivacyEnabled = 1,
-  TelegramConnectPrivacyDisabled = 0,
-}
-
-/** @format int32 */
-export enum ServicesTelegramConnectRiskNotification {
-  TelegramConnectRiskNotificationEnabled = 1,
-  TelegramConnectRiskNotificationDisabled = 0,
-}
-
-/** @format int32 */
-export enum ServicesTelegramConnectStatus {
-  TelegramConnectStatusNew = 1,
-  TelegramConnectStatusConnected = 2,
-}
-
-/** @format int32 */
-export enum ServicesTelegramNotification {
-  TelegramNotificationDisabled = 0,
-  TelegramNotificationTradeAll = 1,
-  TelegramNotificationTradeOpenOnly = 2,
-  TelegramNotificationTradeExecutionOnly = 3,
 }
 
 export interface ServicesTickerFilters {

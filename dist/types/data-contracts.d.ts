@@ -16,6 +16,10 @@ export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesBaseConnection {
+    data?: ServicesBaseConnection[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesDashboard {
     data?: ServicesDashboard[];
     status?: ControllersResponseStatusMessage;
@@ -510,19 +514,7 @@ export interface DtoTeamUpdateForm {
     name: string;
     status: 1 | 2;
 }
-export interface DtoTelegramConnectForm {
-    api_keys: number[];
-    close_template_id?: number;
-    close_trade_notification?: 1 | 2;
-    execute_template_id?: number;
-    language: "ru" | "en";
-    name: string;
-    new_trade_notification?: 0 | 1 | 2 | 3;
-    open_template_id?: number;
-    preview?: 0 | 1 | 2;
-    privacy_mode?: 0 | 1;
-    risk_notification?: 0 | 1;
-}
+export type DtoTelegramConnectForm = object;
 export interface DtoTradeChartDataForm {
     data?: string;
 }
@@ -772,6 +764,32 @@ export declare enum ServicesApiUserType {
     API_USER_TYPE_USER_CREATED = 1,
     API_USER_TYPE_OAUTH_CREATED = 2
 }
+export interface ServicesBaseConnection {
+    api_keys?: number[];
+    close_template_id?: number;
+    close_trade_notify?: boolean;
+    close_trade_preview?: boolean;
+    created_at?: string;
+    execute_template_id?: number;
+    execute_trade_notify?: boolean;
+    execute_trade_preview?: boolean;
+    id?: number;
+    language?: ServicesLocale;
+    name?: string;
+    new_trade_notify?: boolean;
+    new_trade_preview?: boolean;
+    open_template_id?: number;
+    privacy_mode?: boolean;
+    provider?: ServicesBaseConnectionProvider;
+    risk_notification?: boolean;
+    status?: ServicesConnectionStatus;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesBaseConnectionProvider {
+    TelegramConnection = "telegram",
+    DiscordConnection = "discord"
+}
 export interface ServicesBulkSignUpResponse {
     api_key?: string;
     dashboard_id?: number;
@@ -797,6 +815,10 @@ export interface ServicesCategory {
     order?: number;
     user_id?: number;
 }
+export declare enum ServicesConnectionStatus {
+    TelegramConnectStatusNew = 1,
+    TelegramConnectStatusConnected = 2
+}
 export interface ServicesDashboard {
     description?: string;
     filters?: ServicesWidgetFilters;
@@ -819,46 +841,32 @@ export declare enum ServicesDefaultGroupField {
     DefaultGroupFieldOpenTime = 1,
     DefaultGroupFieldCloseTime = 2
 }
-export declare enum ServicesDiscordCloseNotification {
-    DiscordCloseNotificationEnabled = 1,
-    DiscordCloseNotificationDisabled = 2
-}
 export interface ServicesDiscordConnect {
     api_keys?: number[];
     channel_id?: number;
     close_template_id?: number;
-    close_trade_notification?: ServicesDiscordCloseNotification;
+    close_trade_notify?: boolean;
+    close_trade_preview?: boolean;
     created_at?: string;
     execute_template_id?: number;
+    execute_trade_notify?: boolean;
+    execute_trade_preview?: boolean;
     guild_id?: number;
     hash?: string;
     id?: number;
     language?: ServicesLocale;
     name?: string;
-    new_trade_notification?: ServicesDiscordNotification;
+    new_trade_notify?: boolean;
+    new_trade_preview?: boolean;
     open_template_id?: number;
     owner_id?: number;
-    preview?: ServicesTelegramConnectPreview;
-    privacy_mode?: ServicesDiscordConnectPrivacy;
-    risk_notification?: ServicesTelegramConnectRiskNotification;
-    status?: ServicesDiscordConnectStatus;
+    privacy_mode?: boolean;
+    provider?: ServicesBaseConnectionProvider;
+    risk_notification?: boolean;
+    status?: ServicesConnectionStatus;
     updated_at?: string;
     user_id?: number;
     username?: string;
-}
-export declare enum ServicesDiscordConnectPrivacy {
-    DiscordConnectPrivacyEnabled = 1,
-    DiscordConnectPrivacyDisabled = 0
-}
-export declare enum ServicesDiscordConnectStatus {
-    DiscordConnectStatusNew = 1,
-    DiscordConnectStatusConnected = 2
-}
-export declare enum ServicesDiscordNotification {
-    DiscordNotificationDisabled = 0,
-    DiscordNotificationTradeAll = 1,
-    DiscordNotificationTradeOpenOnly = 2,
-    DiscordNotificationTradeExecutionOnly = 3
 }
 export declare enum ServicesExchangeID {
     EXCHANGE_BINANCE_FUTURES = 1,
@@ -1411,52 +1419,29 @@ export interface ServicesTeamWithStatsAndMember {
     updated_at?: string;
     user_id?: number;
 }
-export declare enum ServicesTelegramCloseNotification {
-    TelegramCloseNotificationEnabled = 1,
-    TelegramCloseNotificationDisabled = 2
-}
 export interface ServicesTelegramConnect {
     api_keys?: number[];
     close_template_id?: number;
-    close_trade_notification?: ServicesTelegramCloseNotification;
+    close_trade_notify?: boolean;
+    close_trade_preview?: boolean;
     created_at?: string;
     execute_template_id?: number;
+    execute_trade_notify?: boolean;
+    execute_trade_preview?: boolean;
     hash?: string;
     id?: number;
     language?: ServicesLocale;
     name?: string;
-    new_trade_notification?: ServicesTelegramNotification;
+    new_trade_notify?: boolean;
+    new_trade_preview?: boolean;
     open_template_id?: number;
-    preview?: ServicesTelegramConnectPreview;
-    privacy_mode?: ServicesTelegramConnectPrivacy;
-    risk_notification?: ServicesTelegramConnectRiskNotification;
-    status?: ServicesTelegramConnectStatus;
+    privacy_mode?: boolean;
+    provider?: ServicesBaseConnectionProvider;
+    risk_notification?: boolean;
+    status?: ServicesConnectionStatus;
     updated_at?: string;
     user_id?: number;
     username?: string;
-}
-export declare enum ServicesTelegramConnectPreview {
-    TelegramConnectPreviewEnabled = 1,
-    TelegramConnectPreviewClose = 2,
-    TelegramConnectPreviewDisabled = 0
-}
-export declare enum ServicesTelegramConnectPrivacy {
-    TelegramConnectPrivacyEnabled = 1,
-    TelegramConnectPrivacyDisabled = 0
-}
-export declare enum ServicesTelegramConnectRiskNotification {
-    TelegramConnectRiskNotificationEnabled = 1,
-    TelegramConnectRiskNotificationDisabled = 0
-}
-export declare enum ServicesTelegramConnectStatus {
-    TelegramConnectStatusNew = 1,
-    TelegramConnectStatusConnected = 2
-}
-export declare enum ServicesTelegramNotification {
-    TelegramNotificationDisabled = 0,
-    TelegramNotificationTradeAll = 1,
-    TelegramNotificationTradeOpenOnly = 2,
-    TelegramNotificationTradeExecutionOnly = 3
 }
 export interface ServicesTickerFilters {
     baseCurrency?: string;

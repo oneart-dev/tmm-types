@@ -11,6 +11,7 @@ export * from './types/ApiUser';
 export * from './types/Auth';
 export * from './types/Board';
 export * from './types/Candles';
+export * from './types/Connections';
 export * from './types/DiscordBot';
 export * from './types/Exchanges';
 export * from './types/Files';
