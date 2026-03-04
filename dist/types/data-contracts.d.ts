@@ -40,10 +40,6 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
     data?: ServicesTeamTopData[];
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessArrayServicesTradeCountByWeek {
-    data?: ServicesTradeCountByWeek[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessArrayServicesTransaction {
     data?: ServicesTransaction[];
     status?: ControllersResponseStatusMessage;
@@ -290,6 +286,11 @@ export interface ControllersUnauthorizedResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersWeekListResponse {
+    data?: ServicesTradeCountByWeek[];
+    notes?: ServicesAnalyzerNote[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface DtoAnalyzerNoteForm {
     desc?: string;
     id?: number;
@@ -300,7 +301,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51;
     extra_info?: string;
     key_private?: string;
     key_public?: string;
@@ -773,6 +774,7 @@ export interface ServicesBaseConnection {
     execute_template_id?: number;
     execute_trade_notify?: boolean;
     execute_trade_preview?: boolean;
+    hash?: string;
     id?: number;
     language?: ServicesLocale;
     name?: string;
@@ -792,6 +794,7 @@ export declare enum ServicesBaseConnectionProvider {
 }
 export interface ServicesBulkSignUpResponse {
     api_key?: string;
+    created_at?: string;
     dashboard_id?: number;
     email?: string;
     error?: ServicesBulkSignUpResponseError;
@@ -898,7 +901,8 @@ export declare enum ServicesExchangeID {
     EXCHANGE_TIGER_BINANCE_SPOT = 43,
     EXCHANGE_TIGERX_OKX_FUTURES = 44,
     EXCHANGE_TIGERX_OKX_SPOT = 45,
-    EXCHANGE_HYPERLIQUID_FUTURES = 50
+    EXCHANGE_HYPERLIQUID_FUTURES = 50,
+    EXCHANGE_MEXC_SPOT = 51
 }
 export interface ServicesFile {
     file_path?: string;
@@ -1576,6 +1580,7 @@ export interface ServicesTradeCountByWeek {
     max_leverage?: string;
     min_leverage?: string;
     net_profit?: string;
+    note?: ServicesAnalyzerNote;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;

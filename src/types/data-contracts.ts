@@ -72,12 +72,6 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessArrayServicesTradeCountByWeek {
-  data?: ServicesTradeCountByWeek[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersApiSuccessArrayServicesTransaction {
   data?: ServicesTransaction[];
   /** @example "success" */
@@ -451,6 +445,13 @@ export interface ControllersUnauthorizedResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersWeekListResponse {
+  data?: ServicesTradeCountByWeek[];
+  notes?: ServicesAnalyzerNote[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface DtoAnalyzerNoteForm {
   /** @example "Description of the day/week/month" */
   desc?: string;
@@ -507,7 +508,8 @@ export interface DtoApiKeyCreateForm {
     | 44
     | 45
     | 46
-    | 50;
+    | 50
+    | 51;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1685,6 +1687,7 @@ export interface ServicesBaseConnection {
   execute_template_id?: number;
   execute_trade_notify?: boolean;
   execute_trade_preview?: boolean;
+  hash?: string;
   id?: number;
   language?: ServicesLocale;
   name?: string;
@@ -1712,6 +1715,7 @@ export enum ServicesBaseConnectionProvider {
 
 export interface ServicesBulkSignUpResponse {
   api_key?: string;
+  created_at?: string;
   dashboard_id?: number;
   email?: string;
   error?: ServicesBulkSignUpResponseError;
@@ -1836,6 +1840,7 @@ export enum ServicesExchangeID {
   EXCHANGE_TIGERX_OKX_FUTURES = 44,
   EXCHANGE_TIGERX_OKX_SPOT = 45,
   EXCHANGE_HYPERLIQUID_FUTURES = 50,
+  EXCHANGE_MEXC_SPOT = 51,
 }
 
 export interface ServicesFile {
@@ -2667,6 +2672,7 @@ export interface ServicesTradeCountByWeek {
   max_leverage?: string;
   min_leverage?: string;
   net_profit?: string;
+  note?: ServicesAnalyzerNote;
   percent?: string;
   profit_deposit?: string;
   realized_pnl?: string;

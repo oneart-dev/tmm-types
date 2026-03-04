@@ -13,11 +13,11 @@ import {
   ControllersAnalyzerNotesResponse,
   ControllersAnalyzerWeekResponse,
   ControllersApiErrorResponse,
-  ControllersApiSuccessArrayServicesTradeCountByWeek,
   ControllersApiSuccessResponse,
   ControllersApiSuccessString,
   ControllersApiWarningResponse,
   ControllersUnauthorizedResponse,
+  ControllersWeekListResponse,
   DtoAnalyzerNoteForm,
   DtoSymbolChartForm,
   ServicesTradeChartResponse,
@@ -376,10 +376,7 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
     },
     params: RequestParams = {},
   ) =>
-    this.request<
-      ControllersApiSuccessArrayServicesTradeCountByWeek,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
-    >({
+    this.request<ControllersWeekListResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
       path: `/analyzer/week-list`,
       method: "GET",
       query: query,

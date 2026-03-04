@@ -1,4 +1,4 @@
-import { ControllersAnalyzerNotesResponse, ControllersAnalyzerWeekResponse, ControllersApiErrorResponse, ControllersApiSuccessArrayServicesTradeCountByWeek, ControllersApiSuccessResponse, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersUnauthorizedResponse, DtoAnalyzerNoteForm, DtoSymbolChartForm, ServicesTradeChartResponse, ServicesValidationErrorResponse } from "./data-contracts";
+import { ControllersAnalyzerNotesResponse, ControllersAnalyzerWeekResponse, ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersUnauthorizedResponse, ControllersWeekListResponse, DtoAnalyzerNoteForm, DtoSymbolChartForm, ServicesTradeChartResponse, ServicesValidationErrorResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     analyzerList: (query?: {
@@ -105,7 +105,7 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
     notesCreate: (payload: DtoAnalyzerNoteForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     weekListList: (query?: {
         api_key_id?: number[];
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesTradeCountByWeek, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersWeekListResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     chartDataCreate: (symbol: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     loadCandlesDataCreate: (ticker: string, payload: DtoSymbolChartForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesTradeChartResponse, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
 }
