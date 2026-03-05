@@ -509,7 +509,8 @@ export interface DtoApiKeyCreateForm {
     | 45
     | 46
     | 50
-    | 51;
+    | 51
+    | 52;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1841,6 +1842,7 @@ export enum ServicesExchangeID {
   EXCHANGE_TIGERX_OKX_SPOT = 45,
   EXCHANGE_HYPERLIQUID_FUTURES = 50,
   EXCHANGE_MEXC_SPOT = 51,
+  EXCHANGE_MEXC_FUTURES = 52,
 }
 
 export interface ServicesFile {

@@ -1637,7 +1637,8 @@
                             44,
                             45,
                             50,
-                            51
+                            51,
+                            52
                         ],
                         "type": "integer",
                         "x-enum-comments": {
@@ -1685,6 +1686,7 @@
                             "suppport fast repair",
                             "suppport fast repair",
                             "",
+                            "",
                             ""
                         ],
                         "x-enum-varnames": [
@@ -1718,7 +1720,8 @@
                             "EXCHANGE_TIGERX_OKX_FUTURES",
                             "EXCHANGE_TIGERX_OKX_SPOT",
                             "EXCHANGE_HYPERLIQUID_FUTURES",
-                            "EXCHANGE_MEXC_SPOT"
+                            "EXCHANGE_MEXC_SPOT",
+                            "EXCHANGE_MEXC_FUTURES"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -15125,7 +15128,8 @@
                                 44,
                                 45,
                                 50,
-                                51
+                                51,
+                                52
                             ],
                             "type": "integer"
                         },
@@ -24185,7 +24189,8 @@
                         45,
                         46,
                         50,
-                        51
+                        51,
+                        52
                     ]
                 },
                 "extra_info": {
@@ -26694,7 +26699,8 @@
                 44,
                 45,
                 50,
-                51
+                51,
+                52
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
@@ -26741,6 +26747,7 @@
                 "suppport fast repair",
                 "suppport fast repair",
                 "",
+                "",
                 ""
             ],
             "x-enum-varnames": [
@@ -26774,7 +26781,8 @@
                 "EXCHANGE_TIGERX_OKX_FUTURES",
                 "EXCHANGE_TIGERX_OKX_SPOT",
                 "EXCHANGE_HYPERLIQUID_FUTURES",
-                "EXCHANGE_MEXC_SPOT"
+                "EXCHANGE_MEXC_SPOT",
+                "EXCHANGE_MEXC_FUTURES"
             ]
         },
         "services.File": {
