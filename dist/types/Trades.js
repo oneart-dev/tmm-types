@@ -125,6 +125,40 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.tagCategoriesList = (params = {}) => this.request({
+            path: `/trades/tag-categories`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.tagCategoriesCreate = (payload, params = {}) => this.request({
+            path: `/trades/tag-categories`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.tagCategoriesCreate2 = (id, payload, params = {}) => this.request({
+            path: `/trades/tag-categories/${id}`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.tagCategoriesDelete = (id, params = {}) => this.request({
+            path: `/trades/tag-categories/${id}`,
+            method: "DELETE",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.tagsList = (params = {}) => this.request({
             path: `/trades/tags`,
             method: "GET",

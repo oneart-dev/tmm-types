@@ -72,6 +72,10 @@ export interface ControllersApiSuccessServicesTag {
     data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesTagCategory {
+    data?: ServicesTagCategory;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTeam {
     data?: ServicesTeam;
     status?: ControllersResponseStatusMessage;
@@ -250,6 +254,10 @@ export interface ControllersServerStatsResponse {
 }
 export interface ControllersSseConnectResponse {
     data?: string;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersTagCategoriesResponse {
+    data?: ServicesTagCategory[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersTagsResponse {
@@ -471,6 +479,14 @@ export interface DtoSymbolChartForm {
     date?: string;
     interval: string;
     user_id?: number;
+}
+export interface DtoTagCategoryForm {
+    id?: number;
+    name: string;
+    order?: number;
+}
+export interface DtoTagCategoryListForm {
+    categories: DtoTagCategoryForm[];
 }
 export interface DtoTagForm {
     color_bg?: string;
@@ -1335,6 +1351,12 @@ export interface ServicesTag {
     name?: string;
     score?: number;
     tags?: ServicesTag[];
+    user_id?: number;
+}
+export interface ServicesTagCategory {
+    id?: ServicesTagColumn;
+    name?: string;
+    order?: number;
     user_id?: number;
 }
 export declare enum ServicesTagColumn {

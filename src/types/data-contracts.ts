@@ -120,6 +120,12 @@ export interface ControllersApiSuccessServicesTag {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesTagCategory {
+  data?: ServicesTagCategory;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTeam {
   data?: ServicesTeam;
   /** @example "success" */
@@ -392,6 +398,12 @@ export interface ControllersServerStatsResponse {
 
 export interface ControllersSseConnectResponse {
   data?: string;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersTagCategoriesResponse {
+  data?: ServicesTagCategory[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1011,6 +1023,26 @@ export interface DtoSymbolChartForm {
    */
   interval: string;
   user_id?: number;
+}
+
+export interface DtoTagCategoryForm {
+  id?: number;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "Risk setup"
+   */
+  name: string;
+  /**
+   * @min 0
+   * @max 998
+   * @example 3
+   */
+  order?: number;
+}
+
+export interface DtoTagCategoryListForm {
+  categories: DtoTagCategoryForm[];
 }
 
 export interface DtoTagForm {
@@ -2410,6 +2442,13 @@ export interface ServicesTag {
   score?: number;
   tags?: ServicesTag[];
   /** @example 1 */
+  user_id?: number;
+}
+
+export interface ServicesTagCategory {
+  id?: ServicesTagColumn;
+  name?: string;
+  order?: number;
   user_id?: number;
 }
 

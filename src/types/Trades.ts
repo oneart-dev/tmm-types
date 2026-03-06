@@ -16,16 +16,20 @@ import {
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTag,
+  ControllersApiSuccessServicesTagCategory,
   ControllersApiSuccessString,
   ControllersApiWarningResponse,
   ControllersCategoriesListResponse,
   ControllersOrdersListResponse,
   ControllersPublicTradeGroupResponse,
   ControllersPublicTradeResponse,
+  ControllersTagCategoriesResponse,
   ControllersTagsResponse,
   ControllersUnauthorizedResponse,
   DtoCategoryListForm,
   DtoGlobalChartDataForm,
+  DtoTagCategoryForm,
+  DtoTagCategoryListForm,
   DtoTagForm,
   DtoTagsSortForm,
   DtoTradeChartDataForm,
@@ -880,6 +884,94 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       path: `/trades/short-link-group`,
       method: "POST",
       body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Retrieves built-in and custom tag categories available for the user.
+   *
+   * @tags trades
+   * @name TagCategoriesList
+   * @summary Get tag categories
+   * @request GET:/trades/tag-categories
+   * @secure
+   */
+  tagCategoriesList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersTagCategoriesResponse,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/tag-categories`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Updates order and data for multiple custom tag categories.
+   *
+   * @tags trades
+   * @name TagCategoriesCreate
+   * @summary Bulk update tag categories
+   * @request POST:/trades/tag-categories
+   * @secure
+   */
+  tagCategoriesCreate = (payload: DtoTagCategoryListForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersTagCategoriesResponse,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/tag-categories`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Updates an existing custom tag category by id, or creates a new one when id is 0.
+   *
+   * @tags trades
+   * @name TagCategoriesCreate2
+   * @summary Create or update a tag category
+   * @request POST:/trades/tag-categories/{id}
+   * @originalName tagCategoriesCreate
+   * @duplicate
+   * @secure
+   */
+  tagCategoriesCreate2 = (id: number, payload: DtoTagCategoryForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesTagCategory,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/tag-categories/${id}`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Deletes a custom tag category by id. Built-in categories cannot be deleted.
+   *
+   * @tags trades
+   * @name TagCategoriesDelete
+   * @summary Delete a tag category
+   * @request DELETE:/trades/tag-categories/{id}
+   * @secure
+   */
+  tagCategoriesDelete = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/tag-categories/${id}`,
+      method: "DELETE",
       secure: true,
       type: ContentType.Json,
       format: "json",
