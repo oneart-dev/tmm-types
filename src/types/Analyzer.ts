@@ -193,6 +193,10 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       symbol?: string[];
       /** @example "not:" */
       symbol_params?: "not:";
+      tag_columns?: number[];
+      tag_ids?: number[];
+      /** @example "not:all:" */
+      tag_params?: "not:" | "all:" | "not:all:" | "only:";
       tags?: number[];
       /**
        * string based params separated by ":"

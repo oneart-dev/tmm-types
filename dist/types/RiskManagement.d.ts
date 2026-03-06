@@ -64,6 +64,9 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         state?: 0 | 1 | 2;
         symbol?: string[];
         symbol_params?: "not:";
+        tag_columns?: number[];
+        tag_ids?: number[];
+        tag_params?: "not:" | "all:" | "not:all:" | "only:";
         tags?: number[];
         tags_params?: "not:" | "all:" | "not:all:" | "only:";
         trade_time?: string;

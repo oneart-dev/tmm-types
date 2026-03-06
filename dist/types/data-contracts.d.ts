@@ -474,7 +474,7 @@ export interface DtoSymbolChartForm {
 }
 export interface DtoTagForm {
     color_bg?: string;
-    column?: 1 | 2;
+    column?: number;
     id?: number;
     is_group?: 0 | 1;
     name?: string;
@@ -581,6 +581,9 @@ export interface DtoTradeFilters {
     state?: 0 | 1 | 2;
     symbol?: string[];
     symbol_params?: "not:";
+    tag_columns?: number[];
+    tag_ids?: number[];
+    tag_params?: "not:" | "all:" | "not:all:" | "only:";
     tags?: number[];
     tags_params?: "not:" | "all:" | "not:all:" | "only:";
     trade_time?: string;
@@ -629,12 +632,12 @@ export interface DtoTradeUpdateDescForm {
     video_link?: string;
 }
 export interface DtoTradeUpdateTagsBulkForm {
-    column?: 1 | 2;
+    column?: number;
     tags: DtoTagForm[];
     trade_id: number[];
 }
 export interface DtoTradeUpdateTagsForm {
-    column?: 1 | 2;
+    column?: number;
     tags?: DtoTagForm[];
 }
 export interface DtoTradesCategoryForm {
@@ -1335,6 +1338,8 @@ export interface ServicesTag {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3
@@ -1730,6 +1735,9 @@ export interface ServicesTradeFilters {
     state?: ServicesTradeState;
     symbol?: string[];
     symbol_params?: string;
+    tag_columns?: ServicesTagColumn[];
+    tag_ids?: number[];
+    tag_params?: string;
     tags?: number[];
     tags_params?: string;
     trade_time?: "open_time" | "close_time";
@@ -2042,6 +2050,8 @@ export declare enum ServicesWidgetSource {
     WidgetSourceIncomeStackedByApiKey = "income_usdt_stacked_by_api_keys",
     WidgetSourceIncomeByEntryReasons = "tag_profit",
     WidgetSourceIncomeByExitReasons = "exit_tag_profit",
+    WidgetSourceIncomeByTag = "income_by_tag",
+    WidgetSourceIncomeByTagCombination = "income_by_tag_combination",
     WidgetSourcePercentByEntryReasons = "tag_percent",
     WidgetSourcePercentByExitReasons = "exit_tag_percent",
     WidgetSourceEntryReasonCombination = "tag_percent_combinations",

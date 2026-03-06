@@ -473,6 +473,36 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -5110,6 +5140,36 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -5868,6 +5928,36 @@
                         "type": "string",
                         "example": "not:",
                         "name": "symbol_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
                         "in": "query"
                     },
                     {
@@ -12859,6 +12949,36 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -16196,6 +16316,36 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
                         "name": "tags",
                         "in": "query"
                     },
@@ -17693,6 +17843,36 @@
                         "type": "string",
                         "example": "not:",
                         "name": "symbol_params",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_columns",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "multi",
+                        "name": "tag_ids",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "not:",
+                            "all:",
+                            "not:all:",
+                            "only:"
+                        ],
+                        "type": "string",
+                        "example": "not:all:",
+                        "name": "tag_params",
                         "in": "query"
                     },
                     {
@@ -25023,10 +25203,8 @@
                 },
                 "column": {
                     "type": "integer",
-                    "enum": [
-                        1,
-                        2
-                    ],
+                    "maximum": 127,
+                    "minimum": 1,
                     "example": 1
                 },
                 "id": {
@@ -25584,6 +25762,28 @@
                     ],
                     "example": "not:"
                 },
+                "tag_columns": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "tag_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "tag_params": {
+                    "type": "string",
+                    "enum": [
+                        "not:",
+                        "all:",
+                        "not:all:",
+                        "only:"
+                    ],
+                    "example": "not:all:"
+                },
                 "tags": {
                     "type": "array",
                     "items": {
@@ -25792,10 +25992,8 @@
             "properties": {
                 "column": {
                     "type": "integer",
-                    "enum": [
-                        1,
-                        2
-                    ],
+                    "maximum": 127,
+                    "minimum": 1,
                     "example": 1
                 },
                 "tags": {
@@ -25817,10 +26015,8 @@
             "properties": {
                 "column": {
                     "type": "integer",
-                    "enum": [
-                        1,
-                        2
-                    ],
+                    "maximum": 127,
+                    "minimum": 1,
                     "example": 1
                 },
                 "tags": {
@@ -28122,11 +28318,15 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
                 3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
                 "TagColumnConclusion"
@@ -29316,6 +29516,21 @@
                 "symbol_params": {
                     "type": "string"
                 },
+                "tag_columns": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TagColumn"
+                    }
+                },
+                "tag_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "tag_params": {
+                    "type": "string"
+                },
                 "tags": {
                     "type": "array",
                     "items": {
@@ -30186,6 +30401,8 @@
                 "income_usdt_stacked_by_api_keys",
                 "tag_profit",
                 "exit_tag_profit",
+                "income_by_tag",
+                "income_by_tag_combination",
                 "tag_percent",
                 "exit_tag_percent",
                 "tag_percent_combinations",
@@ -30278,6 +30495,8 @@
                 "WidgetSourceIncomeStackedByApiKey",
                 "WidgetSourceIncomeByEntryReasons",
                 "WidgetSourceIncomeByExitReasons",
+                "WidgetSourceIncomeByTag",
+                "WidgetSourceIncomeByTagCombination",
                 "WidgetSourcePercentByEntryReasons",
                 "WidgetSourcePercentByExitReasons",
                 "WidgetSourceEntryReasonCombination",

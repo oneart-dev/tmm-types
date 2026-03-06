@@ -228,6 +228,8 @@ export var ServicesStudentStatus;
 })(ServicesStudentStatus || (ServicesStudentStatus = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
@@ -434,6 +436,8 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceIncomeStackedByApiKey"] = "income_usdt_stacked_by_api_keys";
     ServicesWidgetSource["WidgetSourceIncomeByEntryReasons"] = "tag_profit";
     ServicesWidgetSource["WidgetSourceIncomeByExitReasons"] = "exit_tag_profit";
+    ServicesWidgetSource["WidgetSourceIncomeByTag"] = "income_by_tag";
+    ServicesWidgetSource["WidgetSourceIncomeByTagCombination"] = "income_by_tag_combination";
     ServicesWidgetSource["WidgetSourcePercentByEntryReasons"] = "tag_percent";
     ServicesWidgetSource["WidgetSourcePercentByExitReasons"] = "exit_tag_percent";
     ServicesWidgetSource["WidgetSourceEntryReasonCombination"] = "tag_percent_combinations";

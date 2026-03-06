@@ -58,6 +58,9 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         state?: 0 | 2 | 1 | undefined;
         symbol?: string[] | undefined;
         symbol_params?: "not:" | undefined;
+        tag_columns?: number[] | undefined;
+        tag_ids?: number[] | undefined;
+        tag_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         tags?: number[] | undefined;
         tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         trade_time?: string | undefined;
@@ -152,6 +155,9 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         state?: 0 | 2 | 1 | undefined;
         symbol?: string[] | undefined;
         symbol_params?: "not:" | undefined;
+        tag_columns?: number[] | undefined;
+        tag_ids?: number[] | undefined;
+        tag_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         tags?: number[] | undefined;
         tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         trade_time?: string | undefined;

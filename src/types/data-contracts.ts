@@ -1020,8 +1020,12 @@ export interface DtoTagForm {
    * @example "#ffffff"
    */
   color_bg?: string;
-  /** @example 1 */
-  column?: 1 | 2;
+  /**
+   * @min 1
+   * @max 127
+   * @example 1
+   */
+  column?: number;
   id?: number;
   /** @example 1 */
   is_group?: 0 | 1;
@@ -1319,6 +1323,10 @@ export interface DtoTradeFilters {
   symbol?: string[];
   /** @example "not:" */
   symbol_params?: "not:";
+  tag_columns?: number[];
+  tag_ids?: number[];
+  /** @example "not:all:" */
+  tag_params?: "not:" | "all:" | "not:all:" | "only:";
   tags?: number[];
   /**
    * string based params separated by ":"
@@ -1436,15 +1444,23 @@ export interface DtoTradeUpdateDescForm {
 }
 
 export interface DtoTradeUpdateTagsBulkForm {
-  /** @example 1 */
-  column?: 1 | 2;
+  /**
+   * @min 1
+   * @max 127
+   * @example 1
+   */
+  column?: number;
   tags: DtoTagForm[];
   trade_id: number[];
 }
 
 export interface DtoTradeUpdateTagsForm {
-  /** @example 1 */
-  column?: 1 | 2;
+  /**
+   * @min 1
+   * @max 127
+   * @example 1
+   */
+  column?: number;
   tags?: DtoTagForm[];
 }
 
@@ -2399,6 +2415,8 @@ export interface ServicesTag {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
@@ -2832,6 +2850,9 @@ export interface ServicesTradeFilters {
   state?: ServicesTradeState;
   symbol?: string[];
   symbol_params?: string;
+  tag_columns?: ServicesTagColumn[];
+  tag_ids?: number[];
+  tag_params?: string;
   tags?: number[];
   tags_params?: string;
   trade_time?: "open_time" | "close_time";
@@ -3176,6 +3197,8 @@ export enum ServicesWidgetSource {
   WidgetSourceIncomeStackedByApiKey = "income_usdt_stacked_by_api_keys",
   WidgetSourceIncomeByEntryReasons = "tag_profit",
   WidgetSourceIncomeByExitReasons = "exit_tag_profit",
+  WidgetSourceIncomeByTag = "income_by_tag",
+  WidgetSourceIncomeByTagCombination = "income_by_tag_combination",
   WidgetSourcePercentByEntryReasons = "tag_percent",
   WidgetSourcePercentByExitReasons = "exit_tag_percent",
   WidgetSourceEntryReasonCombination = "tag_percent_combinations",
