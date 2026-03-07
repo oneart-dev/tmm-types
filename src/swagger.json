@@ -213,6 +213,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -225,7 +226,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -482,6 +483,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -494,6 +496,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -503,6 +506,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -515,7 +519,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -4702,7 +4706,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Returns the count of trades for a dashboard based on the supplied filters.",
+                "description": "Returns the count of trades for a dashboard based on the supplied filters.\nPreferred tag filtering uses `tag_groups`, for example `tag_groups=[{\"column\":1,\"ids\":[10,11],\"params\":\"all:\"},{\"column\":2,\"ids\":[20],\"params\":\"not:\"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.",
                 "consumes": [
                     "application/json"
                 ],
@@ -4880,6 +4884,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -4892,7 +4897,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -5149,6 +5154,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -5161,6 +5167,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -5170,6 +5177,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -5182,7 +5190,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -5498,7 +5506,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Returns the count of trades for a widget, applying both the widget's filters and the dashboard's default filters.",
+                "description": "Returns the count of trades for a widget, applying both the widget's filters and the dashboard's default filters.\nPreferred tag filtering uses `tag_groups`, for example `tag_groups=[{\"column\":1,\"ids\":[10,11],\"params\":\"all:\"},{\"column\":2,\"ids\":[20],\"params\":\"not:\"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.",
                 "consumes": [
                     "application/json"
                 ],
@@ -5676,6 +5684,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -5688,7 +5697,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -5945,6 +5954,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -5957,6 +5967,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -5966,6 +5977,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -5978,7 +5990,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -12689,6 +12701,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -12701,7 +12714,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -12958,6 +12971,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -12970,6 +12984,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -12979,6 +12994,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -12991,7 +13007,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -15863,7 +15879,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Retrieves a paginated and filterable list of trades. For multiple values in a filter, repeat the query parameter (e.g., `\u0026api_key_id=1\u0026api_key_id=2`).",
+                "description": "Retrieves a paginated and filterable list of trades. For multiple values in a filter, repeat the query parameter (e.g., `\u0026api_key_id=1\u0026api_key_id=2`).\nPreferred tag filtering uses `tag_groups`, for example `tag_groups=[{\"column\":1,\"ids\":[10,11],\"params\":\"all:\"},{\"column\":2,\"ids\":[20],\"params\":\"not:\"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.",
                 "consumes": [
                     "application/json"
                 ],
@@ -16056,6 +16072,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -16068,7 +16085,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -16325,6 +16342,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -16337,6 +16355,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -16346,6 +16365,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -16358,7 +16378,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -17400,7 +17420,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Exports a list of trades to a file (e.g., CSV) based on the provided filters. For multiple values, repeat the query parameter.",
+                "description": "Exports a list of trades to a file (e.g., CSV) based on the provided filters. For multiple values, repeat the query parameter.\nPreferred tag filtering uses `tag_groups`, for example `tag_groups=[{\"column\":1,\"ids\":[10,11],\"params\":\"all:\"},{\"column\":2,\"ids\":[20],\"params\":\"not:\"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.",
                 "consumes": [
                     "application/json"
                 ],
@@ -17591,6 +17611,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags",
                         "in": "query"
                     },
@@ -17603,7 +17624,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                         "name": "exit_tags_params",
                         "in": "query"
                     },
@@ -17860,6 +17881,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_ids",
                         "in": "query"
                     },
@@ -17872,6 +17894,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
+                        "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                         "name": "tag_params",
                         "in": "query"
                     },
@@ -17881,6 +17904,7 @@
                             "type": "integer"
                         },
                         "collectionFormat": "multi",
+                        "description": "Deprecated: prefer tag_groups with column=1.",
                         "name": "tags",
                         "in": "query"
                     },
@@ -17893,7 +17917,7 @@
                         ],
                         "type": "string",
                         "example": "not:all:",
-                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                        "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                         "name": "tags_params",
                         "in": "query"
                     },
@@ -25788,6 +25812,36 @@
                 }
             }
         },
+        "dto.TagFilterGroup": {
+            "type": "object",
+            "required": [
+                "column",
+                "ids"
+            ],
+            "properties": {
+                "column": {
+                    "type": "integer",
+                    "maximum": 127,
+                    "minimum": 1
+                },
+                "ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "params": {
+                    "type": "string",
+                    "enum": [
+                        "not:",
+                        "all:",
+                        "not:all:",
+                        "only:"
+                    ]
+                }
+            }
+        },
         "dto.TagForm": {
             "type": "object",
             "properties": {
@@ -26172,13 +26226,14 @@
                     "example": "today"
                 },
                 "exit_tags": {
+                    "description": "Deprecated: prefer tag_groups with column=2.",
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
                 },
                 "exit_tags_params": {
-                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=2.",
                     "type": "string",
                     "enum": [
                         "not:",
@@ -26364,13 +26419,21 @@
                         "type": "integer"
                     }
                 },
+                "tag_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TagFilterGroup"
+                    }
+                },
                 "tag_ids": {
+                    "description": "Deprecated for category filtering. Use repeated `tag_ids_\u003ccolumn\u003e` query params instead.",
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
                 },
                 "tag_params": {
+                    "description": "Deprecated for category filtering. Use `tag_params_\u003ccolumn\u003e` query params instead.",
                     "type": "string",
                     "enum": [
                         "not:",
@@ -26381,13 +26444,14 @@
                     "example": "not:all:"
                 },
                 "tags": {
+                    "description": "Deprecated: prefer tag_groups with column=1.",
                     "type": "array",
                     "items": {
                         "type": "integer"
                     }
                 },
                 "tags_params": {
-                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only",
+                    "description": "string based params separated by \":\"\n\"not:\" - exclude trades with tags specified\n\"all:\" - all provided tags must be included/excluded\n\"only:\" - trades with tags specified only\nDeprecated: prefer tag_groups with column=1.",
                     "type": "string",
                     "enum": [
                         "not:",
@@ -28934,19 +28998,36 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
+        },
+        "services.TagFilterGroup": {
+            "type": "object",
+            "properties": {
+                "column": {
+                    "$ref": "#/definitions/services.TagColumn"
+                },
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "params": {
+                    "type": "string"
+                }
+            }
         },
         "services.Team": {
             "type": "object",
@@ -30136,6 +30217,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.TagColumn"
+                    }
+                },
+                "tag_groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TagFilterGroup"
                     }
                 },
                 "tag_ids": {

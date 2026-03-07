@@ -488,6 +488,11 @@ export interface DtoTagCategoryForm {
 export interface DtoTagCategoryListForm {
     categories: DtoTagCategoryForm[];
 }
+export interface DtoTagFilterGroup {
+    column: number;
+    ids: number[];
+    params?: "not:" | "all:" | "not:all:" | "only:";
+}
 export interface DtoTagForm {
     color_bg?: string;
     column?: number;
@@ -598,6 +603,7 @@ export interface DtoTradeFilters {
     symbol?: string[];
     symbol_params?: "not:";
     tag_columns?: number[];
+    tag_groups?: DtoTagFilterGroup[];
     tag_ids?: number[];
     tag_params?: "not:" | "all:" | "not:all:" | "only:";
     tags?: number[];
@@ -1361,11 +1367,16 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
+}
+export interface ServicesTagFilterGroup {
+    column?: ServicesTagColumn;
+    ids?: number[];
+    params?: string;
 }
 export interface ServicesTeam {
     created_at?: string;
@@ -1759,6 +1770,7 @@ export interface ServicesTradeFilters {
     symbol?: string[];
     symbol_params?: string;
     tag_columns?: ServicesTagColumn[];
+    tag_groups?: ServicesTagFilterGroup[];
     tag_ids?: number[];
     tag_params?: string;
     tags?: number[];

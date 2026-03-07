@@ -1045,6 +1045,17 @@ export interface DtoTagCategoryListForm {
   categories: DtoTagCategoryForm[];
 }
 
+export interface DtoTagFilterGroup {
+  /**
+   * @min 1
+   * @max 127
+   */
+  column: number;
+  /** @minItems 1 */
+  ids: number[];
+  params?: "not:" | "all:" | "not:all:" | "only:";
+}
+
 export interface DtoTagForm {
   /**
    * @minLength 5
@@ -1268,12 +1279,14 @@ export interface DtoTradeFilters {
   durationBetween?: string;
   /** @example "today" */
   durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+  /** Deprecated: prefer tag_groups with column=2. */
   exit_tags?: number[];
   /**
    * string based params separated by ":"
    * "not:" - exclude trades with tags specified
    * "all:" - all provided tags must be included/excluded
    * "only:" - trades with tags specified only
+   * Deprecated: prefer tag_groups with column=2.
    * @example "not:all:"
    */
   exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -1356,15 +1369,22 @@ export interface DtoTradeFilters {
   /** @example "not:" */
   symbol_params?: "not:";
   tag_columns?: number[];
+  tag_groups?: DtoTagFilterGroup[];
+  /** Deprecated for category filtering. Use repeated `tag_ids_<column>` query params instead. */
   tag_ids?: number[];
-  /** @example "not:all:" */
+  /**
+   * Deprecated for category filtering. Use `tag_params_<column>` query params instead.
+   * @example "not:all:"
+   */
   tag_params?: "not:" | "all:" | "not:all:" | "only:";
+  /** Deprecated: prefer tag_groups with column=1. */
   tags?: number[];
   /**
    * string based params separated by ":"
    * "not:" - exclude trades with tags specified
    * "all:" - all provided tags must be included/excluded
    * "only:" - trades with tags specified only
+   * Deprecated: prefer tag_groups with column=1.
    * @example "not:all:"
    */
   tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -2455,11 +2475,17 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
+}
+
+export interface ServicesTagFilterGroup {
+  column?: ServicesTagColumn;
+  ids?: number[];
+  params?: string;
 }
 
 export interface ServicesTeam {
@@ -2891,6 +2917,7 @@ export interface ServicesTradeFilters {
   symbol?: string[];
   symbol_params?: string;
   tag_columns?: ServicesTagColumn[];
+  tag_groups?: ServicesTagFilterGroup[];
   tag_ids?: number[];
   tag_params?: string;
   tags?: number[];

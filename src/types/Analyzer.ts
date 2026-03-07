@@ -106,12 +106,14 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /** Deprecated: prefer tag_groups with column=2. */
       exit_tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=2.
        * @example "not:all:"
        */
       exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -194,15 +196,21 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       /** @example "not:" */
       symbol_params?: "not:";
       tag_columns?: number[];
+      /** Deprecated for category filtering. Use repeated `tag_ids_<column>` query params instead. */
       tag_ids?: number[];
-      /** @example "not:all:" */
+      /**
+       * Deprecated for category filtering. Use `tag_params_<column>` query params instead.
+       * @example "not:all:"
+       */
       tag_params?: "not:" | "all:" | "not:all:" | "only:";
+      /** Deprecated: prefer tag_groups with column=1. */
       tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=1.
        * @example "not:all:"
        */
       tags_params?: "not:" | "all:" | "not:all:" | "only:";

@@ -77,7 +77,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Returns the count of trades for a dashboard based on the supplied filters.
+   * @description Returns the count of trades for a dashboard based on the supplied filters. Preferred tag filtering uses `tag_groups`, for example `tag_groups=[{"column":1,"ids":[10,11],"params":"all:"},{"column":2,"ids":[20],"params":"not:"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.
    *
    * @tags dashboard
    * @name CounterDashboardDetail
@@ -151,12 +151,14 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /** Deprecated: prefer tag_groups with column=2. */
       exit_tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=2.
        * @example "not:all:"
        */
       exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -239,15 +241,21 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       /** @example "not:" */
       symbol_params?: "not:";
       tag_columns?: number[];
+      /** Deprecated for category filtering. Use repeated `tag_ids_<column>` query params instead. */
       tag_ids?: number[];
-      /** @example "not:all:" */
+      /**
+       * Deprecated for category filtering. Use `tag_params_<column>` query params instead.
+       * @example "not:all:"
+       */
       tag_params?: "not:" | "all:" | "not:all:" | "only:";
+      /** Deprecated: prefer tag_groups with column=1. */
       tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=1.
        * @example "not:all:"
        */
       tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -352,7 +360,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Returns the count of trades for a widget, applying both the widget's filters and the dashboard's default filters.
+   * @description Returns the count of trades for a widget, applying both the widget's filters and the dashboard's default filters. Preferred tag filtering uses `tag_groups`, for example `tag_groups=[{"column":1,"ids":[10,11],"params":"all:"},{"column":2,"ids":[20],"params":"not:"}]`. Legacy `tags`/`exit_tags` remain supported but are deprecated.
    *
    * @tags dashboard
    * @name CounterWidgetDetail
@@ -426,12 +434,14 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /** Deprecated: prefer tag_groups with column=2. */
       exit_tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=2.
        * @example "not:all:"
        */
       exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
@@ -514,15 +524,21 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       /** @example "not:" */
       symbol_params?: "not:";
       tag_columns?: number[];
+      /** Deprecated for category filtering. Use repeated `tag_ids_<column>` query params instead. */
       tag_ids?: number[];
-      /** @example "not:all:" */
+      /**
+       * Deprecated for category filtering. Use `tag_params_<column>` query params instead.
+       * @example "not:all:"
+       */
       tag_params?: "not:" | "all:" | "not:all:" | "only:";
+      /** Deprecated: prefer tag_groups with column=1. */
       tags?: number[];
       /**
        * string based params separated by ":"
        * "not:" - exclude trades with tags specified
        * "all:" - all provided tags must be included/excluded
        * "only:" - trades with tags specified only
+       * Deprecated: prefer tag_groups with column=1.
        * @example "not:all:"
        */
       tags_params?: "not:" | "all:" | "not:all:" | "only:";
