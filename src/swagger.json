@@ -28916,6 +28916,9 @@
                 "id": {
                     "$ref": "#/definitions/services.TagColumn"
                 },
+                "key": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -30831,6 +30834,12 @@
                 },
                 "stripe": {
                     "$ref": "#/definitions/services.Stripe"
+                },
+                "tag_categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TagCategory"
+                    }
                 },
                 "tags": {
                     "type": "array",

@@ -2447,6 +2447,7 @@ export interface ServicesTag {
 
 export interface ServicesTagCategory {
   id?: ServicesTagColumn;
+  key?: string;
   name?: string;
   order?: number;
   user_id?: number;
@@ -3148,6 +3149,7 @@ export interface ServicesUserWithRelations {
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
   stripe?: ServicesStripe;
+  tag_categories?: ServicesTagCategory[];
   tags?: ServicesTag[];
   telegram?: ServicesTelegramConnect[];
   theme?: number;
