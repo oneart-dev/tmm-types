@@ -28931,18 +28931,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.Team": {
@@ -31018,10 +31018,12 @@
                 "income_by_tag_combination",
                 "tag_percent",
                 "exit_tag_percent",
+                "percent_by_tag",
                 "tag_percent_combinations",
                 "exit_tag_percent_combinations",
                 "tag_win_rate_combinations",
                 "exit_tag_win_rate_combinations",
+                "win_rate_by_tag_combination",
                 "income_usdt_accumulative",
                 "income_usdt_accumulative_by_api_key",
                 "volume_usdt_accumulative",
@@ -31112,10 +31114,12 @@
                 "WidgetSourceIncomeByTagCombination",
                 "WidgetSourcePercentByEntryReasons",
                 "WidgetSourcePercentByExitReasons",
+                "WidgetSourcePercentByTag",
                 "WidgetSourceEntryReasonCombination",
                 "WidgetSourceExitReasonCombination",
                 "WidgetSourceWinRateEntryReasonCombination",
                 "WidgetSourceWinRateExitReasonCombination",
+                "WidgetSourceWinRateByTagCombination",
                 "WidgetSourceIncomeAccumulative",
                 "WidgetSourceIncomeAccumulativeByApiKey",
                 "WidgetSourceVolumeAccumulative",

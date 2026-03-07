@@ -228,11 +228,11 @@ export var ServicesStudentStatus;
 })(ServicesStudentStatus || (ServicesStudentStatus = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -440,10 +440,12 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceIncomeByTagCombination"] = "income_by_tag_combination";
     ServicesWidgetSource["WidgetSourcePercentByEntryReasons"] = "tag_percent";
     ServicesWidgetSource["WidgetSourcePercentByExitReasons"] = "exit_tag_percent";
+    ServicesWidgetSource["WidgetSourcePercentByTag"] = "percent_by_tag";
     ServicesWidgetSource["WidgetSourceEntryReasonCombination"] = "tag_percent_combinations";
     ServicesWidgetSource["WidgetSourceExitReasonCombination"] = "exit_tag_percent_combinations";
     ServicesWidgetSource["WidgetSourceWinRateEntryReasonCombination"] = "tag_win_rate_combinations";
     ServicesWidgetSource["WidgetSourceWinRateExitReasonCombination"] = "exit_tag_win_rate_combinations";
+    ServicesWidgetSource["WidgetSourceWinRateByTagCombination"] = "win_rate_by_tag_combination";
     ServicesWidgetSource["WidgetSourceIncomeAccumulative"] = "income_usdt_accumulative";
     ServicesWidgetSource["WidgetSourceIncomeAccumulativeByApiKey"] = "income_usdt_accumulative_by_api_key";
     ServicesWidgetSource["WidgetSourceVolumeAccumulative"] = "volume_usdt_accumulative";

@@ -1360,11 +1360,11 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTeam {
     created_at?: string;
@@ -2076,10 +2076,12 @@ export declare enum ServicesWidgetSource {
     WidgetSourceIncomeByTagCombination = "income_by_tag_combination",
     WidgetSourcePercentByEntryReasons = "tag_percent",
     WidgetSourcePercentByExitReasons = "exit_tag_percent",
+    WidgetSourcePercentByTag = "percent_by_tag",
     WidgetSourceEntryReasonCombination = "tag_percent_combinations",
     WidgetSourceExitReasonCombination = "exit_tag_percent_combinations",
     WidgetSourceWinRateEntryReasonCombination = "tag_win_rate_combinations",
     WidgetSourceWinRateExitReasonCombination = "exit_tag_win_rate_combinations",
+    WidgetSourceWinRateByTagCombination = "win_rate_by_tag_combination",
     WidgetSourceIncomeAccumulative = "income_usdt_accumulative",
     WidgetSourceIncomeAccumulativeByApiKey = "income_usdt_accumulative_by_api_key",
     WidgetSourceVolumeAccumulative = "volume_usdt_accumulative",
