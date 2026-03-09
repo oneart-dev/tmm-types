@@ -1082,6 +1082,17 @@ export interface DtoTagForm {
   tags_id?: number[];
 }
 
+export interface DtoTagsColumnBulkUpdateForm {
+  /**
+   * @min 1
+   * @max 127
+   * @example 1
+   */
+  column: number;
+  /** @minItems 1 */
+  ids: number[];
+}
+
 export interface DtoTagsSort {
   id: number;
   /** @min 0 */

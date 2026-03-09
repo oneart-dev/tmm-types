@@ -502,6 +502,10 @@ export interface DtoTagForm {
     score?: number;
     tags_id?: number[];
 }
+export interface DtoTagsColumnBulkUpdateForm {
+    column: number;
+    ids: number[];
+}
 export interface DtoTagsSort {
     id: number;
     order?: number;

@@ -31,6 +31,7 @@ import {
   DtoTagCategoryForm,
   DtoTagCategoryListForm,
   DtoTagForm,
+  DtoTagsColumnBulkUpdateForm,
   DtoTagsSortForm,
   DtoTradeChartDataForm,
   DtoTradeChartForm,
@@ -1029,6 +1030,28 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/tags`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Moves a selection of existing tags into a target column. The operation is all-or-nothing.
+   *
+   * @tags trades
+   * @name TagsColumnCreate
+   * @summary Bulk update tag column
+   * @request POST:/trades/tags/column
+   * @secure
+   */
+  tagsColumnCreate = (payload: DtoTagsColumnBulkUpdateForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/tags/column`,
       method: "POST",
       body: payload,
       secure: true,

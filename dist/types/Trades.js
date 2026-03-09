@@ -176,6 +176,15 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.tagsColumnCreate = (payload, params = {}) => this.request({
+            path: `/trades/tags/column`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.tagsSortCreate = (payload, params = {}) => this.request({
             path: `/trades/tags/sort`,
             method: "POST",
