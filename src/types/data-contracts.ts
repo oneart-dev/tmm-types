@@ -102,6 +102,12 @@ export interface ControllersApiSuccessServicesDashboard {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesFilterCatalogPayload {
+  data?: ServicesFilterCatalogPayload;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesFilterPreset {
   data?: ServicesFilterPreset;
   /** @example "success" */
@@ -252,6 +258,7 @@ export interface ControllersLatestNotificationsResponse {
 export interface ControllersLoadBoardResponse {
   dashboard?: ServicesDashboard;
   errors?: Record<string, string>;
+  filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
   public_profile?: ServicesPublicProfile;
   serverData?: Record<string, string>;
   /** @example "success" */
@@ -1941,6 +1948,40 @@ export enum ServicesFileOwnerType {
   FileOwnerTypePublicProfile = "PublicProfile",
 }
 
+export interface ServicesFilterCatalogContext {
+  accessMode?: string;
+  catalogAccessPolicy?: string;
+  subjectUserId?: number;
+  viewerUserId?: number;
+}
+
+export interface ServicesFilterCatalogPayload {
+  catalogs?: ServicesFilterCatalogs;
+  context?: ServicesFilterCatalogContext;
+  subjects?: ServicesFilterCatalogSubject[];
+  updated_at?: number;
+}
+
+export interface ServicesFilterCatalogSnapshot {
+  catalogs?: ServicesFilterCatalogs;
+  context?: ServicesFilterCatalogContext;
+  updated_at?: number;
+}
+
+export interface ServicesFilterCatalogSubject {
+  groupId?: number;
+  groupName?: string;
+  name?: string;
+  userId?: number;
+}
+
+export interface ServicesFilterCatalogs {
+  apiKeys?: ServicesApiKey[];
+  categories?: ServicesCategory[];
+  tagCategories?: ServicesTagCategory[];
+  tags?: ServicesTag[];
+}
+
 export interface ServicesFilterPreset {
   id?: number;
   name?: string;
@@ -3154,8 +3195,10 @@ export enum ServicesUserStartOfWeek {
 }
 
 export interface ServicesUserWithRelations {
+  /** Deprecated: prefer filter_catalog.catalogs.apiKeys. */
   api_keys_list?: ServicesApiKey[];
   avatar?: ServicesFile;
+  /** Deprecated: prefer filter_catalog.catalogs.categories. */
   categories?: ServicesCategory[];
   created_at?: string;
   cvizor?: ServicesCVizorStatus;
@@ -3164,6 +3207,7 @@ export interface ServicesUserWithRelations {
   discord?: ServicesDiscordConnect[];
   email?: string;
   email_verified_at?: string;
+  filter_catalog?: ServicesFilterCatalogPayload;
   filter_presets?: ServicesFilterPreset[];
   guides_progress?: ServicesGuideProgress;
   id?: number;
@@ -3174,6 +3218,7 @@ export interface ServicesUserWithRelations {
   limits?: ServicesUserLimits;
   membership?: ServicesMembership;
   membership_valid_until?: number;
+  mentor_subjects?: ServicesFilterCatalogSubject[];
   name?: string;
   privileges?: string[];
   public_profile?: ServicesPublicProfile;
@@ -3187,7 +3232,9 @@ export interface ServicesUserWithRelations {
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
   stripe?: ServicesStripe;
+  /** Deprecated: prefer filter_catalog.catalogs.tagCategories. */
   tag_categories?: ServicesTagCategory[];
+  /** Deprecated: prefer filter_catalog.catalogs.tags. */
   tags?: ServicesTag[];
   telegram?: ServicesTelegramConnect[];
   theme?: number;

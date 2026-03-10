@@ -97,7 +97,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Fetches the complete profile for the authenticated user, including API keys, trading categories, custom tags, public profile status, and active integrations (Telegram/Discord/Risk Management).
+   * @description Fetches the complete profile for the authenticated user, including filter_catalog, mentor_subjects, public profile status, and active integrations. Legacy filter fields remain for backward compatibility and are deprecated.
    *
    * @tags auth
    * @name GetAuth

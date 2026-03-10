@@ -8,6 +8,7 @@ export * from './types/Connections';
 export * from './types/DiscordBot';
 export * from './types/Exchanges';
 export * from './types/Files';
+export * from './types/FilterCatalog';
 export * from './types/FilterPreset';
 export * from './types/MentorGroup';
 export * from './types/Notification';
