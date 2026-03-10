@@ -1405,11 +1405,11 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -1944,9 +1944,18 @@ export interface ServicesTransaction {
     valid_until?: number;
 }
 export interface ServicesTransactionDiscount {
+    base_amount?: string;
     discount?: string;
+    final_amount?: string;
+    forfeited_amount?: string;
+    gateway?: ServicesTransactionSource;
     promo_code?: string;
+    quote?: boolean;
+    requested_level?: ServicesMembership;
+    requested_months?: number;
     type?: ServicesTransactionDiscountType;
+    unused_amount?: string;
+    zero_due?: boolean;
 }
 export declare enum ServicesTransactionDiscountType {
     TransactionDiscountTypePercent = "percent",

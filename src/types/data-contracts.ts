@@ -2527,11 +2527,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3119,9 +3119,18 @@ export interface ServicesTransaction {
 }
 
 export interface ServicesTransactionDiscount {
+  base_amount?: string;
   discount?: string;
+  final_amount?: string;
+  forfeited_amount?: string;
+  gateway?: ServicesTransactionSource;
   promo_code?: string;
+  quote?: boolean;
+  requested_level?: ServicesMembership;
+  requested_months?: number;
   type?: ServicesTransactionDiscountType;
+  unused_amount?: string;
+  zero_due?: boolean;
 }
 
 export enum ServicesTransactionDiscountType {

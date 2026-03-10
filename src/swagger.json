@@ -29315,18 +29315,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -30951,14 +30951,41 @@
         "services.TransactionDiscount": {
             "type": "object",
             "properties": {
+                "base_amount": {
+                    "type": "string"
+                },
                 "discount": {
                     "type": "string"
+                },
+                "final_amount": {
+                    "type": "string"
+                },
+                "forfeited_amount": {
+                    "type": "string"
+                },
+                "gateway": {
+                    "$ref": "#/definitions/services.TransactionSource"
                 },
                 "promo_code": {
                     "type": "string"
                 },
+                "quote": {
+                    "type": "boolean"
+                },
+                "requested_level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "requested_months": {
+                    "type": "integer"
+                },
                 "type": {
                     "$ref": "#/definitions/services.TransactionDiscountType"
+                },
+                "unused_amount": {
+                    "type": "string"
+                },
+                "zero_due": {
+                    "type": "boolean"
                 }
             }
         },
