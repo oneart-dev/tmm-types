@@ -92,8 +92,8 @@ export interface ControllersApiSuccessServicesTeamWithStatsAndMember {
     data?: ServicesTeamWithStatsAndMember;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessServicesTransactionDiscount {
-    data?: ServicesTransactionDiscount;
+export interface ControllersApiSuccessServicesTransactionQuote {
+    data?: ServicesTransactionQuote;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessString {
@@ -1405,11 +1405,11 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -1943,23 +1943,44 @@ export interface ServicesTransaction {
     user_id?: number;
     valid_until?: number;
 }
-export interface ServicesTransactionDiscount {
+export interface ServicesTransactionQuote {
     base_amount?: string;
-    discount?: string;
+    billing_months?: number;
+    contributions?: ServicesTransactionProrationContribution[];
+    current_level?: ServicesMembership;
+    current_valid_to?: number;
+    fee_amount?: string;
     final_amount?: string;
     forfeited_amount?: string;
     gateway?: ServicesTransactionSource;
-    promo_code?: string;
-    quote?: boolean;
-    requested_level?: ServicesMembership;
-    requested_months?: number;
-    type?: ServicesTransactionDiscountType;
-    unused_amount?: string;
+    gateway_supported?: boolean;
+    is_downgrade_blocked?: boolean;
+    is_upgrade?: boolean;
+    level?: ServicesMembership;
+    lines?: ServicesTransactionQuoteLine[];
+    months?: number;
+    quote_type?: ServicesTransactionQuoteType;
+    total_discount_amount?: string;
+    unused_balance_amount?: string;
     zero_due?: boolean;
 }
-export declare enum ServicesTransactionDiscountType {
-    TransactionDiscountTypePercent = "percent",
-    TransactionDiscountTypeAmount = "amount"
+export interface ServicesTransactionQuoteLine {
+    amount?: string;
+    code?: string;
+    label?: string;
+    percent?: string;
+    type?: ServicesTransactionQuoteLineType;
+}
+export declare enum ServicesTransactionQuoteLineType {
+    TransactionQuoteLineTypeBase = "base",
+    TransactionQuoteLineTypeDiscount = "discount",
+    TransactionQuoteLineTypeCredit = "credit",
+    TransactionQuoteLineTypeFee = "fee",
+    TransactionQuoteLineTypeTotal = "total"
+}
+export declare enum ServicesTransactionQuoteType {
+    TransactionQuoteTypePurchase = "purchase",
+    TransactionQuoteTypeUpgrade = "upgrade"
 }
 export declare enum ServicesTransactionSource {
     TransactionSourceUsdtTrc20 = "usdt_trc20",
@@ -2213,5 +2234,12 @@ export declare enum ServicesWidgetType2 {
     WidgetType2TreeMap = "treemap",
     WidgetType2Bubble = "bubble",
     WidgetType2CandleStick = "candlestick"
+}
+export interface ServicesTransactionProrationContribution {
+    amount?: string;
+    end_at?: number;
+    level?: ServicesMembership;
+    start_at?: number;
+    transaction_id?: number;
 }
 //# sourceMappingURL=data-contracts.d.ts.map

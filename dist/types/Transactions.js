@@ -20,17 +20,18 @@ export class Transactions extends HttpClient {
             format: "json",
             ...params,
         });
-        this.discountList = (params = {}) => this.request({
-            path: `/transactions/discount`,
+        this.pendingList = (params = {}) => this.request({
+            path: `/transactions/pending`,
             method: "GET",
             secure: true,
             type: ContentType.Json,
             format: "json",
             ...params,
         });
-        this.pendingList = (params = {}) => this.request({
-            path: `/transactions/pending`,
+        this.quoteList = (query, params = {}) => this.request({
+            path: `/transactions/quote`,
             method: "GET",
+            query: query,
             secure: true,
             type: ContentType.Json,
             format: "json",

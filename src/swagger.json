@@ -22208,7 +22208,7 @@
                 }
             }
         },
-        "/transactions/discount": {
+        "/transactions/pending": {
             "get": {
                 "security": [
                     {
@@ -22216,7 +22216,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Retrieves information about any available discounts for the user.",
+                "description": "Retrieves a list of pending transactions that have not yet been processed and can be canceled by the user.",
                 "consumes": [
                     "application/json"
                 ],
@@ -22226,12 +22226,12 @@
                 "tags": [
                     "transactions"
                 ],
-                "summary": "Get Discount Information",
+                "summary": "List Pending Transactions",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-services_TransactionDiscount"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Transaction"
                         },
                         "headers": {
                             "version": {
@@ -22327,7 +22327,7 @@
                 }
             }
         },
-        "/transactions/pending": {
+        "/transactions/quote": {
             "get": {
                 "security": [
                     {
@@ -22335,7 +22335,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Retrieves a list of pending transactions that have not yet been processed and can be canceled by the user.",
+                "description": "Retrieves the full payment quote for the selected gateway, plan, and months.",
                 "consumes": [
                     "application/json"
                 ],
@@ -22345,12 +22345,35 @@
                 "tags": [
                     "transactions"
                 ],
-                "summary": "List Pending Transactions",
+                "summary": "Get Payment Quote",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Payment gateway",
+                        "name": "gateway",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Membership level",
+                        "name": "level",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Billing months",
+                        "name": "months",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Transaction"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TransactionQuote"
                         },
                         "headers": {
                             "version": {
@@ -24177,11 +24200,11 @@
                 }
             }
         },
-        "controllers.ApiSuccess-services_TransactionDiscount": {
+        "controllers.ApiSuccess-services_TransactionQuote": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/services.TransactionDiscount"
+                    "$ref": "#/definitions/services.TransactionQuote"
                 },
                 "status": {
                     "allOf": [
@@ -29315,18 +29338,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -30948,13 +30971,28 @@
                 }
             }
         },
-        "services.TransactionDiscount": {
+        "services.TransactionQuote": {
             "type": "object",
             "properties": {
                 "base_amount": {
                     "type": "string"
                 },
-                "discount": {
+                "billing_months": {
+                    "type": "integer"
+                },
+                "contributions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.transactionProrationContribution"
+                    }
+                },
+                "current_level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "current_valid_to": {
+                    "type": "integer"
+                },
+                "fee_amount": {
                     "type": "string"
                 },
                 "final_amount": {
@@ -30966,22 +31004,34 @@
                 "gateway": {
                     "$ref": "#/definitions/services.TransactionSource"
                 },
-                "promo_code": {
-                    "type": "string"
-                },
-                "quote": {
+                "gateway_supported": {
                     "type": "boolean"
                 },
-                "requested_level": {
+                "is_downgrade_blocked": {
+                    "type": "boolean"
+                },
+                "is_upgrade": {
+                    "type": "boolean"
+                },
+                "level": {
                     "$ref": "#/definitions/services.Membership"
                 },
-                "requested_months": {
+                "lines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TransactionQuoteLine"
+                    }
+                },
+                "months": {
                     "type": "integer"
                 },
-                "type": {
-                    "$ref": "#/definitions/services.TransactionDiscountType"
+                "quote_type": {
+                    "$ref": "#/definitions/services.TransactionQuoteType"
                 },
-                "unused_amount": {
+                "total_discount_amount": {
+                    "type": "string"
+                },
+                "unused_balance_amount": {
                     "type": "string"
                 },
                 "zero_due": {
@@ -30989,15 +31039,52 @@
                 }
             }
         },
-        "services.TransactionDiscountType": {
+        "services.TransactionQuoteLine": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "percent": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/services.TransactionQuoteLineType"
+                }
+            }
+        },
+        "services.TransactionQuoteLineType": {
             "type": "string",
             "enum": [
-                "percent",
-                "amount"
+                "base",
+                "discount",
+                "credit",
+                "fee",
+                "total"
             ],
             "x-enum-varnames": [
-                "TransactionDiscountTypePercent",
-                "TransactionDiscountTypeAmount"
+                "TransactionQuoteLineTypeBase",
+                "TransactionQuoteLineTypeDiscount",
+                "TransactionQuoteLineTypeCredit",
+                "TransactionQuoteLineTypeFee",
+                "TransactionQuoteLineTypeTotal"
+            ]
+        },
+        "services.TransactionQuoteType": {
+            "type": "string",
+            "enum": [
+                "purchase",
+                "upgrade"
+            ],
+            "x-enum-varnames": [
+                "TransactionQuoteTypePurchase",
+                "TransactionQuoteTypeUpgrade"
             ]
         },
         "services.TransactionSource": {
@@ -31669,6 +31756,26 @@
                 "WidgetType2Bubble",
                 "WidgetType2CandleStick"
             ]
+        },
+        "services.transactionProrationContribution": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "end_at": {
+                    "type": "integer"
+                },
+                "level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "start_at": {
+                    "type": "integer"
+                },
+                "transaction_id": {
+                    "type": "integer"
+                }
+            }
         }
     },
     "securityDefinitions": {

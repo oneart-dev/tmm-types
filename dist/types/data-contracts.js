@@ -228,11 +228,11 @@ export var ServicesStudentStatus;
 })(ServicesStudentStatus || (ServicesStudentStatus = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -351,11 +351,19 @@ export var ServicesTradeTimeColumn;
     ServicesTradeTimeColumn["TradeOpenTime"] = "open_time";
     ServicesTradeTimeColumn["TradeCloseTime"] = "close_time";
 })(ServicesTradeTimeColumn || (ServicesTradeTimeColumn = {}));
-export var ServicesTransactionDiscountType;
-(function (ServicesTransactionDiscountType) {
-    ServicesTransactionDiscountType["TransactionDiscountTypePercent"] = "percent";
-    ServicesTransactionDiscountType["TransactionDiscountTypeAmount"] = "amount";
-})(ServicesTransactionDiscountType || (ServicesTransactionDiscountType = {}));
+export var ServicesTransactionQuoteLineType;
+(function (ServicesTransactionQuoteLineType) {
+    ServicesTransactionQuoteLineType["TransactionQuoteLineTypeBase"] = "base";
+    ServicesTransactionQuoteLineType["TransactionQuoteLineTypeDiscount"] = "discount";
+    ServicesTransactionQuoteLineType["TransactionQuoteLineTypeCredit"] = "credit";
+    ServicesTransactionQuoteLineType["TransactionQuoteLineTypeFee"] = "fee";
+    ServicesTransactionQuoteLineType["TransactionQuoteLineTypeTotal"] = "total";
+})(ServicesTransactionQuoteLineType || (ServicesTransactionQuoteLineType = {}));
+export var ServicesTransactionQuoteType;
+(function (ServicesTransactionQuoteType) {
+    ServicesTransactionQuoteType["TransactionQuoteTypePurchase"] = "purchase";
+    ServicesTransactionQuoteType["TransactionQuoteTypeUpgrade"] = "upgrade";
+})(ServicesTransactionQuoteType || (ServicesTransactionQuoteType = {}));
 export var ServicesTransactionSource;
 (function (ServicesTransactionSource) {
     ServicesTransactionSource["TransactionSourceUsdtTrc20"] = "usdt_trc20";

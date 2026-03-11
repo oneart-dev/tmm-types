@@ -13,7 +13,7 @@ import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesTransaction,
   ControllersApiSuccessResponse,
-  ControllersApiSuccessServicesTransactionDiscount,
+  ControllersApiSuccessServicesTransactionQuote,
   ControllersApiSuccessString,
   ControllersTransactionCreateResponse,
   ControllersUnauthorizedResponse,
@@ -80,27 +80,6 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Retrieves information about any available discounts for the user.
-   *
-   * @tags transactions
-   * @name DiscountList
-   * @summary Get Discount Information
-   * @request GET:/transactions/discount
-   * @secure
-   */
-  discountList = (params: RequestParams = {}) =>
-    this.request<
-      ControllersApiSuccessServicesTransactionDiscount,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
-    >({
-      path: `/transactions/discount`,
-      method: "GET",
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description Retrieves a list of pending transactions that have not yet been processed and can be canceled by the user.
    *
    * @tags transactions
@@ -116,6 +95,38 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
     >({
       path: `/transactions/pending`,
       method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Retrieves the full payment quote for the selected gateway, plan, and months.
+   *
+   * @tags transactions
+   * @name QuoteList
+   * @summary Get Payment Quote
+   * @request GET:/transactions/quote
+   * @secure
+   */
+  quoteList = (
+    query: {
+      /** Payment gateway */
+      gateway: string;
+      /** Membership level */
+      level: string;
+      /** Billing months */
+      months: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessServicesTransactionQuote,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/transactions/quote`,
+      method: "GET",
+      query: query,
       secure: true,
       type: ContentType.Json,
       format: "json",
