@@ -3250,6 +3250,7 @@ export interface ServicesUserWithRelations {
   timezone?: string;
   top_trader?: number;
   top_trader_api_key_id?: number;
+  trial_active?: boolean;
   trial_available?: boolean;
 }
 

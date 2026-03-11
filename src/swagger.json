@@ -31313,6 +31313,9 @@
                 "top_trader_api_key_id": {
                     "type": "integer"
                 },
+                "trial_active": {
+                    "type": "boolean"
+                },
                 "trial_available": {
                     "type": "boolean"
                 }
