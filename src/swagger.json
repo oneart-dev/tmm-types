@@ -23458,6 +23458,98 @@
                 }
             }
         },
+        "/users/promo-codes/apply": {
+            "post": {
+                "description": "Applies a promotional code using the selected action and returns the resulting outcome.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Apply promotional code with explicit action",
+                "parameters": [
+                    {
+                        "description": "Promo code apply payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PromoCodeApplyForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_PromoCodeApplyResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/promo-codes/preview": {
+            "post": {
+                "description": "Returns available promo-code actions and the resulting membership/credit outcome before applying the code.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Preview promotional code application",
+                "parameters": [
+                    {
+                        "description": "Promo code preview payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PromoCodePreviewForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_PromoCodePreview"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/public-profile/{id}": {
             "post": {
                 "security": [
@@ -24109,6 +24201,38 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.NotificationTemplate"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_PromoCodeApplyResult": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.PromoCodeApplyResult"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_PromoCodePreview": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.PromoCodePreview"
                 },
                 "status": {
                     "allOf": [
@@ -25723,6 +25847,43 @@
                 "email": {
                     "type": "string",
                     "example": "japanstorelife@gmail.com"
+                }
+            }
+        },
+        "dto.PromoCodeApplyForm": {
+            "type": "object",
+            "required": [
+                "action",
+                "code"
+            ],
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": [
+                        "extend",
+                        "upgrade"
+                    ],
+                    "example": "extend"
+                },
+                "code": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "example": "abcdef123456"
+                }
+            }
+        },
+        "dto.PromoCodePreviewForm": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1,
+                    "example": "abcdef123456"
                 }
             }
         },
@@ -28640,6 +28801,98 @@
                 "PARTNER_ID_TIGER"
             ]
         },
+        "services.PromoCodeAction": {
+            "type": "string",
+            "enum": [
+                "extend",
+                "upgrade"
+            ],
+            "x-enum-varnames": [
+                "PromoCodeActionExtend",
+                "PromoCodeActionUpgrade"
+            ]
+        },
+        "services.PromoCodeApplyResult": {
+            "type": "object",
+            "properties": {
+                "applied_at": {
+                    "type": "integer"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "outcome": {
+                    "$ref": "#/definitions/services.PromoCodeOutcome"
+                }
+            }
+        },
+        "services.PromoCodeOutcome": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "$ref": "#/definitions/services.PromoCodeAction"
+                },
+                "added_seconds": {
+                    "type": "integer"
+                },
+                "promo_amount": {
+                    "type": "string"
+                },
+                "result_level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "total_credit_amount": {
+                    "type": "string"
+                },
+                "unused_current_amount": {
+                    "type": "string"
+                },
+                "valid_until": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.PromoCodePreview": {
+            "type": "object",
+            "properties": {
+                "available_actions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.PromoCodeAction"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "current_level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "current_valid_until": {
+                    "type": "integer"
+                },
+                "extend": {
+                    "$ref": "#/definitions/services.PromoCodeOutcome"
+                },
+                "promo_amount": {
+                    "type": "string"
+                },
+                "promo_level": {
+                    "$ref": "#/definitions/services.Membership"
+                },
+                "promo_months": {
+                    "type": "integer"
+                },
+                "requires_decision": {
+                    "type": "boolean"
+                },
+                "stripe_subscription": {
+                    "type": "boolean"
+                },
+                "upgrade": {
+                    "$ref": "#/definitions/services.PromoCodeOutcome"
+                }
+            }
+        },
         "services.PublicProfile": {
             "type": "object",
             "properties": {
@@ -29338,18 +29591,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -31027,6 +31280,9 @@
                 },
                 "quote_type": {
                     "$ref": "#/definitions/services.TransactionQuoteType"
+                },
+                "subtotal_amount": {
+                    "type": "string"
                 },
                 "total_discount_amount": {
                     "type": "string"

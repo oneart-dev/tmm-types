@@ -72,6 +72,14 @@ export interface ControllersApiSuccessServicesNotificationTemplate {
     data?: ServicesNotificationTemplate;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesPromoCodeApplyResult {
+    data?: ServicesPromoCodeApplyResult;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesPromoCodePreview {
+    data?: ServicesPromoCodePreview;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTag {
     data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
@@ -429,6 +437,13 @@ export interface DtoOauth2SwapForm {
 }
 export interface DtoPasswordResetCredentials {
     email: string;
+}
+export interface DtoPromoCodeApplyForm {
+    action: "extend" | "upgrade";
+    code: string;
+}
+export interface DtoPromoCodePreviewForm {
+    code: string;
 }
 export interface DtoPublicProfileLayout {
     h?: number;
@@ -1189,6 +1204,37 @@ export declare enum ServicesPartnerID {
     PARTNER_ID_WLC = 1,
     PARTNER_ID_TIGER = 2
 }
+export declare enum ServicesPromoCodeAction {
+    PromoCodeActionExtend = "extend",
+    PromoCodeActionUpgrade = "upgrade"
+}
+export interface ServicesPromoCodeApplyResult {
+    applied_at?: number;
+    code?: string;
+    outcome?: ServicesPromoCodeOutcome;
+}
+export interface ServicesPromoCodeOutcome {
+    action?: ServicesPromoCodeAction;
+    added_seconds?: number;
+    promo_amount?: string;
+    result_level?: ServicesMembership;
+    total_credit_amount?: string;
+    unused_current_amount?: string;
+    valid_until?: number;
+}
+export interface ServicesPromoCodePreview {
+    available_actions?: ServicesPromoCodeAction[];
+    code?: string;
+    current_level?: ServicesMembership;
+    current_valid_until?: number;
+    extend?: ServicesPromoCodeOutcome;
+    promo_amount?: string;
+    promo_level?: ServicesMembership;
+    promo_months?: number;
+    requires_decision?: boolean;
+    stripe_subscription?: boolean;
+    upgrade?: ServicesPromoCodeOutcome;
+}
 export interface ServicesPublicProfile {
     api_keys?: number[];
     bg?: ServicesFile;
@@ -1405,11 +1451,11 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -1960,6 +2006,7 @@ export interface ServicesTransactionQuote {
     lines?: ServicesTransactionQuoteLine[];
     months?: number;
     quote_type?: ServicesTransactionQuoteType;
+    subtotal_amount?: string;
     total_discount_amount?: string;
     unused_balance_amount?: string;
     zero_due?: boolean;

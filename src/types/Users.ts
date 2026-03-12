@@ -12,6 +12,8 @@
 import {
   ControllersApiErrorResponse,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesPromoCodeApplyResult,
+  ControllersApiSuccessServicesPromoCodePreview,
   ControllersBulkSignUpSuccessResponse,
   ControllersLoginSuccessResponse,
   ControllersPublicProfileResponse,
@@ -19,6 +21,8 @@ import {
   ControllersReferralSummaryResponse,
   ControllersTopTradersSuccessResponse,
   DtoPasswordResetCredentials,
+  DtoPromoCodeApplyForm,
+  DtoPromoCodePreviewForm,
   DtoPublicProfileUpdateForm,
   DtoUserLanguage,
   DtoUserReferralCode,
@@ -155,6 +159,46 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/users/my-public-profile`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Applies a promotional code using the selected action and returns the resulting outcome.
+   *
+   * @tags auth
+   * @name PromoCodesApplyCreate
+   * @summary Apply promotional code with explicit action
+   * @request POST:/users/promo-codes/apply
+   */
+  promoCodesApplyCreate = (payload: DtoPromoCodeApplyForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesPromoCodeApplyResult,
+      ServicesValidationErrorResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/promo-codes/apply`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns available promo-code actions and the resulting membership/credit outcome before applying the code.
+   *
+   * @tags auth
+   * @name PromoCodesPreviewCreate
+   * @summary Preview promotional code application
+   * @request POST:/users/promo-codes/preview
+   */
+  promoCodesPreviewCreate = (payload: DtoPromoCodePreviewForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesPromoCodePreview,
+      ServicesValidationErrorResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/promo-codes/preview`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

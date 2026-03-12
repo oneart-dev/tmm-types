@@ -120,6 +120,18 @@ export interface ControllersApiSuccessServicesNotificationTemplate {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesPromoCodeApplyResult {
+  data?: ServicesPromoCodeApplyResult;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesPromoCodePreview {
+  data?: ServicesPromoCodePreview;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTag {
   data?: ServicesTag;
   /** @example "success" */
@@ -850,6 +862,26 @@ export interface DtoOauth2SwapForm {
 export interface DtoPasswordResetCredentials {
   /** @example "japanstorelife@gmail.com" */
   email: string;
+}
+
+export interface DtoPromoCodeApplyForm {
+  /** @example "extend" */
+  action: "extend" | "upgrade";
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "abcdef123456"
+   */
+  code: string;
+}
+
+export interface DtoPromoCodePreviewForm {
+  /**
+   * @minLength 1
+   * @maxLength 255
+   * @example "abcdef123456"
+   */
+  code: string;
 }
 
 export interface DtoPublicProfileLayout {
@@ -2238,6 +2270,41 @@ export enum ServicesPartnerID {
   PARTNER_ID_TIGER = 2,
 }
 
+export enum ServicesPromoCodeAction {
+  PromoCodeActionExtend = "extend",
+  PromoCodeActionUpgrade = "upgrade",
+}
+
+export interface ServicesPromoCodeApplyResult {
+  applied_at?: number;
+  code?: string;
+  outcome?: ServicesPromoCodeOutcome;
+}
+
+export interface ServicesPromoCodeOutcome {
+  action?: ServicesPromoCodeAction;
+  added_seconds?: number;
+  promo_amount?: string;
+  result_level?: ServicesMembership;
+  total_credit_amount?: string;
+  unused_current_amount?: string;
+  valid_until?: number;
+}
+
+export interface ServicesPromoCodePreview {
+  available_actions?: ServicesPromoCodeAction[];
+  code?: string;
+  current_level?: ServicesMembership;
+  current_valid_until?: number;
+  extend?: ServicesPromoCodeOutcome;
+  promo_amount?: string;
+  promo_level?: ServicesMembership;
+  promo_months?: number;
+  requires_decision?: boolean;
+  stripe_subscription?: boolean;
+  upgrade?: ServicesPromoCodeOutcome;
+}
+
 export interface ServicesPublicProfile {
   api_keys?: number[];
   bg?: ServicesFile;
@@ -2527,11 +2594,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3135,6 +3202,7 @@ export interface ServicesTransactionQuote {
   lines?: ServicesTransactionQuoteLine[];
   months?: number;
   quote_type?: ServicesTransactionQuoteType;
+  subtotal_amount?: string;
   total_discount_amount?: string;
   unused_balance_amount?: string;
   zero_due?: boolean;
