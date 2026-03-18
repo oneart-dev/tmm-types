@@ -829,7 +829,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   boardCreate = (id: number, payload: DtoDashboardUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<ServicesWidgetCreateResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
       path: `/board/${id}`,
       method: "POST",
       body: payload,
