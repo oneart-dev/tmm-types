@@ -61,6 +61,15 @@ export class Board extends HttpClient {
             format: "json",
             ...params,
         });
+        this.previewWidgetDetail = (id, query, params = {}) => this.request({
+            path: `/board/preview/widget/${id}`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.publicLoadDetail = (code, params = {}) => this.request({
             path: `/board/public/${code}/load`,
             method: "GET",

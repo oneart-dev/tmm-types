@@ -168,6 +168,12 @@ export interface ControllersApiSuccessServicesTransactionQuote {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesWidgetPreviewResponse {
+  data?: ServicesWidgetPreviewResponse;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessString {
   data?: string;
   /** @example "success" */
@@ -2594,11 +2600,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3389,6 +3395,11 @@ export enum ServicesWidgetFiltersSortBy {
   WidgetFiltersSortByValueDesc = "value_desc",
   WidgetFiltersSortByCountKeyDesc = "key_desc",
   WidgetFiltersSortByCountKeyAsc = "key_asc",
+}
+
+export interface ServicesWidgetPreviewResponse {
+  errors?: string[];
+  serverData?: string;
 }
 
 export enum ServicesWidgetSource {
