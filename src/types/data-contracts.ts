@@ -547,7 +547,8 @@ export interface DtoApiKeyCreateForm {
     | 46
     | 50
     | 51
-    | 52;
+    | 52
+    | 53;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1967,6 +1968,7 @@ export enum ServicesExchangeID {
   EXCHANGE_HYPERLIQUID_FUTURES = 50,
   EXCHANGE_MEXC_SPOT = 51,
   EXCHANGE_MEXC_FUTURES = 52,
+  EXCHANGE_ASTER_FUTURES = 53,
 }
 
 export interface ServicesFile {
@@ -2600,11 +2602,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

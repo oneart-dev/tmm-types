@@ -1672,7 +1672,8 @@
                             45,
                             50,
                             51,
-                            52
+                            52,
+                            53
                         ],
                         "type": "integer",
                         "x-enum-comments": {
@@ -1721,6 +1722,7 @@
                             "suppport fast repair",
                             "",
                             "",
+                            "",
                             ""
                         ],
                         "x-enum-varnames": [
@@ -1755,7 +1757,8 @@
                             "EXCHANGE_TIGERX_OKX_SPOT",
                             "EXCHANGE_HYPERLIQUID_FUTURES",
                             "EXCHANGE_MEXC_SPOT",
-                            "EXCHANGE_MEXC_FUTURES"
+                            "EXCHANGE_MEXC_FUTURES",
+                            "EXCHANGE_ASTER_FUTURES"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -16111,7 +16114,8 @@
                                 45,
                                 50,
                                 51,
-                                52
+                                52,
+                                53
                             ],
                             "type": "integer"
                         },
@@ -26114,7 +26118,8 @@
                         46,
                         50,
                         51,
-                        52
+                        52,
+                        53
                     ]
                 },
                 "extra_info": {
@@ -28776,7 +28781,8 @@
                 45,
                 50,
                 51,
-                52
+                52,
+                53
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
@@ -28824,6 +28830,7 @@
                 "suppport fast repair",
                 "",
                 "",
+                "",
                 ""
             ],
             "x-enum-varnames": [
@@ -28858,7 +28865,8 @@
                 "EXCHANGE_TIGERX_OKX_SPOT",
                 "EXCHANGE_HYPERLIQUID_FUTURES",
                 "EXCHANGE_MEXC_SPOT",
-                "EXCHANGE_MEXC_FUTURES"
+                "EXCHANGE_MEXC_FUTURES",
+                "EXCHANGE_ASTER_FUTURES"
             ]
         },
         "services.File": {
@@ -30407,18 +30415,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
