@@ -826,6 +826,17 @@ export interface DtoNoteCategoryForm {
   parent_id?: number;
 }
 
+export interface DtoNoteCategoryReorderForm {
+  /** @minItems 1 */
+  items: DtoNoteCategoryReorderItem[];
+}
+
+export interface DtoNoteCategoryReorderItem {
+  id: number;
+  order?: number;
+  parent_id?: number;
+}
+
 export interface DtoNotificationTemplateCreateForm {
   /**
    * 0 - default, 1 - hide TMM link
@@ -1639,6 +1650,17 @@ export interface DtoUserNoteCreateForm {
   tag_ids?: number[];
   /** @maxLength 255 */
   title?: string;
+}
+
+export interface DtoUserNoteReorderForm {
+  /** @minItems 1 */
+  items: DtoUserNoteReorderItem[];
+}
+
+export interface DtoUserNoteReorderItem {
+  category_id: number;
+  id: number;
+  order?: number;
 }
 
 export interface DtoUserNoteUpdateForm {
@@ -2643,11 +2665,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3340,6 +3362,7 @@ export interface ServicesUserNote {
   created_at?: string;
   id?: number;
   kind?: number;
+  order?: number;
   range_end_ts?: number;
   range_start_ts?: number;
   tag_ids?: number[];

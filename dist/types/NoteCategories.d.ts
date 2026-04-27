@@ -1,8 +1,9 @@
-import { ControllersApiErrorResponse, ControllersUnauthorizedResponse, DtoNoteCategoryForm, ServicesNoteCategory } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersUnauthorizedResponse, DtoNoteCategoryForm, DtoNoteCategoryReorderForm, ServicesNoteCategory } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class NoteCategories<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     noteCategoriesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesNoteCategory[], ControllersUnauthorizedResponse>>;
     noteCategoriesCreate: (request: DtoNoteCategoryForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesNoteCategory, ControllersApiErrorResponse>>;
+    reorderCreate: (request: DtoNoteCategoryReorderForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<void, ControllersApiErrorResponse>>;
     noteCategoriesDelete: (id: number, query?: {
         on_children?: string;
         move_to?: number;

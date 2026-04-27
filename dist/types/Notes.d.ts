@@ -1,4 +1,4 @@
-import { DtoUserNoteCreateForm, DtoUserNoteUpdateForm, ServicesUserNote } from "./data-contracts";
+import { ControllersApiErrorResponse, DtoUserNoteCreateForm, DtoUserNoteReorderForm, DtoUserNoteUpdateForm, ServicesUserNote } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     notesList: (query?: {
@@ -16,6 +16,7 @@ export declare class Notes<SecurityDataType = unknown> extends HttpClient<Securi
         bucket_key: string;
         category_id?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesUserNote, void>>;
+    reorderCreate: (request: DtoUserNoteReorderForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<void, ControllersApiErrorResponse>>;
     notesDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesUserNote, any>>;
     notesDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<void, any>>;
     notesPartialUpdate: (id: number, request: DtoUserNoteUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesUserNote, any>>;

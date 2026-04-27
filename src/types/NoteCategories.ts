@@ -13,6 +13,7 @@ import {
   ControllersApiErrorResponse,
   ControllersUnauthorizedResponse,
   DtoNoteCategoryForm,
+  DtoNoteCategoryReorderForm,
   ServicesNoteCategory,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
@@ -52,6 +53,24 @@ export class NoteCategories<SecurityDataType = unknown> extends HttpClient<Secur
       secure: true,
       type: ContentType.Json,
       format: "json",
+      ...params,
+    });
+  /**
+   * @description Apply (parent_id, order) to every category whose position changed in a single drag-drop drop. parent_id=null means root level. Service validates ownership of every id + every target parent and rejects payloads that would create a cycle.
+   *
+   * @tags notes
+   * @name ReorderCreate
+   * @summary Bulk reorder note categories
+   * @request POST:/note-categories/reorder
+   * @secure
+   */
+  reorderCreate = (request: DtoNoteCategoryReorderForm, params: RequestParams = {}) =>
+    this.request<void, ControllersApiErrorResponse>({
+      path: `/note-categories/reorder`,
+      method: "POST",
+      body: request,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
   /**

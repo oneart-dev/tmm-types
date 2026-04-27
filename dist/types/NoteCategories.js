@@ -18,6 +18,14 @@ export class NoteCategories extends HttpClient {
             format: "json",
             ...params,
         });
+        this.reorderCreate = (request, params = {}) => this.request({
+            path: `/note-categories/reorder`,
+            method: "POST",
+            body: request,
+            secure: true,
+            type: ContentType.Json,
+            ...params,
+        });
         this.noteCategoriesDelete = (id, query, params = {}) => this.request({
             path: `/note-categories/${id}`,
             method: "DELETE",

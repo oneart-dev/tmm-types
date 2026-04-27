@@ -12161,6 +12161,48 @@
                 }
             }
         },
+        "/note-categories/reorder": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Apply (parent_id, order) to every category whose position changed\nin a single drag-drop drop. parent_id=null means root level.\nService validates ownership of every id + every target parent and\nrejects payloads that would create a cycle.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notes"
+                ],
+                "summary": "Bulk reorder note categories",
+                "parameters": [
+                    {
+                        "description": "Reorder payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NoteCategoryReorderForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/note-categories/{id}": {
             "delete": {
                 "security": [
@@ -12402,6 +12444,48 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/notes/reorder": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Apply (category_id, order) to every note whose position changed\nin a single drag-drop drop. category_id may differ from the note's\ncurrent value to support cross-category drag in the same call.\nService validates ownership of every id + every target category.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notes"
+                ],
+                "summary": "Bulk reorder notes",
+                "parameters": [
+                    {
+                        "description": "Reorder payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserNoteReorderForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
                     }
                 }
             }
@@ -27062,6 +27146,38 @@
                 }
             }
         },
+        "dto.NoteCategoryReorderForm": {
+            "type": "object",
+            "required": [
+                "items"
+            ],
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/dto.NoteCategoryReorderItem"
+                    }
+                }
+            }
+        },
+        "dto.NoteCategoryReorderItem": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parent_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.NotificationTemplateCreateForm": {
             "type": "object",
             "required": [
@@ -28523,6 +28639,39 @@
                 "title": {
                     "type": "string",
                     "maxLength": 255
+                }
+            }
+        },
+        "dto.UserNoteReorderForm": {
+            "type": "object",
+            "required": [
+                "items"
+            ],
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/dto.UserNoteReorderItem"
+                    }
+                }
+            }
+        },
+        "dto.UserNoteReorderItem": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "id"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order": {
+                    "type": "integer"
                 }
             }
         },
@@ -30990,18 +31139,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -32882,6 +33031,9 @@
                     "type": "integer"
                 },
                 "kind": {
+                    "type": "integer"
+                },
+                "order": {
                     "type": "integer"
                 },
                 "range_end_ts": {

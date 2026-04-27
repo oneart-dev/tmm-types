@@ -9,7 +9,13 @@
  * ---------------------------------------------------------------
  */
 
-import { DtoUserNoteCreateForm, DtoUserNoteUpdateForm, ServicesUserNote } from "./data-contracts";
+import {
+  ControllersApiErrorResponse,
+  DtoUserNoteCreateForm,
+  DtoUserNoteReorderForm,
+  DtoUserNoteUpdateForm,
+  ServicesUserNote,
+} from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -94,6 +100,24 @@ export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       query: query,
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * @description Apply (category_id, order) to every note whose position changed in a single drag-drop drop. category_id may differ from the note's current value to support cross-category drag in the same call. Service validates ownership of every id + every target category.
+   *
+   * @tags notes
+   * @name ReorderCreate
+   * @summary Bulk reorder notes
+   * @request POST:/notes/reorder
+   * @secure
+   */
+  reorderCreate = (request: DtoUserNoteReorderForm, params: RequestParams = {}) =>
+    this.request<void, ControllersApiErrorResponse>({
+      path: `/notes/reorder`,
+      method: "POST",
+      body: request,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
   /**
