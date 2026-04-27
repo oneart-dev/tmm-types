@@ -1,0 +1,167 @@
+/* eslint-disable */
+/* tslint:disable */
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+import { DtoUserNoteCreateForm, DtoUserNoteUpdateForm, ServicesUserNote } from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
+
+export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name NotesList
+   * @summary List notes
+   * @request GET:/notes
+   * @secure
+   */
+  notesList = (
+    query?: {
+      /** Filter: category id */
+      category_id?: number;
+      /** Filter: kind (0..4) */
+      kind?: number;
+      /** Filter: range_end_ts >= from_ts */
+      from_ts?: number;
+      /** Filter: range_start_ts <= to_ts */
+      to_ts?: number;
+      /** Filter: any of tag IDs */
+      tag_ids?: number[];
+      /** Page size (default 50, max 200) */
+      limit?: number;
+      /** Page offset */
+      offset?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ServicesUserNote[], any>({
+      path: `/notes`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name NotesCreate
+   * @summary Create note
+   * @request POST:/notes
+   * @secure
+   */
+  notesCreate = (request: DtoUserNoteCreateForm, params: RequestParams = {}) =>
+    this.request<ServicesUserNote, any>({
+      path: `/notes`,
+      method: "POST",
+      body: request,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name CheckBucketList
+   * @summary Lookup existing note by kind+bucket
+   * @request GET:/notes/check-bucket
+   * @secure
+   */
+  checkBucketList = (
+    query: {
+      /** Kind (1=day, 2=week, 3=month) */
+      kind: number;
+      /** Canonical bucket key */
+      bucket_key: string;
+      /** Optional category scope */
+      category_id?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ServicesUserNote, void>({
+      path: `/notes/check-bucket`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name NotesDetail
+   * @summary Read note
+   * @request GET:/notes/{id}
+   * @secure
+   */
+  notesDetail = (id: number, params: RequestParams = {}) =>
+    this.request<ServicesUserNote, any>({
+      path: `/notes/${id}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name NotesDelete
+   * @summary Soft-delete note
+   * @request DELETE:/notes/{id}
+   * @secure
+   */
+  notesDelete = (id: number, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/notes/${id}`,
+      method: "DELETE",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name NotesPartialUpdate
+   * @summary Update note
+   * @request PATCH:/notes/{id}
+   * @secure
+   */
+  notesPartialUpdate = (id: number, request: DtoUserNoteUpdateForm, params: RequestParams = {}) =>
+    this.request<ServicesUserNote, any>({
+      path: `/notes/${id}`,
+      method: "PATCH",
+      body: request,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name RestoreCreate
+   * @summary Restore soft-deleted note
+   * @request POST:/notes/{id}/restore
+   * @secure
+   */
+  restoreCreate = (id: number, params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/notes/${id}/restore`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+}

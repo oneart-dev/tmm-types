@@ -18,6 +18,8 @@ export * from './types/Files';
 export * from './types/FilterCatalog';
 export * from './types/FilterPreset';
 export * from './types/MentorGroup';
+export * from './types/NoteCategories';
+export * from './types/Notes';
 export * from './types/Notification';
 export * from './types/NotificationTemplate';
 export * from './types/Oauth2';

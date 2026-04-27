@@ -819,6 +819,13 @@ export interface DtoNewPasswordCredentials {
   token: string;
 }
 
+export interface DtoNoteCategoryForm {
+  /** @maxLength 255 */
+  name: string;
+  order?: number;
+  parent_id?: number;
+}
+
 export interface DtoNotificationTemplateCreateForm {
   /**
    * 0 - default, 1 - hide TMM link
@@ -1085,6 +1092,7 @@ export interface DtoTagCategoryForm {
    * @example 3
    */
   order?: number;
+  scopes?: number;
 }
 
 export interface DtoTagCategoryListForm {
@@ -1619,6 +1627,28 @@ export interface DtoUserLanguage {
   language: "en" | "ru";
 }
 
+export interface DtoUserNoteCreateForm {
+  body_html?: string;
+  body_json?: string;
+  /** @maxLength 16 */
+  bucket_key?: string;
+  category_id: number;
+  kind?: number;
+  range_end_ts?: number;
+  range_start_ts?: number;
+  tag_ids?: number[];
+  /** @maxLength 255 */
+  title?: string;
+}
+
+export interface DtoUserNoteUpdateForm {
+  body_html?: string;
+  body_json?: string;
+  category_id?: number;
+  tag_ids?: number[];
+  title?: string;
+}
+
 export interface DtoUserReferralCode {
   /**
    * @minLength 3
@@ -2117,6 +2147,16 @@ export interface ServicesMentorNote {
   user_id?: number;
 }
 
+export interface ServicesNoteCategory {
+  created_at?: string;
+  id?: number;
+  name?: string;
+  order?: number;
+  parent_id?: number;
+  updated_at?: string;
+  user_id?: number;
+}
+
 /** @format int32 */
 export enum ServicesNoteType {
   NoteTypeMonth = 4,
@@ -2597,16 +2637,17 @@ export interface ServicesTagCategory {
   key?: string;
   name?: string;
   order?: number;
+  scopes?: number;
   user_id?: number;
 }
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3289,6 +3330,22 @@ export interface ServicesUserLimits {
   dashboards_limit?: number;
   telegram_connections_limit?: number;
   widgets_limit?: number;
+}
+
+export interface ServicesUserNote {
+  body_html?: string;
+  body_json?: string;
+  bucket_key?: string;
+  category_id?: number;
+  created_at?: string;
+  id?: number;
+  kind?: number;
+  range_end_ts?: number;
+  range_start_ts?: number;
+  tag_ids?: number[];
+  title?: string;
+  updated_at?: string;
+  user_id?: number;
 }
 
 export interface ServicesUserReferralSummary {

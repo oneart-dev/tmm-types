@@ -425,6 +425,11 @@ export interface DtoNewPasswordCredentials {
     password: string;
     token: string;
 }
+export interface DtoNoteCategoryForm {
+    name: string;
+    order?: number;
+    parent_id?: number;
+}
 export interface DtoNotificationTemplateCreateForm {
     hide_tmm?: 0 | 1;
     name: string;
@@ -508,6 +513,7 @@ export interface DtoTagCategoryForm {
     id?: number;
     name: string;
     order?: number;
+    scopes?: number;
 }
 export interface DtoTagCategoryListForm {
     categories: DtoTagCategoryForm[];
@@ -707,6 +713,24 @@ export interface DtoUIData {
 }
 export interface DtoUserLanguage {
     language: "en" | "ru";
+}
+export interface DtoUserNoteCreateForm {
+    body_html?: string;
+    body_json?: string;
+    bucket_key?: string;
+    category_id: number;
+    kind?: number;
+    range_end_ts?: number;
+    range_start_ts?: number;
+    tag_ids?: number[];
+    title?: string;
+}
+export interface DtoUserNoteUpdateForm {
+    body_html?: string;
+    body_json?: string;
+    category_id?: number;
+    tag_ids?: number[];
+    title?: string;
 }
 export interface DtoUserReferralCode {
     referral_code: string;
@@ -1081,6 +1105,15 @@ export interface ServicesMentorNote {
     user?: ServicesSafeUser;
     user_id?: number;
 }
+export interface ServicesNoteCategory {
+    created_at?: string;
+    id?: number;
+    name?: string;
+    order?: number;
+    parent_id?: number;
+    updated_at?: string;
+    user_id?: number;
+}
 export declare enum ServicesNoteType {
     NoteTypeMonth = 4,
     NoteTypeWeek = 3,
@@ -1453,14 +1486,15 @@ export interface ServicesTagCategory {
     key?: string;
     name?: string;
     order?: number;
+    scopes?: number;
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2082,6 +2116,21 @@ export interface ServicesUserLimits {
     dashboards_limit?: number;
     telegram_connections_limit?: number;
     widgets_limit?: number;
+}
+export interface ServicesUserNote {
+    body_html?: string;
+    body_json?: string;
+    bucket_key?: string;
+    category_id?: number;
+    created_at?: string;
+    id?: number;
+    kind?: number;
+    range_end_ts?: number;
+    range_start_ts?: number;
+    tag_ids?: number[];
+    title?: string;
+    updated_at?: string;
+    user_id?: number;
 }
 export interface ServicesUserReferralSummary {
     earn_amount?: string;

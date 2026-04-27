@@ -2,9 +2,10 @@ import { ContentType, HttpClient } from "./http-client";
 export class Sse extends HttpClient {
     constructor() {
         super(...arguments);
-        this.getSse = (params = {}) => this.request({
+        this.getSse = (query, params = {}) => this.request({
             path: `/sse`,
             method: "GET",
+            query: query,
             secure: true,
             ...params,
         });

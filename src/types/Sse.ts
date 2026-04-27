@@ -27,10 +27,17 @@ export class Sse<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request GET:/sse
    * @secure
    */
-  getSse = (params: RequestParams = {}) =>
+  getSse = (
+    query?: {
+      /** Persistent connection ID for reconnection (e.g. UUID stored in localStorage). Same ID replaces the previous connection instead of counting toward the limit. */
+      connection_id?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<void, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
       path: `/sse`,
       method: "GET",
+      query: query,
       secure: true,
       ...params,
     });
