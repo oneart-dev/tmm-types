@@ -7,6 +7,7 @@ export declare class Notes<SecurityDataType = unknown> extends HttpClient<Securi
         from_ts?: number;
         to_ts?: number;
         tag_ids?: number[];
+        q?: string;
         limit?: number;
         offset?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesUserNote[], any>>;

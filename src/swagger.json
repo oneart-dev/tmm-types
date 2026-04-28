@@ -12338,6 +12338,12 @@
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "description": "Free-text search across title + body. Tokens ≥3 chars use FULLTEXT (relevance-ranked, prefix-matched); shorter use LIKE.",
+                        "name": "q",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "Page size (default 50, max 200)",
                         "name": "limit",

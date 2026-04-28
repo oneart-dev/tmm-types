@@ -40,6 +40,8 @@ export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       to_ts?: number;
       /** Filter: any of tag IDs */
       tag_ids?: number[];
+      /** Free-text search across title + body. Tokens ≥3 chars use FULLTEXT (relevance-ranked, prefix-matched); shorter use LIKE. */
+      q?: string;
       /** Page size (default 50, max 200) */
       limit?: number;
       /** Page offset */
