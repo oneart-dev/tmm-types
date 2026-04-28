@@ -26514,7 +26514,7 @@
                 "notes": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.AnalyzerNote"
+                        "$ref": "#/definitions/services.UserNote"
                     }
                 },
                 "status": {
@@ -31847,7 +31847,12 @@
                     "type": "string"
                 },
                 "note": {
-                    "$ref": "#/definitions/services.AnalyzerNote"
+                    "description": "Note is the (newest) UserNote whose date_from/date_to overlap this\nweek bucket. Single pointer — last-write-wins when multiple user\nnotes overlap. Populated by analyzerNoteService.FillWeekList.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.UserNote"
+                        }
+                    ]
                 },
                 "percent": {
                     "type": "string"

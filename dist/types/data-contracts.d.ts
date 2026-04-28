@@ -313,7 +313,7 @@ export interface ControllersUnauthorizedResponse {
 }
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
-    notes?: ServicesAnalyzerNote[];
+    notes?: ServicesUserNote[];
     status?: ControllersResponseStatusMessage;
 }
 export interface DtoAnalyzerNoteForm {
@@ -1759,7 +1759,7 @@ export interface ServicesTradeCountByWeek {
     max_leverage?: string;
     min_leverage?: string;
     net_profit?: string;
-    note?: ServicesAnalyzerNote;
+    note?: ServicesUserNote;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;

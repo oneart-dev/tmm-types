@@ -484,7 +484,7 @@ export interface ControllersUnauthorizedResponse {
 
 export interface ControllersWeekListResponse {
   data?: ServicesTradeCountByWeek[];
-  notes?: ServicesAnalyzerNote[];
+  notes?: ServicesUserNote[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -2947,7 +2947,12 @@ export interface ServicesTradeCountByWeek {
   max_leverage?: string;
   min_leverage?: string;
   net_profit?: string;
-  note?: ServicesAnalyzerNote;
+  /**
+   * Note is the (newest) UserNote whose date_from/date_to overlap this
+   * week bucket. Single pointer — last-write-wins when multiple user
+   * notes overlap. Populated by analyzerNoteService.FillWeekList.
+   */
+  note?: ServicesUserNote;
   percent?: string;
   profit_deposit?: string;
   realized_pnl?: string;
