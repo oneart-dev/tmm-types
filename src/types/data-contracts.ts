@@ -1641,12 +1641,9 @@ export interface DtoUserLanguage {
 export interface DtoUserNoteCreateForm {
   body_html?: string;
   body_json?: string;
-  /** @maxLength 16 */
-  bucket_key?: string;
   category_id: number;
-  kind?: number;
-  range_end_ts?: number;
-  range_start_ts?: number;
+  date_from?: string;
+  date_to?: string;
   tag_ids?: number[];
   /** @maxLength 255 */
   title?: string;
@@ -1667,6 +1664,8 @@ export interface DtoUserNoteUpdateForm {
   body_html?: string;
   body_json?: string;
   category_id?: number;
+  date_from?: string;
+  date_to?: string;
   tag_ids?: number[];
   title?: string;
 }
@@ -2665,11 +2664,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3357,14 +3356,14 @@ export interface ServicesUserLimits {
 export interface ServicesUserNote {
   body_html?: string;
   body_json?: string;
-  bucket_key?: string;
   category_id?: number;
   created_at?: string;
+  /** @example "2026-04-01" */
+  date_from?: string;
+  /** @example "2026-04-30" */
+  date_to?: string;
   id?: number;
-  kind?: number;
   order?: number;
-  range_end_ts?: number;
-  range_start_ts?: number;
   tag_ids?: number[];
   title?: string;
   updated_at?: string;
