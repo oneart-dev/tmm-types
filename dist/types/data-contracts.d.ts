@@ -303,6 +303,24 @@ export interface ControllersTransactionCreateResponse {
     redirect_url?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersTranscribeResponse {
+    cycle_end?: string;
+    duration_billed_seconds?: number;
+    duration_recorded_seconds?: number;
+    minutes_remaining_this_cycle?: number;
+    minutes_used_this_cycle?: number;
+    status?: ControllersResponseStatusMessage;
+    text?: string;
+}
+export interface ControllersTranscribeUsageResponse {
+    cycle_end?: string;
+    cycle_start?: string;
+    limit_minutes?: number;
+    remaining_minutes?: number;
+    status?: ControllersResponseStatusMessage;
+    tier_model?: string;
+    used_minutes?: number;
+}
 export interface ControllersUIDataResponse {
     data?: ServicesUIData;
     status?: ControllersResponseStatusMessage;
@@ -313,7 +331,7 @@ export interface ControllersUnauthorizedResponse {
 }
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
-    notes?: ServicesUserNote[];
+    notes?: ServicesAnalyzerNote[];
     status?: ControllersResponseStatusMessage;
 }
 export interface DtoAnalyzerNoteForm {
@@ -725,9 +743,11 @@ export interface DtoUserLanguage {
 export interface DtoUserNoteCreateForm {
     body_html?: string;
     body_json?: string;
+    bucket_key?: string;
     category_id: number;
-    date_from?: string;
-    date_to?: string;
+    kind?: number;
+    range_end_ts?: number;
+    range_start_ts?: number;
     tag_ids?: number[];
     title?: string;
 }
@@ -743,8 +763,6 @@ export interface DtoUserNoteUpdateForm {
     body_html?: string;
     body_json?: string;
     category_id?: number;
-    date_from?: string;
-    date_to?: string;
     tag_ids?: number[];
     title?: string;
 }
@@ -1012,8 +1030,7 @@ export declare enum ServicesFileOwnerType {
     FileOwnerTypeTeam = "Team",
     FileOwnerTypeTeamBG = "TeamBG",
     FileOwnerTypeUser = "User",
-    FileOwnerTypePublicProfile = "PublicProfile",
-    FileOwnerTypeUserNote = "UserNote"
+    FileOwnerTypePublicProfile = "PublicProfile"
 }
 export interface ServicesFilterCatalogContext {
     accessMode?: string;
@@ -1760,7 +1777,7 @@ export interface ServicesTradeCountByWeek {
     max_leverage?: string;
     min_leverage?: string;
     net_profit?: string;
-    note?: ServicesUserNote;
+    note?: ServicesAnalyzerNote;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;
@@ -2137,12 +2154,14 @@ export interface ServicesUserLimits {
 export interface ServicesUserNote {
     body_html?: string;
     body_json?: string;
+    bucket_key?: string;
     category_id?: number;
     created_at?: string;
-    date_from?: string;
-    date_to?: string;
     id?: number;
+    kind?: number;
     order?: number;
+    range_end_ts?: number;
+    range_start_ts?: number;
     tag_ids?: number[];
     title?: string;
     updated_at?: string;

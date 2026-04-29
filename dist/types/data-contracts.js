@@ -108,7 +108,6 @@ export var ServicesFileOwnerType;
     ServicesFileOwnerType["FileOwnerTypeTeamBG"] = "TeamBG";
     ServicesFileOwnerType["FileOwnerTypeUser"] = "User";
     ServicesFileOwnerType["FileOwnerTypePublicProfile"] = "PublicProfile";
-    ServicesFileOwnerType["FileOwnerTypeUserNote"] = "UserNote";
 })(ServicesFileOwnerType || (ServicesFileOwnerType = {}));
 export var ServicesLoadLevel;
 (function (ServicesLoadLevel) {

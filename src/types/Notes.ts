@@ -32,10 +32,12 @@ export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     query?: {
       /** Filter: category id */
       category_id?: number;
-      /** Filter: notes overlapping >= this date (YYYY-MM-DD) */
-      from_date?: string;
-      /** Filter: notes overlapping <= this date (YYYY-MM-DD) */
-      to_date?: string;
+      /** Filter: kind (0..4) */
+      kind?: number;
+      /** Filter: range_end_ts >= from_ts */
+      from_ts?: number;
+      /** Filter: range_start_ts <= to_ts */
+      to_ts?: number;
       /** Filter: any of tag IDs */
       tag_ids?: number[];
       /** Free-text search across title + body. Tokens ≥3 chars use FULLTEXT (relevance-ranked, prefix-matched); shorter use LIKE. */
@@ -71,6 +73,34 @@ export class Notes<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       body: request,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags notes
+   * @name CheckBucketList
+   * @summary Lookup existing note by kind+bucket
+   * @request GET:/notes/check-bucket
+   * @secure
+   */
+  checkBucketList = (
+    query: {
+      /** Kind (1=day, 2=week, 3=month) */
+      kind: number;
+      /** Canonical bucket key */
+      bucket_key: string;
+      /** Optional category scope */
+      category_id?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ServicesUserNote, void>({
+      path: `/notes/check-bucket`,
+      method: "GET",
+      query: query,
+      secure: true,
       format: "json",
       ...params,
     });
