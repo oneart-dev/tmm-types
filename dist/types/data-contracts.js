@@ -233,6 +233,11 @@ export var ServicesStudentStatus;
     ServicesStudentStatus[ServicesStudentStatus["StudentStatusAccepted"] = 1] = "StudentStatusAccepted";
     ServicesStudentStatus[ServicesStudentStatus["StudentStatusRejected"] = 2] = "StudentStatusRejected";
 })(ServicesStudentStatus || (ServicesStudentStatus = {}));
+export var ServicesTagCategoryScope;
+(function (ServicesTagCategoryScope) {
+    ServicesTagCategoryScope[ServicesTagCategoryScope["TagCategoryScopeTrade"] = 1] = "TagCategoryScopeTrade";
+    ServicesTagCategoryScope[ServicesTagCategoryScope["TagCategoryScopeNote"] = 2] = "TagCategoryScopeNote";
+})(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
     ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
@@ -461,6 +466,9 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceWinRateEntryReasonCombination"] = "tag_win_rate_combinations";
     ServicesWidgetSource["WidgetSourceWinRateExitReasonCombination"] = "exit_tag_win_rate_combinations";
     ServicesWidgetSource["WidgetSourceWinRateByTagCombination"] = "win_rate_by_tag_combination";
+    ServicesWidgetSource["WidgetSourceNoteTagIncome"] = "note_tag_income";
+    ServicesWidgetSource["WidgetSourceNoteTagCount"] = "note_tag_count";
+    ServicesWidgetSource["WidgetSourceNoteTagWinrate"] = "note_tag_winrate";
     ServicesWidgetSource["WidgetSourceIncomeAccumulative"] = "income_usdt_accumulative";
     ServicesWidgetSource["WidgetSourceIncomeAccumulativeByApiKey"] = "income_usdt_accumulative_by_api_key";
     ServicesWidgetSource["WidgetSourceVolumeAccumulative"] = "volume_usdt_accumulative";

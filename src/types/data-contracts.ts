@@ -1147,7 +1147,8 @@ export interface DtoTagCategoryForm {
    * @example 3
    */
   order?: number;
-  scopes?: number;
+  /** @example 1 */
+  scope?: 1 | 2;
 }
 
 export interface DtoTagCategoryListForm {
@@ -2703,8 +2704,14 @@ export interface ServicesTagCategory {
   key?: string;
   name?: string;
   order?: number;
-  scopes?: number;
+  scope?: ServicesTagCategoryScope;
   user_id?: number;
+}
+
+/** @format int32 */
+export enum ServicesTagCategoryScope {
+  TagCategoryScopeTrade = 1,
+  TagCategoryScopeNote = 2,
 }
 
 /** @format int32 */
@@ -3576,6 +3583,9 @@ export enum ServicesWidgetSource {
   WidgetSourceWinRateEntryReasonCombination = "tag_win_rate_combinations",
   WidgetSourceWinRateExitReasonCombination = "exit_tag_win_rate_combinations",
   WidgetSourceWinRateByTagCombination = "win_rate_by_tag_combination",
+  WidgetSourceNoteTagIncome = "note_tag_income",
+  WidgetSourceNoteTagCount = "note_tag_count",
+  WidgetSourceNoteTagWinrate = "note_tag_winrate",
   WidgetSourceIncomeAccumulative = "income_usdt_accumulative",
   WidgetSourceIncomeAccumulativeByApiKey = "income_usdt_accumulative_by_api_key",
   WidgetSourceVolumeAccumulative = "volume_usdt_accumulative",
