@@ -12310,21 +12310,15 @@
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "Filter: kind (0..4)",
-                        "name": "kind",
+                        "type": "string",
+                        "description": "Filter: notes overlapping \u003e= this date (YYYY-MM-DD)",
+                        "name": "from_date",
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "Filter: range_end_ts \u003e= from_ts",
-                        "name": "from_ts",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Filter: range_start_ts \u003c= to_ts",
-                        "name": "to_ts",
+                        "type": "string",
+                        "description": "Filter: notes overlapping \u003c= this date (YYYY-MM-DD)",
+                        "name": "to_date",
                         "in": "query"
                     },
                     {
@@ -12401,55 +12395,6 @@
                         "schema": {
                             "$ref": "#/definitions/services.UserNote"
                         }
-                    }
-                }
-            }
-        },
-        "/notes/check-bucket": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "notes"
-                ],
-                "summary": "Lookup existing note by kind+bucket",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Kind (1=day, 2=week, 3=month)",
-                        "name": "kind",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Canonical bucket key",
-                        "name": "bucket_key",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Optional category scope",
-                        "name": "category_id",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/services.UserNote"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found"
                     }
                 }
             }
@@ -26683,6 +26628,29 @@
                 }
             }
         },
+        "controllers.TranscribeTierLimit": {
+            "type": "object",
+            "properties": {
+                "limit_minutes": {
+                    "type": "integer",
+                    "example": 120
+                },
+                "model": {
+                    "type": "string",
+                    "example": "gpt-4o-mini-transcribe"
+                },
+                "tier": {
+                    "type": "string",
+                    "enum": [
+                        "novice",
+                        "novice_plus",
+                        "trader",
+                        "pro"
+                    ],
+                    "example": "novice_plus"
+                }
+            }
+        },
         "controllers.TranscribeUsageResponse": {
             "type": "object",
             "properties": {
@@ -26709,6 +26677,12 @@
                         }
                     ],
                     "example": "success"
+                },
+                "tier_limits": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.TranscribeTierLimit"
+                    }
                 },
                 "tier_model": {
                     "type": "string",
@@ -26765,7 +26739,7 @@
                 "notes": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.AnalyzerNote"
+                        "$ref": "#/definitions/services.UserNote"
                     }
                 },
                 "status": {
@@ -28816,21 +28790,14 @@
                 "body_json": {
                     "type": "string"
                 },
-                "bucket_key": {
-                    "type": "string",
-                    "maxLength": 16
-                },
                 "category_id": {
                     "type": "integer"
                 },
-                "kind": {
-                    "type": "integer"
+                "date_from": {
+                    "type": "string"
                 },
-                "range_end_ts": {
-                    "type": "integer"
-                },
-                "range_start_ts": {
-                    "type": "integer"
+                "date_to": {
+                    "type": "string"
                 },
                 "tag_ids": {
                     "type": "array",
@@ -28888,6 +28855,12 @@
                 },
                 "category_id": {
                     "type": "integer"
+                },
+                "date_from": {
+                    "type": "string"
+                },
+                "date_to": {
+                    "type": "string"
                 },
                 "tag_ids": {
                     "type": "array",
@@ -29792,7 +29765,8 @@
                 "Team",
                 "TeamBG",
                 "User",
-                "PublicProfile"
+                "PublicProfile",
+                "UserNote"
             ],
             "x-enum-varnames": [
                 "FileOwnerTypeTrade",
@@ -29801,7 +29775,8 @@
                 "FileOwnerTypeTeam",
                 "FileOwnerTypeTeamBG",
                 "FileOwnerTypeUser",
-                "FileOwnerTypePublicProfile"
+                "FileOwnerTypePublicProfile",
+                "FileOwnerTypeUserNote"
             ]
         },
         "services.FilterCatalogContext": {
@@ -31341,18 +31316,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -32099,7 +32074,12 @@
                     "type": "string"
                 },
                 "note": {
-                    "$ref": "#/definitions/services.AnalyzerNote"
+                    "description": "Note is the (newest) UserNote whose date_from/date_to overlap this\nweek bucket. Single pointer — last-write-wins when multiple user\nnotes overlap. Populated by analyzerNoteService.FillWeekList.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.UserNote"
+                        }
+                    ]
                 },
                 "percent": {
                     "type": "string"
@@ -33220,28 +33200,24 @@
                 "body_json": {
                     "type": "string"
                 },
-                "bucket_key": {
-                    "type": "string"
-                },
                 "category_id": {
                     "type": "integer"
                 },
                 "created_at": {
                     "type": "string"
                 },
+                "date_from": {
+                    "type": "string",
+                    "example": "2026-04-01"
+                },
+                "date_to": {
+                    "type": "string",
+                    "example": "2026-04-30"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "kind": {
-                    "type": "integer"
-                },
                 "order": {
-                    "type": "integer"
-                },
-                "range_end_ts": {
-                    "type": "integer"
-                },
-                "range_start_ts": {
                     "type": "integer"
                 },
                 "tag_ids": {

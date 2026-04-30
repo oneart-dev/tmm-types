@@ -486,6 +486,15 @@ export interface ControllersTranscribeResponse {
   text?: string;
 }
 
+export interface ControllersTranscribeTierLimit {
+  /** @example 120 */
+  limit_minutes?: number;
+  /** @example "gpt-4o-mini-transcribe" */
+  model?: string;
+  /** @example "novice_plus" */
+  tier?: "novice" | "novice_plus" | "trader" | "pro";
+}
+
 export interface ControllersTranscribeUsageResponse {
   /** @example "2026-05-01T00:00:00Z" */
   cycle_end?: string;
@@ -497,6 +506,7 @@ export interface ControllersTranscribeUsageResponse {
   remaining_minutes?: number;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  tier_limits?: ControllersTranscribeTierLimit[];
   /** @example "gpt-4o-mini-transcribe" */
   tier_model?: string;
   /** @example 47 */
@@ -518,7 +528,7 @@ export interface ControllersUnauthorizedResponse {
 
 export interface ControllersWeekListResponse {
   data?: ServicesTradeCountByWeek[];
-  notes?: ServicesAnalyzerNote[];
+  notes?: ServicesUserNote[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1675,12 +1685,9 @@ export interface DtoUserLanguage {
 export interface DtoUserNoteCreateForm {
   body_html?: string;
   body_json?: string;
-  /** @maxLength 16 */
-  bucket_key?: string;
   category_id: number;
-  kind?: number;
-  range_end_ts?: number;
-  range_start_ts?: number;
+  date_from?: string;
+  date_to?: string;
   tag_ids?: number[];
   /** @maxLength 255 */
   title?: string;
@@ -1701,6 +1708,8 @@ export interface DtoUserNoteUpdateForm {
   body_html?: string;
   body_json?: string;
   category_id?: number;
+  date_from?: string;
+  date_to?: string;
   tag_ids?: number[];
   title?: string;
 }
@@ -2072,6 +2081,7 @@ export enum ServicesFileOwnerType {
   FileOwnerTypeTeamBG = "TeamBG",
   FileOwnerTypeUser = "User",
   FileOwnerTypePublicProfile = "PublicProfile",
+  FileOwnerTypeUserNote = "UserNote",
 }
 
 export interface ServicesFilterCatalogContext {
@@ -2699,11 +2709,11 @@ export interface ServicesTagCategory {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -2982,7 +2992,12 @@ export interface ServicesTradeCountByWeek {
   max_leverage?: string;
   min_leverage?: string;
   net_profit?: string;
-  note?: ServicesAnalyzerNote;
+  /**
+   * Note is the (newest) UserNote whose date_from/date_to overlap this
+   * week bucket. Single pointer — last-write-wins when multiple user
+   * notes overlap. Populated by analyzerNoteService.FillWeekList.
+   */
+  note?: ServicesUserNote;
   percent?: string;
   profit_deposit?: string;
   realized_pnl?: string;
@@ -3391,14 +3406,14 @@ export interface ServicesUserLimits {
 export interface ServicesUserNote {
   body_html?: string;
   body_json?: string;
-  bucket_key?: string;
   category_id?: number;
   created_at?: string;
+  /** @example "2026-04-01" */
+  date_from?: string;
+  /** @example "2026-04-30" */
+  date_to?: string;
   id?: number;
-  kind?: number;
   order?: number;
-  range_end_ts?: number;
-  range_start_ts?: number;
   tag_ids?: number[];
   title?: string;
   updated_at?: string;

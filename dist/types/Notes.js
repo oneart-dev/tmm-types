@@ -19,14 +19,6 @@ export class Notes extends HttpClient {
             format: "json",
             ...params,
         });
-        this.checkBucketList = (query, params = {}) => this.request({
-            path: `/notes/check-bucket`,
-            method: "GET",
-            query: query,
-            secure: true,
-            format: "json",
-            ...params,
-        });
         this.reorderCreate = (request, params = {}) => this.request({
             path: `/notes/reorder`,
             method: "POST",

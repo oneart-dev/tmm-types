@@ -312,12 +312,18 @@ export interface ControllersTranscribeResponse {
     status?: ControllersResponseStatusMessage;
     text?: string;
 }
+export interface ControllersTranscribeTierLimit {
+    limit_minutes?: number;
+    model?: string;
+    tier?: "novice" | "novice_plus" | "trader" | "pro";
+}
 export interface ControllersTranscribeUsageResponse {
     cycle_end?: string;
     cycle_start?: string;
     limit_minutes?: number;
     remaining_minutes?: number;
     status?: ControllersResponseStatusMessage;
+    tier_limits?: ControllersTranscribeTierLimit[];
     tier_model?: string;
     used_minutes?: number;
 }
@@ -331,7 +337,7 @@ export interface ControllersUnauthorizedResponse {
 }
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
-    notes?: ServicesAnalyzerNote[];
+    notes?: ServicesUserNote[];
     status?: ControllersResponseStatusMessage;
 }
 export interface DtoAnalyzerNoteForm {
@@ -743,11 +749,9 @@ export interface DtoUserLanguage {
 export interface DtoUserNoteCreateForm {
     body_html?: string;
     body_json?: string;
-    bucket_key?: string;
     category_id: number;
-    kind?: number;
-    range_end_ts?: number;
-    range_start_ts?: number;
+    date_from?: string;
+    date_to?: string;
     tag_ids?: number[];
     title?: string;
 }
@@ -763,6 +767,8 @@ export interface DtoUserNoteUpdateForm {
     body_html?: string;
     body_json?: string;
     category_id?: number;
+    date_from?: string;
+    date_to?: string;
     tag_ids?: number[];
     title?: string;
 }
@@ -1030,7 +1036,8 @@ export declare enum ServicesFileOwnerType {
     FileOwnerTypeTeam = "Team",
     FileOwnerTypeTeamBG = "TeamBG",
     FileOwnerTypeUser = "User",
-    FileOwnerTypePublicProfile = "PublicProfile"
+    FileOwnerTypePublicProfile = "PublicProfile",
+    FileOwnerTypeUserNote = "UserNote"
 }
 export interface ServicesFilterCatalogContext {
     accessMode?: string;
@@ -1524,11 +1531,11 @@ export interface ServicesTagCategory {
     user_id?: number;
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -1777,7 +1784,7 @@ export interface ServicesTradeCountByWeek {
     max_leverage?: string;
     min_leverage?: string;
     net_profit?: string;
-    note?: ServicesAnalyzerNote;
+    note?: ServicesUserNote;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;
@@ -2154,14 +2161,12 @@ export interface ServicesUserLimits {
 export interface ServicesUserNote {
     body_html?: string;
     body_json?: string;
-    bucket_key?: string;
     category_id?: number;
     created_at?: string;
+    date_from?: string;
+    date_to?: string;
     id?: number;
-    kind?: number;
     order?: number;
-    range_end_ts?: number;
-    range_start_ts?: number;
     tag_ids?: number[];
     title?: string;
     updated_at?: string;
