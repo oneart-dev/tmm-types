@@ -453,6 +453,7 @@ export interface DtoNoteCategoryForm {
     name: string;
     order?: number;
     parent_id?: number;
+    roles?: string[];
 }
 export interface DtoNoteCategoryReorderForm {
     items: DtoNoteCategoryReorderItem[];
@@ -1152,6 +1153,7 @@ export interface ServicesNoteCategory {
     name?: string;
     order?: number;
     parent_id?: number;
+    roles?: string[];
     updated_at?: string;
     user_id?: number;
 }
@@ -1535,11 +1537,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

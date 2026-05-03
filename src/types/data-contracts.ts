@@ -868,6 +868,7 @@ export interface DtoNoteCategoryForm {
   name: string;
   order?: number;
   parent_id?: number;
+  roles?: string[];
 }
 
 export interface DtoNoteCategoryReorderForm {
@@ -2220,6 +2221,7 @@ export interface ServicesNoteCategory {
   name?: string;
   order?: number;
   parent_id?: number;
+  roles?: string[];
   updated_at?: string;
   user_id?: number;
 }
@@ -2716,11 +2718,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
