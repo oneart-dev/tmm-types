@@ -9108,6 +9108,477 @@
                 }
             }
         },
+        "/chat/threads": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the caller's threads ordered by updated_at DESC. Admins may pass\nowner_user_id and/or analyzed_user_id query params to filter across users;\nnon-admins are scoped to their own threads regardless of filter.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "List chat threads",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Max items (1..200, default 50)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Admin-only filter by owner user id",
+                        "name": "owner_user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Admin-only filter by analyzed user id",
+                        "name": "analyzed_user_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatListThreadsResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Opens a new chat thread, builds the trader profile for the analyzed user\n(defaults to caller), and binds the api_key allowlist to the thread.\nIf analyzed_user_id is set to another user, the caller must be admin or\nthe analyzed user's mentor; otherwise 403.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Create a new chat thread",
+                "parameters": [
+                    {
+                        "description": "Thread create payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatCreateThreadRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatCreateThreadResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/threads/{uid}": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the thread header, all chat messages (user/assistant), and per-turn\nrecords (question, final answer, answer blocks, totals). Caller must own the\nthread, be the analyzed user's mentor, or be an admin; otherwise 404.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Fetch a chat thread with full history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Thread UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatGetThreadResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Marks the thread as deleted. Caller must own the thread or be an admin.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Soft-delete a chat thread",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Thread UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatDeleteResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/threads/{uid}/messages": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Posts the user's question into an existing thread, runs one turn through\nthe orchestrator, and returns the assistant's final answer plus inline\nanswer-blocks (text/widget/trade citations). Pre-flight monthly cap check\non the thread owner; returns 429 + code=quota_exceeded if exceeded.\nReturns 409 + code=thread_busy if another turn on this thread is in flight.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Send a question to a chat thread",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Thread UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Question payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatSendMessageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatSendMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/threads/{uid}/profile/rebuild": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Forces a fresh profile build from the analyzed user's trades within the\nthread's api_key allowlist. Replaces the cached profile in place. Useful\nafter the analyzed user adds trades or annotations.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Rebuild the trader profile attached to a thread",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Thread UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatProfileRebuildResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/threads/{uid}/turns/{idx}/requests": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the wire-equivalent payload sent to the LLM provider for each\nround of the given turn. Admin-only — used for audit and debugging.\nResponse body is the raw rounds JSON array (not wrapped in a status envelope).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Fetch raw provider request payloads for a turn (admin-only)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Thread UID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Turn index",
+                        "name": "idx",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Round request payloads",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/usage": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the caller's chat spend (USD micros) for the current calendar\nmonth UTC and the tier cap. cap_usd_micro = 0 means unlimited\n(admin/owner). Mentor users get the pro tier cap.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Chat monthly usage and cap",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatUsageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections": {
             "get": {
                 "security": [
@@ -12339,7 +12810,7 @@
                     },
                     {
                         "type": "integer",
-                        "description": "Page size (default 50, max 200)",
+                        "description": "Page size (default 50, max 1000)",
                         "name": "limit",
                         "in": "query"
                     },
@@ -27042,6 +27513,407 @@
                 }
             }
         },
+        "dto.ChatAnswerBlock": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "kind": {
+                    "type": "string",
+                    "enum": [
+                        "text",
+                        "widget",
+                        "trade"
+                    ],
+                    "example": "text"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "trade_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ChatCreateThreadRequest": {
+            "type": "object",
+            "properties": {
+                "analyzed_user_id": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "api_key_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "model": {
+                    "type": "string",
+                    "example": "deepseek-chat-v3"
+                }
+            }
+        },
+        "dto.ChatCreateThreadResponse": {
+            "type": "object",
+            "properties": {
+                "allowed_api_key_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "analyzed_user_id": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-05-07T12:34:56Z"
+                },
+                "model": {
+                    "type": "string",
+                    "example": "deepseek-chat-v3"
+                },
+                "owner_user_id": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "profile_build_ms": {
+                    "type": "integer",
+                    "example": 1234
+                },
+                "profile_bytes": {
+                    "type": "integer",
+                    "example": 56789
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                },
+                "uid": {
+                    "type": "string",
+                    "example": "th_abc123"
+                }
+            }
+        },
+        "dto.ChatDeleteResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "dto.ChatErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "forbidden"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "forbidden"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "error"
+                    ],
+                    "example": "error"
+                }
+            }
+        },
+        "dto.ChatGetThreadResponse": {
+            "type": "object",
+            "properties": {
+                "header": {
+                    "$ref": "#/definitions/dto.ChatThreadHeaderResponse"
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ChatMessageDTO"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                },
+                "turns": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ChatTurnDTO"
+                    }
+                }
+            }
+        },
+        "dto.ChatListThreadsResponse": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ChatThreadHeaderResponse"
+                    }
+                },
+                "next_cursor": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "dto.ChatMessageDTO": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "system",
+                        "user",
+                        "assistant",
+                        "tool"
+                    ],
+                    "example": "user"
+                }
+            }
+        },
+        "dto.ChatProfileRebuildResponse": {
+            "type": "object",
+            "properties": {
+                "profile_build_ms": {
+                    "type": "integer",
+                    "example": 1234
+                },
+                "profile_bytes": {
+                    "type": "integer",
+                    "example": 56789
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "dto.ChatSendMessageRequest": {
+            "type": "object",
+            "required": [
+                "question"
+            ],
+            "properties": {
+                "question": {
+                    "type": "string",
+                    "example": "summarize my last 10 trades"
+                }
+            }
+        },
+        "dto.ChatSendMessageResponse": {
+            "type": "object",
+            "properties": {
+                "answer_blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ChatAnswerBlock"
+                    }
+                },
+                "final_answer": {
+                    "type": "string",
+                    "example": "Your last 10 trades show ..."
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                },
+                "thread_totals": {
+                    "$ref": "#/definitions/dto.ChatThreadTotals"
+                },
+                "totals": {
+                    "$ref": "#/definitions/dto.ChatTurnTotals"
+                },
+                "turn_index": {
+                    "type": "integer",
+                    "example": 3
+                }
+            }
+        },
+        "dto.ChatThreadHeaderResponse": {
+            "type": "object",
+            "properties": {
+                "allowed_api_key_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "analyzed_user_id": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2026-05-07T12:34:56Z"
+                },
+                "model": {
+                    "type": "string",
+                    "example": "deepseek-chat-v3"
+                },
+                "owner_user_id": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "title": {
+                    "type": "string",
+                    "example": "weekly review"
+                },
+                "totals": {
+                    "$ref": "#/definitions/dto.ChatThreadTotals"
+                },
+                "uid": {
+                    "type": "string",
+                    "example": "th_abc123"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2026-05-07T12:34:56Z"
+                }
+            }
+        },
+        "dto.ChatThreadTotals": {
+            "type": "object",
+            "properties": {
+                "cost_usd_micro": {
+                    "type": "integer",
+                    "example": 15000
+                },
+                "input_tokens": {
+                    "type": "integer",
+                    "example": 3200
+                },
+                "output_tokens": {
+                    "type": "integer",
+                    "example": 980
+                },
+                "turn_count": {
+                    "type": "integer",
+                    "example": 4
+                }
+            }
+        },
+        "dto.ChatTurnDTO": {
+            "type": "object",
+            "properties": {
+                "answer_blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ChatAnswerBlock"
+                    }
+                },
+                "final_answer": {
+                    "type": "string"
+                },
+                "totals": {
+                    "$ref": "#/definitions/dto.ChatTurnTotals"
+                },
+                "turn_index": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "user_question": {
+                    "type": "string",
+                    "example": "summarize my last 10 trades"
+                }
+            }
+        },
+        "dto.ChatTurnTotals": {
+            "type": "object",
+            "properties": {
+                "cost_usd_micro": {
+                    "type": "integer",
+                    "example": 3210
+                },
+                "input_tokens": {
+                    "type": "integer",
+                    "example": 812
+                },
+                "llm_ms": {
+                    "type": "integer",
+                    "example": 1820
+                },
+                "output_tokens": {
+                    "type": "integer",
+                    "example": 245
+                },
+                "tool_ms": {
+                    "type": "integer",
+                    "example": 410
+                },
+                "wall_ms": {
+                    "type": "integer",
+                    "example": 2340
+                }
+            }
+        },
+        "dto.ChatUsageResponse": {
+            "type": "object",
+            "properties": {
+                "cap_usd_micro": {
+                    "type": "integer",
+                    "example": 500000
+                },
+                "cycle_end": {
+                    "type": "string",
+                    "example": "2026-06-01T00:00:00Z"
+                },
+                "period_start": {
+                    "type": "string",
+                    "example": "2026-05-01T00:00:00Z"
+                },
+                "spent_usd_micro": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "success"
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "dto.DashboardCreateForm": {
             "type": "object",
             "required": [
@@ -27306,9 +28178,6 @@
         },
         "dto.NoteCategoryForm": {
             "type": "object",
-            "required": [
-                "name"
-            ],
             "properties": {
                 "name": {
                     "type": "string",
@@ -31345,18 +32214,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

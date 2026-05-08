@@ -391,6 +391,108 @@ export interface DtoCategoryForm {
 export interface DtoCategoryListForm {
     categories: DtoCategoryForm[];
 }
+export interface DtoChatAnswerBlock {
+    data?: object;
+    kind?: "text" | "widget" | "trade";
+    source?: string;
+    text?: string;
+    title?: string;
+    trade_id?: number;
+}
+export interface DtoChatCreateThreadRequest {
+    analyzed_user_id?: number;
+    api_key_ids?: number[];
+    model?: string;
+}
+export interface DtoChatCreateThreadResponse {
+    allowed_api_key_ids?: number[];
+    analyzed_user_id?: number;
+    created_at?: string;
+    model?: string;
+    owner_user_id?: number;
+    profile_build_ms?: number;
+    profile_bytes?: number;
+    status?: "success";
+    uid?: string;
+}
+export interface DtoChatDeleteResponse {
+    status?: "success";
+}
+export interface DtoChatErrorResponse {
+    code?: string;
+    message?: string;
+    status?: "error";
+}
+export interface DtoChatGetThreadResponse {
+    header?: DtoChatThreadHeaderResponse;
+    messages?: DtoChatMessageDTO[];
+    status?: "success";
+    turns?: DtoChatTurnDTO[];
+}
+export interface DtoChatListThreadsResponse {
+    items?: DtoChatThreadHeaderResponse[];
+    next_cursor?: string;
+    status?: "success";
+}
+export interface DtoChatMessageDTO {
+    content?: string;
+    role?: "system" | "user" | "assistant" | "tool";
+}
+export interface DtoChatProfileRebuildResponse {
+    profile_build_ms?: number;
+    profile_bytes?: number;
+    status?: "success";
+}
+export interface DtoChatSendMessageRequest {
+    question: string;
+}
+export interface DtoChatSendMessageResponse {
+    answer_blocks?: DtoChatAnswerBlock[];
+    final_answer?: string;
+    status?: "success";
+    thread_totals?: DtoChatThreadTotals;
+    totals?: DtoChatTurnTotals;
+    turn_index?: number;
+}
+export interface DtoChatThreadHeaderResponse {
+    allowed_api_key_ids?: number[];
+    analyzed_user_id?: number;
+    created_at?: string;
+    model?: string;
+    owner_user_id?: number;
+    title?: string;
+    totals?: DtoChatThreadTotals;
+    uid?: string;
+    updated_at?: string;
+}
+export interface DtoChatThreadTotals {
+    cost_usd_micro?: number;
+    input_tokens?: number;
+    output_tokens?: number;
+    turn_count?: number;
+}
+export interface DtoChatTurnDTO {
+    answer_blocks?: DtoChatAnswerBlock[];
+    final_answer?: string;
+    totals?: DtoChatTurnTotals;
+    turn_index?: number;
+    user_question?: string;
+}
+export interface DtoChatTurnTotals {
+    cost_usd_micro?: number;
+    input_tokens?: number;
+    llm_ms?: number;
+    output_tokens?: number;
+    tool_ms?: number;
+    wall_ms?: number;
+}
+export interface DtoChatUsageResponse {
+    cap_usd_micro?: number;
+    cycle_end?: string;
+    period_start?: string;
+    spent_usd_micro?: number;
+    status?: "success";
+}
 export interface DtoDashboardCreateForm {
     name: string;
 }
@@ -450,7 +552,7 @@ export interface DtoNewPasswordCredentials {
     token: string;
 }
 export interface DtoNoteCategoryForm {
-    name: string;
+    name?: string;
     order?: number;
     parent_id?: number;
     roles?: string[];
@@ -1537,11 +1639,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

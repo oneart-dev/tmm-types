@@ -720,6 +720,173 @@ export interface DtoCategoryListForm {
   categories: DtoCategoryForm[];
 }
 
+export interface DtoChatAnswerBlock {
+  data?: object;
+  /** @example "text" */
+  kind?: "text" | "widget" | "trade";
+  source?: string;
+  text?: string;
+  title?: string;
+  trade_id?: number;
+}
+
+export interface DtoChatCreateThreadRequest {
+  /** @example 0 */
+  analyzed_user_id?: number;
+  api_key_ids?: number[];
+  /** @example "deepseek-chat-v3" */
+  model?: string;
+}
+
+export interface DtoChatCreateThreadResponse {
+  allowed_api_key_ids?: number[];
+  /** @example 42 */
+  analyzed_user_id?: number;
+  /** @example "2026-05-07T12:34:56Z" */
+  created_at?: string;
+  /** @example "deepseek-chat-v3" */
+  model?: string;
+  /** @example 42 */
+  owner_user_id?: number;
+  /** @example 1234 */
+  profile_build_ms?: number;
+  /** @example 56789 */
+  profile_bytes?: number;
+  /** @example "success" */
+  status?: "success";
+  /** @example "th_abc123" */
+  uid?: string;
+}
+
+export interface DtoChatDeleteResponse {
+  /** @example "success" */
+  status?: "success";
+}
+
+export interface DtoChatErrorResponse {
+  /** @example "forbidden" */
+  code?: string;
+  /** @example "forbidden" */
+  message?: string;
+  /** @example "error" */
+  status?: "error";
+}
+
+export interface DtoChatGetThreadResponse {
+  header?: DtoChatThreadHeaderResponse;
+  messages?: DtoChatMessageDTO[];
+  /** @example "success" */
+  status?: "success";
+  turns?: DtoChatTurnDTO[];
+}
+
+export interface DtoChatListThreadsResponse {
+  items?: DtoChatThreadHeaderResponse[];
+  next_cursor?: string;
+  /** @example "success" */
+  status?: "success";
+}
+
+export interface DtoChatMessageDTO {
+  content?: string;
+  /** @example "user" */
+  role?: "system" | "user" | "assistant" | "tool";
+}
+
+export interface DtoChatProfileRebuildResponse {
+  /** @example 1234 */
+  profile_build_ms?: number;
+  /** @example 56789 */
+  profile_bytes?: number;
+  /** @example "success" */
+  status?: "success";
+}
+
+export interface DtoChatSendMessageRequest {
+  /** @example "summarize my last 10 trades" */
+  question: string;
+}
+
+export interface DtoChatSendMessageResponse {
+  answer_blocks?: DtoChatAnswerBlock[];
+  /** @example "Your last 10 trades show ..." */
+  final_answer?: string;
+  /** @example "success" */
+  status?: "success";
+  thread_totals?: DtoChatThreadTotals;
+  totals?: DtoChatTurnTotals;
+  /** @example 3 */
+  turn_index?: number;
+}
+
+export interface DtoChatThreadHeaderResponse {
+  allowed_api_key_ids?: number[];
+  /** @example 42 */
+  analyzed_user_id?: number;
+  /** @example "2026-05-07T12:34:56Z" */
+  created_at?: string;
+  /** @example "deepseek-chat-v3" */
+  model?: string;
+  /** @example 42 */
+  owner_user_id?: number;
+  /** @example "weekly review" */
+  title?: string;
+  totals?: DtoChatThreadTotals;
+  /** @example "th_abc123" */
+  uid?: string;
+  /** @example "2026-05-07T12:34:56Z" */
+  updated_at?: string;
+}
+
+export interface DtoChatThreadTotals {
+  /** @example 15000 */
+  cost_usd_micro?: number;
+  /** @example 3200 */
+  input_tokens?: number;
+  /** @example 980 */
+  output_tokens?: number;
+  /** @example 4 */
+  turn_count?: number;
+}
+
+export interface DtoChatTurnDTO {
+  answer_blocks?: DtoChatAnswerBlock[];
+  final_answer?: string;
+  totals?: DtoChatTurnTotals;
+  /** @example 0 */
+  turn_index?: number;
+  /** @example "summarize my last 10 trades" */
+  user_question?: string;
+}
+
+export interface DtoChatTurnTotals {
+  /** @example 3210 */
+  cost_usd_micro?: number;
+  /** @example 812 */
+  input_tokens?: number;
+  /** @example 1820 */
+  llm_ms?: number;
+  /** @example 245 */
+  output_tokens?: number;
+  /** @example 410 */
+  tool_ms?: number;
+  /** @example 2340 */
+  wall_ms?: number;
+}
+
+export interface DtoChatUsageResponse {
+  /** @example 500000 */
+  cap_usd_micro?: number;
+  /** @example "2026-06-01T00:00:00Z" */
+  cycle_end?: string;
+  /** @example "2026-05-01T00:00:00Z" */
+  period_start?: string;
+  /** @example 123456 */
+  spent_usd_micro?: number;
+  /** @example "success" */
+  status?: "success";
+}
+
 export interface DtoDashboardCreateForm {
   /**
    * @minLength 1
@@ -865,7 +1032,7 @@ export interface DtoNewPasswordCredentials {
 
 export interface DtoNoteCategoryForm {
   /** @maxLength 255 */
-  name: string;
+  name?: string;
   order?: number;
   parent_id?: number;
   roles?: string[];
@@ -2718,11 +2885,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
