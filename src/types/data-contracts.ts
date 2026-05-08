@@ -721,6 +721,7 @@ export interface DtoCategoryListForm {
 }
 
 export interface DtoChatAnswerBlock {
+  alias?: string;
   data?: object;
   /** @example "text" */
   kind?: "text" | "widget" | "trade";
@@ -728,6 +729,7 @@ export interface DtoChatAnswerBlock {
   text?: string;
   title?: string;
   trade_id?: number;
+  type?: string;
 }
 
 export interface DtoChatCreateThreadRequest {
@@ -802,6 +804,21 @@ export interface DtoChatProfileRebuildResponse {
   status?: "success";
 }
 
+export interface DtoChatQuotaExceededResponse {
+  /** @example 500000 */
+  cap_usd_micro?: number;
+  /** @example "quota_exceeded" */
+  code?: "quota_exceeded";
+  /** @example "2026-06-01T00:00:00Z" */
+  cycle_end?: string;
+  /** @example "monthly chat budget exceeded" */
+  message?: string;
+  /** @example 600000 */
+  spent_usd_micro?: number;
+  /** @example "error" */
+  status?: "error";
+}
+
 export interface DtoChatSendMessageRequest {
   /** @example "summarize my last 10 trades" */
   question: string;
@@ -829,7 +846,12 @@ export interface DtoChatThreadHeaderResponse {
   model?: string;
   /** @example 42 */
   owner_user_id?: number;
-  /** @example "weekly review" */
+  /**
+   * Title is the short label shown in the threads sidebar. Auto-derived
+   * from the first user message; null until that derivation has run.
+   * Always present in the response so the frontend can rely on the shape.
+   * @example "weekly review"
+   */
   title?: string;
   totals?: DtoChatThreadTotals;
   /** @example "th_abc123" */

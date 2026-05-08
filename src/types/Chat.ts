@@ -18,6 +18,7 @@ import {
   DtoChatGetThreadResponse,
   DtoChatListThreadsResponse,
   DtoChatProfileRebuildResponse,
+  DtoChatQuotaExceededResponse,
   DtoChatSendMessageRequest,
   DtoChatSendMessageResponse,
   DtoChatUsageResponse,
@@ -38,6 +39,8 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     query?: {
       /** Max items (1..200, default 50) */
       limit?: number;
+      /** Opaque pagination cursor from a previous response's next_cursor */
+      cursor?: string;
       /** Admin-only filter by owner user id */
       owner_user_id?: number;
       /** Admin-only filter by analyzed user id */
@@ -45,7 +48,7 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     },
     params: RequestParams = {},
   ) =>
-    this.request<DtoChatListThreadsResponse, ControllersUnauthorizedResponse | DtoChatErrorResponse>({
+    this.request<DtoChatListThreadsResponse, DtoChatErrorResponse | ControllersUnauthorizedResponse>({
       path: `/chat/threads`,
       method: "GET",
       query: query,
@@ -63,7 +66,10 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @secure
    */
   threadsCreate = (request: DtoChatCreateThreadRequest, params: RequestParams = {}) =>
-    this.request<DtoChatCreateThreadResponse, DtoChatErrorResponse | ControllersUnauthorizedResponse>({
+    this.request<
+      DtoChatCreateThreadResponse,
+      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExceededResponse
+    >({
       path: `/chat/threads`,
       method: "POST",
       body: request,
@@ -116,7 +122,10 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @secure
    */
   threadsMessagesCreate = (uid: string, request: DtoChatSendMessageRequest, params: RequestParams = {}) =>
-    this.request<DtoChatSendMessageResponse, DtoChatErrorResponse | ControllersUnauthorizedResponse>({
+    this.request<
+      DtoChatSendMessageResponse,
+      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExceededResponse
+    >({
       path: `/chat/threads/${uid}/messages`,
       method: "POST",
       body: request,

@@ -392,12 +392,14 @@ export interface DtoCategoryListForm {
     categories: DtoCategoryForm[];
 }
 export interface DtoChatAnswerBlock {
+    alias?: string;
     data?: object;
     kind?: "text" | "widget" | "trade";
     source?: string;
     text?: string;
     title?: string;
     trade_id?: number;
+    type?: string;
 }
 export interface DtoChatCreateThreadRequest {
     analyzed_user_id?: number;
@@ -442,6 +444,14 @@ export interface DtoChatProfileRebuildResponse {
     profile_build_ms?: number;
     profile_bytes?: number;
     status?: "success";
+}
+export interface DtoChatQuotaExceededResponse {
+    cap_usd_micro?: number;
+    code?: "quota_exceeded";
+    cycle_end?: string;
+    message?: string;
+    spent_usd_micro?: number;
+    status?: "error";
 }
 export interface DtoChatSendMessageRequest {
     question: string;
