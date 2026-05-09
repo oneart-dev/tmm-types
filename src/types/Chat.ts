@@ -17,8 +17,9 @@ import {
   DtoChatErrorResponse,
   DtoChatGetThreadResponse,
   DtoChatListThreadsResponse,
+  DtoChatNotAvailableResponse,
   DtoChatProfileRebuildResponse,
-  DtoChatQuotaExceededResponse,
+  DtoChatQuotaExhaustedResponse,
   DtoChatSendMessageRequest,
   DtoChatSendMessageResponse,
   DtoChatUsageResponse,
@@ -68,7 +69,7 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   threadsCreate = (request: DtoChatCreateThreadRequest, params: RequestParams = {}) =>
     this.request<
       DtoChatCreateThreadResponse,
-      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExceededResponse
+      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExhaustedResponse
     >({
       path: `/chat/threads`,
       method: "POST",
@@ -124,7 +125,7 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   threadsMessagesCreate = (uid: string, request: DtoChatSendMessageRequest, params: RequestParams = {}) =>
     this.request<
       DtoChatSendMessageResponse,
-      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExceededResponse
+      DtoChatErrorResponse | ControllersUnauthorizedResponse | DtoChatQuotaExhaustedResponse
     >({
       path: `/chat/threads/${uid}/messages`,
       method: "POST",
@@ -169,16 +170,19 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Returns the caller's chat spend (USD micros) for the current calendar month UTC and the tier cap. cap_usd_micro = 0 means unlimited (admin/owner). Mentor users get the pro tier cap.
+   * @description Returns the caller's monthly chat budget consumption as a coarse percent (0..100) plus an exhausted flag and the calendar-month UTC reset timestamp. Token counts, dollar amounts, and model identifiers are intentionally not exposed. Tiers without chat access (Trial / Novice / Novice+) get a 403 with code=chat_not_available.
    *
    * @tags chat
    * @name UsageList
-   * @summary Chat monthly usage and cap
+   * @summary Chat monthly usage report
    * @request GET:/chat/usage
    * @secure
    */
   usageList = (params: RequestParams = {}) =>
-    this.request<DtoChatUsageResponse, ControllersUnauthorizedResponse | DtoChatErrorResponse>({
+    this.request<
+      DtoChatUsageResponse,
+      ControllersUnauthorizedResponse | DtoChatNotAvailableResponse | DtoChatErrorResponse
+    >({
       path: `/chat/usage`,
       method: "GET",
       secure: true,

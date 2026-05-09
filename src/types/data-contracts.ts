@@ -736,8 +736,6 @@ export interface DtoChatCreateThreadRequest {
   /** @example 0 */
   analyzed_user_id?: number;
   api_key_ids?: number[];
-  /** @example "deepseek-chat-v3" */
-  model?: string;
 }
 
 export interface DtoChatCreateThreadResponse {
@@ -746,8 +744,6 @@ export interface DtoChatCreateThreadResponse {
   analyzed_user_id?: number;
   /** @example "2026-05-07T12:34:56Z" */
   created_at?: string;
-  /** @example "deepseek-chat-v3" */
-  model?: string;
   /** @example 42 */
   owner_user_id?: number;
   /** @example 1234 */
@@ -795,6 +791,15 @@ export interface DtoChatMessageDTO {
   role?: "system" | "user" | "assistant" | "tool";
 }
 
+export interface DtoChatNotAvailableResponse {
+  /** @example "chat_not_available" */
+  code?: "chat_not_available";
+  /** @example "chat available on Trader and Pro plans only" */
+  message?: string;
+  /** @example "error" */
+  status?: "error";
+}
+
 export interface DtoChatProfileRebuildResponse {
   /** @example 1234 */
   profile_build_ms?: number;
@@ -804,17 +809,13 @@ export interface DtoChatProfileRebuildResponse {
   status?: "success";
 }
 
-export interface DtoChatQuotaExceededResponse {
-  /** @example 500000 */
-  cap_usd_micro?: number;
-  /** @example "quota_exceeded" */
-  code?: "quota_exceeded";
+export interface DtoChatQuotaExhaustedResponse {
+  /** @example "chat_quota_exhausted" */
+  code?: "chat_quota_exhausted";
   /** @example "2026-06-01T00:00:00Z" */
   cycle_end?: string;
-  /** @example "monthly chat budget exceeded" */
+  /** @example "monthly chat budget exhausted" */
   message?: string;
-  /** @example 600000 */
-  spent_usd_micro?: number;
   /** @example "error" */
   status?: "error";
 }
@@ -842,8 +843,6 @@ export interface DtoChatThreadHeaderResponse {
   analyzed_user_id?: number;
   /** @example "2026-05-07T12:34:56Z" */
   created_at?: string;
-  /** @example "deepseek-chat-v3" */
-  model?: string;
   /** @example 42 */
   owner_user_id?: number;
   /**
@@ -897,16 +896,18 @@ export interface DtoChatTurnTotals {
 }
 
 export interface DtoChatUsageResponse {
-  /** @example 500000 */
-  cap_usd_micro?: number;
   /** @example "2026-06-01T00:00:00Z" */
   cycle_end?: string;
-  /** @example "2026-05-01T00:00:00Z" */
-  period_start?: string;
-  /** @example 123456 */
-  spent_usd_micro?: number;
+  /** @example false */
+  exhausted?: boolean;
   /** @example "success" */
   status?: "success";
+  /**
+   * @min 0
+   * @max 100
+   * @example 42
+   */
+  usage_percent?: number;
 }
 
 export interface DtoDashboardCreateForm {
@@ -2907,11 +2908,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

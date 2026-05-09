@@ -404,13 +404,11 @@ export interface DtoChatAnswerBlock {
 export interface DtoChatCreateThreadRequest {
     analyzed_user_id?: number;
     api_key_ids?: number[];
-    model?: string;
 }
 export interface DtoChatCreateThreadResponse {
     allowed_api_key_ids?: number[];
     analyzed_user_id?: number;
     created_at?: string;
-    model?: string;
     owner_user_id?: number;
     profile_build_ms?: number;
     profile_bytes?: number;
@@ -440,17 +438,20 @@ export interface DtoChatMessageDTO {
     content?: string;
     role?: "system" | "user" | "assistant" | "tool";
 }
+export interface DtoChatNotAvailableResponse {
+    code?: "chat_not_available";
+    message?: string;
+    status?: "error";
+}
 export interface DtoChatProfileRebuildResponse {
     profile_build_ms?: number;
     profile_bytes?: number;
     status?: "success";
 }
-export interface DtoChatQuotaExceededResponse {
-    cap_usd_micro?: number;
-    code?: "quota_exceeded";
+export interface DtoChatQuotaExhaustedResponse {
+    code?: "chat_quota_exhausted";
     cycle_end?: string;
     message?: string;
-    spent_usd_micro?: number;
     status?: "error";
 }
 export interface DtoChatSendMessageRequest {
@@ -468,7 +469,6 @@ export interface DtoChatThreadHeaderResponse {
     allowed_api_key_ids?: number[];
     analyzed_user_id?: number;
     created_at?: string;
-    model?: string;
     owner_user_id?: number;
     title?: string;
     totals?: DtoChatThreadTotals;
@@ -497,11 +497,10 @@ export interface DtoChatTurnTotals {
     wall_ms?: number;
 }
 export interface DtoChatUsageResponse {
-    cap_usd_micro?: number;
     cycle_end?: string;
-    period_start?: string;
-    spent_usd_micro?: number;
+    exhausted?: boolean;
     status?: "success";
+    usage_percent?: number;
 }
 export interface DtoDashboardCreateForm {
     name: string;
@@ -1649,11 +1648,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
