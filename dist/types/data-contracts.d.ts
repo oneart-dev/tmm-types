@@ -458,12 +458,10 @@ export interface DtoChatSendMessageRequest {
     question: string;
 }
 export interface DtoChatSendMessageResponse {
-    answer_blocks?: DtoChatAnswerBlock[];
-    final_answer?: string;
     status?: "success";
-    thread_totals?: DtoChatThreadTotals;
-    totals?: DtoChatTurnTotals;
+    thread_uid?: string;
     turn_index?: number;
+    turn_status?: string;
 }
 export interface DtoChatThreadHeaderResponse {
     allowed_api_key_ids?: number[];
@@ -484,6 +482,7 @@ export interface DtoChatThreadTotals {
 export interface DtoChatTurnDTO {
     answer_blocks?: DtoChatAnswerBlock[];
     final_answer?: string;
+    status?: "running" | "done" | "failed";
     totals?: DtoChatTurnTotals;
     turn_index?: number;
     user_question?: string;

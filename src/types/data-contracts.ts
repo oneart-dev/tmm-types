@@ -826,15 +826,14 @@ export interface DtoChatSendMessageRequest {
 }
 
 export interface DtoChatSendMessageResponse {
-  answer_blocks?: DtoChatAnswerBlock[];
-  /** @example "Your last 10 trades show ..." */
-  final_answer?: string;
   /** @example "success" */
   status?: "success";
-  thread_totals?: DtoChatThreadTotals;
-  totals?: DtoChatTurnTotals;
+  /** @example "th_abc123" */
+  thread_uid?: string;
   /** @example 3 */
   turn_index?: number;
+  /** @example "running" */
+  turn_status?: string;
 }
 
 export interface DtoChatThreadHeaderResponse {
@@ -873,6 +872,8 @@ export interface DtoChatThreadTotals {
 export interface DtoChatTurnDTO {
   answer_blocks?: DtoChatAnswerBlock[];
   final_answer?: string;
+  /** @example "done" */
+  status?: "running" | "done" | "failed";
   totals?: DtoChatTurnTotals;
   /** @example 0 */
   turn_index?: number;
