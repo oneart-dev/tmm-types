@@ -394,6 +394,7 @@ export interface DtoCategoryListForm {
 export interface DtoChatAnswerBlock {
     alias?: string;
     data?: object;
+    filters?: object;
     kind?: "text" | "widget" | "trade";
     source?: string;
     text?: string;

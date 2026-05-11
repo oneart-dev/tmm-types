@@ -723,11 +723,21 @@ export interface DtoCategoryListForm {
 export interface DtoChatAnswerBlock {
   alias?: string;
   data?: object;
+  /**
+   * Filters is the raw filter object the model passed to compute_widget
+   * for this card. Frontend uses it to render the applied scope (date
+   * range, symbols, side, ...) above the chart so paired cards with the
+   * same alias are visually distinguishable. Omitted when no filters
+   * were applied. Always omitted for non-widget blocks.
+   */
+  filters?: object;
   /** @example "text" */
   kind?: "text" | "widget" | "trade";
+  /** Widget fields — present only when kind=="widget". */
   source?: string;
   text?: string;
   title?: string;
+  /** Trade fields — present only when kind=="trade". */
   trade_id?: number;
   type?: string;
 }

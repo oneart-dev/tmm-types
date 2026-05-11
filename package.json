@@ -9,7 +9,7 @@
     "generate": "swagger-typescript-api --clean-output --modular -p ./src/swagger.json -o ./src/types",
     "export": "node build.js",
     "tsc": "tsc",
-    "build": "yarn run generate && yarn run export && yarn run tsc"
+    "build": "yarn run generate && yarn run export && yarn run tsc && git add . && git commit -m \"chore: update generated types\" && git push"
   },
   "repository": "git@github.com:oneart-dev/tmm-types.git",
   "author": "Nick S <oart4k@gmail.com>",
