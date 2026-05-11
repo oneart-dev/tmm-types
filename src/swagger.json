@@ -28702,6 +28702,11 @@
                 "id": {
                     "type": "integer"
                 },
+                "key": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "example": "risk_setup"
+                },
                 "name": {
                     "type": "string",
                     "maxLength": 255,

@@ -655,6 +655,7 @@ export interface DtoSymbolChartForm {
 }
 export interface DtoTagCategoryForm {
     id?: number;
+    key?: string;
     name: string;
     order?: number;
     scope?: 1 | 2;

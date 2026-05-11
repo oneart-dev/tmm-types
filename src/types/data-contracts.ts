@@ -1338,6 +1338,11 @@ export interface DtoSymbolChartForm {
 export interface DtoTagCategoryForm {
   id?: number;
   /**
+   * @maxLength 64
+   * @example "risk_setup"
+   */
+  key?: string;
+  /**
    * @minLength 1
    * @maxLength 255
    * @example "Risk setup"
