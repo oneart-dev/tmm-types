@@ -3650,6 +3650,7 @@ export interface ServicesUserWithRelations {
   /** Deprecated: prefer filter_catalog.catalogs.apiKeys. */
   api_keys_list?: ServicesApiKey[];
   avatar?: ServicesFile;
+  beta_features?: string[];
   /** Deprecated: prefer filter_catalog.catalogs.categories. */
   categories?: ServicesCategory[];
   created_at?: string;

@@ -2302,6 +2302,7 @@ export declare enum ServicesUserStartOfWeek {
 export interface ServicesUserWithRelations {
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
+    beta_features?: string[];
     categories?: ServicesCategory[];
     created_at?: string;
     cvizor?: ServicesCVizorStatus;
