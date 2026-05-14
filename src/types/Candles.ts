@@ -14,7 +14,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Candles<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Retrieves historical candlestick data for a given exchange, symbol, and time interval. Either a timeframe 'tf' or an 'interval' must be provided.
+   * @description Retrieves historical candlestick data for a given exchange, symbol, and time interval. Either a timeframe 'tf' or an 'interval' must be provided. Each row is `[openTime, open, high, low, close, volume, turnover]` where turnover is the quote-asset volume.
    *
    * @tags candles
    * @name ListList

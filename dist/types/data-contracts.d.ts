@@ -1,3 +1,41 @@
+export interface ChatChatMessage {
+    content?: string;
+    name?: string;
+    role?: ChatChatRole;
+    tool_call_id?: string;
+    tool_calls?: ChatToolCall[];
+}
+export declare enum ChatChatRole {
+    RoleSystem = "system",
+    RoleUser = "user",
+    RoleAssistant = "assistant",
+    RoleTool = "tool"
+}
+export interface ChatExportPayload {
+    owner_user_id?: number;
+    rounds?: ChatExportedRound[];
+    thread_id?: number;
+    thread_uid?: string;
+}
+export interface ChatExportedRound {
+    messages?: ChatChatMessage[];
+    model?: string;
+    reasoning_effort?: string;
+    round_index?: number;
+    temperature?: number;
+    tools?: ChatToolSpec[];
+    turn_index?: number;
+}
+export interface ChatToolCall {
+    arguments?: string;
+    id?: string;
+    name?: string;
+}
+export interface ChatToolSpec {
+    description?: string;
+    name?: string;
+    parameters?: string;
+}
 export interface ControllersAnalyzerNotesResponse {
     data?: Record<string, ServicesAnalyzerNote[]>;
     status?: ControllersResponseStatusMessage;
@@ -1649,11 +1687,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

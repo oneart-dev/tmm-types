@@ -1,3 +1,4 @@
+export * from './types/Admin';
 export * from './types/Analyzer';
 export * from './types/ApiKey';
 export * from './types/ApiUser';

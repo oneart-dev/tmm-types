@@ -1,0 +1,1 @@
+{"version":3,"file":"Admin.d.ts","sourceRoot":"","sources":["../../src/types/Admin.ts"],"names":[],"mappings":"AAWA,OAAO,EAAE,iBAAiB,EAAE,+BAA+B,EAAE,oBAAoB,EAAE,MAAM,kBAAkB,CAAC;AAC5G,OAAO,EAAE,UAAU,EAAE,aAAa,EAAE,MAAM,eAAe,CAAC;AAE1D,qBAAa,KAAK,CAAC,gBAAgB,GAAG,OAAO,CAAE,SAAQ,UAAU,CAAC,gBAAgB,CAAC;IAUjF,uBAAuB,QAAS,MAAM,WAAU,aAAa,8HAOxD;CACN"}

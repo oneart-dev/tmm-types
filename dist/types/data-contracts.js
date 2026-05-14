@@ -1,3 +1,10 @@
+export var ChatChatRole;
+(function (ChatChatRole) {
+    ChatChatRole["RoleSystem"] = "system";
+    ChatChatRole["RoleUser"] = "user";
+    ChatChatRole["RoleAssistant"] = "assistant";
+    ChatChatRole["RoleTool"] = "tool";
+})(ChatChatRole || (ChatChatRole = {}));
 export var ControllersResponseStatusMessage;
 (function (ControllersResponseStatusMessage) {
     ControllersResponseStatusMessage["ResponseStatusSuccess"] = "success";
@@ -240,11 +247,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
