@@ -105,6 +105,8 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_MEXC_SPOT"] = 51] = "EXCHANGE_MEXC_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_MEXC_FUTURES"] = 52] = "EXCHANGE_MEXC_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_ASTER_FUTURES"] = 53] = "EXCHANGE_ASTER_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_SPOT"] = 54] = "EXCHANGE_KUCOIN_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_FUTURES"] = 55] = "EXCHANGE_KUCOIN_FUTURES";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {
@@ -247,11 +249,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
