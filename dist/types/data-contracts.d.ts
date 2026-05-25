@@ -211,10 +211,6 @@ export interface ControllersHotCoinsResponse {
     data?: ControllersHotCoins;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersLatestNotificationsResponse {
-    data?: ServicesNotificationPublic[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersLoadBoardResponse {
     dashboard?: ServicesDashboard;
     errors?: Record<string, string>;
@@ -559,6 +555,51 @@ export interface DtoDashboardUpdateForm {
 }
 export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
+}
+export interface DtoFeedNotificationCommentCreateForm {
+    reply_to_user_id?: number;
+    text?: string;
+}
+export interface DtoFeedNotificationCommentUpdateForm {
+    text?: string;
+}
+export interface DtoFeedNotificationCreateForm {
+    audience_memberships?: string[];
+    expires_at?: number;
+    link_url?: string;
+    poll_enabled?: boolean;
+    poll_lock_at?: number;
+    poll_multi_select?: boolean;
+    poll_options?: DtoFeedNotificationPollOptionForm[];
+    translations: Record<string, DtoFeedNotificationTranslationForm>;
+    type: "global" | "personal";
+    user_id?: number;
+}
+export interface DtoFeedNotificationPollOptionForm {
+    is_other?: boolean;
+    position?: number;
+    translations: Record<string, string>;
+}
+export interface DtoFeedNotificationTranslationForm {
+    link_title?: string;
+    text: string;
+    title: string;
+}
+export interface DtoFeedNotificationUpdateForm {
+    audience_memberships?: string[];
+    expires_at?: number;
+    link_url?: string;
+    poll_enabled?: boolean;
+    poll_lock_at?: number;
+    poll_multi_select?: boolean;
+    poll_options?: DtoFeedNotificationPollOptionForm[];
+    translations: Record<string, DtoFeedNotificationTranslationForm>;
+    type: "global" | "personal";
+    user_id?: number;
+}
+export interface DtoFeedNotificationVoteForm {
+    option_ids: number[];
+    other_text?: string;
 }
 export interface DtoFilterPresetCreateForm {
     name: string;
@@ -1176,6 +1217,46 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_SPOT = 54,
     EXCHANGE_KUCOIN_FUTURES = 55
 }
+export interface ServicesFeedNotificationFeedComment {
+    attachments?: string[];
+    author_avatar?: string;
+    author_id?: number;
+    author_is_admin?: boolean;
+    author_name?: string;
+    created_at?: string;
+    id?: number;
+    text?: string;
+    updated_at?: string;
+}
+export interface ServicesFeedNotificationFeedItem {
+    comments?: ServicesFeedNotificationFeedComment[];
+    created_at?: string;
+    event_kind?: string;
+    expires_at?: string;
+    id?: number;
+    image_url?: string;
+    link_title?: string;
+    link_url?: string;
+    my_liked?: boolean;
+    my_vote?: number[];
+    poll?: ServicesFeedNotificationFeedPoll;
+    published_at?: string;
+    seen?: boolean;
+    text?: string;
+    title?: string;
+    type?: string;
+}
+export interface ServicesFeedNotificationFeedPoll {
+    lock_at?: string;
+    multi_select?: boolean;
+    options?: ServicesFeedNotificationFeedPollOption[];
+}
+export interface ServicesFeedNotificationFeedPollOption {
+    id?: number;
+    is_other?: boolean;
+    label?: string;
+    position?: number;
+}
 export interface ServicesFile {
     file_path?: string;
     id?: number;
@@ -1190,7 +1271,9 @@ export declare enum ServicesFileOwnerType {
     FileOwnerTypeTeamBG = "TeamBG",
     FileOwnerTypeUser = "User",
     FileOwnerTypePublicProfile = "PublicProfile",
-    FileOwnerTypeUserNote = "UserNote"
+    FileOwnerTypeUserNote = "UserNote",
+    FileOwnerTypeNotification = "Notification",
+    FileOwnerTypeNotificationComment = "NotificationComment"
 }
 export interface ServicesFilterCatalogContext {
     accessMode?: string;
@@ -1313,24 +1396,6 @@ export declare enum ServicesNoteType {
     NoteTypeMonth = 4,
     NoteTypeWeek = 3,
     NoteTypeDay = 2
-}
-export declare enum ServicesNotificationInteract {
-    NotificationInteractNo = 0,
-    NotificationInteractYes = 1
-}
-export interface ServicesNotificationPublic {
-    id?: number;
-    interact?: ServicesNotificationInteract;
-    link?: string;
-    link_title?: string;
-    seen?: ServicesNotificationSeen;
-    text?: string;
-    timestamp?: number;
-    title?: string;
-}
-export declare enum ServicesNotificationSeen {
-    NotificationSeenNo = 0,
-    NotificationSeenYes = 1
 }
 export interface ServicesNotificationTemplate {
     created_at?: string;
@@ -1689,11 +1754,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

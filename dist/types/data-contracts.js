@@ -118,6 +118,8 @@ export var ServicesFileOwnerType;
     ServicesFileOwnerType["FileOwnerTypeUser"] = "User";
     ServicesFileOwnerType["FileOwnerTypePublicProfile"] = "PublicProfile";
     ServicesFileOwnerType["FileOwnerTypeUserNote"] = "UserNote";
+    ServicesFileOwnerType["FileOwnerTypeNotification"] = "Notification";
+    ServicesFileOwnerType["FileOwnerTypeNotificationComment"] = "NotificationComment";
 })(ServicesFileOwnerType || (ServicesFileOwnerType = {}));
 export var ServicesLoadLevel;
 (function (ServicesLoadLevel) {
@@ -149,16 +151,6 @@ export var ServicesNoteType;
     ServicesNoteType[ServicesNoteType["NoteTypeWeek"] = 3] = "NoteTypeWeek";
     ServicesNoteType[ServicesNoteType["NoteTypeDay"] = 2] = "NoteTypeDay";
 })(ServicesNoteType || (ServicesNoteType = {}));
-export var ServicesNotificationInteract;
-(function (ServicesNotificationInteract) {
-    ServicesNotificationInteract[ServicesNotificationInteract["NotificationInteractNo"] = 0] = "NotificationInteractNo";
-    ServicesNotificationInteract[ServicesNotificationInteract["NotificationInteractYes"] = 1] = "NotificationInteractYes";
-})(ServicesNotificationInteract || (ServicesNotificationInteract = {}));
-export var ServicesNotificationSeen;
-(function (ServicesNotificationSeen) {
-    ServicesNotificationSeen[ServicesNotificationSeen["NotificationSeenNo"] = 0] = "NotificationSeenNo";
-    ServicesNotificationSeen[ServicesNotificationSeen["NotificationSeenYes"] = 1] = "NotificationSeenYes";
-})(ServicesNotificationSeen || (ServicesNotificationSeen = {}));
 export var ServicesNotificationTemplateHideTMM;
 (function (ServicesNotificationTemplateHideTMM) {
     ServicesNotificationTemplateHideTMM[ServicesNotificationTemplateHideTMM["NotificationTemplateHideTMMDefault"] = 0] = "NotificationTemplateHideTMMDefault";
@@ -249,11 +241,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {

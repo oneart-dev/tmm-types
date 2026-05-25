@@ -9,8 +9,15 @@
  * ---------------------------------------------------------------
  */
 
-import { ChatExportPayload, ControllersUnauthorizedResponse, DtoChatErrorResponse } from "./data-contracts";
-import { HttpClient, RequestParams } from "./http-client";
+import {
+  ChatExportPayload,
+  ControllersApiSuccessResponse,
+  ControllersUnauthorizedResponse,
+  DtoChatErrorResponse,
+  DtoFeedNotificationCreateForm,
+  DtoFeedNotificationUpdateForm,
+} from "./data-contracts";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
@@ -28,6 +35,183 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       method: "GET",
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_notification_threads
+   * @name NotificationThreadsList
+   * @summary Notification thread inbox
+   * @request GET:/admin/notification_threads
+   */
+  notificationThreadsList = (
+    query?: {
+      notification_id?: number;
+      /** @min 1 */
+      page?: number;
+      /**
+       * @min 1
+       * @max 100
+       */
+      per_page?: number;
+      sort?: "last_activity_desc" | "unanswered_first" | "oldest_unanswered_first";
+      status?: "open" | "answered" | "all";
+      type?: "global" | "personal";
+      user_id?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<any, any>({
+      path: `/admin/notification_threads`,
+      method: "GET",
+      query: query,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_notification_threads
+   * @name NotificationThreadsDetail
+   * @summary Single thread
+   * @request GET:/admin/notification_threads/{notification_id}/{user_id}
+   */
+  notificationThreadsDetail = (notificationId: string, userId: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notification_threads/${notificationId}/${userId}`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_notification_threads
+   * @name NotificationThreadsReplyCreate
+   * @summary Admin reply alias
+   * @request POST:/admin/notification_threads/{notification_id}/{user_id}/reply
+   */
+  notificationThreadsReplyCreate = (notificationId: string, userId: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notification_threads/${notificationId}/${userId}/reply`,
+      method: "POST",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsList
+   * @summary List notifications (admin)
+   * @request GET:/admin/notifications
+   */
+  notificationsList = (params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsCreate
+   * @summary Create draft notification
+   * @request POST:/admin/notifications
+   * @secure
+   */
+  notificationsCreate = (payload: DtoFeedNotificationCreateForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, any>({
+      path: `/admin/notifications`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsDetail
+   * @summary Notification detail (admin)
+   * @request GET:/admin/notifications/{id}
+   */
+  notificationsDetail = (id: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsUpdate
+   * @summary Edit notification
+   * @request PUT:/admin/notifications/{id}
+   */
+  notificationsUpdate = (id: number, payload: DtoFeedNotificationUpdateForm, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}`,
+      method: "PUT",
+      body: payload,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsDelete
+   * @summary Delete notification
+   * @request DELETE:/admin/notifications/{id}
+   */
+  notificationsDelete = (id: number, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}`,
+      method: "DELETE",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsAnalyticsDetail
+   * @summary Notification analytics (admin)
+   * @request GET:/admin/notifications/{id}/analytics
+   */
+  notificationsAnalyticsDetail = (id: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}/analytics`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsPublishCreate
+   * @summary Publish notification
+   * @request POST:/admin/notifications/{id}/publish
+   */
+  notificationsPublishCreate = (id: number, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}/publish`,
+      method: "POST",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsVotesDetail
+   * @summary Raw vote list (admin)
+   * @request GET:/admin/notifications/{id}/votes
+   */
+  notificationsVotesDetail = (id: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/admin/notifications/${id}/votes`,
+      method: "GET",
       ...params,
     });
 }
