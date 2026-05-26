@@ -60,7 +60,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
   /**
    * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
    *
-   * @tags feed_notifications
+   * @tags feed_notifications internal
    * @name SseEventsList
    * @summary SSE event catalog (documentation only)
    * @request GET:/notifications/sse-events
