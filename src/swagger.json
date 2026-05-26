@@ -31654,26 +31654,6 @@
                 }
             }
         },
-        "services.FeedNotificationActor": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "language": {
-                    "type": "string"
-                },
-                "membership": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "services.FeedNotificationAdminDetail": {
             "type": "object",
             "properties": {
@@ -31707,7 +31687,7 @@
                     "type": "string"
                 },
                 "author": {
-                    "$ref": "#/definitions/services.FeedNotificationActor"
+                    "$ref": "#/definitions/services.SafeUser"
                 },
                 "created_at": {
                     "type": "string"
@@ -31794,17 +31774,14 @@
                 "attachments": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/services.File"
                     }
                 },
-                "author_avatar": {
-                    "type": "string"
+                "author": {
+                    "$ref": "#/definitions/services.SafeUser"
                 },
                 "author_is_admin": {
                     "type": "boolean"
-                },
-                "author_name": {
-                    "type": "string"
                 },
                 "author_user_id": {
                     "type": "integer"
@@ -31838,20 +31815,17 @@
                 "attachments": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/services.File"
                     }
                 },
-                "author_avatar": {
-                    "type": "string"
+                "author": {
+                    "$ref": "#/definitions/services.SafeUser"
                 },
                 "author_id": {
                     "type": "integer"
                 },
                 "author_is_admin": {
                     "type": "boolean"
-                },
-                "author_name": {
-                    "type": "string"
                 },
                 "created_at": {
                     "type": "string"
@@ -32001,7 +31975,7 @@
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/services.FeedNotificationActor"
+                    "$ref": "#/definitions/services.SafeUser"
                 },
                 "user_id": {
                     "type": "integer"
@@ -32075,7 +32049,7 @@
                     "type": "boolean"
                 },
                 "user": {
-                    "$ref": "#/definitions/services.FeedNotificationActor"
+                    "$ref": "#/definitions/services.SafeUser"
                 }
             }
         },
@@ -33667,18 +33641,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

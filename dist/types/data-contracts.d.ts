@@ -1296,13 +1296,6 @@ export interface ServicesFeedNotification {
     updated_at?: string;
     user_id?: number;
 }
-export interface ServicesFeedNotificationActor {
-    avatar?: string;
-    id?: number;
-    language?: string;
-    membership?: string;
-    name?: string;
-}
 export interface ServicesFeedNotificationAdminDetail {
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
@@ -1311,7 +1304,7 @@ export interface ServicesFeedNotificationAdminDetail {
 }
 export interface ServicesFeedNotificationAdminListItem {
     audience_memberships?: string;
-    author?: ServicesFeedNotificationActor;
+    author?: ServicesSafeUser;
     created_at?: string;
     created_by_user_id?: number;
     event_kind?: string;
@@ -1338,10 +1331,9 @@ export interface ServicesFeedNotificationAnalyticsCounts {
     votes_count?: number;
 }
 export interface ServicesFeedNotificationComment {
-    attachments?: string[];
-    author_avatar?: string;
+    attachments?: ServicesFile[];
+    author?: ServicesSafeUser;
     author_is_admin?: boolean;
-    author_name?: string;
     author_user_id?: number;
     created_at?: string;
     id?: number;
@@ -1352,11 +1344,10 @@ export interface ServicesFeedNotificationComment {
     visible_at?: string;
 }
 export interface ServicesFeedNotificationFeedComment {
-    attachments?: string[];
-    author_avatar?: string;
+    attachments?: ServicesFile[];
+    author?: ServicesSafeUser;
     author_id?: number;
     author_is_admin?: boolean;
-    author_name?: string;
     created_at?: string;
     id?: number;
     text?: string;
@@ -1405,7 +1396,7 @@ export interface ServicesFeedNotificationPollOptionTranslation {
 export interface ServicesFeedNotificationRawVote {
     option_id?: number;
     other_text?: string;
-    user?: ServicesFeedNotificationActor;
+    user?: ServicesSafeUser;
     user_id?: number;
     voted_at?: number;
 }
@@ -1431,7 +1422,7 @@ export interface ServicesFeedNotificationThreadSummary {
     notification_id?: number;
     scope_user_id?: number;
     unanswered?: boolean;
-    user?: ServicesFeedNotificationActor;
+    user?: ServicesSafeUser;
 }
 export interface ServicesFeedNotificationTranslation {
     lang?: string;
@@ -1945,11 +1936,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
