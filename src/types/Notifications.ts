@@ -15,6 +15,7 @@ import {
   ControllersApiSuccessControllersFeedNotificationLikeData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationComment,
+  ControllersApiSuccessServicesSSEFeedNotificationEventCatalog,
   ControllersApiWarningResponse,
   ControllersUnauthorizedResponse,
   DtoFeedNotificationCommentCreateForm,
@@ -53,6 +54,21 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
       method: "GET",
       query: query,
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
+   *
+   * @tags feed_notifications
+   * @name SseEventsList
+   * @summary SSE event catalog (documentation only)
+   * @request GET:/notifications/sse-events
+   */
+  sseEventsList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessServicesSSEFeedNotificationEventCatalog, any>({
+      path: `/notifications/sse-events`,
+      method: "GET",
       format: "json",
       ...params,
     });

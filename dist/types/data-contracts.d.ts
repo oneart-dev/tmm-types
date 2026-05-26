@@ -158,6 +158,10 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
     data?: ServicesPromoCodePreview;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
+    data?: ServicesSSEFeedNotificationEventCatalog;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTag {
     data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
@@ -1347,6 +1351,14 @@ export interface ServicesFeedNotificationComment {
     updated_at?: string;
     visible_at?: string;
 }
+export interface ServicesFeedNotificationCommentSSEPayload {
+    comment?: ServicesFeedNotificationComment;
+    last_message_at?: number;
+    last_message_from?: string;
+    notification_id?: number;
+    scope_user_id?: number;
+    unanswered?: boolean;
+}
 export interface ServicesFeedNotificationFeedComment {
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
@@ -1404,6 +1416,9 @@ export interface ServicesFeedNotificationRawVote {
     user?: ServicesSafeUser;
     user_id?: number;
     voted_at?: number;
+}
+export interface ServicesFeedNotificationRemovedSSEPayload {
+    id?: number;
 }
 export declare enum ServicesFeedNotificationStatus {
     FeedNotificationStatusDraft = "draft",
@@ -1859,6 +1874,13 @@ export interface ServicesRiskManagementPagination {
     sort_fields?: string[];
     total?: number;
 }
+export interface ServicesSSEFeedNotificationEventCatalog {
+    "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "feed-notification-created"?: ServicesFeedNotificationFeedItem;
+    "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
+    "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
+}
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
     id?: number;
@@ -1941,11 +1963,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -14018,6 +14018,26 @@
                 }
             }
         },
+        "/notifications/sse-events": {
+            "get": {
+                "description": "Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "feed_notifications"
+                ],
+                "summary": "SSE event catalog (documentation only)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_SSEFeedNotificationEventCatalog"
+                        }
+                    }
+                }
+            }
+        },
         "/notifications/{id}/comments": {
             "post": {
                 "security": [
@@ -26816,6 +26836,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_SSEFeedNotificationEventCatalog": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.SSEFeedNotificationEventCatalog"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_Tag": {
             "type": "object",
             "properties": {
@@ -31829,6 +31865,30 @@
                 }
             }
         },
+        "services.FeedNotificationCommentSSEPayload": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "$ref": "#/definitions/services.FeedNotificationComment"
+                },
+                "last_message_at": {
+                    "type": "integer"
+                },
+                "last_message_from": {
+                    "description": "\"user\" | \"admin\"",
+                    "type": "string"
+                },
+                "notification_id": {
+                    "type": "integer"
+                },
+                "scope_user_id": {
+                    "type": "integer"
+                },
+                "unanswered": {
+                    "type": "boolean"
+                }
+            }
+        },
         "services.FeedNotificationFeedComment": {
             "type": "object",
             "properties": {
@@ -32023,6 +32083,14 @@
                     "type": "integer"
                 },
                 "voted_at": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.FeedNotificationRemovedSSEPayload": {
+            "type": "object",
+            "properties": {
+                "id": {
                     "type": "integer"
                 }
             }
@@ -33437,6 +33505,26 @@
                 }
             }
         },
+        "services.SSEFeedNotificationEventCatalog": {
+            "type": "object",
+            "properties": {
+                "admin-feed-notification-comment-added": {
+                    "$ref": "#/definitions/services.FeedNotificationCommentSSEPayload"
+                },
+                "feed-notification-comment-added": {
+                    "$ref": "#/definitions/services.FeedNotificationCommentSSEPayload"
+                },
+                "feed-notification-created": {
+                    "$ref": "#/definitions/services.FeedNotificationFeedItem"
+                },
+                "feed-notification-removed": {
+                    "$ref": "#/definitions/services.FeedNotificationRemovedSSEPayload"
+                },
+                "feed-notification-updated": {
+                    "$ref": "#/definitions/services.FeedNotificationFeedItem"
+                }
+            }
+        },
         "services.SafeUser": {
             "type": "object",
             "properties": {
@@ -33683,18 +33771,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

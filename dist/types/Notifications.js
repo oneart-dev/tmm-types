@@ -10,6 +10,12 @@ export class Notifications extends HttpClient {
             format: "json",
             ...params,
         });
+        this.sseEventsList = (params = {}) => this.request({
+            path: `/notifications/sse-events`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         this.commentsCreate = (id, payload, params = {}) => this.request({
             path: `/notifications/${id}/comments`,
             method: "POST",

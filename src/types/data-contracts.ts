@@ -236,6 +236,12 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
+  data?: ServicesSSEFeedNotificationEventCatalog;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTag {
   data?: ServicesTag;
   /** @example "success" */
@@ -2556,6 +2562,16 @@ export interface ServicesFeedNotificationComment {
   visible_at?: string;
 }
 
+export interface ServicesFeedNotificationCommentSSEPayload {
+  comment?: ServicesFeedNotificationComment;
+  last_message_at?: number;
+  /** "user" | "admin" */
+  last_message_from?: string;
+  notification_id?: number;
+  scope_user_id?: number;
+  unanswered?: boolean;
+}
+
 export interface ServicesFeedNotificationFeedComment {
   attachments?: ServicesFile[];
   author?: ServicesSafeUser;
@@ -2628,6 +2644,10 @@ export interface ServicesFeedNotificationRawVote {
   user?: ServicesSafeUser;
   user_id?: number;
   voted_at?: number;
+}
+
+export interface ServicesFeedNotificationRemovedSSEPayload {
+  id?: number;
 }
 
 export enum ServicesFeedNotificationStatus {
@@ -3197,6 +3217,14 @@ export interface ServicesRiskManagementPagination {
   total?: number;
 }
 
+export interface ServicesSSEFeedNotificationEventCatalog {
+  "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "feed-notification-created"?: ServicesFeedNotificationFeedItem;
+  "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
+  "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
+}
+
 export interface ServicesSafeUser {
   avatar?: ServicesFile;
   id?: number;
@@ -3305,11 +3333,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
