@@ -649,6 +649,7 @@ export interface DtoFeedNotificationPollOptionForm {
     translations: Record<string, string>;
 }
 export interface DtoFeedNotificationTranslationForm {
+    image_file_id?: number;
     link_title?: string;
     text: string;
     title: string;
@@ -1303,7 +1304,7 @@ export interface ServicesFeedNotification {
     user_id?: number;
 }
 export interface ServicesFeedNotificationAdminDetail {
-    image?: ServicesFile;
+    images?: ServicesFile[];
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
     poll_options?: ServicesFeedNotificationPollOption[];
@@ -1376,7 +1377,6 @@ export interface ServicesFeedNotificationFeedItem {
     event_kind?: string;
     expires_at?: string;
     id?: number;
-    image?: ServicesFile;
     link_url?: string;
     my_liked?: boolean;
     my_vote?: number[];
@@ -1445,6 +1445,8 @@ export interface ServicesFeedNotificationThreadSummary {
     user?: ServicesSafeUser;
 }
 export interface ServicesFeedNotificationTranslation {
+    image?: ServicesFile;
+    image_file_id?: number;
     lang?: string;
     link_title?: string;
     notification_id?: number;

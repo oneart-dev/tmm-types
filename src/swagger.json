@@ -28931,6 +28931,10 @@
                 "title"
             ],
             "properties": {
+                "image_file_id": {
+                    "description": "must reference a file uploaded under this notification",
+                    "type": "integer"
+                },
                 "link_title": {
                     "type": "string",
                     "maxLength": 255
@@ -31704,8 +31708,11 @@
         "services.FeedNotificationAdminDetail": {
             "type": "object",
             "properties": {
-                "image": {
-                    "$ref": "#/definitions/services.File"
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.File"
+                    }
                 },
                 "notification": {
                     "$ref": "#/definitions/services.FeedNotification"
@@ -31951,11 +31958,8 @@
                     "description": "Identity \u0026 lifecycle.",
                     "type": "integer"
                 },
-                "image": {
-                    "$ref": "#/definitions/services.File"
-                },
                 "link_url": {
-                    "description": "Static visual. Image is the joined files row (same *File shape used by\nSafeUser.Avatar and comment attachments) — exposes both the public URL\nand the file id so an authoring UI can wire delete via /files/File/:id.",
+                    "description": "Link applies to every language; the per-language image lives in\ntranslations[i].image, since admin can attach a different visual per\nlocale (text-on-image localization etc).",
                     "type": "string"
                 },
                 "my_liked": {
@@ -32167,6 +32171,12 @@
         "services.FeedNotificationTranslation": {
             "type": "object",
             "properties": {
+                "image": {
+                    "$ref": "#/definitions/services.File"
+                },
+                "image_file_id": {
+                    "type": "integer"
+                },
                 "lang": {
                     "type": "string"
                 },

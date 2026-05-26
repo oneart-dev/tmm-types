@@ -1133,6 +1133,8 @@ export interface DtoFeedNotificationPollOptionForm {
 }
 
 export interface DtoFeedNotificationTranslationForm {
+  /** must reference a file uploaded under this notification */
+  image_file_id?: number;
   /** @maxLength 255 */
   link_title?: string;
   text: string;
@@ -2504,7 +2506,7 @@ export interface ServicesFeedNotification {
 }
 
 export interface ServicesFeedNotificationAdminDetail {
-  image?: ServicesFile;
+  images?: ServicesFile[];
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
   poll_options?: ServicesFeedNotificationPollOption[];
@@ -2595,11 +2597,10 @@ export interface ServicesFeedNotificationFeedItem {
   expires_at?: string;
   /** Identity & lifecycle. */
   id?: number;
-  image?: ServicesFile;
   /**
-   * Static visual. Image is the joined files row (same *File shape used by
-   * SafeUser.Avatar and comment attachments) — exposes both the public URL
-   * and the file id so an authoring UI can wire delete via /files/File/:id.
+   * Link applies to every language; the per-language image lives in
+   * translations[i].image, since admin can attach a different visual per
+   * locale (text-on-image localization etc).
    */
   link_url?: string;
   my_liked?: boolean;
@@ -2683,6 +2684,8 @@ export interface ServicesFeedNotificationThreadSummary {
 }
 
 export interface ServicesFeedNotificationTranslation {
+  image?: ServicesFile;
+  image_file_id?: number;
   lang?: string;
   link_title?: string;
   notification_id?: number;
