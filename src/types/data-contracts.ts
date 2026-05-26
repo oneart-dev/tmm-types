@@ -368,6 +368,8 @@ export interface ControllersFeedNotificationThreadDetail {
   comments?: ServicesFeedNotificationComment[];
   notification?: ServicesFeedNotification;
   translations?: ServicesFeedNotificationTranslation[];
+  user?: ServicesSafeUser;
+  user_in_audience?: boolean;
 }
 
 export interface ControllersFeedNotificationThreadDetailResponse {
@@ -2472,7 +2474,13 @@ export enum ServicesExchangeID {
 }
 
 export interface ServicesFeedNotification {
-  audience_memberships?: string;
+  /**
+   * AudienceMemberships is the list of tiers this notification targets.
+   * Empty / nil means "all tiers" (global notifications) or "n/a" (personal).
+   * Stored in the DB as a CSV string but exposed as []string on the wire so
+   * admin form / list / detail can iterate without splitting.
+   */
+  audience_memberships?: string[];
   created_at?: string;
   created_by_user_id?: number;
   event_kind?: string;
@@ -2490,14 +2498,22 @@ export interface ServicesFeedNotification {
 }
 
 export interface ServicesFeedNotificationAdminDetail {
+  image_url?: string;
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
   poll_options?: ServicesFeedNotificationPollOption[];
   translations?: ServicesFeedNotificationTranslation[];
+  votes_count?: number;
 }
 
 export interface ServicesFeedNotificationAdminListItem {
-  audience_memberships?: string;
+  /**
+   * AudienceMemberships is the list of tiers this notification targets.
+   * Empty / nil means "all tiers" (global notifications) or "n/a" (personal).
+   * Stored in the DB as a CSV string but exposed as []string on the wire so
+   * admin form / list / detail can iterate without splitting.
+   */
+  audience_memberships?: string[];
   author?: ServicesSafeUser;
   created_at?: string;
   created_by_user_id?: number;
@@ -3279,11 +3295,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

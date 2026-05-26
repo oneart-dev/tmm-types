@@ -27174,6 +27174,12 @@
                     "items": {
                         "$ref": "#/definitions/services.FeedNotificationTranslation"
                     }
+                },
+                "user": {
+                    "$ref": "#/definitions/services.SafeUser"
+                },
+                "user_in_audience": {
+                    "type": "boolean"
                 }
             }
         },
@@ -31608,7 +31614,11 @@
             "type": "object",
             "properties": {
                 "audience_memberships": {
-                    "type": "string"
+                    "description": "AudienceMemberships is the list of tiers this notification targets.\nEmpty / nil means \"all tiers\" (global notifications) or \"n/a\" (personal).\nStored in the DB as a CSV string but exposed as []string on the wire so\nadmin form / list / detail can iterate without splitting.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "created_at": {
                     "type": "string"
@@ -31657,6 +31667,9 @@
         "services.FeedNotificationAdminDetail": {
             "type": "object",
             "properties": {
+                "image_url": {
+                    "type": "string"
+                },
                 "notification": {
                     "$ref": "#/definitions/services.FeedNotification"
                 },
@@ -31677,6 +31690,9 @@
                     "items": {
                         "$ref": "#/definitions/services.FeedNotificationTranslation"
                     }
+                },
+                "votes_count": {
+                    "type": "integer"
                 }
             }
         },
@@ -31684,7 +31700,11 @@
             "type": "object",
             "properties": {
                 "audience_memberships": {
-                    "type": "string"
+                    "description": "AudienceMemberships is the list of tiers this notification targets.\nEmpty / nil means \"all tiers\" (global notifications) or \"n/a\" (personal).\nStored in the DB as a CSV string but exposed as []string on the wire so\nadmin form / list / detail can iterate without splitting.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "author": {
                     "$ref": "#/definitions/services.SafeUser"
@@ -33641,18 +33661,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

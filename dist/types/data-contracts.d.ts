@@ -250,6 +250,8 @@ export interface ControllersFeedNotificationThreadDetail {
     comments?: ServicesFeedNotificationComment[];
     notification?: ServicesFeedNotification;
     translations?: ServicesFeedNotificationTranslation[];
+    user?: ServicesSafeUser;
+    user_in_audience?: boolean;
 }
 export interface ControllersFeedNotificationThreadDetailResponse {
     data?: ControllersFeedNotificationThreadDetail;
@@ -1280,7 +1282,7 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_FUTURES = 55
 }
 export interface ServicesFeedNotification {
-    audience_memberships?: string;
+    audience_memberships?: string[];
     created_at?: string;
     created_by_user_id?: number;
     event_kind?: string;
@@ -1297,13 +1299,15 @@ export interface ServicesFeedNotification {
     user_id?: number;
 }
 export interface ServicesFeedNotificationAdminDetail {
+    image_url?: string;
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
     poll_options?: ServicesFeedNotificationPollOption[];
     translations?: ServicesFeedNotificationTranslation[];
+    votes_count?: number;
 }
 export interface ServicesFeedNotificationAdminListItem {
-    audience_memberships?: string;
+    audience_memberships?: string[];
     author?: ServicesSafeUser;
     created_at?: string;
     created_by_user_id?: number;
@@ -1936,11 +1940,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
