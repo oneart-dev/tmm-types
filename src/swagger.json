@@ -371,46 +371,6 @@
                 }
             }
         },
-        "/admin/notifications/{id}/image": {
-            "post": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "tags": [
-                    "admin_feed_notifications"
-                ],
-                "summary": "Upload notification image",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Notification id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "Image file",
-                        "name": "files",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_File"
-                        }
-                    }
-                }
-            }
-        },
         "/admin/notifications/{id}/publish": {
             "post": {
                 "tags": [
@@ -33812,18 +33772,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

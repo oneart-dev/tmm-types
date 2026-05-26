@@ -14,7 +14,6 @@ import {
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessArrayServicesFeedNotificationThreadSummary,
-  ControllersApiSuccessArrayServicesFile,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessControllersFeedNotificationAdminUpdateData,
   ControllersApiSuccessNoData,
@@ -202,31 +201,6 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, any>({
       path: `/admin/notifications/${id}/analytics`,
       method: "GET",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags admin_feed_notifications
-   * @name NotificationsImageCreate
-   * @summary Upload notification image
-   * @request POST:/admin/notifications/{id}/image
-   * @secure
-   */
-  notificationsImageCreate = (
-    id: number,
-    data: {
-      /** Image file */
-      files: File;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<ControllersApiSuccessArrayServicesFile, any>({
-      path: `/admin/notifications/${id}/image`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.FormData,
       ...params,
     });
   /**

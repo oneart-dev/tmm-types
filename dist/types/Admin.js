@@ -62,14 +62,6 @@ export class Admin extends HttpClient {
             method: "GET",
             ...params,
         });
-        this.notificationsImageCreate = (id, data, params = {}) => this.request({
-            path: `/admin/notifications/${id}/image`,
-            method: "POST",
-            body: data,
-            secure: true,
-            type: ContentType.FormData,
-            ...params,
-        });
         this.notificationsPublishCreate = (id, params = {}) => this.request({
             path: `/admin/notifications/${id}/publish`,
             method: "POST",
