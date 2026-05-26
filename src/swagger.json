@@ -227,7 +227,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotification"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationAdminListItem"
                         }
                     }
                 }
@@ -26402,13 +26402,13 @@
                 }
             }
         },
-        "controllers.ApiSuccess-array_services_FeedNotification": {
+        "controllers.ApiSuccess-array_services_FeedNotificationAdminListItem": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.FeedNotification"
+                        "$ref": "#/definitions/services.FeedNotificationAdminListItem"
                     }
                 },
                 "status": {
@@ -31607,39 +31607,37 @@
         "services.FeedNotification": {
             "type": "object",
             "properties": {
-                "audienceMemberships": {
+                "audience_memberships": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
-                "createdByUserID": {
-                    "type": "integer",
-                    "format": "int64"
+                "created_by_user_id": {
+                    "type": "integer"
                 },
-                "eventKind": {
+                "event_kind": {
                     "type": "string"
                 },
-                "expiresAt": {
+                "expires_at": {
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "integer"
                 },
-                "linkURL": {
+                "link_url": {
                     "type": "string"
                 },
-                "pollEnabled": {
+                "poll_enabled": {
                     "type": "boolean"
                 },
-                "pollLockAt": {
+                "poll_lock_at": {
                     "type": "string"
                 },
-                "pollMultiSelect": {
+                "poll_multi_select": {
                     "type": "boolean"
                 },
-                "publishedAt": {
+                "published_at": {
                     "type": "string"
                 },
                 "status": {
@@ -31648,12 +31646,31 @@
                 "type": {
                     "$ref": "#/definitions/services.FeedNotificationType"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
-                "userID": {
-                    "type": "integer",
-                    "format": "int64"
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.FeedNotificationActor": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "membership": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },
@@ -31680,6 +31697,68 @@
                     "items": {
                         "$ref": "#/definitions/services.FeedNotificationTranslation"
                     }
+                }
+            }
+        },
+        "services.FeedNotificationAdminListItem": {
+            "type": "object",
+            "properties": {
+                "audience_memberships": {
+                    "type": "string"
+                },
+                "author": {
+                    "$ref": "#/definitions/services.FeedNotificationActor"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_user_id": {
+                    "type": "integer"
+                },
+                "event_kind": {
+                    "type": "string"
+                },
+                "expires_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "link_url": {
+                    "type": "string"
+                },
+                "poll_enabled": {
+                    "type": "boolean"
+                },
+                "poll_lock_at": {
+                    "type": "string"
+                },
+                "poll_multi_select": {
+                    "type": "boolean"
+                },
+                "published_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.FeedNotificationStatus"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/services.FeedNotificationType"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -31712,35 +31791,43 @@
         "services.FeedNotificationComment": {
             "type": "object",
             "properties": {
-                "authorIsAdmin": {
+                "attachments": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "author_avatar": {
+                    "type": "string"
+                },
+                "author_is_admin": {
                     "type": "boolean"
                 },
-                "authorUserID": {
-                    "type": "integer",
-                    "format": "int64"
+                "author_name": {
+                    "type": "string"
                 },
-                "createdAt": {
+                "author_user_id": {
+                    "type": "integer"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "integer"
                 },
-                "notificationID": {
-                    "type": "integer",
-                    "format": "int64"
+                "notification_id": {
+                    "type": "integer"
                 },
-                "scopeUserID": {
-                    "type": "integer",
-                    "format": "int64"
+                "scope_user_id": {
+                    "type": "integer"
                 },
                 "text": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
-                "visibleAt": {
+                "visible_at": {
                     "type": "string"
                 }
             }
@@ -31877,19 +31964,16 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer",
-                    "format": "int64"
+                    "type": "integer"
                 },
-                "isOther": {
+                "is_other": {
                     "type": "boolean"
                 },
-                "notificationID": {
-                    "type": "integer",
-                    "format": "int64"
+                "notification_id": {
+                    "type": "integer"
                 },
                 "position": {
-                    "type": "integer",
-                    "format": "int32"
+                    "type": "integer"
                 }
             }
         },
@@ -31902,9 +31986,8 @@
                 "lang": {
                     "type": "string"
                 },
-                "optionID": {
-                    "type": "integer",
-                    "format": "int64"
+                "option_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -31916,6 +31999,9 @@
                 },
                 "other_text": {
                     "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/services.FeedNotificationActor"
                 },
                 "user_id": {
                     "type": "integer"
@@ -31936,29 +32022,60 @@
                 "FeedNotificationStatusPublished"
             ]
         },
+        "services.FeedNotificationThreadLastMessage": {
+            "type": "object",
+            "properties": {
+                "has_attachments": {
+                    "type": "boolean"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.FeedNotificationThreadNotificationRef": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "services.FeedNotificationThreadSummary": {
             "type": "object",
             "properties": {
-                "lastMessageAt": {
+                "last_message": {
+                    "$ref": "#/definitions/services.FeedNotificationThreadLastMessage"
+                },
+                "last_message_at": {
                     "type": "string"
                 },
-                "lastMessageFrom": {
+                "last_message_from": {
                     "type": "string"
                 },
-                "messageCount": {
-                    "type": "integer",
-                    "format": "int64"
+                "message_count": {
+                    "type": "integer"
                 },
-                "notificationID": {
-                    "type": "integer",
-                    "format": "int64"
+                "notification": {
+                    "$ref": "#/definitions/services.FeedNotificationThreadNotificationRef"
                 },
-                "scopeUserID": {
-                    "type": "integer",
-                    "format": "int64"
+                "notification_id": {
+                    "type": "integer"
+                },
+                "scope_user_id": {
+                    "type": "integer"
                 },
                 "unanswered": {
                     "type": "boolean"
+                },
+                "user": {
+                    "$ref": "#/definitions/services.FeedNotificationActor"
                 }
             }
         },
@@ -31968,12 +32085,11 @@
                 "lang": {
                     "type": "string"
                 },
-                "linkTitle": {
+                "link_title": {
                     "type": "string"
                 },
-                "notificationID": {
-                    "type": "integer",
-                    "format": "int64"
+                "notification_id": {
+                    "type": "integer"
                 },
                 "text": {
                     "type": "string"
@@ -33551,18 +33667,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

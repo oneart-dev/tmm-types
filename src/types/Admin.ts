@@ -11,7 +11,7 @@
 
 import {
   ChatExportPayload,
-  ControllersApiSuccessArrayServicesFeedNotification,
+  ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessArrayServicesFeedNotificationThreadSummary,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
@@ -122,7 +122,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/admin/notifications
    */
   notificationsList = (params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessArrayServicesFeedNotification, any>({
+    this.request<ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, any>({
       path: `/admin/notifications`,
       method: "GET",
       ...params,
