@@ -2578,6 +2578,7 @@ export interface ServicesFeedNotificationFeedItem {
   link_url?: string;
   my_liked?: boolean;
   my_vote?: number[];
+  my_vote_other_text?: string;
   poll?: ServicesFeedNotificationFeedPoll;
   published_at?: string;
   seen?: boolean;
@@ -3295,11 +3296,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

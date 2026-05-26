@@ -31900,6 +31900,9 @@
                         "type": "integer"
                     }
                 },
+                "my_vote_other_text": {
+                    "type": "string"
+                },
                 "poll": {
                     "$ref": "#/definitions/services.FeedNotificationFeedPoll"
                 },
@@ -33661,18 +33664,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
