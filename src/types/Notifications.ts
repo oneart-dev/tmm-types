@@ -12,11 +12,14 @@
 import {
   ControllersApiSuccessResponse,
   ControllersApiWarningResponse,
+  ControllersFeedNotificationCommentImageUploadResponse,
+  ControllersFeedNotificationCommentResponse,
+  ControllersFeedNotificationFeedResponse,
+  ControllersFeedNotificationLikeResponse,
   ControllersUnauthorizedResponse,
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCommentUpdateForm,
   DtoFeedNotificationVoteForm,
-  ServicesFeedNotificationFeedItem,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -45,7 +48,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     },
     params: RequestParams = {},
   ) =>
-    this.request<ServicesFeedNotificationFeedItem[], ControllersUnauthorizedResponse>({
+    this.request<ControllersFeedNotificationFeedResponse, ControllersUnauthorizedResponse>({
       path: `/notifications`,
       method: "GET",
       query: query,
@@ -63,7 +66,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   commentsCreate = (id: number, payload: DtoFeedNotificationCommentCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, any>({
+    this.request<ControllersFeedNotificationCommentResponse, any>({
       path: `/notifications/${id}/comments`,
       method: "POST",
       body: payload,
@@ -85,7 +88,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     payload: DtoFeedNotificationCommentUpdateForm,
     params: RequestParams = {},
   ) =>
-    this.request<any, any>({
+    this.request<ControllersFeedNotificationCommentResponse, any>({
       path: `/notifications/${id}/comments/${cid}`,
       method: "PUT",
       body: payload,
@@ -124,7 +127,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessResponse, any>({
+    this.request<ControllersFeedNotificationCommentImageUploadResponse, any>({
       path: `/notifications/${id}/comments/${cid}/image`,
       method: "POST",
       body: data,
@@ -142,7 +145,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   likeCreate = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, any>({
+    this.request<ControllersFeedNotificationLikeResponse, any>({
       path: `/notifications/${id}/like`,
       method: "POST",
       secure: true,

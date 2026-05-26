@@ -20,9 +20,11 @@ export class Admin extends HttpClient {
             method: "GET",
             ...params,
         });
-        this.notificationThreadsReplyCreate = (notificationId, userId, params = {}) => this.request({
+        this.notificationThreadsReplyCreate = (notificationId, userId, payload, params = {}) => this.request({
             path: `/admin/notification_threads/${notificationId}/${userId}/reply`,
             method: "POST",
+            body: payload,
+            type: ContentType.Json,
             ...params,
         });
         this.notificationsList = (params = {}) => this.request({

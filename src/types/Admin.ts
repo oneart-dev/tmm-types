@@ -11,11 +11,18 @@
 
 import {
   ChatExportPayload,
-  ControllersApiSuccessResponse,
+  ControllersFeedNotificationAdminAnalyticsResponse,
+  ControllersFeedNotificationAdminCreateResponse,
   ControllersFeedNotificationAdminDetailResponse,
+  ControllersFeedNotificationAdminListResponse,
+  ControllersFeedNotificationAdminUpdateResponse,
+  ControllersFeedNotificationAdminVotesResponse,
   ControllersFeedNotificationThreadDetailResponse,
+  ControllersFeedNotificationThreadInboxResponse,
+  ControllersFeedNotificationThreadReplyResponse,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
+  DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationUpdateForm,
 } from "./data-contracts";
@@ -64,7 +71,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     },
     params: RequestParams = {},
   ) =>
-    this.request<any, any>({
+    this.request<ControllersFeedNotificationThreadInboxResponse, any>({
       path: `/admin/notification_threads`,
       method: "GET",
       query: query,
@@ -92,10 +99,17 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Admin reply alias
    * @request POST:/admin/notification_threads/{notification_id}/{user_id}/reply
    */
-  notificationThreadsReplyCreate = (notificationId: string, userId: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  notificationThreadsReplyCreate = (
+    notificationId: number,
+    userId: number,
+    payload: DtoFeedNotificationCommentCreateForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<ControllersFeedNotificationThreadReplyResponse, any>({
       path: `/admin/notification_threads/${notificationId}/${userId}/reply`,
       method: "POST",
+      body: payload,
+      type: ContentType.Json,
       ...params,
     });
   /**
@@ -107,7 +121,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/admin/notifications
    */
   notificationsList = (params: RequestParams = {}) =>
-    this.request<any, any>({
+    this.request<ControllersFeedNotificationAdminListResponse, any>({
       path: `/admin/notifications`,
       method: "GET",
       ...params,
@@ -122,7 +136,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   notificationsCreate = (payload: DtoFeedNotificationCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, any>({
+    this.request<ControllersFeedNotificationAdminCreateResponse, any>({
       path: `/admin/notifications`,
       method: "POST",
       body: payload,
@@ -153,7 +167,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request PUT:/admin/notifications/{id}
    */
   notificationsUpdate = (id: number, payload: DtoFeedNotificationUpdateForm, params: RequestParams = {}) =>
-    this.request<any, any>({
+    this.request<ControllersFeedNotificationAdminUpdateResponse, any>({
       path: `/admin/notifications/${id}`,
       method: "PUT",
       body: payload,
@@ -182,8 +196,8 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Notification analytics (admin)
    * @request GET:/admin/notifications/{id}/analytics
    */
-  notificationsAnalyticsDetail = (id: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  notificationsAnalyticsDetail = (id: number, params: RequestParams = {}) =>
+    this.request<ControllersFeedNotificationAdminAnalyticsResponse, any>({
       path: `/admin/notifications/${id}/analytics`,
       method: "GET",
       ...params,
@@ -210,8 +224,8 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Raw vote list (admin)
    * @request GET:/admin/notifications/{id}/votes
    */
-  notificationsVotesDetail = (id: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  notificationsVotesDetail = (id: number, params: RequestParams = {}) =>
+    this.request<ControllersFeedNotificationAdminVotesResponse, any>({
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
       ...params,

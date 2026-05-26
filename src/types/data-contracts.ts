@@ -286,8 +286,74 @@ export interface ControllersExchangesListResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersFeedNotificationAdminAnalyticsResponse {
+  data?: ServicesFeedNotificationAnalyticsCounts;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationAdminCreateData {
+  id?: number;
+}
+
+export interface ControllersFeedNotificationAdminCreateResponse {
+  data?: ControllersFeedNotificationAdminCreateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersFeedNotificationAdminDetailResponse {
   data?: ServicesFeedNotificationAdminDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationAdminListResponse {
+  data?: ServicesFeedNotification[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationAdminUpdateData {
+  removed_votes?: number;
+}
+
+export interface ControllersFeedNotificationAdminUpdateResponse {
+  data?: ControllersFeedNotificationAdminUpdateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationAdminVotesResponse {
+  data?: ServicesFeedNotificationRawVote[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationCommentImageUploadResponse {
+  data?: ServicesFile[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationCommentResponse {
+  data?: ServicesFeedNotificationComment;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationFeedResponse {
+  data?: ServicesFeedNotificationFeedItem[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationLikeData {
+  liked?: boolean;
+}
+
+export interface ControllersFeedNotificationLikeResponse {
+  data?: ControllersFeedNotificationLikeData;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -300,6 +366,18 @@ export interface ControllersFeedNotificationThreadDetail {
 
 export interface ControllersFeedNotificationThreadDetailResponse {
   data?: ControllersFeedNotificationThreadDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationThreadInboxResponse {
+  data?: ServicesFeedNotificationThreadSummary[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationThreadReplyResponse {
+  data?: ServicesFeedNotificationComment;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -2427,6 +2505,15 @@ export interface ServicesFeedNotificationAdminDetail {
   translations?: ServicesFeedNotificationTranslation[];
 }
 
+export interface ServicesFeedNotificationAnalyticsCounts {
+  comments_count?: number;
+  delivered_estimate?: number;
+  liked_count?: number;
+  seen_count?: number;
+  tally?: ServicesFeedNotificationVoteTally[];
+  votes_count?: number;
+}
+
 export interface ServicesFeedNotificationComment {
   authorIsAdmin?: boolean;
   /** @format int64 */
@@ -2504,9 +2591,28 @@ export interface ServicesFeedNotificationPollOptionTranslation {
   optionID?: number;
 }
 
+export interface ServicesFeedNotificationRawVote {
+  option_id?: number;
+  other_text?: string;
+  user_id?: number;
+  voted_at?: number;
+}
+
 export enum ServicesFeedNotificationStatus {
   FeedNotificationStatusDraft = "draft",
   FeedNotificationStatusPublished = "published",
+}
+
+export interface ServicesFeedNotificationThreadSummary {
+  lastMessageAt?: string;
+  lastMessageFrom?: string;
+  /** @format int64 */
+  messageCount?: number;
+  /** @format int64 */
+  notificationID?: number;
+  /** @format int64 */
+  scopeUserID?: number;
+  unanswered?: boolean;
 }
 
 export interface ServicesFeedNotificationTranslation {
@@ -2521,6 +2627,11 @@ export interface ServicesFeedNotificationTranslation {
 export enum ServicesFeedNotificationType {
   FeedNotificationTypeGlobal = "global",
   FeedNotificationTypePersonal = "personal",
+}
+
+export interface ServicesFeedNotificationVoteTally {
+  count?: number;
+  option_id?: number;
 }
 
 export interface ServicesFile {
@@ -3152,11 +3263,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

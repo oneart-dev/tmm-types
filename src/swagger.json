@@ -134,7 +134,14 @@
                         "in": "query"
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationThreadInboxResponse"
+                        }
+                    }
+                }
             }
         },
         "/admin/notification_threads/{notification_id}/{user_id}": {
@@ -175,7 +182,39 @@
                     "admin_notification_threads"
                 ],
                 "summary": "Admin reply alias",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "notification_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Scope user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "reply",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FeedNotificationCommentCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationThreadReplyResponse"
+                        }
+                    }
+                }
             }
         },
         "/admin/notifications": {
@@ -184,7 +223,14 @@
                     "admin_feed_notifications"
                 ],
                 "summary": "List notifications (admin)",
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminListResponse"
+                        }
+                    }
+                }
             },
             "post": {
                 "security": [
@@ -214,7 +260,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminCreateResponse"
                         }
                     }
                 }
@@ -267,7 +313,14 @@
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateResponse"
+                        }
+                    }
+                }
             },
             "delete": {
                 "tags": [
@@ -292,7 +345,23 @@
                     "admin_feed_notifications"
                 ],
                 "summary": "Notification analytics (admin)",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminAnalyticsResponse"
+                        }
+                    }
+                }
             }
         },
         "/admin/notifications/{id}/publish": {
@@ -319,7 +388,23 @@
                     "admin_feed_notifications"
                 ],
                 "summary": "Raw vote list (admin)",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminVotesResponse"
+                        }
+                    }
+                }
             }
         },
         "/analyzer/": {
@@ -13907,10 +13992,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/services.FeedNotificationFeedItem"
-                            }
+                            "$ref": "#/definitions/controllers.FeedNotificationFeedResponse"
                         }
                     },
                     "401": {
@@ -13959,7 +14041,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.FeedNotificationCommentResponse"
                         }
                     }
                 }
@@ -13996,7 +14078,14 @@
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationCommentResponse"
+                        }
+                    }
+                }
             },
             "delete": {
                 "tags": [
@@ -14048,7 +14137,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.FeedNotificationCommentImageUploadResponse"
                         }
                     }
                 }
@@ -14079,7 +14168,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.FeedNotificationLikeResponse"
                         }
                     }
                 }
@@ -26816,11 +26905,191 @@
                 }
             }
         },
+        "controllers.FeedNotificationAdminAnalyticsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationAnalyticsCounts"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminCreateData": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminCreateResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationAdminCreateData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.FeedNotificationAdminDetailResponse": {
             "type": "object",
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.FeedNotificationAdminDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotification"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminUpdateData": {
+            "type": "object",
+            "properties": {
+                "removed_votes": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminUpdateResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationAdminVotesResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationRawVote"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationCommentImageUploadResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.File"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationCommentResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationComment"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationFeedResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationFeedItem"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationLikeData": {
+            "type": "object",
+            "properties": {
+                "liked": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "controllers.FeedNotificationLikeResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationLikeData"
                 },
                 "status": {
                     "allOf": [
@@ -26857,6 +27126,41 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/controllers.FeedNotificationThreadDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationThreadInboxResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationThreadSummary"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationThreadReplyResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationComment"
                 },
                 "status": {
                     "allOf": [
@@ -31358,6 +31662,32 @@
                 }
             }
         },
+        "services.FeedNotificationAnalyticsCounts": {
+            "type": "object",
+            "properties": {
+                "comments_count": {
+                    "type": "integer"
+                },
+                "delivered_estimate": {
+                    "type": "integer"
+                },
+                "liked_count": {
+                    "type": "integer"
+                },
+                "seen_count": {
+                    "type": "integer"
+                },
+                "tally": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationVoteTally"
+                    }
+                },
+                "votes_count": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.FeedNotificationComment": {
             "type": "object",
             "properties": {
@@ -31557,6 +31887,23 @@
                 }
             }
         },
+        "services.FeedNotificationRawVote": {
+            "type": "object",
+            "properties": {
+                "option_id": {
+                    "type": "integer"
+                },
+                "other_text": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "voted_at": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.FeedNotificationStatus": {
             "type": "string",
             "enum": [
@@ -31567,6 +31914,32 @@
                 "FeedNotificationStatusDraft",
                 "FeedNotificationStatusPublished"
             ]
+        },
+        "services.FeedNotificationThreadSummary": {
+            "type": "object",
+            "properties": {
+                "lastMessageAt": {
+                    "type": "string"
+                },
+                "lastMessageFrom": {
+                    "type": "string"
+                },
+                "messageCount": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "notificationID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "scopeUserID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "unanswered": {
+                    "type": "boolean"
+                }
+            }
         },
         "services.FeedNotificationTranslation": {
             "type": "object",
@@ -31599,6 +31972,17 @@
                 "FeedNotificationTypeGlobal",
                 "FeedNotificationTypePersonal"
             ]
+        },
+        "services.FeedNotificationVoteTally": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "option_id": {
+                    "type": "integer"
+                }
+            }
         },
         "services.File": {
             "type": "object",
@@ -33146,18 +33530,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

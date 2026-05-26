@@ -1,4 +1,4 @@
-import { ChatExportPayload, ControllersApiSuccessResponse, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationThreadDetailResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm } from "./data-contracts";
+import { ChatExportPayload, ControllersFeedNotificationAdminAnalyticsResponse, ControllersFeedNotificationAdminCreateResponse, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationAdminListResponse, ControllersFeedNotificationAdminUpdateResponse, ControllersFeedNotificationAdminVotesResponse, ControllersFeedNotificationThreadDetailResponse, ControllersFeedNotificationThreadInboxResponse, ControllersFeedNotificationThreadReplyResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     chatThreadsExportDetail: (uid: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ChatExportPayload, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
@@ -10,16 +10,16 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
         status?: "open" | "answered" | "all";
         type?: "global" | "personal";
         user_id?: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadInboxResponse, any>>;
     notificationThreadsDetail: (notificationId: number, userId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadDetailResponse, any>>;
-    notificationThreadsReplyCreate: (notificationId: string, userId: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
-    notificationsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
-    notificationsCreate: (payload: DtoFeedNotificationCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, any>>;
+    notificationThreadsReplyCreate: (notificationId: number, userId: number, payload: DtoFeedNotificationCommentCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadReplyResponse, any>>;
+    notificationsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminListResponse, any>>;
+    notificationsCreate: (payload: DtoFeedNotificationCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminCreateResponse, any>>;
     notificationsDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminDetailResponse, any>>;
-    notificationsUpdate: (id: number, payload: DtoFeedNotificationUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
+    notificationsUpdate: (id: number, payload: DtoFeedNotificationUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminUpdateResponse, any>>;
     notificationsDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
-    notificationsAnalyticsDetail: (id: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
+    notificationsAnalyticsDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminAnalyticsResponse, any>>;
     notificationsPublishCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
-    notificationsVotesDetail: (id: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<any, any>>;
+    notificationsVotesDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminVotesResponse, any>>;
 }
 //# sourceMappingURL=Admin.d.ts.map
