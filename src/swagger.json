@@ -371,6 +371,46 @@
                 }
             }
         },
+        "/admin/notifications/{id}/image": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "admin_feed_notifications"
+                ],
+                "summary": "Upload notification image",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Image file",
+                        "name": "files",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_File"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/notifications/{id}/publish": {
             "post": {
                 "tags": [

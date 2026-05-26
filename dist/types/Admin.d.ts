@@ -1,4 +1,4 @@
-import { ChatExportPayload, ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, ControllersApiSuccessArrayServicesFeedNotificationRawVote, ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessControllersFeedNotificationAdminUpdateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationThreadDetailResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm } from "./data-contracts";
+import { ChatExportPayload, ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, ControllersApiSuccessArrayServicesFeedNotificationRawVote, ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, ControllersApiSuccessArrayServicesFile, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessControllersFeedNotificationAdminUpdateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationThreadDetailResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     chatThreadsExportDetail: (uid: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ChatExportPayload, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
@@ -19,6 +19,9 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
     notificationsUpdate: (id: number, payload: DtoFeedNotificationUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationAdminUpdateData, any>>;
     notificationsDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
     notificationsAnalyticsDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, any>>;
+    notificationsImageCreate: (id: number, data: {
+        files: File;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFile, any>>;
     notificationsPublishCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
     notificationsVotesDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>>;
 }
