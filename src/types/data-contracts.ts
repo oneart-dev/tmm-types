@@ -2504,7 +2504,7 @@ export interface ServicesFeedNotification {
 }
 
 export interface ServicesFeedNotificationAdminDetail {
-  image_url?: string;
+  image?: ServicesFile;
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
   poll_options?: ServicesFeedNotificationPollOption[];
@@ -2595,8 +2595,12 @@ export interface ServicesFeedNotificationFeedItem {
   expires_at?: string;
   /** Identity & lifecycle. */
   id?: number;
-  image_url?: string;
-  /** Static visual. */
+  image?: ServicesFile;
+  /**
+   * Static visual. Image is the joined files row (same *File shape used by
+   * SafeUser.Avatar and comment attachments) — exposes both the public URL
+   * and the file id so an authoring UI can wire delete via /files/File/:id.
+   */
   link_url?: string;
   my_liked?: boolean;
   /** Per-user state (zero/empty in broadcast SSE). */
@@ -3333,11 +3337,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

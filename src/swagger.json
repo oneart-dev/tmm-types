@@ -31704,8 +31704,8 @@
         "services.FeedNotificationAdminDetail": {
             "type": "object",
             "properties": {
-                "image_url": {
-                    "type": "string"
+                "image": {
+                    "$ref": "#/definitions/services.File"
                 },
                 "notification": {
                     "$ref": "#/definitions/services.FeedNotification"
@@ -31951,11 +31951,11 @@
                     "description": "Identity \u0026 lifecycle.",
                     "type": "integer"
                 },
-                "image_url": {
-                    "type": "string"
+                "image": {
+                    "$ref": "#/definitions/services.File"
                 },
                 "link_url": {
-                    "description": "Static visual.",
+                    "description": "Static visual. Image is the joined files row (same *File shape used by\nSafeUser.Avatar and comment attachments) — exposes both the public URL\nand the file id so an authoring UI can wire delete via /files/File/:id.",
                     "type": "string"
                 },
                 "my_liked": {
@@ -33772,18 +33772,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
