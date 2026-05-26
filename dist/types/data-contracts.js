@@ -108,6 +108,16 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_SPOT"] = 54] = "EXCHANGE_KUCOIN_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_FUTURES"] = 55] = "EXCHANGE_KUCOIN_FUTURES";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
+export var ServicesFeedNotificationStatus;
+(function (ServicesFeedNotificationStatus) {
+    ServicesFeedNotificationStatus["FeedNotificationStatusDraft"] = "draft";
+    ServicesFeedNotificationStatus["FeedNotificationStatusPublished"] = "published";
+})(ServicesFeedNotificationStatus || (ServicesFeedNotificationStatus = {}));
+export var ServicesFeedNotificationType;
+(function (ServicesFeedNotificationType) {
+    ServicesFeedNotificationType["FeedNotificationTypeGlobal"] = "global";
+    ServicesFeedNotificationType["FeedNotificationTypePersonal"] = "personal";
+})(ServicesFeedNotificationType || (ServicesFeedNotificationType = {}));
 export var ServicesFileOwnerType;
 (function (ServicesFileOwnerType) {
     ServicesFileOwnerType["FileOwnerTypeTrade"] = "Trade";

@@ -12,6 +12,8 @@
 import {
   ChatExportPayload,
   ControllersApiSuccessResponse,
+  ControllersFeedNotificationAdminDetailResponse,
+  ControllersFeedNotificationThreadDetailResponse,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCreateForm,
@@ -76,8 +78,8 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Single thread
    * @request GET:/admin/notification_threads/{notification_id}/{user_id}
    */
-  notificationThreadsDetail = (notificationId: string, userId: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  notificationThreadsDetail = (notificationId: number, userId: number, params: RequestParams = {}) =>
+    this.request<ControllersFeedNotificationThreadDetailResponse, any>({
       path: `/admin/notification_threads/${notificationId}/${userId}`,
       method: "GET",
       ...params,
@@ -136,8 +138,8 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Notification detail (admin)
    * @request GET:/admin/notifications/{id}
    */
-  notificationsDetail = (id: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  notificationsDetail = (id: number, params: RequestParams = {}) =>
+    this.request<ControllersFeedNotificationAdminDetailResponse, any>({
       path: `/admin/notifications/${id}`,
       method: "GET",
       ...params,

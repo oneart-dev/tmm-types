@@ -193,6 +193,19 @@ export interface ControllersExchangesListResponse {
     data?: ControllersExchange[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersFeedNotificationAdminDetailResponse {
+    data?: ServicesFeedNotificationAdminDetail;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersFeedNotificationThreadDetail {
+    comments?: ServicesFeedNotificationComment[];
+    notification?: ServicesFeedNotification;
+    translations?: ServicesFeedNotificationTranslation[];
+}
+export interface ControllersFeedNotificationThreadDetailResponse {
+    data?: ControllersFeedNotificationThreadDetail;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersFilesResponse {
     data?: ServicesFile[];
     status?: ControllersResponseStatusMessage;
@@ -1217,6 +1230,40 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_SPOT = 54,
     EXCHANGE_KUCOIN_FUTURES = 55
 }
+export interface ServicesFeedNotification {
+    audienceMemberships?: string;
+    createdAt?: string;
+    createdByUserID?: number;
+    eventKind?: string;
+    expiresAt?: string;
+    id?: number;
+    linkURL?: string;
+    pollEnabled?: boolean;
+    pollLockAt?: string;
+    pollMultiSelect?: boolean;
+    publishedAt?: string;
+    status?: ServicesFeedNotificationStatus;
+    type?: ServicesFeedNotificationType;
+    updatedAt?: string;
+    userID?: number;
+}
+export interface ServicesFeedNotificationAdminDetail {
+    notification?: ServicesFeedNotification;
+    poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
+    poll_options?: ServicesFeedNotificationPollOption[];
+    translations?: ServicesFeedNotificationTranslation[];
+}
+export interface ServicesFeedNotificationComment {
+    authorIsAdmin?: boolean;
+    authorUserID?: number;
+    createdAt?: string;
+    id?: number;
+    notificationID?: number;
+    scopeUserID?: number;
+    text?: string;
+    updatedAt?: string;
+    visibleAt?: string;
+}
 export interface ServicesFeedNotificationFeedComment {
     attachments?: string[];
     author_avatar?: string;
@@ -1256,6 +1303,32 @@ export interface ServicesFeedNotificationFeedPollOption {
     is_other?: boolean;
     label?: string;
     position?: number;
+}
+export interface ServicesFeedNotificationPollOption {
+    id?: number;
+    isOther?: boolean;
+    notificationID?: number;
+    position?: number;
+}
+export interface ServicesFeedNotificationPollOptionTranslation {
+    label?: string;
+    lang?: string;
+    optionID?: number;
+}
+export declare enum ServicesFeedNotificationStatus {
+    FeedNotificationStatusDraft = "draft",
+    FeedNotificationStatusPublished = "published"
+}
+export interface ServicesFeedNotificationTranslation {
+    lang?: string;
+    linkTitle?: string;
+    notificationID?: number;
+    text?: string;
+    title?: string;
+}
+export declare enum ServicesFeedNotificationType {
+    FeedNotificationTypeGlobal = "global",
+    FeedNotificationTypePersonal = "personal"
 }
 export interface ServicesFile {
     file_path?: string;

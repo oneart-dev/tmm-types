@@ -143,7 +143,30 @@
                     "admin_notification_threads"
                 ],
                 "summary": "Single thread",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "notification_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Scope user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thread with notification + translations + comments",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationThreadDetailResponse"
+                        }
+                    }
+                }
             }
         },
         "/admin/notification_threads/{notification_id}/{user_id}/reply": {
@@ -203,7 +226,23 @@
                     "admin_feed_notifications"
                 ],
                 "summary": "Notification detail (admin)",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail with translations + poll_options",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminDetailResponse"
+                        }
+                    }
+                }
             },
             "put": {
                 "tags": [
@@ -26777,6 +26816,58 @@
                 }
             }
         },
+        "controllers.FeedNotificationAdminDetailResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationAdminDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationThreadDetail": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationComment"
+                    }
+                },
+                "notification": {
+                    "$ref": "#/definitions/services.FeedNotification"
+                },
+                "translations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationTranslation"
+                    }
+                }
+            }
+        },
+        "controllers.FeedNotificationThreadDetailResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationThreadDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.FilesResponse": {
             "type": "object",
             "properties": {
@@ -31188,6 +31279,121 @@
                 "EXCHANGE_KUCOIN_FUTURES"
             ]
         },
+        "services.FeedNotification": {
+            "type": "object",
+            "properties": {
+                "audienceMemberships": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "createdByUserID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "eventKind": {
+                    "type": "string"
+                },
+                "expiresAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "linkURL": {
+                    "type": "string"
+                },
+                "pollEnabled": {
+                    "type": "boolean"
+                },
+                "pollLockAt": {
+                    "type": "string"
+                },
+                "pollMultiSelect": {
+                    "type": "boolean"
+                },
+                "publishedAt": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.FeedNotificationStatus"
+                },
+                "type": {
+                    "$ref": "#/definitions/services.FeedNotificationType"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "services.FeedNotificationAdminDetail": {
+            "type": "object",
+            "properties": {
+                "notification": {
+                    "$ref": "#/definitions/services.FeedNotification"
+                },
+                "poll_option_translations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationPollOptionTranslation"
+                    }
+                },
+                "poll_options": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationPollOption"
+                    }
+                },
+                "translations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationTranslation"
+                    }
+                }
+            }
+        },
+        "services.FeedNotificationComment": {
+            "type": "object",
+            "properties": {
+                "authorIsAdmin": {
+                    "type": "boolean"
+                },
+                "authorUserID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "notificationID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "scopeUserID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "visibleAt": {
+                    "type": "string"
+                }
+            }
+        },
         "services.FeedNotificationFeedComment": {
             "type": "object",
             "properties": {
@@ -31315,6 +31521,84 @@
                     "type": "integer"
                 }
             }
+        },
+        "services.FeedNotificationPollOption": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "isOther": {
+                    "type": "boolean"
+                },
+                "notificationID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "position": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "services.FeedNotificationPollOptionTranslation": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "lang": {
+                    "type": "string"
+                },
+                "optionID": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "services.FeedNotificationStatus": {
+            "type": "string",
+            "enum": [
+                "draft",
+                "published"
+            ],
+            "x-enum-varnames": [
+                "FeedNotificationStatusDraft",
+                "FeedNotificationStatusPublished"
+            ]
+        },
+        "services.FeedNotificationTranslation": {
+            "type": "object",
+            "properties": {
+                "lang": {
+                    "type": "string"
+                },
+                "linkTitle": {
+                    "type": "string"
+                },
+                "notificationID": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.FeedNotificationType": {
+            "type": "string",
+            "enum": [
+                "global",
+                "personal"
+            ],
+            "x-enum-varnames": [
+                "FeedNotificationTypeGlobal",
+                "FeedNotificationTypePersonal"
+            ]
         },
         "services.File": {
             "type": "object",
