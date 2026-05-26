@@ -14025,7 +14025,8 @@
                     "application/json"
                 ],
                 "tags": [
-                    "feed_notifications internal"
+                    "feed_notifications",
+                    "internal"
                 ],
                 "summary": "SSE event catalog (documentation only)",
                 "responses": {
