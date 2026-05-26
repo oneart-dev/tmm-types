@@ -138,7 +138,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationThreadInboxResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationThreadSummary"
                         }
                     }
                 }
@@ -211,7 +211,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationThreadReplyResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FeedNotificationComment"
                         }
                     }
                 }
@@ -227,7 +227,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationAdminListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotification"
                         }
                     }
                 }
@@ -260,7 +260,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationAdminCreateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationAdminCreateData"
                         }
                     }
                 }
@@ -317,7 +317,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationAdminUpdateData"
                         }
                     }
                 }
@@ -336,7 +336,14 @@
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
             }
         },
         "/admin/notifications/{id}/analytics": {
@@ -358,7 +365,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationAdminAnalyticsResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FeedNotificationAnalyticsCounts"
                         }
                     }
                 }
@@ -379,7 +386,14 @@
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
             }
         },
         "/admin/notifications/{id}/votes": {
@@ -401,7 +415,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationAdminVotesResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationRawVote"
                         }
                     }
                 }
@@ -13992,7 +14006,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationFeedResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationFeedItem"
                         }
                     },
                     "401": {
@@ -14041,7 +14055,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationCommentResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FeedNotificationComment"
                         }
                     }
                 }
@@ -14082,7 +14096,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationCommentResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FeedNotificationComment"
                         }
                     }
                 }
@@ -14092,7 +14106,30 @@
                     "feed_notifications"
                 ],
                 "summary": "Delete own comment",
-                "responses": {}
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Comment id",
+                        "name": "cid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
             }
         },
         "/notifications/{id}/comments/{cid}/image": {
@@ -14137,7 +14174,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationCommentImageUploadResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_File"
                         }
                     }
                 }
@@ -14168,7 +14205,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.FeedNotificationLikeResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationLikeData"
                         }
                     }
                 }
@@ -14199,7 +14236,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         }
                     }
                 }
@@ -14242,7 +14279,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         }
                     },
                     "409": {
@@ -26365,6 +26402,101 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_FeedNotification": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotification"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_FeedNotificationFeedItem": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationFeedItem"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_FeedNotificationRawVote": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationRawVote"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_FeedNotificationThreadSummary": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationThreadSummary"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_File": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.File"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_Order": {
             "type": "object",
             "properties": {
@@ -26460,6 +26592,54 @@
                 }
             }
         },
+        "controllers.ApiSuccess-controllers_FeedNotificationAdminCreateData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationAdminCreateData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_FeedNotificationAdminUpdateData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_FeedNotificationLikeData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.FeedNotificationLikeData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-int64": {
             "type": "object",
             "properties": {
@@ -26513,6 +26693,38 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.Dashboard"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_FeedNotificationAnalyticsCounts": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationAnalyticsCounts"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_FeedNotificationComment": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationComment"
                 },
                 "status": {
                     "allOf": [
@@ -26905,43 +27117,11 @@
                 }
             }
         },
-        "controllers.FeedNotificationAdminAnalyticsResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.FeedNotificationAnalyticsCounts"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.FeedNotificationAdminCreateData": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "integer"
-                }
-            }
-        },
-        "controllers.FeedNotificationAdminCreateResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/controllers.FeedNotificationAdminCreateData"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
                 }
             }
         },
@@ -26961,25 +27141,6 @@
                 }
             }
         },
-        "controllers.FeedNotificationAdminListResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotification"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.FeedNotificationAdminUpdateData": {
             "type": "object",
             "properties": {
@@ -26988,116 +27149,11 @@
                 }
             }
         },
-        "controllers.FeedNotificationAdminUpdateResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateData"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationAdminVotesResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationRawVote"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationCommentImageUploadResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.File"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationCommentResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.FeedNotificationComment"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationFeedResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationFeedItem"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.FeedNotificationLikeData": {
             "type": "object",
             "properties": {
                 "liked": {
                     "type": "boolean"
-                }
-            }
-        },
-        "controllers.FeedNotificationLikeResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/controllers.FeedNotificationLikeData"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
                 }
             }
         },
@@ -27126,41 +27182,6 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/controllers.FeedNotificationThreadDetail"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationThreadInboxResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationThreadSummary"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.FeedNotificationThreadReplyResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.FeedNotificationComment"
                 },
                 "status": {
                     "allOf": [

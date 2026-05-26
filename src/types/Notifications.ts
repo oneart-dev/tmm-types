@@ -10,12 +10,12 @@
  */
 
 import {
-  ControllersApiSuccessResponse,
+  ControllersApiSuccessArrayServicesFeedNotificationFeedItem,
+  ControllersApiSuccessArrayServicesFile,
+  ControllersApiSuccessControllersFeedNotificationLikeData,
+  ControllersApiSuccessNoData,
+  ControllersApiSuccessServicesFeedNotificationComment,
   ControllersApiWarningResponse,
-  ControllersFeedNotificationCommentImageUploadResponse,
-  ControllersFeedNotificationCommentResponse,
-  ControllersFeedNotificationFeedResponse,
-  ControllersFeedNotificationLikeResponse,
   ControllersUnauthorizedResponse,
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCommentUpdateForm,
@@ -48,7 +48,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersFeedNotificationFeedResponse, ControllersUnauthorizedResponse>({
+    this.request<ControllersApiSuccessArrayServicesFeedNotificationFeedItem, ControllersUnauthorizedResponse>({
       path: `/notifications`,
       method: "GET",
       query: query,
@@ -66,7 +66,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   commentsCreate = (id: number, payload: DtoFeedNotificationCommentCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationCommentResponse, any>({
+    this.request<ControllersApiSuccessServicesFeedNotificationComment, any>({
       path: `/notifications/${id}/comments`,
       method: "POST",
       body: payload,
@@ -88,7 +88,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     payload: DtoFeedNotificationCommentUpdateForm,
     params: RequestParams = {},
   ) =>
-    this.request<ControllersFeedNotificationCommentResponse, any>({
+    this.request<ControllersApiSuccessServicesFeedNotificationComment, any>({
       path: `/notifications/${id}/comments/${cid}`,
       method: "PUT",
       body: payload,
@@ -103,8 +103,8 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @summary Delete own comment
    * @request DELETE:/notifications/{id}/comments/{cid}
    */
-  commentsDelete = (id: string, cid: string, params: RequestParams = {}) =>
-    this.request<any, any>({
+  commentsDelete = (id: number, cid: number, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, any>({
       path: `/notifications/${id}/comments/${cid}`,
       method: "DELETE",
       ...params,
@@ -127,7 +127,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersFeedNotificationCommentImageUploadResponse, any>({
+    this.request<ControllersApiSuccessArrayServicesFile, any>({
       path: `/notifications/${id}/comments/${cid}/image`,
       method: "POST",
       body: data,
@@ -145,7 +145,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   likeCreate = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationLikeResponse, any>({
+    this.request<ControllersApiSuccessControllersFeedNotificationLikeData, any>({
       path: `/notifications/${id}/like`,
       method: "POST",
       secure: true,
@@ -161,7 +161,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   seenCreate = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, any>({
+    this.request<ControllersApiSuccessNoData, any>({
       path: `/notifications/${id}/seen`,
       method: "POST",
       secure: true,
@@ -177,7 +177,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
    * @secure
    */
   voteCreate = (id: number, payload: DtoFeedNotificationVoteForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersApiWarningResponse>({
+    this.request<ControllersApiSuccessNoData, ControllersApiWarningResponse>({
       path: `/notifications/${id}/vote`,
       method: "POST",
       body: payload,

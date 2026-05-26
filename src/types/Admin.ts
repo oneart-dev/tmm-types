@@ -11,15 +11,16 @@
 
 import {
   ChatExportPayload,
-  ControllersFeedNotificationAdminAnalyticsResponse,
-  ControllersFeedNotificationAdminCreateResponse,
+  ControllersApiSuccessArrayServicesFeedNotification,
+  ControllersApiSuccessArrayServicesFeedNotificationRawVote,
+  ControllersApiSuccessArrayServicesFeedNotificationThreadSummary,
+  ControllersApiSuccessControllersFeedNotificationAdminCreateData,
+  ControllersApiSuccessControllersFeedNotificationAdminUpdateData,
+  ControllersApiSuccessNoData,
+  ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
+  ControllersApiSuccessServicesFeedNotificationComment,
   ControllersFeedNotificationAdminDetailResponse,
-  ControllersFeedNotificationAdminListResponse,
-  ControllersFeedNotificationAdminUpdateResponse,
-  ControllersFeedNotificationAdminVotesResponse,
   ControllersFeedNotificationThreadDetailResponse,
-  ControllersFeedNotificationThreadInboxResponse,
-  ControllersFeedNotificationThreadReplyResponse,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCommentCreateForm,
@@ -71,7 +72,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersFeedNotificationThreadInboxResponse, any>({
+    this.request<ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, any>({
       path: `/admin/notification_threads`,
       method: "GET",
       query: query,
@@ -105,7 +106,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     payload: DtoFeedNotificationCommentCreateForm,
     params: RequestParams = {},
   ) =>
-    this.request<ControllersFeedNotificationThreadReplyResponse, any>({
+    this.request<ControllersApiSuccessServicesFeedNotificationComment, any>({
       path: `/admin/notification_threads/${notificationId}/${userId}/reply`,
       method: "POST",
       body: payload,
@@ -121,7 +122,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/admin/notifications
    */
   notificationsList = (params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationAdminListResponse, any>({
+    this.request<ControllersApiSuccessArrayServicesFeedNotification, any>({
       path: `/admin/notifications`,
       method: "GET",
       ...params,
@@ -136,7 +137,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   notificationsCreate = (payload: DtoFeedNotificationCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationAdminCreateResponse, any>({
+    this.request<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>({
       path: `/admin/notifications`,
       method: "POST",
       body: payload,
@@ -167,7 +168,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request PUT:/admin/notifications/{id}
    */
   notificationsUpdate = (id: number, payload: DtoFeedNotificationUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationAdminUpdateResponse, any>({
+    this.request<ControllersApiSuccessControllersFeedNotificationAdminUpdateData, any>({
       path: `/admin/notifications/${id}`,
       method: "PUT",
       body: payload,
@@ -183,7 +184,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request DELETE:/admin/notifications/{id}
    */
   notificationsDelete = (id: number, params: RequestParams = {}) =>
-    this.request<any, any>({
+    this.request<ControllersApiSuccessNoData, any>({
       path: `/admin/notifications/${id}`,
       method: "DELETE",
       ...params,
@@ -197,7 +198,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/admin/notifications/{id}/analytics
    */
   notificationsAnalyticsDetail = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationAdminAnalyticsResponse, any>({
+    this.request<ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, any>({
       path: `/admin/notifications/${id}/analytics`,
       method: "GET",
       ...params,
@@ -211,7 +212,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request POST:/admin/notifications/{id}/publish
    */
   notificationsPublishCreate = (id: number, params: RequestParams = {}) =>
-    this.request<any, any>({
+    this.request<ControllersApiSuccessNoData, any>({
       path: `/admin/notifications/${id}/publish`,
       method: "POST",
       ...params,
@@ -225,7 +226,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request GET:/admin/notifications/{id}/votes
    */
   notificationsVotesDetail = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersFeedNotificationAdminVotesResponse, any>({
+    this.request<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>({
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
       ...params,

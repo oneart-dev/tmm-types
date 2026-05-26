@@ -92,6 +92,36 @@ export interface ControllersApiSuccessArrayServicesDashboard {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesFeedNotification {
+  data?: ServicesFeedNotification[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesFeedNotificationFeedItem {
+  data?: ServicesFeedNotificationFeedItem[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesFeedNotificationRawVote {
+  data?: ServicesFeedNotificationRawVote[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesFeedNotificationThreadSummary {
+  data?: ServicesFeedNotificationThreadSummary[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesFile {
+  data?: ServicesFile[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesOrder {
   data?: ServicesOrder[];
   /** @example "success" */
@@ -122,6 +152,24 @@ export interface ControllersApiSuccessArrayServicesTransaction {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData {
+  data?: ControllersFeedNotificationAdminCreateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersFeedNotificationAdminUpdateData {
+  data?: ControllersFeedNotificationAdminUpdateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersFeedNotificationLikeData {
+  data?: ControllersFeedNotificationLikeData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessInt64 {
   data?: number;
   /** @example "success" */
@@ -142,6 +190,18 @@ export interface ControllersApiSuccessServicesApiUser {
 
 export interface ControllersApiSuccessServicesDashboard {
   data?: ServicesDashboard;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesFeedNotificationAnalyticsCounts {
+  data?: ServicesFeedNotificationAnalyticsCounts;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesFeedNotificationComment {
+  data?: ServicesFeedNotificationComment;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -286,20 +346,8 @@ export interface ControllersExchangesListResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersFeedNotificationAdminAnalyticsResponse {
-  data?: ServicesFeedNotificationAnalyticsCounts;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersFeedNotificationAdminCreateData {
   id?: number;
-}
-
-export interface ControllersFeedNotificationAdminCreateResponse {
-  data?: ControllersFeedNotificationAdminCreateData;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
 }
 
 export interface ControllersFeedNotificationAdminDetailResponse {
@@ -308,54 +356,12 @@ export interface ControllersFeedNotificationAdminDetailResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersFeedNotificationAdminListResponse {
-  data?: ServicesFeedNotification[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersFeedNotificationAdminUpdateData {
   removed_votes?: number;
 }
 
-export interface ControllersFeedNotificationAdminUpdateResponse {
-  data?: ControllersFeedNotificationAdminUpdateData;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationAdminVotesResponse {
-  data?: ServicesFeedNotificationRawVote[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationCommentImageUploadResponse {
-  data?: ServicesFile[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationCommentResponse {
-  data?: ServicesFeedNotificationComment;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationFeedResponse {
-  data?: ServicesFeedNotificationFeedItem[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersFeedNotificationLikeData {
   liked?: boolean;
-}
-
-export interface ControllersFeedNotificationLikeResponse {
-  data?: ControllersFeedNotificationLikeData;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
 }
 
 export interface ControllersFeedNotificationThreadDetail {
@@ -366,18 +372,6 @@ export interface ControllersFeedNotificationThreadDetail {
 
 export interface ControllersFeedNotificationThreadDetailResponse {
   data?: ControllersFeedNotificationThreadDetail;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationThreadInboxResponse {
-  data?: ServicesFeedNotificationThreadSummary[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersFeedNotificationThreadReplyResponse {
-  data?: ServicesFeedNotificationComment;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
