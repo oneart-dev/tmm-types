@@ -1358,13 +1358,13 @@ export interface ServicesFeedNotificationFeedComment {
     updated_at?: string;
 }
 export interface ServicesFeedNotificationFeedItem {
+    audience_memberships?: string[];
     comments?: ServicesFeedNotificationFeedComment[];
     created_at?: string;
     event_kind?: string;
     expires_at?: string;
     id?: number;
     image_url?: string;
-    link_title?: string;
     link_url?: string;
     my_liked?: boolean;
     my_vote?: number[];
@@ -1372,9 +1372,9 @@ export interface ServicesFeedNotificationFeedItem {
     poll?: ServicesFeedNotificationFeedPoll;
     published_at?: string;
     seen?: boolean;
-    text?: string;
-    title?: string;
+    translations?: ServicesFeedNotificationTranslation[];
     type?: string;
+    user_id?: number;
 }
 export interface ServicesFeedNotificationFeedPoll {
     lock_at?: string;
@@ -1384,8 +1384,8 @@ export interface ServicesFeedNotificationFeedPoll {
 export interface ServicesFeedNotificationFeedPollOption {
     id?: number;
     is_other?: boolean;
-    label?: string;
     position?: number;
+    translations?: ServicesFeedNotificationPollOptionTranslation[];
 }
 export interface ServicesFeedNotificationPollOption {
     id?: number;

@@ -2568,23 +2568,32 @@ export interface ServicesFeedNotificationFeedComment {
 }
 
 export interface ServicesFeedNotificationFeedItem {
+  /**
+   * Targeting — frontend uses this on `updated` SSE to decide if the user
+   * still matches the audience (drop the card if not).
+   */
+  audience_memberships?: string[];
   comments?: ServicesFeedNotificationFeedComment[];
   created_at?: string;
   event_kind?: string;
   expires_at?: string;
+  /** Identity & lifecycle. */
   id?: number;
   image_url?: string;
-  link_title?: string;
+  /** Static visual. */
   link_url?: string;
   my_liked?: boolean;
+  /** Per-user state (zero/empty in broadcast SSE). */
   my_vote?: number[];
   my_vote_other_text?: string;
+  /** Poll with per-language option labels. */
   poll?: ServicesFeedNotificationFeedPoll;
   published_at?: string;
   seen?: boolean;
-  text?: string;
-  title?: string;
+  /** Multi-language content. Frontend picks the right entry by user.language. */
+  translations?: ServicesFeedNotificationTranslation[];
   type?: string;
+  user_id?: number;
 }
 
 export interface ServicesFeedNotificationFeedPoll {
@@ -2596,8 +2605,8 @@ export interface ServicesFeedNotificationFeedPoll {
 export interface ServicesFeedNotificationFeedPollOption {
   id?: number;
   is_other?: boolean;
-  label?: string;
   position?: number;
+  translations?: ServicesFeedNotificationPollOptionTranslation[];
 }
 
 export interface ServicesFeedNotificationPollOption {

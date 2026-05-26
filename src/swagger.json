@@ -31864,6 +31864,13 @@
         "services.FeedNotificationFeedItem": {
             "type": "object",
             "properties": {
+                "audience_memberships": {
+                    "description": "Targeting — frontend uses this on `updated` SSE to decide if the user\nstill matches the audience (drop the card if not).",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "comments": {
                     "type": "array",
                     "items": {
@@ -31880,21 +31887,21 @@
                     "type": "string"
                 },
                 "id": {
+                    "description": "Identity \u0026 lifecycle.",
                     "type": "integer"
                 },
                 "image_url": {
                     "type": "string"
                 },
-                "link_title": {
-                    "type": "string"
-                },
                 "link_url": {
+                    "description": "Static visual.",
                     "type": "string"
                 },
                 "my_liked": {
                     "type": "boolean"
                 },
                 "my_vote": {
+                    "description": "Per-user state (zero/empty in broadcast SSE).",
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -31904,7 +31911,12 @@
                     "type": "string"
                 },
                 "poll": {
-                    "$ref": "#/definitions/services.FeedNotificationFeedPoll"
+                    "description": "Poll with per-language option labels.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.FeedNotificationFeedPoll"
+                        }
+                    ]
                 },
                 "published_at": {
                     "type": "string"
@@ -31912,14 +31924,18 @@
                 "seen": {
                     "type": "boolean"
                 },
-                "text": {
-                    "type": "string"
-                },
-                "title": {
-                    "type": "string"
+                "translations": {
+                    "description": "Multi-language content. Frontend picks the right entry by user.language.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationTranslation"
+                    }
                 },
                 "type": {
                     "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -31949,11 +31965,14 @@
                 "is_other": {
                     "type": "boolean"
                 },
-                "label": {
-                    "type": "string"
-                },
                 "position": {
                     "type": "integer"
+                },
+                "translations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationPollOptionTranslation"
+                    }
                 }
             }
         },
