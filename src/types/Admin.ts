@@ -26,6 +26,8 @@ import {
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationUpdateForm,
+  DtoTicketQuickCreateForm,
+  DtoTicketStatusUpdateForm,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -57,6 +59,12 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    */
   notificationThreadsList = (
     query?: {
+      /**
+       * Kind: notification (default), ticket, or empty for both. Tickets and
+       * notifications share the same inbox table but the support workflow
+       * usually wants them split.
+       */
+      kind?: "notification" | "ticket";
       notification_id?: number;
       /** @min 1 */
       page?: number;
@@ -66,7 +74,13 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       per_page?: number;
       sort?: "last_activity_desc" | "unanswered_first" | "oldest_unanswered_first";
-      status?: "open" | "answered" | "all";
+      /**
+       * Status: for notifications it's an inbox-state alias (open=unanswered,
+       * answered, all). For tickets it's the ticket-lifecycle value
+       * (open / pending / resolved). The repo branches on Kind to pick the
+       * right interpretation; "all" / "" disables either filter.
+       */
+      status?: "open" | "answered" | "all" | "pending" | "resolved";
       type?: "global" | "personal";
       user_id?: number;
     },
@@ -218,6 +232,24 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
+   * @description Accepts open / pending / resolved. Auto-transitions on comment activity also flow through the same service method but are driven by the comment service, not this endpoint.
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsStatusPartialUpdate
+   * @summary Set ticket status (admin override)
+   * @request PATCH:/admin/notifications/{id}/status
+   * @secure
+   */
+  notificationsStatusPartialUpdate = (id: number, payload: DtoTicketStatusUpdateForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, any>({
+      path: `/admin/notifications/${id}/status`,
+      method: "PATCH",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
    * No description
    *
    * @tags admin_feed_notifications
@@ -229,6 +261,24 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>({
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
+      ...params,
+    });
+  /**
+   * @description Slim payload — title/text/optional images. Backend builds the full ticket-shaped notification (kind=ticket, type=personal, lang=und) and assigns a ticket_uid. Used by the users-list "create ticket" shortcut.
+   *
+   * @tags admin_feed_notifications
+   * @name UsersTicketsCreate
+   * @summary Spin up a support ticket on a specific user
+   * @request POST:/admin/users/{user_id}/tickets
+   * @secure
+   */
+  usersTicketsCreate = (userId: number, payload: DtoTicketQuickCreateForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>({
+      path: `/admin/users/${userId}/tickets`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
 }

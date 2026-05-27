@@ -636,6 +636,7 @@ export interface DtoFeedNotificationCommentUpdateForm {
 export interface DtoFeedNotificationCreateForm {
     audience_memberships?: string[];
     expires_at?: number;
+    kind?: "notification" | "ticket";
     link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: number;
@@ -659,6 +660,7 @@ export interface DtoFeedNotificationTranslationForm {
 export interface DtoFeedNotificationUpdateForm {
     audience_memberships?: string[];
     expires_at?: number;
+    kind?: "notification" | "ticket";
     link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: number;
@@ -866,6 +868,14 @@ export interface DtoTeamUpdateForm {
     status: 1 | 2;
 }
 export type DtoTelegramConnectForm = object;
+export interface DtoTicketQuickCreateForm {
+    image_file_ids?: number[];
+    text: string;
+    title: string;
+}
+export interface DtoTicketStatusUpdateForm {
+    status: "open" | "pending" | "resolved";
+}
 export interface DtoTradeChartDataForm {
     data?: string;
 }
@@ -1295,12 +1305,14 @@ export interface ServicesFeedNotification {
     event_kind?: string;
     expires_at?: string;
     id?: number;
+    kind?: ServicesFeedNotificationKind;
     link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
     status?: ServicesFeedNotificationStatus;
+    ticket_uid?: string;
     type?: ServicesFeedNotificationType;
     updated_at?: string;
     user_id?: number;
@@ -1321,6 +1333,7 @@ export interface ServicesFeedNotificationAdminListItem {
     event_kind?: string;
     expires_at?: string;
     id?: number;
+    kind?: ServicesFeedNotificationKind;
     languages?: string[];
     link_url?: string;
     poll_enabled?: boolean;
@@ -1328,6 +1341,7 @@ export interface ServicesFeedNotificationAdminListItem {
     poll_multi_select?: boolean;
     published_at?: string;
     status?: ServicesFeedNotificationStatus;
+    ticket_uid?: string;
     title?: string;
     type?: ServicesFeedNotificationType;
     updated_at?: string;
@@ -1360,6 +1374,9 @@ export interface ServicesFeedNotificationCommentSSEPayload {
     last_message_from?: string;
     notification_id?: number;
     scope_user_id?: number;
+    status?: string;
+    status_changed?: boolean;
+    ticket_uid?: string;
     unanswered?: boolean;
 }
 export interface ServicesFeedNotificationFeedComment {
@@ -1401,6 +1418,10 @@ export interface ServicesFeedNotificationFeedPollOption {
     position?: number;
     translations?: ServicesFeedNotificationPollOptionTranslation[];
 }
+export declare enum ServicesFeedNotificationKind {
+    FeedNotificationKindNotification = "notification",
+    FeedNotificationKindTicket = "ticket"
+}
 export interface ServicesFeedNotificationPollOption {
     id?: number;
     is_other?: boolean;
@@ -1424,7 +1445,10 @@ export interface ServicesFeedNotificationRemovedSSEPayload {
 }
 export declare enum ServicesFeedNotificationStatus {
     FeedNotificationStatusDraft = "draft",
-    FeedNotificationStatusPublished = "published"
+    FeedNotificationStatusPublished = "published",
+    FeedNotificationStatusOpen = "open",
+    FeedNotificationStatusPending = "pending",
+    FeedNotificationStatusResolved = "resolved"
 }
 export interface ServicesFeedNotificationThreadLastMessage {
     has_attachments?: boolean;
@@ -1432,6 +1456,9 @@ export interface ServicesFeedNotificationThreadLastMessage {
 }
 export interface ServicesFeedNotificationThreadNotificationRef {
     id?: number;
+    kind?: string;
+    status?: string;
+    ticket_uid?: string;
     title?: string;
     type?: string;
 }
@@ -1968,11 +1995,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

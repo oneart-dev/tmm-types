@@ -82,6 +82,16 @@
                 "summary": "Notification thread inbox",
                 "parameters": [
                     {
+                        "enum": [
+                            "notification",
+                            "ticket"
+                        ],
+                        "type": "string",
+                        "description": "Kind: notification (default), ticket, or empty for both. Tickets and\nnotifications share the same inbox table but the support workflow\nusually wants them split.",
+                        "name": "kind",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "name": "notification_id",
                         "in": "query"
@@ -113,9 +123,12 @@
                         "enum": [
                             "open",
                             "answered",
-                            "all"
+                            "all",
+                            "pending",
+                            "resolved"
                         ],
                         "type": "string",
+                        "description": "Status: for notifications it's an inbox-state alias (open=unanswered,\nanswered, all). For tickets it's the ticket-lifecycle value\n(open / pending / resolved). The repo branches on Kind to pick the\nright interpretation; \"all\" / \"\" disables either filter.",
                         "name": "status",
                         "in": "query"
                     },
@@ -396,6 +409,49 @@
                 }
             }
         },
+        "/admin/notifications/{id}/status": {
+            "patch": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Accepts open / pending / resolved. Auto-transitions on comment activity also flow through the same service method but are driven by the comment service, not this endpoint.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin_feed_notifications"
+                ],
+                "summary": "Set ticket status (admin override)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Ticket (notification) id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "New status",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TicketStatusUpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/notifications/{id}/votes": {
             "get": {
                 "tags": [
@@ -416,6 +472,49 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationRawVote"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/users/{user_id}/tickets": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Slim payload — title/text/optional images. Backend builds the full ticket-shaped notification (kind=ticket, type=personal, lang=und) and assigns a ticket_uid. Used by the users-list \"create ticket\" shortcut.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin_feed_notifications"
+                ],
+                "summary": "Spin up a support ticket on a specific user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Target user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Ticket payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TicketQuickCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationAdminCreateData"
                         }
                     }
                 }
@@ -29081,6 +29180,14 @@
                 "expires_at": {
                     "type": "integer"
                 },
+                "kind": {
+                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status starts at open, gets\n                       ticket_uid assigned server-side.",
+                    "type": "string",
+                    "enum": [
+                        "notification",
+                        "ticket"
+                    ]
+                },
                 "link_url": {
                     "type": "string"
                 },
@@ -29178,6 +29285,14 @@
                 },
                 "expires_at": {
                     "type": "integer"
+                },
+                "kind": {
+                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status starts at open, gets\n                       ticket_uid assigned server-side.",
+                    "type": "string",
+                    "enum": [
+                        "notification",
+                        "ticket"
+                    ]
                 },
                 "link_url": {
                     "type": "string"
@@ -30195,6 +30310,46 @@
         },
         "dto.TelegramConnectForm": {
             "type": "object"
+        },
+        "dto.TicketQuickCreateForm": {
+            "type": "object",
+            "required": [
+                "text",
+                "title"
+            ],
+            "properties": {
+                "image_file_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "text": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 1
+                }
+            }
+        },
+        "dto.TicketStatusUpdateForm": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "open",
+                        "pending",
+                        "resolved"
+                    ]
+                }
+            }
         },
         "dto.TradeChartDataForm": {
             "type": "object",
@@ -31890,6 +32045,14 @@
                 "id": {
                     "type": "integer"
                 },
+                "kind": {
+                    "description": "Kind distinguishes a regular notification (\"notification\") from a\nticket (\"ticket\"). Tickets reuse the same row/threads/SSE plumbing as\npersonal notifications but have a stripped-down create form, a\ndifferent status lifecycle (open/pending/resolved), and a short opaque\nTicketUID for user-facing reference.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.FeedNotificationKind"
+                        }
+                    ]
+                },
                 "link_url": {
                     "type": "string"
                 },
@@ -31907,6 +32070,9 @@
                 },
                 "status": {
                     "$ref": "#/definitions/services.FeedNotificationStatus"
+                },
+                "ticket_uid": {
+                    "type": "string"
                 },
                 "type": {
                     "$ref": "#/definitions/services.FeedNotificationType"
@@ -31982,6 +32148,14 @@
                 "id": {
                     "type": "integer"
                 },
+                "kind": {
+                    "description": "Kind distinguishes a regular notification (\"notification\") from a\nticket (\"ticket\"). Tickets reuse the same row/threads/SSE plumbing as\npersonal notifications but have a stripped-down create form, a\ndifferent status lifecycle (open/pending/resolved), and a short opaque\nTicketUID for user-facing reference.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.FeedNotificationKind"
+                        }
+                    ]
+                },
                 "languages": {
                     "type": "array",
                     "items": {
@@ -32005,6 +32179,9 @@
                 },
                 "status": {
                     "$ref": "#/definitions/services.FeedNotificationStatus"
+                },
+                "ticket_uid": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -32105,6 +32282,16 @@
                 },
                 "scope_user_id": {
                     "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "status_changed": {
+                    "description": "Ticket-status-change variant. When StatusChanged is true the comment\nfields are zero and Status/TicketUID carry the new state. Frontend\nreceives this on the same channel as comment-added because they're\nboth \"thread changed\" events to the inbox.",
+                    "type": "boolean"
+                },
+                "ticket_uid": {
+                    "type": "string"
                 },
                 "unanswered": {
                     "type": "boolean"
@@ -32255,6 +32442,17 @@
                 }
             }
         },
+        "services.FeedNotificationKind": {
+            "type": "string",
+            "enum": [
+                "notification",
+                "ticket"
+            ],
+            "x-enum-varnames": [
+                "FeedNotificationKindNotification",
+                "FeedNotificationKindTicket"
+            ]
+        },
         "services.FeedNotificationPollOption": {
             "type": "object",
             "properties": {
@@ -32318,11 +32516,17 @@
             "type": "string",
             "enum": [
                 "draft",
-                "published"
+                "published",
+                "open",
+                "pending",
+                "resolved"
             ],
             "x-enum-varnames": [
                 "FeedNotificationStatusDraft",
-                "FeedNotificationStatusPublished"
+                "FeedNotificationStatusPublished",
+                "FeedNotificationStatusOpen",
+                "FeedNotificationStatusPending",
+                "FeedNotificationStatusResolved"
             ]
         },
         "services.FeedNotificationThreadLastMessage": {
@@ -32341,6 +32545,15 @@
             "properties": {
                 "id": {
                     "type": "integer"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "ticket_uid": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -33999,18 +34212,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

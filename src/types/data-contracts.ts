@@ -1119,6 +1119,14 @@ export interface DtoFeedNotificationCommentUpdateForm {
 export interface DtoFeedNotificationCreateForm {
   audience_memberships?: string[];
   expires_at?: number;
+  /**
+   * Kind toggles the create/update validation profile.
+   *   notification (default): full form — link, poll, audience, multi-lang
+   *   ticket: simplified — title/text/images only, single 'und' translation,
+   *                        type=personal, status starts at open, gets
+   *                        ticket_uid assigned server-side.
+   */
+  kind?: "notification" | "ticket";
   link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: number;
@@ -1152,6 +1160,14 @@ export interface DtoFeedNotificationTranslationForm {
 export interface DtoFeedNotificationUpdateForm {
   audience_memberships?: string[];
   expires_at?: number;
+  /**
+   * Kind toggles the create/update validation profile.
+   *   notification (default): full form — link, poll, audience, multi-lang
+   *   ticket: simplified — title/text/images only, single 'und' translation,
+   *                        type=personal, status starts at open, gets
+   *                        ticket_uid assigned server-side.
+   */
+  kind?: "notification" | "ticket";
   link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: number;
@@ -1732,6 +1748,21 @@ export interface DtoTeamUpdateForm {
 }
 
 export type DtoTelegramConnectForm = object;
+
+export interface DtoTicketQuickCreateForm {
+  image_file_ids?: number[];
+  /** @minLength 1 */
+  text: string;
+  /**
+   * @minLength 1
+   * @maxLength 255
+   */
+  title: string;
+}
+
+export interface DtoTicketStatusUpdateForm {
+  status: "open" | "pending" | "resolved";
+}
 
 export interface DtoTradeChartDataForm {
   /** @example "[]" */
@@ -2498,12 +2529,21 @@ export interface ServicesFeedNotification {
   event_kind?: string;
   expires_at?: string;
   id?: number;
+  /**
+   * Kind distinguishes a regular notification ("notification") from a
+   * ticket ("ticket"). Tickets reuse the same row/threads/SSE plumbing as
+   * personal notifications but have a stripped-down create form, a
+   * different status lifecycle (open/pending/resolved), and a short opaque
+   * TicketUID for user-facing reference.
+   */
+  kind?: ServicesFeedNotificationKind;
   link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
   status?: ServicesFeedNotificationStatus;
+  ticket_uid?: string;
   type?: ServicesFeedNotificationType;
   updated_at?: string;
   user_id?: number;
@@ -2532,6 +2572,14 @@ export interface ServicesFeedNotificationAdminListItem {
   event_kind?: string;
   expires_at?: string;
   id?: number;
+  /**
+   * Kind distinguishes a regular notification ("notification") from a
+   * ticket ("ticket"). Tickets reuse the same row/threads/SSE plumbing as
+   * personal notifications but have a stripped-down create form, a
+   * different status lifecycle (open/pending/resolved), and a short opaque
+   * TicketUID for user-facing reference.
+   */
+  kind?: ServicesFeedNotificationKind;
   languages?: string[];
   link_url?: string;
   poll_enabled?: boolean;
@@ -2539,6 +2587,7 @@ export interface ServicesFeedNotificationAdminListItem {
   poll_multi_select?: boolean;
   published_at?: string;
   status?: ServicesFeedNotificationStatus;
+  ticket_uid?: string;
   title?: string;
   type?: ServicesFeedNotificationType;
   updated_at?: string;
@@ -2575,6 +2624,15 @@ export interface ServicesFeedNotificationCommentSSEPayload {
   last_message_from?: string;
   notification_id?: number;
   scope_user_id?: number;
+  status?: string;
+  /**
+   * Ticket-status-change variant. When StatusChanged is true the comment
+   * fields are zero and Status/TicketUID carry the new state. Frontend
+   * receives this on the same channel as comment-added because they're
+   * both "thread changed" events to the inbox.
+   */
+  status_changed?: boolean;
+  ticket_uid?: string;
   unanswered?: boolean;
 }
 
@@ -2634,6 +2692,11 @@ export interface ServicesFeedNotificationFeedPollOption {
   translations?: ServicesFeedNotificationPollOptionTranslation[];
 }
 
+export enum ServicesFeedNotificationKind {
+  FeedNotificationKindNotification = "notification",
+  FeedNotificationKindTicket = "ticket",
+}
+
 export interface ServicesFeedNotificationPollOption {
   id?: number;
   is_other?: boolean;
@@ -2662,6 +2725,9 @@ export interface ServicesFeedNotificationRemovedSSEPayload {
 export enum ServicesFeedNotificationStatus {
   FeedNotificationStatusDraft = "draft",
   FeedNotificationStatusPublished = "published",
+  FeedNotificationStatusOpen = "open",
+  FeedNotificationStatusPending = "pending",
+  FeedNotificationStatusResolved = "resolved",
 }
 
 export interface ServicesFeedNotificationThreadLastMessage {
@@ -2671,6 +2737,9 @@ export interface ServicesFeedNotificationThreadLastMessage {
 
 export interface ServicesFeedNotificationThreadNotificationRef {
   id?: number;
+  kind?: string;
+  status?: string;
+  ticket_uid?: string;
   title?: string;
   type?: string;
 }
@@ -3345,11 +3414,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

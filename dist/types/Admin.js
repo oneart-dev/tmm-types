@@ -67,9 +67,25 @@ export class Admin extends HttpClient {
             method: "POST",
             ...params,
         });
+        this.notificationsStatusPartialUpdate = (id, payload, params = {}) => this.request({
+            path: `/admin/notifications/${id}/status`,
+            method: "PATCH",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            ...params,
+        });
         this.notificationsVotesDetail = (id, params = {}) => this.request({
             path: `/admin/notifications/${id}/votes`,
             method: "GET",
+            ...params,
+        });
+        this.usersTicketsCreate = (userId, payload, params = {}) => this.request({
+            path: `/admin/users/${userId}/tickets`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
             ...params,
         });
     }
