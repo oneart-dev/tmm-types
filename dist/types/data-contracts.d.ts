@@ -625,10 +625,12 @@ export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
 }
 export interface DtoFeedNotificationCommentCreateForm {
+    image_file_ids?: number[];
     reply_to_user_id?: number;
     text?: string;
 }
 export interface DtoFeedNotificationCommentUpdateForm {
+    image_file_ids?: number[];
     text?: string;
 }
 export interface DtoFeedNotificationCreateForm {
@@ -1966,11 +1968,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

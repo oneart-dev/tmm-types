@@ -1102,12 +1102,16 @@ export interface DtoDashboardsSortForm {
 }
 
 export interface DtoFeedNotificationCommentCreateForm {
+  /** @maxItems 5 */
+  image_file_ids?: number[];
   reply_to_user_id?: number;
   /** @maxLength 4000 */
   text?: string;
 }
 
 export interface DtoFeedNotificationCommentUpdateForm {
+  /** @maxItems 5 */
+  image_file_ids?: number[];
   /** @maxLength 4000 */
   text?: string;
 }
@@ -3341,11 +3345,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

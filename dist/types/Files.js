@@ -10,6 +10,14 @@ export class Files extends HttpClient {
             format: "json",
             ...params,
         });
+        this.uploadTempDelete = (id, params = {}) => this.request({
+            path: `/files/upload/temp/${id}`,
+            method: "DELETE",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.uploadTempCreate = (intent, params = {}) => this.request({
             path: `/files/upload/temp/${intent}`,
             method: "POST",

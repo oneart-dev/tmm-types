@@ -10936,6 +10936,74 @@
                 }
             }
         },
+        "/files/upload/temp/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Deletes a pending temp file the caller uploaded. Caller must own (user_id) and the file must still be unbound (model_id=0, expires_at NOT NULL). For files already adopted onto an entity, use the regular DELETE /files/:ownerType/:id route.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "files"
+                ],
+                "summary": "Delete Temp File",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Temp file id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/files/upload/temp/{intent}": {
             "post": {
                 "security": [
@@ -28965,6 +29033,13 @@
         "dto.FeedNotificationCommentCreateForm": {
             "type": "object",
             "properties": {
+                "image_file_ids": {
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "reply_to_user_id": {
                     "type": "integer"
                 },
@@ -28977,6 +29052,13 @@
         "dto.FeedNotificationCommentUpdateForm": {
             "type": "object",
             "properties": {
+                "image_file_ids": {
+                    "type": "array",
+                    "maxItems": 5,
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "text": {
                     "type": "string",
                     "maxLength": 4000
@@ -33917,18 +33999,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

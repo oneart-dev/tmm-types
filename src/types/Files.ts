@@ -38,6 +38,27 @@ export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
+   * @description Deletes a pending temp file the caller uploaded. Caller must own (user_id) and the file must still be unbound (model_id=0, expires_at NOT NULL). For files already adopted onto an entity, use the regular DELETE /files/:ownerType/:id route.
+   *
+   * @tags files
+   * @name UploadTempDelete
+   * @summary Delete Temp File
+   * @request DELETE:/files/upload/temp/{id}
+   * @secure
+   */
+  uploadTempDelete = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessResponse,
+      ControllersApiWarningResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/files/upload/temp/${id}`,
+      method: "DELETE",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Uploads one or more images and stores them as TEMP rows under the given intent (eventual FileOwnerType). The owning entity does not have to exist yet — temp rows are stored with model_id=0 and expires_at=NOW()+1h. Pass the returned file IDs in the create-form payload of the target entity; the create handler calls AdoptTempFiles to atomically bind them. Unclaimed temp rows are GC'd by the files:purge-temp cron every 5 minutes.
    *
    * @tags files
