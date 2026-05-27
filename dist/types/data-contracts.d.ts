@@ -1396,6 +1396,7 @@ export interface ServicesFeedNotificationFeedItem {
     event_kind?: string;
     expires_at?: string;
     id?: number;
+    kind?: string;
     link_url?: string;
     my_liked?: boolean;
     my_vote?: number[];
@@ -1403,6 +1404,8 @@ export interface ServicesFeedNotificationFeedItem {
     poll?: ServicesFeedNotificationFeedPoll;
     published_at?: string;
     seen?: boolean;
+    status?: string;
+    ticket_uid?: string;
     translations?: ServicesFeedNotificationTranslation[];
     type?: string;
     user_id?: number;

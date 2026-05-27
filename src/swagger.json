@@ -32359,6 +32359,10 @@
                     "description": "Identity \u0026 lifecycle.",
                     "type": "integer"
                 },
+                "kind": {
+                    "description": "Ticket-specific identity. Kind/Status/TicketUID are present on every\nitem (Kind defaults to \"notification\" via the model) so the frontend\ncan branch without an extra fetch — render a regular notification card\nvs a ticket bubble with the status pill and UID.",
+                    "type": "string"
+                },
                 "link_url": {
                     "description": "Link applies to every language; the per-language image lives in\ntranslations[i].image, since admin can attach a different visual per\nlocale (text-on-image localization etc).",
                     "type": "string"
@@ -32389,6 +32393,12 @@
                 },
                 "seen": {
                     "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "ticket_uid": {
+                    "type": "string"
                 },
                 "translations": {
                     "description": "Multi-language content. Frontend picks the right entry by user.language.",

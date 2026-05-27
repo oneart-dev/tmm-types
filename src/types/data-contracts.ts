@@ -2660,6 +2660,13 @@ export interface ServicesFeedNotificationFeedItem {
   /** Identity & lifecycle. */
   id?: number;
   /**
+   * Ticket-specific identity. Kind/Status/TicketUID are present on every
+   * item (Kind defaults to "notification" via the model) so the frontend
+   * can branch without an extra fetch — render a regular notification card
+   * vs a ticket bubble with the status pill and UID.
+   */
+  kind?: string;
+  /**
    * Link applies to every language; the per-language image lives in
    * translations[i].image, since admin can attach a different visual per
    * locale (text-on-image localization etc).
@@ -2673,6 +2680,8 @@ export interface ServicesFeedNotificationFeedItem {
   poll?: ServicesFeedNotificationFeedPoll;
   published_at?: string;
   seen?: boolean;
+  status?: string;
+  ticket_uid?: string;
   /** Multi-language content. Frontend picks the right entry by user.language. */
   translations?: ServicesFeedNotificationTranslation[];
   type?: string;
