@@ -110,12 +110,23 @@
                         "in": "query"
                     },
                     {
+                        "maxLength": 255,
+                        "type": "string",
+                        "description": "Search — fuzzy lookup with smart routing:\n  pure digits, 1-8 chars   → user_id exact\n  pure digits, 9+ chars    → notification_id exact\n  8 chars, base32 alphabet → ticket_uid exact\n  otherwise                → substring on user.name / user.email\nFrontend can pass whatever the support agent typed; backend\ndisambiguates. Empty disables.",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
                         "enum": [
                             "last_activity_desc",
                             "unanswered_first",
-                            "oldest_unanswered_first"
+                            "oldest_unanswered_first",
+                            "newest_activity",
+                            "oldest_activity",
+                            "oldest_unanswered"
                         ],
                         "type": "string",
+                        "description": "Sort. Legacy values (last_activity_desc / unanswered_first /\noldest_unanswered_first) kept for back-compat with existing callers;\nnew short aliases (newest_activity / oldest_activity / oldest_unanswered)\nmirror frontend's intent.",
                         "name": "sort",
                         "in": "query"
                     },
@@ -130,6 +141,13 @@
                         "type": "string",
                         "description": "Status: for notifications it's an inbox-state alias (open=unanswered,\nanswered, all). For tickets it's the ticket-lifecycle value\n(open / pending / resolved). The repo branches on Kind to pick the\nright interpretation; \"all\" / \"\" disables either filter.",
                         "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "maxLength": 12,
+                        "type": "string",
+                        "description": "TicketUID — exact match on feed_notifications.ticket_uid. Convenience\nfilter for \"jump to ticket #ABCD1234\"; the # prefix is stripped server-\nside. Search also routes 8-char base32 input here automatically.",
+                        "name": "ticket_uid",
                         "in": "query"
                     },
                     {
@@ -236,6 +254,38 @@
                     "admin_feed_notifications"
                 ],
                 "summary": "List notifications (admin)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "global | personal",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification | ticket",
+                        "name": "kind",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "draft | published | open | pending | resolved",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size (max 100)",
+                        "name": "per_page",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

@@ -27,9 +27,10 @@ export class Admin extends HttpClient {
             type: ContentType.Json,
             ...params,
         });
-        this.notificationsList = (params = {}) => this.request({
+        this.notificationsList = (query, params = {}) => this.request({
             path: `/admin/notifications`,
             method: "GET",
+            query: query,
             ...params,
         });
         this.notificationsCreate = (payload, params = {}) => this.request({

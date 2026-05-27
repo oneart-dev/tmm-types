@@ -73,7 +73,30 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        * @max 100
        */
       per_page?: number;
-      sort?: "last_activity_desc" | "unanswered_first" | "oldest_unanswered_first";
+      /**
+       * Search — fuzzy lookup with smart routing:
+       *   pure digits, 1-8 chars   → user_id exact
+       *   pure digits, 9+ chars    → notification_id exact
+       *   8 chars, base32 alphabet → ticket_uid exact
+       *   otherwise                → substring on user.name / user.email
+       * Frontend can pass whatever the support agent typed; backend
+       * disambiguates. Empty disables.
+       * @maxLength 255
+       */
+      search?: string;
+      /**
+       * Sort. Legacy values (last_activity_desc / unanswered_first /
+       * oldest_unanswered_first) kept for back-compat with existing callers;
+       * new short aliases (newest_activity / oldest_activity / oldest_unanswered)
+       * mirror frontend's intent.
+       */
+      sort?:
+        | "last_activity_desc"
+        | "unanswered_first"
+        | "oldest_unanswered_first"
+        | "newest_activity"
+        | "oldest_activity"
+        | "oldest_unanswered";
       /**
        * Status: for notifications it's an inbox-state alias (open=unanswered,
        * answered, all). For tickets it's the ticket-lifecycle value
@@ -81,6 +104,13 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        * right interpretation; "all" / "" disables either filter.
        */
       status?: "open" | "answered" | "all" | "pending" | "resolved";
+      /**
+       * TicketUID — exact match on feed_notifications.ticket_uid. Convenience
+       * filter for "jump to ticket #ABCD1234"; the # prefix is stripped server-
+       * side. Search also routes 8-char base32 input here automatically.
+       * @maxLength 12
+       */
+      ticket_uid?: string;
       type?: "global" | "personal";
       user_id?: number;
     },
@@ -135,10 +165,25 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary List notifications (admin)
    * @request GET:/admin/notifications
    */
-  notificationsList = (params: RequestParams = {}) =>
+  notificationsList = (
+    query?: {
+      /** global | personal */
+      type?: string;
+      /** notification | ticket */
+      kind?: string;
+      /** draft | published | open | pending | resolved */
+      status?: string;
+      /** Page */
+      page?: number;
+      /** Page size (max 100) */
+      per_page?: number;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, any>({
       path: `/admin/notifications`,
       method: "GET",
+      query: query,
       ...params,
     });
   /**
