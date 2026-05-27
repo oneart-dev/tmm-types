@@ -38,6 +38,27 @@ export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
+   * @description Uploads one or more images and stores them as TEMP rows under the given intent (eventual FileOwnerType). The owning entity does not have to exist yet — temp rows are stored with model_id=0 and expires_at=NOW()+1h. Pass the returned file IDs in the create-form payload of the target entity; the create handler calls AdoptTempFiles to atomically bind them. Unclaimed temp rows are GC'd by the files:purge-temp cron every 5 minutes.
+   *
+   * @tags files
+   * @name UploadTempCreate
+   * @summary Upload Temp Images
+   * @request POST:/files/upload/temp/{intent}
+   * @secure
+   */
+  uploadTempCreate = (intent: string, params: RequestParams = {}) =>
+    this.request<
+      ControllersFilesResponse,
+      ControllersApiWarningResponse | ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/files/upload/temp/${intent}`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Deletes a file based on its owner type and ID.
    *
    * @tags files

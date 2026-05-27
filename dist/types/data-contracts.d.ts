@@ -1462,6 +1462,7 @@ export interface ServicesFeedNotificationVoteTally {
     option_id?: number;
 }
 export interface ServicesFile {
+    expires_at?: string;
     file_path?: string;
     id?: number;
     type?: ServicesFileOwnerType;
@@ -1965,11 +1966,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
