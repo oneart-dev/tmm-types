@@ -74,10 +74,6 @@ export interface ControllersApiSuccessArrayServicesFeedNotificationRawVote {
     data?: ServicesFeedNotificationRawVote[];
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessArrayServicesFeedNotificationThreadSummary {
-    data?: ServicesFeedNotificationThreadSummary[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessArrayServicesFile {
     data?: ServicesFile[];
     status?: ControllersResponseStatusMessage;
@@ -259,6 +255,11 @@ export interface ControllersFeedNotificationThreadDetail {
 }
 export interface ControllersFeedNotificationThreadDetailResponse {
     data?: ControllersFeedNotificationThreadDetail;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersFeedNotificationThreadInboxResponse {
+    data?: ServicesFeedNotificationThreadSummary[];
+    search_truncated?: boolean;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersFilesResponse {

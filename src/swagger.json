@@ -112,7 +112,7 @@
                     {
                         "maxLength": 255,
                         "type": "string",
-                        "description": "Search — fuzzy lookup with smart routing:\n  pure digits, 1-8 chars   → user_id exact\n  pure digits, 9+ chars    → notification_id exact\n  8 chars, base32 alphabet → ticket_uid exact\n  otherwise                → substring on user.name / user.email\nFrontend can pass whatever the support agent typed; backend\ndisambiguates. Empty disables.",
+                        "description": "Search — fuzzy lookup with smart routing:\n  pure digits, 1-8 chars   → user_id exact\n  pure digits, 9+ chars    → notification_id exact\n  8 chars, base32 alphabet → ticket_uid exact\n  otherwise (min 3 chars)  → substring on user.name / user.email\nFrontend can pass whatever the support agent typed; backend\ndisambiguates. Empty disables.\n\nRouting priority — digits-only input ALWAYS routes to user_id/\nnotification_id and never to ticket_uid, even when the digits form a\nvalid 8-char base32 string. If the search target is a digit-only\nticket UID, use the explicit ticket_uid query param instead. This\ntrade-off favors the common case (admin pasting a numeric user/notif\nid) over the rare digit-only UID collision.\n\nText search (the substring branch) requires min 3 chars to avoid\nturning the endpoint into a single-character user-enumeration oracle.\nShorter input is treated as empty.",
                         "name": "search",
                         "in": "query"
                     },
@@ -169,7 +169,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationThreadSummary"
+                            "$ref": "#/definitions/controllers.FeedNotificationThreadInboxResponse"
                         }
                     }
                 }
@@ -26829,25 +26829,6 @@
                 }
             }
         },
-        "controllers.ApiSuccess-array_services_FeedNotificationThreadSummary": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationThreadSummary"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.ApiSuccess-array_services_File": {
             "type": "object",
             "properties": {
@@ -27574,6 +27555,28 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/controllers.FeedNotificationThreadDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationThreadInboxResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationThreadSummary"
+                    }
+                },
+                "search_truncated": {
+                    "type": "boolean"
                 },
                 "status": {
                     "allOf": [

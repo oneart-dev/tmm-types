@@ -110,12 +110,6 @@ export interface ControllersApiSuccessArrayServicesFeedNotificationRawVote {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessArrayServicesFeedNotificationThreadSummary {
-  data?: ServicesFeedNotificationThreadSummary[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersApiSuccessArrayServicesFile {
   data?: ServicesFile[];
   /** @example "success" */
@@ -380,6 +374,13 @@ export interface ControllersFeedNotificationThreadDetail {
 
 export interface ControllersFeedNotificationThreadDetailResponse {
   data?: ControllersFeedNotificationThreadDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationThreadInboxResponse {
+  data?: ServicesFeedNotificationThreadSummary[];
+  search_truncated?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }

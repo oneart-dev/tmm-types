@@ -13,7 +13,6 @@ import {
   ChatExportPayload,
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
-  ControllersApiSuccessArrayServicesFeedNotificationThreadSummary,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessControllersFeedNotificationAdminUpdateData,
   ControllersApiSuccessNoData,
@@ -21,6 +20,7 @@ import {
   ControllersApiSuccessServicesFeedNotificationComment,
   ControllersFeedNotificationAdminDetailResponse,
   ControllersFeedNotificationThreadDetailResponse,
+  ControllersFeedNotificationThreadInboxResponse,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCommentCreateForm,
@@ -78,9 +78,20 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        *   pure digits, 1-8 chars   → user_id exact
        *   pure digits, 9+ chars    → notification_id exact
        *   8 chars, base32 alphabet → ticket_uid exact
-       *   otherwise                → substring on user.name / user.email
+       *   otherwise (min 3 chars)  → substring on user.name / user.email
        * Frontend can pass whatever the support agent typed; backend
        * disambiguates. Empty disables.
+       *
+       * Routing priority — digits-only input ALWAYS routes to user_id/
+       * notification_id and never to ticket_uid, even when the digits form a
+       * valid 8-char base32 string. If the search target is a digit-only
+       * ticket UID, use the explicit ticket_uid query param instead. This
+       * trade-off favors the common case (admin pasting a numeric user/notif
+       * id) over the rare digit-only UID collision.
+       *
+       * Text search (the substring branch) requires min 3 chars to avoid
+       * turning the endpoint into a single-character user-enumeration oracle.
+       * Shorter input is treated as empty.
        * @maxLength 255
        */
       search?: string;
@@ -116,7 +127,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, any>({
+    this.request<ControllersFeedNotificationThreadInboxResponse, any>({
       path: `/admin/notification_threads`,
       method: "GET",
       query: query,

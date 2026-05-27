@@ -1,4 +1,4 @@
-import { ChatExportPayload, ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, ControllersApiSuccessArrayServicesFeedNotificationRawVote, ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessControllersFeedNotificationAdminUpdateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationThreadDetailResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm, DtoTicketQuickCreateForm, DtoTicketStatusUpdateForm } from "./data-contracts";
+import { ChatExportPayload, ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, ControllersApiSuccessArrayServicesFeedNotificationRawVote, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessControllersFeedNotificationAdminUpdateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationThreadDetailResponse, ControllersFeedNotificationThreadInboxResponse, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm, DtoTicketQuickCreateForm, DtoTicketStatusUpdateForm } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     chatThreadsExportDetail: (uid: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ChatExportPayload, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
@@ -13,7 +13,7 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
         ticket_uid?: string;
         type?: "global" | "personal";
         user_id?: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationThreadSummary, any>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadInboxResponse, any>>;
     notificationThreadsDetail: (notificationId: number, userId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadDetailResponse, any>>;
     notificationThreadsReplyCreate: (notificationId: number, userId: number, payload: DtoFeedNotificationCommentCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationComment, any>>;
     notificationsList: (query?: {
