@@ -14,11 +14,11 @@ import {
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
-  ControllersApiSuccessControllersFeedNotificationAdminUpdateData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
   ControllersApiSuccessServicesFeedNotificationComment,
   ControllersFeedNotificationAdminDetailResponse,
+  ControllersFeedNotificationAdminUpdateResponse,
   ControllersFeedNotificationThreadDetailResponse,
   ControllersFeedNotificationThreadInboxResponse,
   ControllersUnauthorizedResponse,
@@ -184,6 +184,10 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       kind?: string;
       /** draft | published | open | pending | resolved */
       status?: string;
+      /** Exact match on event_kind tag (e.g. subscription_expiring) */
+      event_kind?: string;
+      /** created_by_user_id exact */
+      author?: number;
       /** Page */
       page?: number;
       /** Page size (max 100) */
@@ -238,7 +242,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @request PUT:/admin/notifications/{id}
    */
   notificationsUpdate = (id: number, payload: DtoFeedNotificationUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessControllersFeedNotificationAdminUpdateData, any>({
+    this.request<ControllersFeedNotificationAdminUpdateResponse, any>({
       path: `/admin/notifications/${id}`,
       method: "PUT",
       body: payload,

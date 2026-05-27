@@ -102,10 +102,6 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
     data?: ControllersFeedNotificationAdminCreateData;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessControllersFeedNotificationAdminUpdateData {
-    data?: ControllersFeedNotificationAdminUpdateData;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
     data?: ControllersFeedNotificationLikeData;
     status?: ControllersResponseStatusMessage;
@@ -240,8 +236,10 @@ export interface ControllersFeedNotificationAdminDetailResponse {
     data?: ServicesFeedNotificationAdminDetail;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersFeedNotificationAdminUpdateData {
+export interface ControllersFeedNotificationAdminUpdateResponse {
+    data?: ServicesFeedNotificationAdminDetail;
     removed_votes?: number;
+    status?: ControllersResponseStatusMessage;
 }
 export interface ControllersFeedNotificationLikeData {
     liked?: boolean;
@@ -636,6 +634,7 @@ export interface DtoFeedNotificationCommentUpdateForm {
 }
 export interface DtoFeedNotificationCreateForm {
     audience_memberships?: string[];
+    event_kind?: string;
     expires_at?: number;
     kind?: "notification" | "ticket";
     link_url?: string;
@@ -660,6 +659,7 @@ export interface DtoFeedNotificationTranslationForm {
 }
 export interface DtoFeedNotificationUpdateForm {
     audience_memberships?: string[];
+    event_kind?: string;
     expires_at?: number;
     kind?: "notification" | "ticket";
     link_url?: string;
@@ -1359,8 +1359,8 @@ export interface ServicesFeedNotificationAnalyticsCounts {
 export interface ServicesFeedNotificationComment {
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
+    author_id?: number;
     author_is_admin?: boolean;
-    author_user_id?: number;
     created_at?: string;
     id?: number;
     notification_id?: number;
@@ -1375,9 +1375,6 @@ export interface ServicesFeedNotificationCommentSSEPayload {
     last_message_from?: string;
     notification_id?: number;
     scope_user_id?: number;
-    status?: string;
-    status_changed?: boolean;
-    ticket_uid?: string;
     unanswered?: boolean;
 }
 export interface ServicesFeedNotificationFeedComment {
@@ -1453,6 +1450,12 @@ export declare enum ServicesFeedNotificationStatus {
     FeedNotificationStatusOpen = "open",
     FeedNotificationStatusPending = "pending",
     FeedNotificationStatusResolved = "resolved"
+}
+export interface ServicesFeedNotificationStatusChangedSSEPayload {
+    notification_id?: number;
+    scope_user_id?: number;
+    status?: string;
+    ticket_uid?: string;
 }
 export interface ServicesFeedNotificationThreadLastMessage {
     has_attachments?: boolean;
@@ -1912,9 +1915,11 @@ export interface ServicesRiskManagementPagination {
 }
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
     "feed-notification-created"?: ServicesFeedNotificationFeedItem;
     "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
+    "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
 }
 export interface ServicesSafeUser {
@@ -1999,11 +2004,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

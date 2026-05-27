@@ -274,6 +274,18 @@
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "description": "Exact match on event_kind tag (e.g. subscription_expiring)",
+                        "name": "event_kind",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "created_by_user_id exact",
+                        "name": "author",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "Page",
                         "name": "page",
@@ -378,9 +390,9 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Detail + removed_votes sibling",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationAdminUpdateData"
+                            "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateResponse"
                         }
                     }
                 }
@@ -26959,22 +26971,6 @@
                 }
             }
         },
-        "controllers.ApiSuccess-controllers_FeedNotificationAdminUpdateData": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/controllers.FeedNotificationAdminUpdateData"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.ApiSuccess-controllers_FeedNotificationLikeData": {
             "type": "object",
             "properties": {
@@ -27508,11 +27504,22 @@
                 }
             }
         },
-        "controllers.FeedNotificationAdminUpdateData": {
+        "controllers.FeedNotificationAdminUpdateResponse": {
             "type": "object",
             "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.FeedNotificationAdminDetail"
+                },
                 "removed_votes": {
                     "type": "integer"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
                 }
             }
         },
@@ -29230,6 +29237,11 @@
                         "type": "string"
                     }
                 },
+                "event_kind": {
+                    "description": "EventKind is an optional tag used to bucket system-emitted\nnotifications (e.g. \"subscription_expiring\", \"trade_completed\").\nFree-form string, max 64 chars to match the column. Admins authoring\nin the UI usually leave it blank.",
+                    "type": "string",
+                    "maxLength": 64
+                },
                 "expires_at": {
                     "type": "integer"
                 },
@@ -29335,6 +29347,11 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "event_kind": {
+                    "description": "EventKind is an optional tag used to bucket system-emitted\nnotifications (e.g. \"subscription_expiring\", \"trade_completed\").\nFree-form string, max 64 chars to match the column. Admins authoring\nin the UI usually leave it blank.",
+                    "type": "string",
+                    "maxLength": 64
                 },
                 "expires_at": {
                     "type": "integer"
@@ -32288,11 +32305,12 @@
                 "author": {
                     "$ref": "#/definitions/services.SafeUser"
                 },
+                "author_id": {
+                    "description": "AuthorUserID is the persisted author id. JSON tag is \"author_id\" to\nalign with FeedNotificationFeedComment — frontends now read the same\nkey off both the GET-feed shape AND the SSE comment payload, no more\n`c.author_user_id ?? c.author?.id` fallback chains.",
+                    "type": "integer"
+                },
                 "author_is_admin": {
                     "type": "boolean"
-                },
-                "author_user_id": {
-                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string"
@@ -32335,16 +32353,6 @@
                 },
                 "scope_user_id": {
                     "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "status_changed": {
-                    "description": "Ticket-status-change variant. When StatusChanged is true the comment\nfields are zero and Status/TicketUID carry the new state. Frontend\nreceives this on the same channel as comment-added because they're\nboth \"thread changed\" events to the inbox.",
-                    "type": "boolean"
-                },
-                "ticket_uid": {
-                    "type": "string"
                 },
                 "unanswered": {
                     "type": "boolean"
@@ -32591,6 +32599,23 @@
                 "FeedNotificationStatusPending",
                 "FeedNotificationStatusResolved"
             ]
+        },
+        "services.FeedNotificationStatusChangedSSEPayload": {
+            "type": "object",
+            "properties": {
+                "notification_id": {
+                    "type": "integer"
+                },
+                "scope_user_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "ticket_uid": {
+                    "type": "string"
+                }
+            }
         },
         "services.FeedNotificationThreadLastMessage": {
             "type": "object",
@@ -34015,6 +34040,9 @@
                 "admin-feed-notification-comment-added": {
                     "$ref": "#/definitions/services.FeedNotificationCommentSSEPayload"
                 },
+                "admin-feed-notification-status-changed": {
+                    "$ref": "#/definitions/services.FeedNotificationStatusChangedSSEPayload"
+                },
                 "feed-notification-comment-added": {
                     "$ref": "#/definitions/services.FeedNotificationCommentSSEPayload"
                 },
@@ -34023,6 +34051,9 @@
                 },
                 "feed-notification-removed": {
                     "$ref": "#/definitions/services.FeedNotificationRemovedSSEPayload"
+                },
+                "feed-notification-status-changed": {
+                    "$ref": "#/definitions/services.FeedNotificationStatusChangedSSEPayload"
                 },
                 "feed-notification-updated": {
                     "$ref": "#/definitions/services.FeedNotificationFeedItem"
@@ -34275,18 +34306,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

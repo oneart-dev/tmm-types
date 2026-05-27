@@ -152,12 +152,6 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessControllersFeedNotificationAdminUpdateData {
-  data?: ControllersFeedNotificationAdminUpdateData;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
   data?: ControllersFeedNotificationLikeData;
   /** @example "success" */
@@ -356,8 +350,11 @@ export interface ControllersFeedNotificationAdminDetailResponse {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersFeedNotificationAdminUpdateData {
+export interface ControllersFeedNotificationAdminUpdateResponse {
+  data?: ServicesFeedNotificationAdminDetail;
   removed_votes?: number;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
 }
 
 export interface ControllersFeedNotificationLikeData {
@@ -1119,6 +1116,14 @@ export interface DtoFeedNotificationCommentUpdateForm {
 
 export interface DtoFeedNotificationCreateForm {
   audience_memberships?: string[];
+  /**
+   * EventKind is an optional tag used to bucket system-emitted
+   * notifications (e.g. "subscription_expiring", "trade_completed").
+   * Free-form string, max 64 chars to match the column. Admins authoring
+   * in the UI usually leave it blank.
+   * @maxLength 64
+   */
+  event_kind?: string;
   expires_at?: number;
   /**
    * Kind toggles the create/update validation profile.
@@ -1160,6 +1165,14 @@ export interface DtoFeedNotificationTranslationForm {
 
 export interface DtoFeedNotificationUpdateForm {
   audience_memberships?: string[];
+  /**
+   * EventKind is an optional tag used to bucket system-emitted
+   * notifications (e.g. "subscription_expiring", "trade_completed").
+   * Free-form string, max 64 chars to match the column. Admins authoring
+   * in the UI usually leave it blank.
+   * @maxLength 64
+   */
+  event_kind?: string;
   expires_at?: number;
   /**
    * Kind toggles the create/update validation profile.
@@ -2607,8 +2620,14 @@ export interface ServicesFeedNotificationAnalyticsCounts {
 export interface ServicesFeedNotificationComment {
   attachments?: ServicesFile[];
   author?: ServicesSafeUser;
+  /**
+   * AuthorUserID is the persisted author id. JSON tag is "author_id" to
+   * align with FeedNotificationFeedComment — frontends now read the same
+   * key off both the GET-feed shape AND the SSE comment payload, no more
+   * `c.author_user_id ?? c.author?.id` fallback chains.
+   */
+  author_id?: number;
   author_is_admin?: boolean;
-  author_user_id?: number;
   created_at?: string;
   id?: number;
   notification_id?: number;
@@ -2625,15 +2644,6 @@ export interface ServicesFeedNotificationCommentSSEPayload {
   last_message_from?: string;
   notification_id?: number;
   scope_user_id?: number;
-  status?: string;
-  /**
-   * Ticket-status-change variant. When StatusChanged is true the comment
-   * fields are zero and Status/TicketUID carry the new state. Frontend
-   * receives this on the same channel as comment-added because they're
-   * both "thread changed" events to the inbox.
-   */
-  status_changed?: boolean;
-  ticket_uid?: string;
   unanswered?: boolean;
 }
 
@@ -2738,6 +2748,13 @@ export enum ServicesFeedNotificationStatus {
   FeedNotificationStatusOpen = "open",
   FeedNotificationStatusPending = "pending",
   FeedNotificationStatusResolved = "resolved",
+}
+
+export interface ServicesFeedNotificationStatusChangedSSEPayload {
+  notification_id?: number;
+  scope_user_id?: number;
+  status?: string;
+  ticket_uid?: string;
 }
 
 export interface ServicesFeedNotificationThreadLastMessage {
@@ -3310,9 +3327,11 @@ export interface ServicesRiskManagementPagination {
 
 export interface ServicesSSEFeedNotificationEventCatalog {
   "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
   "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
   "feed-notification-created"?: ServicesFeedNotificationFeedItem;
   "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
+  "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
   "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
 }
 
@@ -3424,11 +3443,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
