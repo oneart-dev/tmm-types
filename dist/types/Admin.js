@@ -80,8 +80,8 @@ export class Admin extends HttpClient {
             method: "GET",
             ...params,
         });
-        this.usersTicketsCreate = (userId, payload, params = {}) => this.request({
-            path: `/admin/users/${userId}/tickets`,
+        this.usersTicketsCreate = (id, payload, params = {}) => this.request({
+            path: `/admin/users/${id}/tickets`,
             method: "POST",
             body: payload,
             secure: true,

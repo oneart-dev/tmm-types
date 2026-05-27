@@ -269,12 +269,12 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @tags admin_feed_notifications
    * @name UsersTicketsCreate
    * @summary Spin up a support ticket on a specific user
-   * @request POST:/admin/users/{user_id}/tickets
+   * @request POST:/admin/users/{id}/tickets
    * @secure
    */
-  usersTicketsCreate = (userId: number, payload: DtoTicketQuickCreateForm, params: RequestParams = {}) =>
+  usersTicketsCreate = (id: number, payload: DtoTicketQuickCreateForm, params: RequestParams = {}) =>
     this.request<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>({
-      path: `/admin/users/${userId}/tickets`,
+      path: `/admin/users/${id}/tickets`,
       method: "POST",
       body: payload,
       secure: true,
