@@ -135,7 +135,8 @@
                             "open",
                             "answered",
                             "all",
-                            "pending",
+                            "pending_user",
+                            "in_progress",
                             "resolved"
                         ],
                         "type": "string",
@@ -269,7 +270,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "draft | published | open | pending | resolved",
+                        "description": "draft | published | open | pending_user | in_progress | resolved",
                         "name": "status",
                         "in": "query"
                     },
@@ -29245,8 +29246,16 @@
                 "expires_at": {
                     "type": "integer"
                 },
+                "initial_ticket_status": {
+                    "description": "InitialTicketStatus only applies when Kind=ticket. Lets support\noverride the default `pending_user` initial state when opening a\nwork-tracking ticket where the user isn't expected to act yet (set\nto `in_progress`). `open` and `resolved` are NOT valid initial\nstates — open means \"admin must react\" but admin just created the\nrow; resolved must be reached via subsequent PATCH.",
+                    "type": "string",
+                    "enum": [
+                        "pending_user",
+                        "in_progress"
+                    ]
+                },
                 "kind": {
-                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status starts at open, gets\n                       ticket_uid assigned server-side.",
+                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status defaults to pending_user\n                       unless InitialTicketStatus overrides, gets\n                       ticket_uid assigned server-side.",
                     "type": "string",
                     "enum": [
                         "notification",
@@ -29357,8 +29366,16 @@
                 "expires_at": {
                     "type": "integer"
                 },
+                "initial_ticket_status": {
+                    "description": "InitialTicketStatus only applies when Kind=ticket. Lets support\noverride the default `pending_user` initial state when opening a\nwork-tracking ticket where the user isn't expected to act yet (set\nto `in_progress`). `open` and `resolved` are NOT valid initial\nstates — open means \"admin must react\" but admin just created the\nrow; resolved must be reached via subsequent PATCH.",
+                    "type": "string",
+                    "enum": [
+                        "pending_user",
+                        "in_progress"
+                    ]
+                },
                 "kind": {
-                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status starts at open, gets\n                       ticket_uid assigned server-side.",
+                    "description": "Kind toggles the create/update validation profile.\n  notification (default): full form — link, poll, audience, multi-lang\n  ticket: simplified — title/text/images only, single 'und' translation,\n                       type=personal, status defaults to pending_user\n                       unless InitialTicketStatus overrides, gets\n                       ticket_uid assigned server-side.",
                     "type": "string",
                     "enum": [
                         "notification",
@@ -30392,6 +30409,13 @@
                         "type": "integer"
                     }
                 },
+                "initial_status": {
+                    "type": "string",
+                    "enum": [
+                        "pending_user",
+                        "in_progress"
+                    ]
+                },
                 "text": {
                     "type": "string",
                     "minLength": 1
@@ -30413,7 +30437,8 @@
                     "type": "string",
                     "enum": [
                         "open",
-                        "pending",
+                        "pending_user",
+                        "in_progress",
                         "resolved"
                     ]
                 }
@@ -32577,14 +32602,16 @@
                 "draft",
                 "published",
                 "open",
-                "pending",
+                "pending_user",
+                "in_progress",
                 "resolved"
             ],
             "x-enum-varnames": [
                 "FeedNotificationStatusDraft",
                 "FeedNotificationStatusPublished",
                 "FeedNotificationStatusOpen",
-                "FeedNotificationStatusPending",
+                "FeedNotificationStatusPendingUser",
+                "FeedNotificationStatusInProgress",
                 "FeedNotificationStatusResolved"
             ]
         },

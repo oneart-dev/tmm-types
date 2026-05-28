@@ -9,7 +9,7 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
         per_page?: number;
         search?: string;
         sort?: "last_activity_desc" | "unanswered_first" | "oldest_unanswered_first" | "newest_activity" | "oldest_activity" | "oldest_unanswered";
-        status?: "open" | "answered" | "all" | "pending" | "resolved";
+        status?: "open" | "answered" | "all" | "pending_user" | "in_progress" | "resolved";
         ticket_uid?: string;
         type?: "global" | "personal";
         user_id?: number;

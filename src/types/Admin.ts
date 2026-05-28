@@ -114,7 +114,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        * (open / pending / resolved). The repo branches on Kind to pick the
        * right interpretation; "all" / "" disables either filter.
        */
-      status?: "open" | "answered" | "all" | "pending" | "resolved";
+      status?: "open" | "answered" | "all" | "pending_user" | "in_progress" | "resolved";
       /**
        * TicketUID — exact match on feed_notifications.ticket_uid. Convenience
        * filter for "jump to ticket #ABCD1234"; the # prefix is stripped server-
@@ -182,7 +182,7 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       type?: string;
       /** notification | ticket */
       kind?: string;
-      /** draft | published | open | pending | resolved */
+      /** draft | published | open | pending_user | in_progress | resolved */
       status?: string;
       /** Exact match on event_kind tag (e.g. subscription_expiring) */
       event_kind?: string;

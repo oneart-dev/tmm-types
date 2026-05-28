@@ -636,6 +636,7 @@ export interface DtoFeedNotificationCreateForm {
     audience_memberships?: string[];
     event_kind?: string;
     expires_at?: number;
+    initial_ticket_status?: "pending_user" | "in_progress";
     kind?: "notification" | "ticket";
     poll_enabled?: boolean;
     poll_lock_at?: number;
@@ -661,6 +662,7 @@ export interface DtoFeedNotificationUpdateForm {
     audience_memberships?: string[];
     event_kind?: string;
     expires_at?: number;
+    initial_ticket_status?: "pending_user" | "in_progress";
     kind?: "notification" | "ticket";
     poll_enabled?: boolean;
     poll_lock_at?: number;
@@ -870,11 +872,12 @@ export interface DtoTeamUpdateForm {
 export type DtoTelegramConnectForm = object;
 export interface DtoTicketQuickCreateForm {
     image_file_ids?: number[];
+    initial_status?: "pending_user" | "in_progress";
     text: string;
     title: string;
 }
 export interface DtoTicketStatusUpdateForm {
-    status: "open" | "pending" | "resolved";
+    status: "open" | "pending_user" | "in_progress" | "resolved";
 }
 export interface DtoTradeChartDataForm {
     data?: string;
@@ -1444,7 +1447,8 @@ export declare enum ServicesFeedNotificationStatus {
     FeedNotificationStatusDraft = "draft",
     FeedNotificationStatusPublished = "published",
     FeedNotificationStatusOpen = "open",
-    FeedNotificationStatusPending = "pending",
+    FeedNotificationStatusPendingUser = "pending_user",
+    FeedNotificationStatusInProgress = "in_progress",
     FeedNotificationStatusResolved = "resolved"
 }
 export interface ServicesFeedNotificationStatusChangedSSEPayload {

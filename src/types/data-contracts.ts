@@ -1126,10 +1126,20 @@ export interface DtoFeedNotificationCreateForm {
   event_kind?: string;
   expires_at?: number;
   /**
+   * InitialTicketStatus only applies when Kind=ticket. Lets support
+   * override the default `pending_user` initial state when opening a
+   * work-tracking ticket where the user isn't expected to act yet (set
+   * to `in_progress`). `open` and `resolved` are NOT valid initial
+   * states — open means "admin must react" but admin just created the
+   * row; resolved must be reached via subsequent PATCH.
+   */
+  initial_ticket_status?: "pending_user" | "in_progress";
+  /**
    * Kind toggles the create/update validation profile.
    *   notification (default): full form — link, poll, audience, multi-lang
    *   ticket: simplified — title/text/images only, single 'und' translation,
-   *                        type=personal, status starts at open, gets
+   *                        type=personal, status defaults to pending_user
+   *                        unless InitialTicketStatus overrides, gets
    *                        ticket_uid assigned server-side.
    */
   kind?: "notification" | "ticket";
@@ -1180,10 +1190,20 @@ export interface DtoFeedNotificationUpdateForm {
   event_kind?: string;
   expires_at?: number;
   /**
+   * InitialTicketStatus only applies when Kind=ticket. Lets support
+   * override the default `pending_user` initial state when opening a
+   * work-tracking ticket where the user isn't expected to act yet (set
+   * to `in_progress`). `open` and `resolved` are NOT valid initial
+   * states — open means "admin must react" but admin just created the
+   * row; resolved must be reached via subsequent PATCH.
+   */
+  initial_ticket_status?: "pending_user" | "in_progress";
+  /**
    * Kind toggles the create/update validation profile.
    *   notification (default): full form — link, poll, audience, multi-lang
    *   ticket: simplified — title/text/images only, single 'und' translation,
-   *                        type=personal, status starts at open, gets
+   *                        type=personal, status defaults to pending_user
+   *                        unless InitialTicketStatus overrides, gets
    *                        ticket_uid assigned server-side.
    */
   kind?: "notification" | "ticket";
@@ -1769,6 +1789,7 @@ export type DtoTelegramConnectForm = object;
 
 export interface DtoTicketQuickCreateForm {
   image_file_ids?: number[];
+  initial_status?: "pending_user" | "in_progress";
   /** @minLength 1 */
   text: string;
   /**
@@ -1779,7 +1800,7 @@ export interface DtoTicketQuickCreateForm {
 }
 
 export interface DtoTicketStatusUpdateForm {
-  status: "open" | "pending" | "resolved";
+  status: "open" | "pending_user" | "in_progress" | "resolved";
 }
 
 export interface DtoTradeChartDataForm {
@@ -2747,7 +2768,8 @@ export enum ServicesFeedNotificationStatus {
   FeedNotificationStatusDraft = "draft",
   FeedNotificationStatusPublished = "published",
   FeedNotificationStatusOpen = "open",
-  FeedNotificationStatusPending = "pending",
+  FeedNotificationStatusPendingUser = "pending_user",
+  FeedNotificationStatusInProgress = "in_progress",
   FeedNotificationStatusResolved = "resolved",
 }
 
