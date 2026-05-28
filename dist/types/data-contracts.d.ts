@@ -637,7 +637,6 @@ export interface DtoFeedNotificationCreateForm {
     event_kind?: string;
     expires_at?: number;
     kind?: "notification" | "ticket";
-    link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: number;
     poll_multi_select?: boolean;
@@ -654,6 +653,7 @@ export interface DtoFeedNotificationPollOptionForm {
 export interface DtoFeedNotificationTranslationForm {
     image_file_id?: number;
     link_title?: string;
+    link_url?: string;
     text: string;
     title: string;
 }
@@ -662,7 +662,6 @@ export interface DtoFeedNotificationUpdateForm {
     event_kind?: string;
     expires_at?: number;
     kind?: "notification" | "ticket";
-    link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: number;
     poll_multi_select?: boolean;
@@ -1307,7 +1306,6 @@ export interface ServicesFeedNotification {
     expires_at?: string;
     id?: number;
     kind?: ServicesFeedNotificationKind;
-    link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: string;
     poll_multi_select?: boolean;
@@ -1336,7 +1334,6 @@ export interface ServicesFeedNotificationAdminListItem {
     id?: number;
     kind?: ServicesFeedNotificationKind;
     languages?: string[];
-    link_url?: string;
     poll_enabled?: boolean;
     poll_lock_at?: string;
     poll_multi_select?: boolean;
@@ -1395,7 +1392,6 @@ export interface ServicesFeedNotificationFeedItem {
     expires_at?: string;
     id?: number;
     kind?: string;
-    link_url?: string;
     my_liked?: boolean;
     my_vote?: number[];
     my_vote_other_text?: string;
@@ -1485,6 +1481,7 @@ export interface ServicesFeedNotificationTranslation {
     image_file_id?: number;
     lang?: string;
     link_title?: string;
+    link_url?: string;
     notification_id?: number;
     text?: string;
     title?: string;
@@ -2004,11 +2001,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -1133,7 +1133,6 @@ export interface DtoFeedNotificationCreateForm {
    *                        ticket_uid assigned server-side.
    */
   kind?: "notification" | "ticket";
-  link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: number;
   poll_multi_select?: boolean;
@@ -1155,6 +1154,12 @@ export interface DtoFeedNotificationTranslationForm {
   image_file_id?: number;
   /** @maxLength 255 */
   link_title?: string;
+  /**
+   * LinkURL is locale-specific so EN/RU can point at different landing
+   * pages. Same validator as the old notification-level field — accepts
+   * "/relative" or "https://absolute" URLs.
+   */
+  link_url?: string;
   text: string;
   /**
    * @minLength 1
@@ -1182,7 +1187,6 @@ export interface DtoFeedNotificationUpdateForm {
    *                        ticket_uid assigned server-side.
    */
   kind?: "notification" | "ticket";
-  link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: number;
   poll_multi_select?: boolean;
@@ -2551,7 +2555,6 @@ export interface ServicesFeedNotification {
    * TicketUID for user-facing reference.
    */
   kind?: ServicesFeedNotificationKind;
-  link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: string;
   poll_multi_select?: boolean;
@@ -2595,7 +2598,6 @@ export interface ServicesFeedNotificationAdminListItem {
    */
   kind?: ServicesFeedNotificationKind;
   languages?: string[];
-  link_url?: string;
   poll_enabled?: boolean;
   poll_lock_at?: string;
   poll_multi_select?: boolean;
@@ -2677,12 +2679,6 @@ export interface ServicesFeedNotificationFeedItem {
    * vs a ticket bubble with the status pill and UID.
    */
   kind?: string;
-  /**
-   * Link applies to every language; the per-language image lives in
-   * translations[i].image, since admin can attach a different visual per
-   * locale (text-on-image localization etc).
-   */
-  link_url?: string;
   my_liked?: boolean;
   /** Per-user state (zero/empty in broadcast SSE). */
   my_vote?: number[];
@@ -2693,7 +2689,12 @@ export interface ServicesFeedNotificationFeedItem {
   seen?: boolean;
   status?: string;
   ticket_uid?: string;
-  /** Multi-language content. Frontend picks the right entry by user.language. */
+  /**
+   * Multi-language content. Frontend picks the right entry by user.language
+   * — each translation now carries its own link_url + link_title + image so
+   * the locale gets a fully self-contained action surface (different
+   * landing pages per locale, different cover art per locale).
+   */
   translations?: ServicesFeedNotificationTranslation[];
   type?: string;
   user_id?: number;
@@ -2788,6 +2789,12 @@ export interface ServicesFeedNotificationTranslation {
   image_file_id?: number;
   lang?: string;
   link_title?: string;
+  /**
+   * LinkURL: locale-specific destination for the notification's action
+   * button. Lives at the translation level (NOT the notification level) so
+   * EN and RU can point at different landing pages. Empty when no button.
+   */
+  link_url?: string;
   notification_id?: number;
   text?: string;
   title?: string;
@@ -3443,11 +3450,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

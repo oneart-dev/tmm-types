@@ -29253,9 +29253,6 @@
                         "ticket"
                     ]
                 },
-                "link_url": {
-                    "type": "string"
-                },
                 "poll_enabled": {
                     "type": "boolean"
                 },
@@ -29325,6 +29322,10 @@
                     "type": "string",
                     "maxLength": 255
                 },
+                "link_url": {
+                    "description": "LinkURL is locale-specific so EN/RU can point at different landing\npages. Same validator as the old notification-level field — accepts\n\"/relative\" or \"https://absolute\" URLs.",
+                    "type": "string"
+                },
                 "text": {
                     "type": "string"
                 },
@@ -29363,9 +29364,6 @@
                         "notification",
                         "ticket"
                     ]
-                },
-                "link_url": {
-                    "type": "string"
                 },
                 "poll_enabled": {
                     "type": "boolean"
@@ -32123,9 +32121,6 @@
                         }
                     ]
                 },
-                "link_url": {
-                    "type": "string"
-                },
                 "poll_enabled": {
                     "type": "boolean"
                 },
@@ -32231,9 +32226,6 @@
                     "items": {
                         "type": "string"
                     }
-                },
-                "link_url": {
-                    "type": "string"
                 },
                 "poll_enabled": {
                     "type": "boolean"
@@ -32424,10 +32416,6 @@
                     "description": "Ticket-specific identity. Kind/Status/TicketUID are present on every\nitem (Kind defaults to \"notification\" via the model) so the frontend\ncan branch without an extra fetch — render a regular notification card\nvs a ticket bubble with the status pill and UID.",
                     "type": "string"
                 },
-                "link_url": {
-                    "description": "Link applies to every language; the per-language image lives in\ntranslations[i].image, since admin can attach a different visual per\nlocale (text-on-image localization etc).",
-                    "type": "string"
-                },
                 "my_liked": {
                     "type": "boolean"
                 },
@@ -32462,7 +32450,7 @@
                     "type": "string"
                 },
                 "translations": {
-                    "description": "Multi-language content. Frontend picks the right entry by user.language.",
+                    "description": "Multi-language content. Frontend picks the right entry by user.language\n— each translation now carries its own link_url + link_title + image so\nthe locale gets a fully self-contained action surface (different\nlanding pages per locale, different cover art per locale).",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.FeedNotificationTranslation"
@@ -32696,6 +32684,10 @@
                     "type": "string"
                 },
                 "link_title": {
+                    "type": "string"
+                },
+                "link_url": {
+                    "description": "LinkURL: locale-specific destination for the notification's action\nbutton. Lives at the translation level (NOT the notification level) so\nEN and RU can point at different landing pages. Empty when no button.",
                     "type": "string"
                 },
                 "notification_id": {
@@ -34306,18 +34298,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
