@@ -1313,6 +1313,7 @@ export interface ServicesFeedNotification {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    sort_key?: string;
     status?: ServicesFeedNotificationStatus;
     ticket_uid?: string;
     type?: ServicesFeedNotificationType;
@@ -1341,6 +1342,7 @@ export interface ServicesFeedNotificationAdminListItem {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    sort_key?: string;
     status?: ServicesFeedNotificationStatus;
     ticket_uid?: string;
     title?: string;
@@ -2005,11 +2007,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -32158,6 +32158,10 @@
                 "published_at": {
                     "type": "string"
                 },
+                "sort_key": {
+                    "description": "SortKey drives the user-feed ordering. Notifications hold it at\npublished_at (frozen after publish — admin edits don't re-bubble).\nTickets bump it on every visible comment + every status change, so\nactivity floats them to the top while the surrounding notifications\nstay where they were chronologically.",
+                    "type": "string"
+                },
                 "status": {
                     "$ref": "#/definitions/services.FeedNotificationStatus"
                 },
@@ -32262,6 +32266,10 @@
                     "type": "boolean"
                 },
                 "published_at": {
+                    "type": "string"
+                },
+                "sort_key": {
+                    "description": "SortKey drives the user-feed ordering. Notifications hold it at\npublished_at (frozen after publish — admin edits don't re-bubble).\nTickets bump it on every visible comment + every status change, so\nactivity floats them to the top while the surrounding notifications\nstay where they were chronologically.",
                     "type": "string"
                 },
                 "status": {
@@ -34325,18 +34333,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

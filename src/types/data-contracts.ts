@@ -2580,6 +2580,14 @@ export interface ServicesFeedNotification {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
+  /**
+   * SortKey drives the user-feed ordering. Notifications hold it at
+   * published_at (frozen after publish — admin edits don't re-bubble).
+   * Tickets bump it on every visible comment + every status change, so
+   * activity floats them to the top while the surrounding notifications
+   * stay where they were chronologically.
+   */
+  sort_key?: string;
   status?: ServicesFeedNotificationStatus;
   ticket_uid?: string;
   type?: ServicesFeedNotificationType;
@@ -2623,6 +2631,14 @@ export interface ServicesFeedNotificationAdminListItem {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
+  /**
+   * SortKey drives the user-feed ordering. Notifications hold it at
+   * published_at (frozen after publish — admin edits don't re-bubble).
+   * Tickets bump it on every visible comment + every status change, so
+   * activity floats them to the top while the surrounding notifications
+   * stay where they were chronologically.
+   */
+  sort_key?: string;
   status?: ServicesFeedNotificationStatus;
   ticket_uid?: string;
   title?: string;
@@ -3472,11 +3488,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
