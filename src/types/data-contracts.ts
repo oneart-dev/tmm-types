@@ -2724,6 +2724,13 @@ export interface ServicesFeedNotificationFeedItem {
   poll?: ServicesFeedNotificationFeedPoll;
   published_at?: string;
   seen?: boolean;
+  /**
+   * SortKey is the backend's sort order on the wire — frontend can use it
+   * for "last activity" timestamps but doesn't have to (rows arrive
+   * pre-ordered). Notifications pin it at published_at; tickets bump it
+   * on each visible comment + status change so they float to the top.
+   */
+  sort_key?: string;
   status?: string;
   ticket_uid?: string;
   /**

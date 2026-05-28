@@ -32476,6 +32476,10 @@
                 "seen": {
                     "type": "boolean"
                 },
+                "sort_key": {
+                    "description": "SortKey is the backend's sort order on the wire — frontend can use it\nfor \"last activity\" timestamps but doesn't have to (rows arrive\npre-ordered). Notifications pin it at published_at; tickets bump it\non each visible comment + status change so they float to the top.",
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },

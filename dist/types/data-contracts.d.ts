@@ -1403,6 +1403,7 @@ export interface ServicesFeedNotificationFeedItem {
     poll?: ServicesFeedNotificationFeedPoll;
     published_at?: string;
     seen?: boolean;
+    sort_key?: string;
     status?: string;
     ticket_uid?: string;
     translations?: ServicesFeedNotificationTranslation[];
