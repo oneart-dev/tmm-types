@@ -14,6 +14,7 @@ export declare class Notifications<SecurityDataType = unknown> extends HttpClien
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFile, any>>;
     likeCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationLikeData, any>>;
     seenCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
+    threadSeenCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
     voteCreate: (id: number, payload: DtoFeedNotificationVoteForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiWarningResponse>>;
 }
 //# sourceMappingURL=Notifications.d.ts.map

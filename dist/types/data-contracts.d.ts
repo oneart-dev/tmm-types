@@ -254,6 +254,7 @@ export interface ControllersFeedNotificationThreadDetail {
 export interface ControllersFeedNotificationThreadDetailResponse {
     data?: ControllersFeedNotificationThreadDetail;
     status?: ControllersResponseStatusMessage;
+    thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ControllersFeedNotificationThreadInboxResponse {
     data?: ServicesFeedNotificationThreadSummary[];
@@ -632,6 +633,9 @@ export interface DtoFeedNotificationCommentUpdateForm {
     image_file_ids?: number[];
     text?: string;
 }
+export interface DtoFeedNotificationConversationStatusForm {
+    status: "open" | "pending_user" | "in_progress" | "resolved";
+}
 export interface DtoFeedNotificationCreateForm {
     audience_memberships?: string[];
     event_kind?: string;
@@ -875,9 +879,6 @@ export interface DtoTicketQuickCreateForm {
     initial_status?: "pending_user" | "in_progress";
     text: string;
     title: string;
-}
-export interface DtoTicketStatusUpdateForm {
-    status: "open" | "pending_user" | "in_progress" | "resolved";
 }
 export interface DtoTradeChartDataForm {
     data?: string;
@@ -1314,7 +1315,6 @@ export interface ServicesFeedNotification {
     poll_multi_select?: boolean;
     published_at?: string;
     sort_key?: string;
-    status?: ServicesFeedNotificationStatus;
     ticket_uid?: string;
     type?: ServicesFeedNotificationType;
     updated_at?: string;
@@ -1325,6 +1325,7 @@ export interface ServicesFeedNotificationAdminDetail {
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
     poll_options?: ServicesFeedNotificationPollOption[];
+    publication_status?: string;
     translations?: ServicesFeedNotificationTranslation[];
     votes_count?: number;
 }
@@ -1343,7 +1344,6 @@ export interface ServicesFeedNotificationAdminListItem {
     poll_multi_select?: boolean;
     published_at?: string;
     sort_key?: string;
-    status?: ServicesFeedNotificationStatus;
     ticket_uid?: string;
     title?: string;
     type?: ServicesFeedNotificationType;
@@ -1377,7 +1377,7 @@ export interface ServicesFeedNotificationCommentSSEPayload {
     last_message_from?: string;
     notification_id?: number;
     scope_user_id?: number;
-    unanswered?: boolean;
+    thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ServicesFeedNotificationFeedComment {
     attachments?: ServicesFile[];
@@ -1391,7 +1391,9 @@ export interface ServicesFeedNotificationFeedComment {
 }
 export interface ServicesFeedNotificationFeedItem {
     audience_memberships?: string[];
+    caught_up?: boolean;
     comments?: ServicesFeedNotificationFeedComment[];
+    conversation_status?: ServicesFeedNotificationStatus;
     created_at?: string;
     event_kind?: string;
     expires_at?: string;
@@ -1404,7 +1406,6 @@ export interface ServicesFeedNotificationFeedItem {
     published_at?: string;
     seen?: boolean;
     sort_key?: string;
-    status?: string;
     ticket_uid?: string;
     translations?: ServicesFeedNotificationTranslation[];
     type?: string;
@@ -1458,6 +1459,7 @@ export interface ServicesFeedNotificationStatusChangedSSEPayload {
     notification_id?: number;
     scope_user_id?: number;
     status?: string;
+    thread_state?: ServicesFeedNotificationThreadState;
     ticket_uid?: string;
 }
 export interface ServicesFeedNotificationThreadLastMessage {
@@ -1467,21 +1469,40 @@ export interface ServicesFeedNotificationThreadLastMessage {
 export interface ServicesFeedNotificationThreadNotificationRef {
     id?: number;
     kind?: string;
-    status?: string;
     ticket_uid?: string;
     title?: string;
     type?: string;
 }
+export interface ServicesFeedNotificationThreadSeenChangedSSEPayload {
+    notification_id?: number;
+    scope_user_id?: number;
+    side?: string;
+    thread_state?: ServicesFeedNotificationThreadState;
+}
+export interface ServicesFeedNotificationThreadState {
+    admin_caught_up?: boolean;
+    admin_last_read_at?: string;
+    last_activity_at?: string;
+    status?: ServicesFeedNotificationStatus;
+    status_changed_at?: string;
+    user_caught_up?: boolean;
+    user_last_read_at?: string;
+}
 export interface ServicesFeedNotificationThreadSummary {
+    admin_caught_up?: boolean;
+    admin_last_read_at?: string;
+    last_activity_at?: string;
     last_message?: ServicesFeedNotificationThreadLastMessage;
-    last_message_at?: string;
     last_message_from?: string;
     message_count?: number;
     notification?: ServicesFeedNotificationThreadNotificationRef;
     notification_id?: number;
     scope_user_id?: number;
-    unanswered?: boolean;
+    status?: ServicesFeedNotificationStatus;
+    status_changed_at?: string;
     user?: ServicesSafeUser;
+    user_caught_up?: boolean;
+    user_last_read_at?: string;
 }
 export interface ServicesFeedNotificationTranslation {
     image?: ServicesFile;
@@ -1920,10 +1941,12 @@ export interface ServicesRiskManagementPagination {
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
     "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
+    "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
     "feed-notification-created"?: ServicesFeedNotificationFeedItem;
     "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
     "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
+    "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
 }
 export interface ServicesSafeUser {
@@ -2008,11 +2031,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

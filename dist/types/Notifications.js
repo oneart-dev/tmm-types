@@ -56,6 +56,12 @@ export class Notifications extends HttpClient {
             secure: true,
             ...params,
         });
+        this.threadSeenCreate = (id, params = {}) => this.request({
+            path: `/notifications/${id}/thread/seen`,
+            method: "POST",
+            secure: true,
+            ...params,
+        });
         this.voteCreate = (id, payload, params = {}) => this.request({
             path: `/notifications/${id}/vote`,
             method: "POST",

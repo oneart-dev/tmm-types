@@ -24,10 +24,10 @@ import {
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCommentCreateForm,
+  DtoFeedNotificationConversationStatusForm,
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationUpdateForm,
   DtoTicketQuickCreateForm,
-  DtoTicketStatusUpdateForm,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -66,7 +66,13 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       kind?: "notification" | "ticket";
       notification_id?: number;
-      /** @min 1 */
+      /**
+       * Sort is fixed: lifecycle priority (open → in_progress → pending_user →
+       * resolved) then last_activity_at DESC. The frontend no longer picks a
+       * sort mode — the support workflow only ever wants "what needs attention
+       * next" at the top, which the lifecycle order encodes directly.
+       * @min 1
+       */
       page?: number;
       /**
        * @min 1
@@ -96,25 +102,11 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       search?: string;
       /**
-       * Sort. Legacy values (last_activity_desc / unanswered_first /
-       * oldest_unanswered_first) kept for back-compat with existing callers;
-       * new short aliases (newest_activity / oldest_activity / oldest_unanswered)
-       * mirror frontend's intent.
+       * Status: conversation lifecycle (open / pending_user / in_progress /
+       * resolved) sourced from feed_notification_user. Empty disables the
+       * filter — every active conversation surfaces regardless of state.
        */
-      sort?:
-        | "last_activity_desc"
-        | "unanswered_first"
-        | "oldest_unanswered_first"
-        | "newest_activity"
-        | "oldest_activity"
-        | "oldest_unanswered";
-      /**
-       * Status: for notifications it's an inbox-state alias (open=unanswered,
-       * answered, all). For tickets it's the ticket-lifecycle value
-       * (open / pending / resolved). The repo branches on Kind to pick the
-       * right interpretation; "all" / "" disables either filter.
-       */
-      status?: "open" | "answered" | "all" | "pending_user" | "in_progress" | "resolved";
+      status?: "open" | "pending_user" | "in_progress" | "resolved";
       /**
        * TicketUID — exact match on feed_notifications.ticket_uid. Convenience
        * filter for "jump to ticket #ABCD1234"; the # prefix is stripped server-
@@ -165,6 +157,45 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/admin/notification_threads/${notificationId}/${userId}/reply`,
       method: "POST",
       body: payload,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description Bumps admin_last_read_at for the (notification, scope_user) thread. Single admin-side pointer (not per-admin) at the spec's chosen granularity.
+   *
+   * @tags admin_notification_threads
+   * @name NotificationThreadsSeenCreate
+   * @summary Mark a thread as admin-read
+   * @request POST:/admin/notification_threads/{notification_id}/{user_id}/seen
+   * @secure
+   */
+  notificationThreadsSeenCreate = (notificationId: number, userId: number, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, any>({
+      path: `/admin/notification_threads/${notificationId}/${userId}/seen`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Accepts open / pending_user / in_progress / resolved. No sticky guards — admin can reopen a resolved thread. Auto-transitions on comment activity flow through the comment service, not this endpoint.
+   *
+   * @tags admin_notification_threads
+   * @name NotificationThreadsStatusPartialUpdate
+   * @summary Manual override for a thread's conversation status
+   * @request PATCH:/admin/notification_threads/{notification_id}/{user_id}/status
+   * @secure
+   */
+  notificationThreadsStatusPartialUpdate = (
+    notificationId: number,
+    userId: number,
+    payload: DtoFeedNotificationConversationStatusForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<ControllersApiSuccessNoData, any>({
+      path: `/admin/notification_threads/${notificationId}/${userId}/status`,
+      method: "PATCH",
+      body: payload,
+      secure: true,
       type: ContentType.Json,
       ...params,
     });
@@ -289,24 +320,6 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<ControllersApiSuccessNoData, any>({
       path: `/admin/notifications/${id}/publish`,
       method: "POST",
-      ...params,
-    });
-  /**
-   * @description Accepts open / pending / resolved. Auto-transitions on comment activity also flow through the same service method but are driven by the comment service, not this endpoint.
-   *
-   * @tags admin_feed_notifications
-   * @name NotificationsStatusPartialUpdate
-   * @summary Set ticket status (admin override)
-   * @request PATCH:/admin/notifications/{id}/status
-   * @secure
-   */
-  notificationsStatusPartialUpdate = (id: number, payload: DtoTicketStatusUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessNoData, any>({
-      path: `/admin/notifications/${id}/status`,
-      method: "PATCH",
-      body: payload,
-      secure: true,
-      type: ContentType.Json,
       ...params,
     });
   /**

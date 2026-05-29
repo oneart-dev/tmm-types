@@ -373,6 +373,7 @@ export interface ControllersFeedNotificationThreadDetailResponse {
   data?: ControllersFeedNotificationThreadDetail;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  thread_state?: ServicesFeedNotificationThreadState;
 }
 
 export interface ControllersFeedNotificationThreadInboxResponse {
@@ -1114,6 +1115,11 @@ export interface DtoFeedNotificationCommentUpdateForm {
   text?: string;
 }
 
+export interface DtoFeedNotificationConversationStatusForm {
+  /** @example "open" */
+  status: "open" | "pending_user" | "in_progress" | "resolved";
+}
+
 export interface DtoFeedNotificationCreateForm {
   audience_memberships?: string[];
   /**
@@ -1797,10 +1803,6 @@ export interface DtoTicketQuickCreateForm {
    * @maxLength 255
    */
   title: string;
-}
-
-export interface DtoTicketStatusUpdateForm {
-  status: "open" | "pending_user" | "in_progress" | "resolved";
 }
 
 export interface DtoTradeChartDataForm {
@@ -2588,7 +2590,6 @@ export interface ServicesFeedNotification {
    * stay where they were chronologically.
    */
   sort_key?: string;
-  status?: ServicesFeedNotificationStatus;
   ticket_uid?: string;
   type?: ServicesFeedNotificationType;
   updated_at?: string;
@@ -2600,6 +2601,13 @@ export interface ServicesFeedNotificationAdminDetail {
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
   poll_options?: ServicesFeedNotificationPollOption[];
+  /**
+   * PublicationStatus is derived from Notification.PublishedAt:
+   * "draft" when nil, "published" otherwise. Surfaces the publish state
+   * to the admin UI without re-introducing a status column on the parent
+   * row — conversation lifecycle lives on feed_notification_user.
+   */
+  publication_status?: string;
   translations?: ServicesFeedNotificationTranslation[];
   votes_count?: number;
 }
@@ -2639,7 +2647,6 @@ export interface ServicesFeedNotificationAdminListItem {
    * stay where they were chronologically.
    */
   sort_key?: string;
-  status?: ServicesFeedNotificationStatus;
   ticket_uid?: string;
   title?: string;
   type?: ServicesFeedNotificationType;
@@ -2683,7 +2690,7 @@ export interface ServicesFeedNotificationCommentSSEPayload {
   last_message_from?: string;
   notification_id?: number;
   scope_user_id?: number;
-  unanswered?: boolean;
+  thread_state?: ServicesFeedNotificationThreadState;
 }
 
 export interface ServicesFeedNotificationFeedComment {
@@ -2703,17 +2710,27 @@ export interface ServicesFeedNotificationFeedItem {
    * still matches the audience (drop the card if not).
    */
   audience_memberships?: string[];
+  caught_up?: boolean;
   comments?: ServicesFeedNotificationFeedComment[];
+  /**
+   * ConversationStatus + CaughtUp materialize the caller's per-thread
+   * lifecycle from feed_notification_user. Both are pointers + omitempty
+   * so a feed item without an open conversation simply omits them
+   * (NULL status on FNU, or no FNU row at all → no envelope on the wire).
+   */
+  conversation_status?: ServicesFeedNotificationStatus;
   created_at?: string;
   event_kind?: string;
   expires_at?: string;
   /** Identity & lifecycle. */
   id?: number;
   /**
-   * Ticket-specific identity. Kind/Status/TicketUID are present on every
-   * item (Kind defaults to "notification" via the model) so the frontend
-   * can branch without an extra fetch — render a regular notification card
-   * vs a ticket bubble with the status pill and UID.
+   * Ticket-specific identity. Kind + TicketUID are present on every item
+   * (Kind defaults to "notification" via the model) so the frontend can
+   * branch without an extra fetch — render a regular notification card vs
+   * a ticket bubble with the UID. Conversation lifecycle status now flows
+   * via ConversationStatus (populated from feed_notification_user when the
+   * caller has a thread open).
    */
   kind?: string;
   my_liked?: boolean;
@@ -2731,7 +2748,6 @@ export interface ServicesFeedNotificationFeedItem {
    * on each visible comment + status change so they float to the top.
    */
   sort_key?: string;
-  status?: string;
   ticket_uid?: string;
   /**
    * Multi-language content. Frontend picks the right entry by user.language
@@ -2800,6 +2816,7 @@ export interface ServicesFeedNotificationStatusChangedSSEPayload {
   notification_id?: number;
   scope_user_id?: number;
   status?: string;
+  thread_state?: ServicesFeedNotificationThreadState;
   ticket_uid?: string;
 }
 
@@ -2811,22 +2828,44 @@ export interface ServicesFeedNotificationThreadLastMessage {
 export interface ServicesFeedNotificationThreadNotificationRef {
   id?: number;
   kind?: string;
-  status?: string;
   ticket_uid?: string;
   title?: string;
   type?: string;
 }
 
+export interface ServicesFeedNotificationThreadSeenChangedSSEPayload {
+  notification_id?: number;
+  scope_user_id?: number;
+  /** "user" | "admin" */
+  side?: string;
+  thread_state?: ServicesFeedNotificationThreadState;
+}
+
+export interface ServicesFeedNotificationThreadState {
+  admin_caught_up?: boolean;
+  admin_last_read_at?: string;
+  last_activity_at?: string;
+  status?: ServicesFeedNotificationStatus;
+  status_changed_at?: string;
+  user_caught_up?: boolean;
+  user_last_read_at?: string;
+}
+
 export interface ServicesFeedNotificationThreadSummary {
+  admin_caught_up?: boolean;
+  admin_last_read_at?: string;
+  last_activity_at?: string;
   last_message?: ServicesFeedNotificationThreadLastMessage;
-  last_message_at?: string;
   last_message_from?: string;
   message_count?: number;
   notification?: ServicesFeedNotificationThreadNotificationRef;
   notification_id?: number;
   scope_user_id?: number;
-  unanswered?: boolean;
+  status?: ServicesFeedNotificationStatus;
+  status_changed_at?: string;
   user?: ServicesSafeUser;
+  user_caught_up?: boolean;
+  user_last_read_at?: string;
 }
 
 export interface ServicesFeedNotificationTranslation {
@@ -3380,10 +3419,12 @@ export interface ServicesRiskManagementPagination {
 export interface ServicesSSEFeedNotificationEventCatalog {
   "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
   "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
+  "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
   "feed-notification-created"?: ServicesFeedNotificationFeedItem;
   "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
   "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
+  "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
 }
 
@@ -3495,11 +3536,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

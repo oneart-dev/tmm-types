@@ -58,7 +58,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
       ...params,
     });
   /**
-   * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
+   * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added, feed-notification-status-changed, admin-feed-notification-status-changed, feed-notification-thread-seen-changed, admin-feed-notification-thread-seen-changed) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
    *
    * @tags feed_notifications, internal
    * @name SseEventsList
@@ -179,6 +179,22 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
   seenCreate = (id: number, params: RequestParams = {}) =>
     this.request<ControllersApiSuccessNoData, any>({
       path: `/notifications/${id}/seen`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Bumps user_last_read_at for the (notification, caller) thread. Idempotent. Called on thread-detail render, on tab focus while open, and after rendering an SSE comment-added bubble.
+   *
+   * @tags notifications
+   * @name ThreadSeenCreate
+   * @summary Mark the caller's thread as read
+   * @request POST:/notifications/{id}/thread/seen
+   * @secure
+   */
+  threadSeenCreate = (id: number, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, any>({
+      path: `/notifications/${id}/thread/seen`,
       method: "POST",
       secure: true,
       ...params,

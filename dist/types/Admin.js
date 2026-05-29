@@ -27,6 +27,20 @@ export class Admin extends HttpClient {
             type: ContentType.Json,
             ...params,
         });
+        this.notificationThreadsSeenCreate = (notificationId, userId, params = {}) => this.request({
+            path: `/admin/notification_threads/${notificationId}/${userId}/seen`,
+            method: "POST",
+            secure: true,
+            ...params,
+        });
+        this.notificationThreadsStatusPartialUpdate = (notificationId, userId, payload, params = {}) => this.request({
+            path: `/admin/notification_threads/${notificationId}/${userId}/status`,
+            method: "PATCH",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            ...params,
+        });
         this.notificationsList = (query, params = {}) => this.request({
             path: `/admin/notifications`,
             method: "GET",
@@ -66,14 +80,6 @@ export class Admin extends HttpClient {
         this.notificationsPublishCreate = (id, params = {}) => this.request({
             path: `/admin/notifications/${id}/publish`,
             method: "POST",
-            ...params,
-        });
-        this.notificationsStatusPartialUpdate = (id, payload, params = {}) => this.request({
-            path: `/admin/notifications/${id}/status`,
-            method: "PATCH",
-            body: payload,
-            secure: true,
-            type: ContentType.Json,
             ...params,
         });
         this.notificationsVotesDetail = (id, params = {}) => this.request({
