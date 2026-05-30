@@ -231,6 +231,7 @@ export interface ControllersExchangesListResponse {
 }
 export interface ControllersFeedNotificationAdminCreateData {
     id?: number;
+    ids?: number[];
 }
 export interface ControllersFeedNotificationAdminDetailResponse {
     data?: ServicesFeedNotificationAdminDetail;
@@ -879,6 +880,7 @@ export interface DtoTicketQuickCreateForm {
     initial_status?: "pending_user" | "in_progress";
     text: string;
     title: string;
+    user_ids?: number[];
 }
 export interface DtoTradeChartDataForm {
     data?: string;
@@ -2031,11 +2033,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
