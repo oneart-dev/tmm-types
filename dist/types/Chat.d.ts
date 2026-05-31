@@ -1,6 +1,8 @@
-import { ControllersUnauthorizedResponse, DtoChatCreateThreadRequest, DtoChatCreateThreadResponse, DtoChatDeleteResponse, DtoChatErrorResponse, DtoChatGetThreadResponse, DtoChatListThreadsResponse, DtoChatNotAvailableResponse, DtoChatProfileRebuildResponse, DtoChatQuotaExhaustedResponse, DtoChatSendMessageRequest, DtoChatSendMessageResponse, DtoChatUsageResponse } from "./data-contracts";
+import { ControllersApiSuccessDtoChatMemory, ControllersApiSuccessNoData, ControllersUnauthorizedResponse, DtoChatCreateThreadRequest, DtoChatCreateThreadResponse, DtoChatDeleteResponse, DtoChatErrorResponse, DtoChatGetThreadResponse, DtoChatListThreadsResponse, DtoChatNotAvailableResponse, DtoChatProfileRebuildResponse, DtoChatQuotaExhaustedResponse, DtoChatSendMessageRequest, DtoChatSendMessageResponse, DtoChatUsageResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+    memoryList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessDtoChatMemory, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
+    memoryDelete: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
     threadsList: (query?: {
         limit?: number;
         cursor?: string;

@@ -2,6 +2,20 @@ import { ContentType, HttpClient } from "./http-client";
 export class Chat extends HttpClient {
     constructor() {
         super(...arguments);
+        this.memoryList = (params = {}) => this.request({
+            path: `/chat/memory`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.memoryDelete = (params = {}) => this.request({
+            path: `/chat/memory`,
+            method: "DELETE",
+            secure: true,
+            format: "json",
+            ...params,
+        });
         this.threadsList = (query, params = {}) => this.request({
             path: `/chat/threads`,
             method: "GET",

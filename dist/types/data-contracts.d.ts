@@ -106,6 +106,10 @@ export interface ControllersApiSuccessControllersFeedNotificationLikeData {
     data?: ControllersFeedNotificationLikeData;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessDtoChatMemory {
+    data?: DtoChatMemory;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessInt64 {
     data?: number;
     status?: ControllersResponseStatusMessage;
@@ -537,6 +541,12 @@ export interface DtoChatListThreadsResponse {
     items?: DtoChatThreadHeaderResponse[];
     next_cursor?: string;
     status?: "success";
+}
+export interface DtoChatMemory {
+    content?: string;
+    rewrites?: number;
+    size_bytes?: number;
+    updated_at?: string;
 }
 export interface DtoChatMessageDTO {
     content?: string;
@@ -2033,11 +2043,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -10,6 +10,8 @@
  */
 
 import {
+  ControllersApiSuccessDtoChatMemory,
+  ControllersApiSuccessNoData,
   ControllersUnauthorizedResponse,
   DtoChatCreateThreadRequest,
   DtoChatCreateThreadResponse,
@@ -27,6 +29,40 @@ import {
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * @description Returns the persistent memory the AI coach has learned about the caller.
+   *
+   * @tags chat
+   * @name MemoryList
+   * @summary Get the current user's chat memory
+   * @request GET:/chat/memory
+   * @secure
+   */
+  memoryList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessDtoChatMemory, ControllersUnauthorizedResponse | DtoChatErrorResponse>({
+      path: `/chat/memory`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Replaces the memory blob with a "user cleared their memory" breadcrumb so onboarding mode does not re-trigger.
+   *
+   * @tags chat
+   * @name MemoryDelete
+   * @summary Delete the current user's chat memory
+   * @request DELETE:/chat/memory
+   * @secure
+   */
+  memoryDelete = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | DtoChatErrorResponse>({
+      path: `/chat/memory`,
+      method: "DELETE",
+      secure: true,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Returns the caller's threads ordered by updated_at DESC. Admins may pass owner_user_id and/or analyzed_user_id query params to filter across users; non-admins are scoped to their own threads regardless of filter.
    *

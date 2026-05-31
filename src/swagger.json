@@ -9711,6 +9711,78 @@
                 }
             }
         },
+        "/chat/memory": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the persistent memory the AI coach has learned about the caller.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Get the current user's chat memory",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-dto_ChatMemory"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Replaces the memory blob with a \"user cleared their memory\" breadcrumb so onboarding mode does not re-trigger.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "Delete the current user's chat memory",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChatErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/chat/threads": {
             "get": {
                 "security": [
@@ -27049,6 +27121,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-dto_ChatMemory": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.ChatMemory"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-int64": {
             "type": "object",
             "properties": {
@@ -28898,6 +28986,23 @@
                         "success"
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "dto.ChatMemory": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "rewrites": {
+                    "type": "integer"
+                },
+                "size_bytes": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -34486,18 +34591,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
