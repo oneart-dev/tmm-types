@@ -736,7 +736,9 @@ export interface DtoApiKeyCreateForm {
     | 52
     | 53
     | 54
-    | 55;
+    | 55
+    | 56
+    | 57;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2571,6 +2573,8 @@ export enum ServicesExchangeID {
   EXCHANGE_ASTER_FUTURES = 53,
   EXCHANGE_KUCOIN_SPOT = 54,
   EXCHANGE_KUCOIN_FUTURES = 55,
+  EXCHANGE_BYBIT_DEMO_LINEAR = 56,
+  EXCHANGE_BYBIT_DEMO_SPOT = 57,
 }
 
 export interface ServicesFeedNotification {

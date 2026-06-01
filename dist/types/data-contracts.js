@@ -107,6 +107,8 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_ASTER_FUTURES"] = 53] = "EXCHANGE_ASTER_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_SPOT"] = 54] = "EXCHANGE_KUCOIN_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KUCOIN_FUTURES"] = 55] = "EXCHANGE_KUCOIN_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_DEMO_LINEAR"] = 56] = "EXCHANGE_BYBIT_DEMO_LINEAR";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_DEMO_SPOT"] = 57] = "EXCHANGE_BYBIT_DEMO_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {

@@ -2272,11 +2272,15 @@
                             52,
                             53,
                             54,
-                            55
+                            55,
+                            56,
+                            57
                         ],
                         "type": "integer",
                         "x-enum-comments": {
                             "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
+                            "EXCHANGE_BYBIT_DEMO_LINEAR": "suppport fast repair",
+                            "EXCHANGE_BYBIT_DEMO_SPOT": "suppport fast repair",
                             "EXCHANGE_BYBIT_INVERSE": "suppport fast repair",
                             "EXCHANGE_BYBIT_LINEAR": "suppport fast repair",
                             "EXCHANGE_BYBIT_SPOT": "suppport fast repair",
@@ -2324,7 +2328,9 @@
                             "",
                             "",
                             "",
-                            ""
+                            "",
+                            "suppport fast repair",
+                            "suppport fast repair"
                         ],
                         "x-enum-varnames": [
                             "EXCHANGE_BINANCE_FUTURES",
@@ -2361,7 +2367,9 @@
                             "EXCHANGE_MEXC_FUTURES",
                             "EXCHANGE_ASTER_FUTURES",
                             "EXCHANGE_KUCOIN_SPOT",
-                            "EXCHANGE_KUCOIN_FUTURES"
+                            "EXCHANGE_KUCOIN_FUTURES",
+                            "EXCHANGE_BYBIT_DEMO_LINEAR",
+                            "EXCHANGE_BYBIT_DEMO_SPOT"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -17984,7 +17992,9 @@
                                 52,
                                 53,
                                 54,
-                                55
+                                55,
+                                56,
+                                57
                             ],
                             "type": "integer"
                         },
@@ -28610,7 +28620,9 @@
                         52,
                         53,
                         54,
-                        55
+                        55,
+                        56,
+                        57
                     ]
                 },
                 "extra_info": {
@@ -32205,10 +32217,14 @@
                 52,
                 53,
                 54,
-                55
+                55,
+                56,
+                57
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
+                "EXCHANGE_BYBIT_DEMO_LINEAR": "suppport fast repair",
+                "EXCHANGE_BYBIT_DEMO_SPOT": "suppport fast repair",
                 "EXCHANGE_BYBIT_INVERSE": "suppport fast repair",
                 "EXCHANGE_BYBIT_LINEAR": "suppport fast repair",
                 "EXCHANGE_BYBIT_SPOT": "suppport fast repair",
@@ -32256,7 +32272,9 @@
                 "",
                 "",
                 "",
-                ""
+                "",
+                "suppport fast repair",
+                "suppport fast repair"
             ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
@@ -32293,7 +32311,9 @@
                 "EXCHANGE_MEXC_FUTURES",
                 "EXCHANGE_ASTER_FUTURES",
                 "EXCHANGE_KUCOIN_SPOT",
-                "EXCHANGE_KUCOIN_FUTURES"
+                "EXCHANGE_KUCOIN_FUTURES",
+                "EXCHANGE_BYBIT_DEMO_LINEAR",
+                "EXCHANGE_BYBIT_DEMO_SPOT"
             ]
         },
         "services.FeedNotification": {
