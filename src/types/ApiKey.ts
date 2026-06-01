@@ -94,7 +94,9 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | 52
         | 53
         | 54
-        | 55;
+        | 55
+        | 56
+        | 57;
       from_id?: number;
       frozen?: boolean;
       name?: string;

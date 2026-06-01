@@ -457,7 +457,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57;
     extra_info?: string;
     key_private?: string;
     key_public?: string;
@@ -1312,7 +1312,9 @@ export declare enum ServicesExchangeID {
     EXCHANGE_MEXC_FUTURES = 52,
     EXCHANGE_ASTER_FUTURES = 53,
     EXCHANGE_KUCOIN_SPOT = 54,
-    EXCHANGE_KUCOIN_FUTURES = 55
+    EXCHANGE_KUCOIN_FUTURES = 55,
+    EXCHANGE_BYBIT_DEMO_LINEAR = 56,
+    EXCHANGE_BYBIT_DEMO_SPOT = 57
 }
 export interface ServicesFeedNotification {
     audience_memberships?: string[];
