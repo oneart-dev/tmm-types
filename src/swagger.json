@@ -19561,7 +19561,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.CategoriesListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Category"
                         },
                         "headers": {
                             "version": {
@@ -19688,7 +19688,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.CategoriesListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Category"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -23198,7 +23198,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.CategoriesListResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Category"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -26909,6 +26909,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_Category": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Category"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_Dashboard": {
             "type": "object",
             "properties": {
@@ -27546,45 +27565,6 @@
                         }
                     ],
                     "example": "success"
-                }
-            }
-        },
-        "controllers.CategoriesListResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/controllers.CategoryWithCounter"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.CategoryWithCounter": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "order": {
-                    "type": "integer"
-                },
-                "trades_user_count": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -34611,18 +34591,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

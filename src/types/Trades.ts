@@ -11,6 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesCategory,
   ControllersApiSuccessArrayServicesOrder,
   ControllersApiSuccessArrayServicesTag,
   ControllersApiSuccessNoData,
@@ -19,7 +20,6 @@ import {
   ControllersApiSuccessServicesTagCategory,
   ControllersApiSuccessString,
   ControllersApiWarningResponse,
-  ControllersCategoriesListResponse,
   ControllersOrdersListResponse,
   ControllersPublicTradeGroupResponse,
   ControllersPublicTradeResponse,
@@ -370,7 +370,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   categoriesList = (params: RequestParams = {}) =>
     this.request<
-      ControllersCategoriesListResponse,
+      ControllersApiSuccessArrayServicesCategory,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/categories`,
@@ -391,7 +391,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   categoriesCreate = (payload: DtoCategoryListForm, params: RequestParams = {}) =>
     this.request<
-      ControllersCategoriesListResponse,
+      ControllersApiSuccessArrayServicesCategory,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/categories`,
@@ -1136,7 +1136,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    */
   updateCategoryCreate = (payload: DtoTradesCategoryForm, params: RequestParams = {}) =>
     this.request<
-      ControllersCategoriesListResponse,
+      ControllersApiSuccessArrayServicesCategory,
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/update-category`,

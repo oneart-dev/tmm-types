@@ -86,6 +86,12 @@ export interface ControllersApiSuccessArrayServicesBaseConnection {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesCategory {
+  data?: ServicesCategory[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesDashboard {
   data?: ServicesDashboard[];
   /** @example "success" */
@@ -312,20 +318,6 @@ export interface ControllersBulkSignUpSuccessResponse {
   data?: ServicesBulkSignUpResponse[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersCategoriesListResponse {
-  data?: ControllersCategoryWithCounter[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersCategoryWithCounter {
-  id?: number;
-  name?: string;
-  order?: number;
-  trades_user_count?: number;
-  user_id?: number;
 }
 
 export interface ControllersDiscordListResponse {
@@ -3556,11 +3548,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

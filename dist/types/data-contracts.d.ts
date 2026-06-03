@@ -58,6 +58,10 @@ export interface ControllersApiSuccessArrayServicesBaseConnection {
     data?: ServicesBaseConnection[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesCategory {
+    data?: ServicesCategory[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesDashboard {
     data?: ServicesDashboard[];
     status?: ControllersResponseStatusMessage;
@@ -208,17 +212,6 @@ export interface ControllersApiWarningResponse {
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
     status?: ControllersResponseStatusMessage;
-}
-export interface ControllersCategoriesListResponse {
-    data?: ControllersCategoryWithCounter[];
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersCategoryWithCounter {
-    id?: number;
-    name?: string;
-    order?: number;
-    trades_user_count?: number;
-    user_id?: number;
 }
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
@@ -2045,11 +2038,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
