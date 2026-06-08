@@ -10,6 +10,12 @@ export class Notifications extends HttpClient {
             format: "json",
             ...params,
         });
+        this.seenAllCreate = (params = {}) => this.request({
+            path: `/notifications/seen-all`,
+            method: "POST",
+            secure: true,
+            ...params,
+        });
         this.sseEventsList = (params = {}) => this.request({
             path: `/notifications/sse-events`,
             method: "GET",

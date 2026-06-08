@@ -58,6 +58,22 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
       ...params,
     });
   /**
+   * @description Marks every notification visible to the caller seen, including ones not yet loaded by the paginated feed. Idempotent.
+   *
+   * @tags feed_notifications
+   * @name SeenAllCreate
+   * @summary Mark all notifications seen
+   * @request POST:/notifications/seen-all
+   * @secure
+   */
+  seenAllCreate = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse>({
+      path: `/notifications/seen-all`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added, feed-notification-status-changed, admin-feed-notification-status-changed, feed-notification-thread-seen-changed, admin-feed-notification-thread-seen-changed) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
    *
    * @tags feed_notifications, internal

@@ -5,6 +5,7 @@ export declare class Notifications<SecurityDataType = unknown> extends HttpClien
         page?: number;
         per_page?: number;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationFeedItem, ControllersUnauthorizedResponse>>;
+    seenAllCreate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersUnauthorizedResponse>>;
     sseEventsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesSSEFeedNotificationEventCatalog, any>>;
     commentsCreate: (id: number, payload: DtoFeedNotificationCommentCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationComment, any>>;
     commentsUpdate: (id: number, cid: number, payload: DtoFeedNotificationCommentUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationComment, any>>;
