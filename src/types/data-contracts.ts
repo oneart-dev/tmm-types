@@ -116,6 +116,12 @@ export interface ControllersApiSuccessArrayServicesFeedNotificationRawVote {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesFeedNotificationUser {
+  data?: ServicesFeedNotificationUser[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesFile {
   data?: ServicesFile[];
   /** @example "success" */
@@ -140,8 +146,20 @@ export interface ControllersApiSuccessArrayServicesTag {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesTeamChatRoom {
+  data?: ServicesTeamChatRoom[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesTeamTopData {
   data?: ServicesTeamTopData[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesTeamWidgetConfig {
+  data?: ServicesTeamWidgetConfig[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -260,6 +278,18 @@ export interface ControllersApiSuccessServicesTeam {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesTeamChatRoom {
+  data?: ServicesTeamChatRoom;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesTeamChatRoomDetail {
+  data?: ServicesTeamChatRoomDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTeamMember {
   data?: ServicesTeamMember;
   /** @example "success" */
@@ -280,6 +310,12 @@ export interface ControllersApiSuccessServicesTransactionQuote {
 
 export interface ControllersApiSuccessServicesWidgetPreviewResponse {
   data?: ServicesWidgetPreviewResponse;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesWidgetValue {
+  data?: ServicesWidgetValue;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1699,6 +1735,21 @@ export interface DtoTagsSortForm {
   tags: DtoTagsSort[];
 }
 
+export interface DtoTeamChatMuteForm {
+  /** @min 0 */
+  seconds?: number;
+}
+
+export interface DtoTeamChatRoleForm {
+  role: "admin" | "moderator" | "member" | "viewer";
+}
+
+export interface DtoTeamChatRoomCreateForm {
+  announcement?: boolean;
+  /** @maxLength 128 */
+  name: string;
+}
+
 export interface DtoTeamCreateForm {
   /**
    * timestamp in milliseconds
@@ -1797,6 +1848,15 @@ export interface DtoTeamUpdateForm {
    * @example 1
    */
   status: 1 | 2;
+}
+
+export interface DtoTeamWidgetForm {
+  /** @example true */
+  enabled?: boolean;
+  /** @example "win_rate" */
+  key: string;
+  /** @example 1 */
+  sort_order?: number;
 }
 
 export type DtoTelegramConnectForm = object;
@@ -2570,6 +2630,7 @@ export enum ServicesExchangeID {
 }
 
 export interface ServicesFeedNotification {
+  announcement?: boolean;
   /**
    * AudienceMemberships is the list of tiers this notification targets.
    * Empty / nil means "all tiers" (global notifications) or "n/a" (personal).
@@ -2590,6 +2651,7 @@ export interface ServicesFeedNotification {
    * TicketUID for user-facing reference.
    */
   kind?: ServicesFeedNotificationKind;
+  name?: string;
   poll_enabled?: boolean;
   poll_lock_at?: string;
   poll_multi_select?: boolean;
@@ -2602,6 +2664,8 @@ export interface ServicesFeedNotification {
    * stay where they were chronologically.
    */
   sort_key?: string;
+  /** Team-chat room fields (type="team" only). */
+  team_id?: number;
   ticket_uid?: string;
   type?: ServicesFeedNotificationType;
   updated_at?: string;
@@ -2625,6 +2689,7 @@ export interface ServicesFeedNotificationAdminDetail {
 }
 
 export interface ServicesFeedNotificationAdminListItem {
+  announcement?: boolean;
   /**
    * AudienceMemberships is the list of tiers this notification targets.
    * Empty / nil means "all tiers" (global notifications) or "n/a" (personal).
@@ -2647,6 +2712,7 @@ export interface ServicesFeedNotificationAdminListItem {
    */
   kind?: ServicesFeedNotificationKind;
   languages?: string[];
+  name?: string;
   poll_enabled?: boolean;
   poll_lock_at?: string;
   poll_multi_select?: boolean;
@@ -2659,6 +2725,8 @@ export interface ServicesFeedNotificationAdminListItem {
    * stay where they were chronologically.
    */
   sort_key?: string;
+  /** Team-chat room fields (type="team" only). */
+  team_id?: number;
   ticket_uid?: string;
   title?: string;
   type?: ServicesFeedNotificationType;
@@ -2899,6 +2967,26 @@ export interface ServicesFeedNotificationTranslation {
 export enum ServicesFeedNotificationType {
   FeedNotificationTypeGlobal = "global",
   FeedNotificationTypePersonal = "personal",
+  FeedNotificationTypeTeam = "team",
+}
+
+export interface ServicesFeedNotificationUser {
+  admin_last_read_at?: string;
+  banned_at?: string;
+  /** Team-chat room membership (type="team" notifications only). */
+  joined_at?: string;
+  last_activity_at?: string;
+  left_at?: string;
+  liked_at?: string;
+  notification_id?: number;
+  role?: string;
+  seen_at?: string;
+  sound_muted_until?: string;
+  status?: ServicesFeedNotificationStatus;
+  status_changed_at?: string;
+  user_id?: number;
+  user_last_read_at?: string;
+  write_muted_until?: string;
 }
 
 export interface ServicesFeedNotificationVoteTally {
@@ -3548,11 +3636,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3573,6 +3661,21 @@ export interface ServicesTeam {
   status?: ServicesTeamStatus;
   updated_at?: string;
   user_id?: number;
+}
+
+export interface ServicesTeamChatRoom {
+  announcement?: boolean;
+  id?: number;
+  joined?: boolean;
+  my_role?: string;
+  name?: string;
+  team_id?: number;
+  unread_count?: number;
+}
+
+export interface ServicesTeamChatRoomDetail {
+  comments?: ServicesFeedNotificationComment[];
+  room?: ServicesTeamChatRoom;
 }
 
 export interface ServicesTeamMember {
@@ -3637,6 +3740,12 @@ export enum ServicesTeamTopType {
   TeamTopTypePnl = "pnl",
   TeamTopTypePercent = "percent",
   TeamTopTypeVolume = "volume",
+}
+
+export interface ServicesTeamWidgetConfig {
+  enabled?: boolean;
+  key?: string;
+  sort_order?: number;
 }
 
 export interface ServicesTeamWithStatsAndMember {
@@ -4488,6 +4597,11 @@ export enum ServicesWidgetType2 {
   WidgetType2TreeMap = "treemap",
   WidgetType2Bubble = "bubble",
   WidgetType2CandleStick = "candlestick",
+}
+
+export interface ServicesWidgetValue {
+  key?: string;
+  value?: string;
 }
 
 export interface ServicesTransactionProrationContribution {

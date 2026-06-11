@@ -17528,6 +17528,655 @@
                 }
             }
         },
+        "/team/{id}/chat/rooms": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "List team chat rooms",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_TeamChatRoom"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Create a team chat room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "room",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamChatRoomCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TeamChatRoom"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Get a room + latest messages",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "cursor: only messages with id \u003c before",
+                        "name": "before",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size (default 50, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TeamChatRoomDetail"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Delete a team chat room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/comment": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Post a message to a room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "message",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FeedNotificationCommentCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_FeedNotificationComment"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Paginated room message history (load-older)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "cursor: only messages with id \u003c before",
+                        "name": "before",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size (default 50, max 100)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_TeamChatRoomDetail"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/join": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Join a team chat room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/leave": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Leave a team chat room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/members": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "List room members + roles",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/members/{userId}/ban": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Ban a member from a room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Target user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/members/{userId}/mute": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Write-mute (read-only) a member",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Target user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "mute",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamChatMuteForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/members/{userId}/role": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Set a member's room role",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Target user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "role",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamChatRoleForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/members/{userId}/unban": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Unban a member from a room",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Target user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/mute": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Mute a room's notification sound for yourself",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "mute",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TeamChatMuteForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/chat/rooms/{roomId}/seen": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "tags": [
+                    "team_chat"
+                ],
+                "summary": "Mark a room read up to now",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
         "/team/{id}/join": {
             "put": {
                 "security": [
@@ -18164,6 +18813,192 @@
                                 "type": "integer",
                                 "description": "1654898909"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/widgets": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the enabled widgets for a team, ordered by sort_order.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team_widgets"
+                ],
+                "summary": "List Enabled Team Widgets",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_TeamWidgetConfig"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Owner-only. Replaces the team's widget enable/order configuration.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team_widgets"
+                ],
+                "summary": "Set Team Widgets",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Widget config list",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TeamWidgetForm"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/team/{id}/widgets/{key}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Computes a single widget's value for a team over the given period.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "team_widgets"
+                ],
+                "summary": "Get Team Widget Value",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Team id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Widget key",
+                        "name": "key",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "30days",
+                        "description": "today|yesterday|7days|14days|30days|custom",
+                        "name": "period",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "custom window start (unix ms)",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "custom window end (unix ms)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_WidgetValue"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -27033,6 +27868,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_FeedNotificationUser": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationUser"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_File": {
             "type": "object",
             "properties": {
@@ -27109,6 +27963,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_TeamChatRoom": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TeamChatRoom"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_TeamTopData": {
             "type": "object",
             "properties": {
@@ -27116,6 +27989,25 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.TeamTopData"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-array_services_TeamWidgetConfig": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TeamWidgetConfig"
                     }
                 },
                 "status": {
@@ -27435,6 +28327,38 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_TeamChatRoom": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.TeamChatRoom"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_TeamChatRoomDetail": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.TeamChatRoomDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_TeamMember": {
             "type": "object",
             "properties": {
@@ -27488,6 +28412,22 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.WidgetPreviewResponse"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_WidgetValue": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.WidgetValue"
                 },
                 "status": {
                     "allOf": [
@@ -30452,6 +31392,47 @@
                 }
             }
         },
+        "dto.TeamChatMuteForm": {
+            "type": "object",
+            "properties": {
+                "seconds": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "dto.TeamChatRoleForm": {
+            "type": "object",
+            "required": [
+                "role"
+            ],
+            "properties": {
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "moderator",
+                        "member",
+                        "viewer"
+                    ]
+                }
+            }
+        },
+        "dto.TeamChatRoomCreateForm": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "announcement": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 128
+                }
+            }
+        },
         "dto.TeamCreateForm": {
             "type": "object",
             "required": [
@@ -30603,6 +31584,26 @@
                         1,
                         2
                     ],
+                    "example": 1
+                }
+            }
+        },
+        "dto.TeamWidgetForm": {
+            "type": "object",
+            "required": [
+                "key"
+            ],
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "key": {
+                    "type": "string",
+                    "example": "win_rate"
+                },
+                "sort_order": {
+                    "type": "integer",
                     "example": 1
                 }
             }
@@ -32328,6 +33329,9 @@
         "services.FeedNotification": {
             "type": "object",
             "properties": {
+                "announcement": {
+                    "type": "boolean"
+                },
                 "audience_memberships": {
                     "description": "AudienceMemberships is the list of tiers this notification targets.\nEmpty / nil means \"all tiers\" (global notifications) or \"n/a\" (personal).\nStored in the DB as a CSV string but exposed as []string on the wire so\nadmin form / list / detail can iterate without splitting.",
                     "type": "array",
@@ -32358,6 +33362,9 @@
                         }
                     ]
                 },
+                "name": {
+                    "type": "string"
+                },
                 "poll_enabled": {
                     "type": "boolean"
                 },
@@ -32373,6 +33380,10 @@
                 "sort_key": {
                     "description": "SortKey drives the user-feed ordering. Notifications hold it at\npublished_at (frozen after publish — admin edits don't re-bubble).\nTickets bump it on every visible comment + every status change, so\nactivity floats them to the top while the surrounding notifications\nstay where they were chronologically.",
                     "type": "string"
+                },
+                "team_id": {
+                    "description": "Team-chat room fields (type=\"team\" only).",
+                    "type": "integer"
                 },
                 "ticket_uid": {
                     "type": "string"
@@ -32430,6 +33441,9 @@
         "services.FeedNotificationAdminListItem": {
             "type": "object",
             "properties": {
+                "announcement": {
+                    "type": "boolean"
+                },
                 "audience_memberships": {
                     "description": "AudienceMemberships is the list of tiers this notification targets.\nEmpty / nil means \"all tiers\" (global notifications) or \"n/a\" (personal).\nStored in the DB as a CSV string but exposed as []string on the wire so\nadmin form / list / detail can iterate without splitting.",
                     "type": "array",
@@ -32469,6 +33483,9 @@
                         "type": "string"
                     }
                 },
+                "name": {
+                    "type": "string"
+                },
                 "poll_enabled": {
                     "type": "boolean"
                 },
@@ -32484,6 +33501,10 @@
                 "sort_key": {
                     "description": "SortKey drives the user-feed ordering. Notifications hold it at\npublished_at (frozen after publish — admin edits don't re-bubble).\nTickets bump it on every visible comment + every status change, so\nactivity floats them to the top while the surrounding notifications\nstay where they were chronologically.",
                     "type": "string"
+                },
+                "team_id": {
+                    "description": "Team-chat room fields (type=\"team\" only).",
+                    "type": "integer"
                 },
                 "ticket_uid": {
                     "type": "string"
@@ -33021,12 +34042,65 @@
             "type": "string",
             "enum": [
                 "global",
-                "personal"
+                "personal",
+                "team"
             ],
             "x-enum-varnames": [
                 "FeedNotificationTypeGlobal",
-                "FeedNotificationTypePersonal"
+                "FeedNotificationTypePersonal",
+                "FeedNotificationTypeTeam"
             ]
+        },
+        "services.FeedNotificationUser": {
+            "type": "object",
+            "properties": {
+                "admin_last_read_at": {
+                    "type": "string"
+                },
+                "banned_at": {
+                    "type": "string"
+                },
+                "joined_at": {
+                    "description": "Team-chat room membership (type=\"team\" notifications only).",
+                    "type": "string"
+                },
+                "last_activity_at": {
+                    "type": "string"
+                },
+                "left_at": {
+                    "type": "string"
+                },
+                "liked_at": {
+                    "type": "string"
+                },
+                "notification_id": {
+                    "type": "integer"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "seen_at": {
+                    "type": "string"
+                },
+                "sound_muted_until": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.FeedNotificationStatus"
+                },
+                "status_changed_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "user_last_read_at": {
+                    "type": "string"
+                },
+                "write_muted_until": {
+                    "type": "string"
+                }
+            }
         },
         "services.FeedNotificationVoteTally": {
             "type": "object",
@@ -34620,18 +35694,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -34686,6 +35760,46 @@
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "services.TeamChatRoom": {
+            "type": "object",
+            "properties": {
+                "announcement": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "joined": {
+                    "type": "boolean"
+                },
+                "my_role": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "team_id": {
+                    "type": "integer"
+                },
+                "unread_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.TeamChatRoomDetail": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationComment"
+                    }
+                },
+                "room": {
+                    "$ref": "#/definitions/services.TeamChatRoom"
                 }
             }
         },
@@ -34839,6 +35953,20 @@
                 "TeamTopTypePercent",
                 "TeamTopTypeVolume"
             ]
+        },
+        "services.TeamWidgetConfig": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "sort_order": {
+                    "type": "integer"
+                }
+            }
         },
         "services.TeamWithStatsAndMember": {
             "type": "object",
@@ -37118,6 +38246,17 @@
                 "WidgetType2Bubble",
                 "WidgetType2CandleStick"
             ]
+        },
+        "services.WidgetValue": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
         },
         "services.transactionProrationContribution": {
             "type": "object",
