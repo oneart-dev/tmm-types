@@ -35558,6 +35558,20 @@
                 },
                 "feed-notification-updated": {
                     "$ref": "#/definitions/services.FeedNotificationFeedItem"
+                },
+                "team-chat-room-created": {
+                    "$ref": "#/definitions/services.TeamChatRoomCreatedSSEPayload"
+                },
+                "team-member-requested": {
+                    "description": "Team membership SSE events",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.TeamMemberSSEPayload"
+                        }
+                    ]
+                },
+                "team-member-updated": {
+                    "$ref": "#/definitions/services.TeamMemberSSEPayload"
                 }
             }
         },
@@ -35807,18 +35821,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -35902,6 +35916,32 @@
                 }
             }
         },
+        "services.TeamChatRoomCreatedSSEPayload": {
+            "type": "object",
+            "properties": {
+                "announcement": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "joined": {
+                    "type": "boolean"
+                },
+                "my_role": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "team_id": {
+                    "type": "integer"
+                },
+                "unread_count": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.TeamChatRoomDetail": {
             "type": "object",
             "properties": {
@@ -35947,6 +35987,17 @@
                     "$ref": "#/definitions/services.SafeUser"
                 },
                 "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.TeamMemberSSEPayload": {
+            "type": "object",
+            "properties": {
+                "member": {
+                    "$ref": "#/definitions/services.TeamMember"
+                },
+                "team_id": {
                     "type": "integer"
                 }
             }

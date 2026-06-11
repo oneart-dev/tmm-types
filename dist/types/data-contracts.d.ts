@@ -903,8 +903,7 @@ export interface DtoTeamMemberCreateForm {
     show_pnl: 1 | 2;
 }
 export interface DtoTeamMemberUpdateForm {
-    invite_code?: string;
-    show_pnl: 1 | 2;
+    show_pnl?: 1 | 2;
     status?: 2 | 3 | 4;
 }
 export interface DtoTeamUpdateForm {
@@ -2022,6 +2021,9 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
+    "team-chat-room-created"?: ServicesTeamChatRoomCreatedSSEPayload;
+    "team-member-requested"?: ServicesTeamMemberSSEPayload;
+    "team-member-updated"?: ServicesTeamMemberSSEPayload;
 }
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
@@ -2138,6 +2140,15 @@ export interface ServicesTeamChatRoom {
     team_id?: number;
     unread_count?: number;
 }
+export interface ServicesTeamChatRoomCreatedSSEPayload {
+    announcement?: boolean;
+    id?: number;
+    joined?: boolean;
+    my_role?: string;
+    name?: string;
+    team_id?: number;
+    unread_count?: number;
+}
 export interface ServicesTeamChatRoomDetail {
     comments?: ServicesFeedNotificationComment[];
     room?: ServicesTeamChatRoom;
@@ -2153,6 +2164,10 @@ export interface ServicesTeamMember {
     updated_at?: string;
     user?: ServicesSafeUser;
     user_id?: number;
+}
+export interface ServicesTeamMemberSSEPayload {
+    member?: ServicesTeamMember;
+    team_id?: number;
 }
 export declare enum ServicesTeamMemberShowPnl {
     ShowPnlDisabled = 1,

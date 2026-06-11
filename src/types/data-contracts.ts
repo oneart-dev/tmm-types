@@ -3530,6 +3530,10 @@ export interface ServicesSSEFeedNotificationEventCatalog {
   "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
   "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
+  "team-chat-room-created"?: ServicesTeamChatRoomCreatedSSEPayload;
+  /** Team membership SSE events */
+  "team-member-requested"?: ServicesTeamMemberSSEPayload;
+  "team-member-updated"?: ServicesTeamMemberSSEPayload;
 }
 
 export interface ServicesSafeUser {
@@ -3640,11 +3644,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3677,6 +3681,16 @@ export interface ServicesTeamChatRoom {
   unread_count?: number;
 }
 
+export interface ServicesTeamChatRoomCreatedSSEPayload {
+  announcement?: boolean;
+  id?: number;
+  joined?: boolean;
+  my_role?: string;
+  name?: string;
+  team_id?: number;
+  unread_count?: number;
+}
+
 export interface ServicesTeamChatRoomDetail {
   comments?: ServicesFeedNotificationComment[];
   room?: ServicesTeamChatRoom;
@@ -3693,6 +3707,11 @@ export interface ServicesTeamMember {
   updated_at?: string;
   user?: ServicesSafeUser;
   user_id?: number;
+}
+
+export interface ServicesTeamMemberSSEPayload {
+  member?: ServicesTeamMember;
+  team_id?: number;
 }
 
 export enum ServicesTeamMemberShowPnl {
