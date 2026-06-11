@@ -15,6 +15,7 @@ import {
   ControllersApiSuccessArrayServicesTeamChatRoom,
   ControllersApiSuccessArrayServicesTeamTopData,
   ControllersApiSuccessArrayServicesTeamWidgetConfig,
+  ControllersApiSuccessArrayServicesTeamWithStatsAndMember,
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesFeedNotificationComment,
@@ -40,6 +41,27 @@ import {
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * @description Returns all teams where the current user is the owner or an active member, including stats and the user's current membership row.
+   *
+   * @tags team
+   * @name TeamList
+   * @summary List My Teams
+   * @request GET:/team
+   * @secure
+   */
+  teamList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesTeamWithStatsAndMember,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/team`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Creates a new, empty team. The owner is not required to be a member.
    *

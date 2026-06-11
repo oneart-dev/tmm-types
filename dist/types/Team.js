@@ -2,6 +2,14 @@ import { ContentType, HttpClient } from "./http-client";
 export class Team extends HttpClient {
     constructor() {
         super(...arguments);
+        this.teamList = (params = {}) => this.request({
+            path: `/team`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.teamUpdate = (payload, params = {}) => this.request({
             path: `/team`,
             method: "PUT",
