@@ -1807,15 +1807,13 @@ export interface DtoTeamMemberCreateForm {
 }
 
 export interface DtoTeamMemberUpdateForm {
-  /** @example "123456" */
-  invite_code?: string;
   /**
-   * 2 - show pnl, 1 - hide pnl
+   * 2 - show pnl, 1 - hide pnl; omit to leave unchanged
    * @example 1
    */
-  show_pnl: 1 | 2;
+  show_pnl?: 1 | 2;
   /**
-   * 1 - pending, 2 - active, 3 - declined, 4 - revoked
+   * 2 - active, 3 - declined, 4 - revoked
    * @example 2
    */
   status?: 2 | 3 | 4;
@@ -3642,11 +3640,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

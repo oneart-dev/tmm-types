@@ -31632,16 +31632,9 @@
         },
         "dto.TeamMemberUpdateForm": {
             "type": "object",
-            "required": [
-                "show_pnl"
-            ],
             "properties": {
-                "invite_code": {
-                    "type": "string",
-                    "example": "123456"
-                },
                 "show_pnl": {
-                    "description": "2 - show pnl, 1 - hide pnl",
+                    "description": "2 - show pnl, 1 - hide pnl; omit to leave unchanged",
                     "type": "integer",
                     "enum": [
                         1,
@@ -31650,7 +31643,7 @@
                     "example": 1
                 },
                 "status": {
-                    "description": "1 - pending, 2 - active, 3 - declined, 4 - revoked",
+                    "description": "2 - active, 3 - declined, 4 - revoked",
                     "type": "integer",
                     "enum": [
                         2,
@@ -35814,18 +35807,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
