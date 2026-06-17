@@ -120,6 +120,39 @@ export class Admin extends HttpClient {
             format: "json",
             ...params,
         });
+        this.fleetArtifactVersionsList = (params = {}) => this.request({
+            path: `/admin/fleet/artifact-versions`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.fleetExchangesTargetVersionCreate = (exchangeId, body, params = {}) => this.request({
+            path: `/admin/fleet/exchanges/${exchangeId}/target-version`,
+            method: "POST",
+            body: body,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.fleetInstancesDrainCreate = (id, exchangeId, params = {}) => this.request({
+            path: `/admin/fleet/instances/${id}/${exchangeId}/drain`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.fleetInstancesUndrainCreate = (id, exchangeId, params = {}) => this.request({
+            path: `/admin/fleet/instances/${id}/${exchangeId}/undrain`,
+            method: "POST",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
     }
 }
 //# sourceMappingURL=Admin.js.map

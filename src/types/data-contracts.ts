@@ -4703,3 +4703,18 @@ export interface ServicesPaginationResponseArrayServicesFleetActivityDTO {
   status?: string;
   total?: number;
 }
+
+export interface ControllersApiSuccessArrayServicesArtifactVersionDTO {
+  data?: ServicesArtifactVersionDTO[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFleetSetTargetVersionForm {
+  version?: string;
+}
+
+export interface ServicesArtifactVersionDTO {
+  arch?: string;
+  version?: string;
+}

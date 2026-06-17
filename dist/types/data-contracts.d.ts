@@ -3054,4 +3054,15 @@ export interface ServicesPaginationResponseArrayServicesFleetActivityDTO {
     status?: string;
     total?: number;
 }
+export interface ControllersApiSuccessArrayServicesArtifactVersionDTO {
+    data?: ServicesArtifactVersionDTO[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersFleetSetTargetVersionForm {
+    version?: string;
+}
+export interface ServicesArtifactVersionDTO {
+    arch?: string;
+    version?: string;
+}
 //# sourceMappingURL=data-contracts.d.ts.map

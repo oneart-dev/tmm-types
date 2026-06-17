@@ -12,6 +12,7 @@
 import {
   ChatExportPayload,
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesArtifactVersionDTO,
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessArrayServicesFleetInstanceDTO,
@@ -20,10 +21,12 @@ import {
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
   ControllersApiSuccessServicesFeedNotificationComment,
+  ControllersApiWarningResponse,
   ControllersFeedNotificationAdminDetailResponse,
   ControllersFeedNotificationAdminUpdateResponse,
   ControllersFeedNotificationThreadDetailResponse,
   ControllersFeedNotificationThreadInboxResponse,
+  ControllersFleetSetTargetVersionForm,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCommentCreateForm,
@@ -425,6 +428,92 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     >({
       path: `/admin/fleet/nodes`,
       method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns all distinct (version, arch) pairs from the artifact table, for use in the target_version UI dropdown.
+   *
+   * @tags fleet
+   * @name FleetArtifactVersionsList
+   * @summary List published artifact versions
+   * @request GET:/admin/fleet/artifact-versions
+   * @secure
+   */
+  fleetArtifactVersionsList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesArtifactVersionDTO,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/artifact-versions`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Sets the target_version on all exchanges rows for the given exchange_id. An empty version clears the rollout. A non-empty version must have a published artifact.
+   *
+   * @tags fleet
+   * @name FleetExchangesTargetVersionCreate
+   * @summary Set target_version for an exchange
+   * @request POST:/admin/fleet/exchanges/{exchange_id}/target-version
+   * @secure
+   */
+  fleetExchangesTargetVersionCreate = (
+    exchangeId: number,
+    body: ControllersFleetSetTargetVersionForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersApiWarningResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/exchanges/${exchangeId}/target-version`,
+      method: "POST",
+      body: body,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Sets swapping=ActiveFrom on the given ws_server, stopping new connections. Returns 409 if this is the last receiving server for the exchange.
+   *
+   * @tags fleet
+   * @name FleetInstancesDrainCreate
+   * @summary Drain a fleet instance
+   * @request POST:/admin/fleet/instances/{id}/{exchange_id}/drain
+   * @secure
+   */
+  fleetInstancesDrainCreate = (id: number, exchangeId: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse | ControllersApiWarningResponse
+    >({
+      path: `/admin/fleet/instances/${id}/${exchangeId}/drain`,
+      method: "POST",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Cancels an in-progress drain (swapping=ActiveFrom → None). The instance resumes accepting new connections.
+   *
+   * @tags fleet
+   * @name FleetInstancesUndrainCreate
+   * @summary Un-drain a fleet instance
+   * @request POST:/admin/fleet/instances/{id}/{exchange_id}/undrain
+   * @secure
+   */
+  fleetInstancesUndrainCreate = (id: number, exchangeId: number, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | ControllersApiErrorResponse>({
+      path: `/admin/fleet/instances/${id}/${exchangeId}/undrain`,
+      method: "POST",
       secure: true,
       type: ContentType.Json,
       format: "json",
