@@ -2,6 +2,16 @@ import { ChatExportPayload, ControllersApiErrorResponse, ControllersApiSuccessAr
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     chatThreadsExportDetail: (uid: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ChatExportPayload, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
+    fleetActivityList: (query?: {
+        page?: number;
+        itemsPerPage?: number;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesFleetActivityDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    fleetArtifactVersionsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesArtifactVersionDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    fleetExchangesTargetVersionCreate: (exchangeId: number, body: ControllersFleetSetTargetVersionForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    fleetInstancesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFleetInstanceDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    fleetInstancesDrainCreate: (id: number, exchangeId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    fleetInstancesUndrainCreate: (id: number, exchangeId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    fleetNodesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFleetNodeDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     notificationThreadsList: (query?: {
         kind?: "notification" | "ticket";
         notification_id?: number;
@@ -34,15 +44,5 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
     notificationsPublishCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
     notificationsVotesDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>>;
     usersTicketsCreate: (id: number, payload: DtoTicketQuickCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>>;
-    fleetActivityList: (query?: {
-        page?: number;
-        itemsPerPage?: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesFleetActivityDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    fleetInstancesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFleetInstanceDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    fleetNodesList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFleetNodeDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    fleetArtifactVersionsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesArtifactVersionDTO, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    fleetExchangesTargetVersionCreate: (exchangeId: number, body: ControllersFleetSetTargetVersionForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
-    fleetInstancesDrainCreate: (id: number, exchangeId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
-    fleetInstancesUndrainCreate: (id: number, exchangeId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Admin.d.ts.map
