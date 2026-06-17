@@ -3013,6 +3013,7 @@ export interface ServicesFleetInstanceDTO {
   owned?: boolean;
   status?: string;
   swapping?: string;
+  target_version?: string;
   uid?: string;
   version?: string;
 }
@@ -3627,11 +3628,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
