@@ -3006,4 +3006,52 @@ export interface ServicesTransactionProrationContribution {
     start_at?: number;
     transaction_id?: number;
 }
+export interface ControllersApiSuccessArrayServicesFleetInstanceDTO {
+    data?: ServicesFleetInstanceDTO[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesFleetNodeDTO {
+    data?: ServicesFleetNodeDTO[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ServicesFleetActivityDTO {
+    created_at?: string;
+    id?: number;
+    properties?: string;
+    type?: string;
+}
+export interface ServicesFleetInstanceDTO {
+    exchange_id?: number;
+    exchange_name?: string;
+    key_count?: number;
+    node_ip?: string;
+    owned?: boolean;
+    status?: string;
+    swapping?: string;
+    uid?: string;
+    version?: string;
+}
+export interface ServicesFleetNodeDTO {
+    agent_version?: string;
+    arch?: string;
+    avail_mem_mb?: number;
+    daemon_count?: number;
+    ip?: string;
+    last_heartbeat_at?: string;
+    status?: string;
+    total_mem_mb?: number;
+}
+export interface ServicesPaginationResponseArrayServicesFleetActivityDTO {
+    current_page?: number;
+    data?: ServicesFleetActivityDTO[];
+    defaultSort?: boolean;
+    last_page?: number;
+    per_page?: number;
+    per_page_limit?: number;
+    sortBy?: string;
+    sortDesc?: boolean;
+    sort_fields?: string[];
+    status?: string;
+    total?: number;
+}
 //# sourceMappingURL=data-contracts.d.ts.map

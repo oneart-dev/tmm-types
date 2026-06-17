@@ -4640,3 +4640,66 @@ export interface ServicesTransactionProrationContribution {
   start_at?: number;
   transaction_id?: number;
 }
+
+export interface ControllersApiSuccessArrayServicesFleetInstanceDTO {
+  data?: ServicesFleetInstanceDTO[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesFleetNodeDTO {
+  data?: ServicesFleetNodeDTO[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ServicesFleetActivityDTO {
+  created_at?: string;
+  id?: number;
+  /** raw JSON string — frontend parses */
+  properties?: string;
+  /** maps to Description */
+  type?: string;
+}
+
+export interface ServicesFleetInstanceDTO {
+  exchange_id?: number;
+  exchange_name?: string;
+  key_count?: number;
+  node_ip?: string;
+  owned?: boolean;
+  status?: string;
+  swapping?: string;
+  uid?: string;
+  version?: string;
+}
+
+export interface ServicesFleetNodeDTO {
+  agent_version?: string;
+  arch?: string;
+  avail_mem_mb?: number;
+  daemon_count?: number;
+  ip?: string;
+  last_heartbeat_at?: string;
+  status?: string;
+  total_mem_mb?: number;
+}
+
+export interface ServicesPaginationResponseArrayServicesFleetActivityDTO {
+  /**
+   * @min 1
+   * @example 1
+   */
+  current_page?: number;
+  data?: ServicesFleetActivityDTO[];
+  defaultSort?: boolean;
+  last_page?: number;
+  per_page?: number;
+  per_page_limit?: number;
+  sortBy?: string;
+  sortDesc?: boolean;
+  sort_fields?: string[];
+  /** @example "success" */
+  status?: string;
+  total?: number;
+}

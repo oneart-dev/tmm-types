@@ -95,6 +95,31 @@ export class Admin extends HttpClient {
             type: ContentType.Json,
             ...params,
         });
+        this.fleetActivityList = (query, params = {}) => this.request({
+            path: `/admin/fleet/activity`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.fleetInstancesList = (params = {}) => this.request({
+            path: `/admin/fleet/instances`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.fleetNodesList = (params = {}) => this.request({
+            path: `/admin/fleet/nodes`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
     }
 }
 //# sourceMappingURL=Admin.js.map

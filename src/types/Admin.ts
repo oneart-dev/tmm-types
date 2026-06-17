@@ -11,8 +11,11 @@
 
 import {
   ChatExportPayload,
+  ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
+  ControllersApiSuccessArrayServicesFleetInstanceDTO,
+  ControllersApiSuccessArrayServicesFleetNodeDTO,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
@@ -28,6 +31,7 @@ import {
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationUpdateForm,
   DtoTicketQuickCreateForm,
+  ServicesPaginationResponseArrayServicesFleetActivityDTO,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -352,6 +356,78 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       body: payload,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description Returns paginated fleet activity_log entries (category=fleet), newest first.
+   *
+   * @tags fleet
+   * @name FleetActivityList
+   * @summary Fleet activity log
+   * @request GET:/admin/fleet/activity
+   * @secure
+   */
+  fleetActivityList = (
+    query?: {
+      /** Page number (default 1) */
+      page?: number;
+      /** Items per page (max 50, default 20) */
+      itemsPerPage?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ServicesPaginationResponseArrayServicesFleetActivityDTO,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/activity`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns all active/pending/draining ws_servers rows with live connection counts and ownership flag.
+   *
+   * @tags fleet
+   * @name FleetInstancesList
+   * @summary Fleet instances
+   * @request GET:/admin/fleet/instances
+   * @secure
+   */
+  fleetInstancesList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesFleetInstanceDTO,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/instances`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns all known fleet nodes (IP, arch, memory, daemon count, status, agent version, last heartbeat).
+   *
+   * @tags fleet
+   * @name FleetNodesList
+   * @summary Fleet nodes
+   * @request GET:/admin/fleet/nodes
+   * @secure
+   */
+  fleetNodesList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesFleetNodeDTO,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/nodes`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
       ...params,
     });
 }
