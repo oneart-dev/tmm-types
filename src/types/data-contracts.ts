@@ -176,6 +176,12 @@ export interface ControllersApiSuccessArrayServicesTransaction {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesWidgetValue {
+  data?: ServicesWidgetValue[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData {
   data?: ControllersFeedNotificationAdminCreateData;
   /** @example "success" */

@@ -181,6 +181,15 @@ export class Team extends HttpClient {
             format: "json",
             ...params,
         });
+        this.widgetValuesDetail = (id, query, params = {}) => this.request({
+            path: `/team/${id}/widget-values`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.widgetsDetail = (id, params = {}) => this.request({
             path: `/team/${id}/widgets`,
             method: "GET",

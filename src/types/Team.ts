@@ -16,6 +16,7 @@ import {
   ControllersApiSuccessArrayServicesTeamTopData,
   ControllersApiSuccessArrayServicesTeamWidgetConfig,
   ControllersApiSuccessArrayServicesTeamWithStatsAndMember,
+  ControllersApiSuccessArrayServicesWidgetValue,
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesFeedNotificationComment,
@@ -605,6 +606,42 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/team/${id}/top`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns the computed value for every enabled widget in a single call.
+   *
+   * @tags team_widgets
+   * @name WidgetValuesDetail
+   * @summary Get All Enabled Team Widget Values
+   * @request GET:/team/{id}/widget-values
+   * @secure
+   */
+  widgetValuesDetail = (
+    id: number,
+    query?: {
+      /**
+       * today|yesterday|7days|14days|30days|custom
+       * @default "30days"
+       */
+      period?: string;
+      /** custom window start (unix ms) */
+      from?: number;
+      /** custom window end (unix ms) */
+      to?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessArrayServicesWidgetValue,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/team/${id}/widget-values`,
       method: "GET",
       query: query,
       secure: true,
