@@ -180,6 +180,96 @@
                 }
             }
         },
+        "/admin/fleet/artifacts": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns all artifact rows ordered newest first. Used for the UI table and target-version dropdown.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "fleet"
+                ],
+                "summary": "List artifacts",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_Artifact"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Upload a fleet artifact.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "fleet"
+                ],
+                "summary": "Upload fleet artifact",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Artifact file",
+                        "name": "package",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/fleet/exchanges/{exchange_id}/target-version": {
             "post": {
                 "security": [
@@ -12423,6 +12513,141 @@
                                 "type": "integer",
                                 "description": "1654898909"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/internal/artifacts/{version}/{arch}": {
+            "get": {
+                "description": "Streams the tmm-ws binary for the given version and arch. Internal-token gated.",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "artifacts",
+                    "internal"
+                ],
+                "summary": "Download artifact binary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Artifact version",
+                        "name": "version",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Target arch (amd64|arm64)",
+                        "name": "arch",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/internal/artifacts/{version}/{arch}/manifest": {
+            "get": {
+                "description": "Returns the manifest JSON, Ed25519 signature (hex), and signer key (hex) so node-agent can verify before executing. Internal-token gated.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "artifacts",
+                    "internal"
+                ],
+                "summary": "Get artifact manifest + signature",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Artifact version",
+                        "name": "version",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Target arch (amd64|arm64)",
+                        "name": "arch",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_ArtifactManifestResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/internal/artifacts/{version}/{arch}/sha256": {
+            "get": {
+                "description": "Returns the hex sha256 of the stored binary. Internal-token gated.",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "artifacts",
+                    "internal"
+                ],
+                "summary": "Get artifact SHA256",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Artifact version",
+                        "name": "version",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Target arch (amd64|arm64)",
+                        "name": "arch",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "hex sha256",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -27317,6 +27542,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_Artifact": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.Artifact"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_ArtifactVersionDTO": {
             "type": "object",
             "properties": {
@@ -27591,6 +27835,22 @@
                     "items": {
                         "$ref": "#/definitions/services.Transaction"
                     }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_ArtifactManifestResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.ArtifactManifestResponse"
                 },
                 "status": {
                     "allOf": [
@@ -28030,6 +28290,20 @@
                         }
                     ],
                     "example": "warning"
+                }
+            }
+        },
+        "controllers.ArtifactManifestResponse": {
+            "type": "object",
+            "properties": {
+                "manifest_json": {
+                    "type": "string"
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "signer_key": {
+                    "type": "string"
                 }
             }
         },
@@ -32325,6 +32599,41 @@
                 "API_USER_TYPE_USER_CREATED",
                 "API_USER_TYPE_OAUTH_CREATED"
             ]
+        },
+        "services.Artifact": {
+            "type": "object",
+            "properties": {
+                "arch": {
+                    "type": "string"
+                },
+                "built_at": {
+                    "type": "integer"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "manifest": {
+                    "type": "string"
+                },
+                "sha256": {
+                    "type": "string"
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "signer_key": {
+                    "type": "string"
+                },
+                "size_bytes": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
         },
         "services.ArtifactVersionDTO": {
             "type": "object",

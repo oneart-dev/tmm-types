@@ -54,6 +54,10 @@ export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesArtifact {
+    data?: ServicesArtifact[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesArtifactVersionDTO {
     data?: ServicesArtifactVersionDTO[];
     status?: ControllersResponseStatusMessage;
@@ -112,6 +116,10 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
 }
 export interface ControllersApiSuccessArrayServicesTransaction {
     data?: ServicesTransaction[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersArtifactManifestResponse {
+    data?: ControllersArtifactManifestResponse;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData {
@@ -220,6 +228,11 @@ export interface ControllersApiUsersListResponse {
 export interface ControllersApiWarningResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersArtifactManifestResponse {
+    manifest_json?: string;
+    signature?: string;
+    signer_key?: string;
 }
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
@@ -1178,6 +1191,18 @@ export declare enum ServicesApiUserRead {
 export declare enum ServicesApiUserType {
     API_USER_TYPE_USER_CREATED = 1,
     API_USER_TYPE_OAUTH_CREATED = 2
+}
+export interface ServicesArtifact {
+    arch?: string;
+    built_at?: number;
+    filename?: string;
+    id?: number;
+    manifest?: string;
+    sha256?: string;
+    signature?: string;
+    signer_key?: string;
+    size_bytes?: number;
+    version?: string;
 }
 export interface ServicesArtifactVersionDTO {
     arch?: string;

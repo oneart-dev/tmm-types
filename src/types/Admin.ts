@@ -12,6 +12,7 @@
 import {
   ChatExportPayload,
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesArtifact,
   ControllersApiSuccessArrayServicesArtifactVersionDTO,
   ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
@@ -104,6 +105,54 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       method: "GET",
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns all artifact rows ordered newest first. Used for the UI table and target-version dropdown.
+   *
+   * @tags fleet
+   * @name FleetArtifactsList
+   * @summary List artifacts
+   * @request GET:/admin/fleet/artifacts
+   * @secure
+   */
+  fleetArtifactsList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesArtifact,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/fleet/artifacts`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Upload a fleet artifact.
+   *
+   * @tags fleet
+   * @name FleetArtifactsCreate
+   * @summary Upload fleet artifact
+   * @request POST:/admin/fleet/artifacts
+   * @secure
+   */
+  fleetArtifactsCreate = (
+    data: {
+      /**
+       * Artifact file
+       * @format binary
+       */
+      package: File;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | ControllersApiErrorResponse>({
+      path: `/admin/fleet/artifacts`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
       format: "json",
       ...params,
     });

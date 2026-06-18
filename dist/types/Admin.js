@@ -26,6 +26,22 @@ export class Admin extends HttpClient {
             format: "json",
             ...params,
         });
+        this.fleetArtifactsList = (params = {}) => this.request({
+            path: `/admin/fleet/artifacts`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.fleetArtifactsCreate = (data, params = {}) => this.request({
+            path: `/admin/fleet/artifacts`,
+            method: "POST",
+            body: data,
+            secure: true,
+            type: ContentType.FormData,
+            format: "json",
+            ...params,
+        });
         this.fleetExchangesTargetVersionCreate = (exchangeId, body, params = {}) => this.request({
             path: `/admin/fleet/exchanges/${exchangeId}/target-version`,
             method: "POST",
