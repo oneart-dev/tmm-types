@@ -12,6 +12,7 @@
 import {
   ControllersApiSuccessDtoChatMemory,
   ControllersApiSuccessNoData,
+  ControllersApiSuccessServicesSSEChatProgressEventCatalog,
   ControllersUnauthorizedResponse,
   DtoChatCreateThreadRequest,
   DtoChatCreateThreadResponse,
@@ -60,6 +61,21 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       path: `/chat/memory`,
       method: "DELETE",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Maps chat-progress SSE event stages to their typed payloads. NOT callable — returns 501. Exists so tmm-types generates typed bindings for chat SSE events.
+   *
+   * @tags chat, internal
+   * @name SseEventsList
+   * @summary Chat SSE event catalog (documentation only)
+   * @request GET:/chat/sse-events
+   */
+  sseEventsList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessServicesSSEChatProgressEventCatalog, any>({
+      path: `/chat/sse-events`,
+      method: "GET",
       format: "json",
       ...params,
     });

@@ -266,6 +266,12 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
+  data?: ServicesSSEChatProgressEventCatalog;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
   data?: ServicesSSEFeedNotificationEventCatalog;
   /** @example "success" */
@@ -2543,6 +2549,17 @@ export interface ServicesCategory {
   user_id?: number;
 }
 
+export interface ServicesChatToolResultSSEPayload {
+  dashboard_id?: number;
+  seq?: number;
+  /** always "tool_result" */
+  stage?: string;
+  thread_uid?: string;
+  tool?: string;
+  turn_index?: number;
+  widget_id?: number;
+}
+
 /** @format int32 */
 export enum ServicesConnectionStatus {
   TelegramConnectStatusNew = 1,
@@ -3559,6 +3576,10 @@ export interface ServicesRiskManagementPagination {
   sortDesc?: boolean;
   sort_fields?: string[];
   total?: number;
+}
+
+export interface ServicesSSEChatProgressEventCatalog {
+  tool_result?: ServicesChatToolResultSSEPayload;
 }
 
 export interface ServicesSSEFeedNotificationEventCatalog {

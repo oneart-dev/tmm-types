@@ -16,6 +16,12 @@ export class Chat extends HttpClient {
             format: "json",
             ...params,
         });
+        this.sseEventsList = (params = {}) => this.request({
+            path: `/chat/sse-events`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         this.threadsList = (query, params = {}) => this.request({
             path: `/chat/threads`,
             method: "GET",

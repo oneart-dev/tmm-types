@@ -178,6 +178,10 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
     data?: ServicesPromoCodePreview;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
+    data?: ServicesSSEChatProgressEventCatalog;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
     data?: ServicesSSEFeedNotificationEventCatalog;
     status?: ControllersResponseStatusMessage;
@@ -1266,6 +1270,15 @@ export interface ServicesCategory {
     order?: number;
     user_id?: number;
 }
+export interface ServicesChatToolResultSSEPayload {
+    dashboard_id?: number;
+    seq?: number;
+    stage?: string;
+    thread_uid?: string;
+    tool?: string;
+    turn_index?: number;
+    widget_id?: number;
+}
 export declare enum ServicesConnectionStatus {
     TelegramConnectStatusNew = 1,
     TelegramConnectStatusConnected = 2
@@ -2035,6 +2048,9 @@ export interface ServicesRiskManagementPagination {
     sortDesc?: boolean;
     sort_fields?: string[];
     total?: number;
+}
+export interface ServicesSSEChatProgressEventCatalog {
+    tool_result?: ServicesChatToolResultSSEPayload;
 }
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;

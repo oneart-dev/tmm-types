@@ -10279,6 +10279,27 @@
                 }
             }
         },
+        "/chat/sse-events": {
+            "get": {
+                "description": "Maps chat-progress SSE event stages to their typed payloads. NOT callable — returns 501. Exists so tmm-types generates typed bindings for chat SSE events.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat",
+                    "internal"
+                ],
+                "summary": "Chat SSE event catalog (documentation only)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_SSEChatProgressEventCatalog"
+                        }
+                    }
+                }
+            }
+        },
         "/chat/threads": {
             "get": {
                 "security": [
@@ -28086,6 +28107,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_SSEChatProgressEventCatalog": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.SSEChatProgressEventCatalog"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_SSEFeedNotificationEventCatalog": {
             "type": "object",
             "properties": {
@@ -32830,6 +32867,33 @@
                 }
             }
         },
+        "services.ChatToolResultSSEPayload": {
+            "type": "object",
+            "properties": {
+                "dashboard_id": {
+                    "type": "integer"
+                },
+                "seq": {
+                    "type": "integer"
+                },
+                "stage": {
+                    "description": "always \"tool_result\"",
+                    "type": "string"
+                },
+                "thread_uid": {
+                    "type": "string"
+                },
+                "tool": {
+                    "type": "string"
+                },
+                "turn_index": {
+                    "type": "integer"
+                },
+                "widget_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.ConnectionStatus": {
             "type": "integer",
             "format": "int32",
@@ -35281,6 +35345,14 @@
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "services.SSEChatProgressEventCatalog": {
+            "type": "object",
+            "properties": {
+                "tool_result": {
+                    "$ref": "#/definitions/services.ChatToolResultSSEPayload"
                 }
             }
         },
