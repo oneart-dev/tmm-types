@@ -29805,6 +29805,24 @@
                 }
             }
         },
+        "dto.ChatPageContext": {
+            "type": "object",
+            "properties": {
+                "dashboard_id": {
+                    "description": "DashboardID is the ID of the dashboard the user is currently viewing.\nRequired when Page==\"summary\"; ignored otherwise.",
+                    "type": "integer",
+                    "example": 42
+                },
+                "page": {
+                    "description": "Page identifies which page the assistant was opened from.\nEnum: \"summary\". Other values are silently ignored.",
+                    "type": "string",
+                    "enum": [
+                        "summary"
+                    ],
+                    "example": "summary"
+                }
+            }
+        },
         "dto.ChatProfileRebuildResponse": {
             "type": "object",
             "properties": {
@@ -29858,6 +29876,14 @@
                 "question"
             ],
             "properties": {
+                "page_context": {
+                    "description": "PageContext is optional. When present and page==\"summary\", the backend\nenriches the system prompt with the current dashboard, its widgets, and\nthe user's plan/limits. The client must NOT send limit or plan numbers —\nthose are computed server-side.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.ChatPageContext"
+                        }
+                    ]
+                },
                 "question": {
                     "type": "string",
                     "example": "summarize my last 10 trades"
@@ -35536,18 +35562,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

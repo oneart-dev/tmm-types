@@ -995,6 +995,21 @@ export interface DtoChatNotAvailableResponse {
   status?: "error";
 }
 
+export interface DtoChatPageContext {
+  /**
+   * DashboardID is the ID of the dashboard the user is currently viewing.
+   * Required when Page=="summary"; ignored otherwise.
+   * @example 42
+   */
+  dashboard_id?: number;
+  /**
+   * Page identifies which page the assistant was opened from.
+   * Enum: "summary". Other values are silently ignored.
+   * @example "summary"
+   */
+  page?: "summary";
+}
+
 export interface DtoChatProfileRebuildResponse {
   /** @example 1234 */
   profile_build_ms?: number;
@@ -1016,6 +1031,13 @@ export interface DtoChatQuotaExhaustedResponse {
 }
 
 export interface DtoChatSendMessageRequest {
+  /**
+   * PageContext is optional. When present and page=="summary", the backend
+   * enriches the system prompt with the current dashboard, its widgets, and
+   * the user's plan/limits. The client must NOT send limit or plan numbers —
+   * those are computed server-side.
+   */
+  page_context?: DtoChatPageContext;
   /** @example "summarize my last 10 trades" */
   question: string;
 }
@@ -3659,11 +3681,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

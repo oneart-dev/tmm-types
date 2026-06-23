@@ -578,6 +578,10 @@ export interface DtoChatNotAvailableResponse {
     message?: string;
     status?: "error";
 }
+export interface DtoChatPageContext {
+    dashboard_id?: number;
+    page?: "summary";
+}
 export interface DtoChatProfileRebuildResponse {
     profile_build_ms?: number;
     profile_bytes?: number;
@@ -590,6 +594,7 @@ export interface DtoChatQuotaExhaustedResponse {
     status?: "error";
 }
 export interface DtoChatSendMessageRequest {
+    page_context?: DtoChatPageContext;
     question: string;
 }
 export interface DtoChatSendMessageResponse {
@@ -2124,11 +2129,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
