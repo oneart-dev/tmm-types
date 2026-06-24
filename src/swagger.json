@@ -10279,27 +10279,6 @@
                 }
             }
         },
-        "/chat/sse-events": {
-            "get": {
-                "description": "Maps chat-progress SSE event stages to their typed payloads. NOT callable — returns 501. Exists so tmm-types generates typed bindings for chat SSE events.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "chat",
-                    "internal"
-                ],
-                "summary": "Chat SSE event catalog (documentation only)",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-services_SSEChatProgressEventCatalog"
-                        }
-                    }
-                }
-            }
-        },
         "/chat/threads": {
             "get": {
                 "security": [
@@ -28107,22 +28086,6 @@
                 }
             }
         },
-        "controllers.ApiSuccess-services_SSEChatProgressEventCatalog": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.SSEChatProgressEventCatalog"
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.ApiSuccess-services_SSEFeedNotificationEventCatalog": {
             "type": "object",
             "properties": {
@@ -29842,24 +29805,6 @@
                 }
             }
         },
-        "dto.ChatPageContext": {
-            "type": "object",
-            "properties": {
-                "dashboard_id": {
-                    "description": "DashboardID is the ID of the dashboard the user is currently viewing.\nRequired when Page==\"summary\"; ignored otherwise.",
-                    "type": "integer",
-                    "example": 42
-                },
-                "page": {
-                    "description": "Page identifies which page the assistant was opened from.\nEnum: \"summary\". Other values are silently ignored.",
-                    "type": "string",
-                    "enum": [
-                        "summary"
-                    ],
-                    "example": "summary"
-                }
-            }
-        },
         "dto.ChatProfileRebuildResponse": {
             "type": "object",
             "properties": {
@@ -29913,14 +29858,6 @@
                 "question"
             ],
             "properties": {
-                "page_context": {
-                    "description": "PageContext is optional. When present and page==\"summary\", the backend\nenriches the system prompt with the current dashboard, its widgets, and\nthe user's plan/limits. The client must NOT send limit or plan numbers —\nthose are computed server-side.",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/dto.ChatPageContext"
-                        }
-                    ]
-                },
                 "question": {
                     "type": "string",
                     "example": "summarize my last 10 trades"
@@ -32867,33 +32804,6 @@
                 }
             }
         },
-        "services.ChatToolResultSSEPayload": {
-            "type": "object",
-            "properties": {
-                "dashboard_id": {
-                    "type": "integer"
-                },
-                "seq": {
-                    "type": "integer"
-                },
-                "stage": {
-                    "description": "always \"tool_result\"",
-                    "type": "string"
-                },
-                "thread_uid": {
-                    "type": "string"
-                },
-                "tool": {
-                    "type": "string"
-                },
-                "turn_index": {
-                    "type": "integer"
-                },
-                "widget_id": {
-                    "type": "integer"
-                }
-            }
-        },
         "services.ConnectionStatus": {
             "type": "integer",
             "format": "int32",
@@ -35348,14 +35258,6 @@
                 }
             }
         },
-        "services.SSEChatProgressEventCatalog": {
-            "type": "object",
-            "properties": {
-                "tool_result": {
-                    "$ref": "#/definitions/services.ChatToolResultSSEPayload"
-                }
-            }
-        },
         "services.SSEFeedNotificationEventCatalog": {
             "type": "object",
             "properties": {
@@ -35990,6 +35892,10 @@
                 "decimalsMax": {
                     "type": "integer"
                 },
+                "display_name": {
+                    "description": "DisplayName is set for HIP-4 prediction-market coins (#N).\nFormat: \"\u003cquestionName\u003e: \u003coutcomeName\u003e (\u003csideName\u003e)\".\nEmpty for regular perp and HIP-3 symbols.",
+                    "type": "string"
+                },
                 "maxPrice": {
                     "type": "string"
                 },
@@ -36177,6 +36083,10 @@
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "description": "DisplayName is a human-readable label for HIP-4 prediction-market trades.\nFormat: \"\u003cquestionName\u003e: \u003coutcomeName\u003e (\u003csideName\u003e)\" (e.g. \"2026 World Cup Champion: Algeria (Yes)\").\nEmpty for regular perp and HIP-3 trades — frontend falls back to Symbol.",
                     "type": "string"
                 },
                 "duration": {

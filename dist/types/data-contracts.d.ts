@@ -178,10 +178,6 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
     data?: ServicesPromoCodePreview;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
-    data?: ServicesSSEChatProgressEventCatalog;
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
     data?: ServicesSSEFeedNotificationEventCatalog;
     status?: ControllersResponseStatusMessage;
@@ -582,10 +578,6 @@ export interface DtoChatNotAvailableResponse {
     message?: string;
     status?: "error";
 }
-export interface DtoChatPageContext {
-    dashboard_id?: number;
-    page?: "summary";
-}
 export interface DtoChatProfileRebuildResponse {
     profile_build_ms?: number;
     profile_bytes?: number;
@@ -598,7 +590,6 @@ export interface DtoChatQuotaExhaustedResponse {
     status?: "error";
 }
 export interface DtoChatSendMessageRequest {
-    page_context?: DtoChatPageContext;
     question: string;
 }
 export interface DtoChatSendMessageResponse {
@@ -1269,15 +1260,6 @@ export interface ServicesCategory {
     name?: string;
     order?: number;
     user_id?: number;
-}
-export interface ServicesChatToolResultSSEPayload {
-    dashboard_id?: number;
-    seq?: number;
-    stage?: string;
-    thread_uid?: string;
-    tool?: string;
-    turn_index?: number;
-    widget_id?: number;
 }
 export declare enum ServicesConnectionStatus {
     TelegramConnectStatusNew = 1,
@@ -2049,9 +2031,6 @@ export interface ServicesRiskManagementPagination {
     sort_fields?: string[];
     total?: number;
 }
-export interface ServicesSSEChatProgressEventCatalog {
-    tool_result?: ServicesChatToolResultSSEPayload;
-}
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
     "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
@@ -2268,6 +2247,7 @@ export interface ServicesTelegramConnect {
 export interface ServicesTickerFilters {
     baseCurrency?: string;
     decimalsMax?: number;
+    display_name?: string;
     maxPrice?: string;
     maxQty?: string;
     minPrice?: string;
@@ -2333,6 +2313,7 @@ export interface ServicesTrade {
     conclusion?: string;
     created_at?: string;
     description?: string;
+    display_name?: string;
     duration?: number;
     exchange_id?: ServicesExchangeID;
     exit_reason?: string;

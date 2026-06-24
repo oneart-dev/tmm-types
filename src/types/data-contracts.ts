@@ -266,12 +266,6 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
   status?: ControllersResponseStatusMessage;
 }
 
-export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
-  data?: ServicesSSEChatProgressEventCatalog;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
   data?: ServicesSSEFeedNotificationEventCatalog;
   /** @example "success" */
@@ -1001,21 +995,6 @@ export interface DtoChatNotAvailableResponse {
   status?: "error";
 }
 
-export interface DtoChatPageContext {
-  /**
-   * DashboardID is the ID of the dashboard the user is currently viewing.
-   * Required when Page=="summary"; ignored otherwise.
-   * @example 42
-   */
-  dashboard_id?: number;
-  /**
-   * Page identifies which page the assistant was opened from.
-   * Enum: "summary". Other values are silently ignored.
-   * @example "summary"
-   */
-  page?: "summary";
-}
-
 export interface DtoChatProfileRebuildResponse {
   /** @example 1234 */
   profile_build_ms?: number;
@@ -1037,13 +1016,6 @@ export interface DtoChatQuotaExhaustedResponse {
 }
 
 export interface DtoChatSendMessageRequest {
-  /**
-   * PageContext is optional. When present and page=="summary", the backend
-   * enriches the system prompt with the current dashboard, its widgets, and
-   * the user's plan/limits. The client must NOT send limit or plan numbers —
-   * those are computed server-side.
-   */
-  page_context?: DtoChatPageContext;
   /** @example "summarize my last 10 trades" */
   question: string;
 }
@@ -2549,17 +2521,6 @@ export interface ServicesCategory {
   user_id?: number;
 }
 
-export interface ServicesChatToolResultSSEPayload {
-  dashboard_id?: number;
-  seq?: number;
-  /** always "tool_result" */
-  stage?: string;
-  thread_uid?: string;
-  tool?: string;
-  turn_index?: number;
-  widget_id?: number;
-}
-
 /** @format int32 */
 export enum ServicesConnectionStatus {
   TelegramConnectStatusNew = 1,
@@ -3578,10 +3539,6 @@ export interface ServicesRiskManagementPagination {
   total?: number;
 }
 
-export interface ServicesSSEChatProgressEventCatalog {
-  tool_result?: ServicesChatToolResultSSEPayload;
-}
-
 export interface ServicesSSEFeedNotificationEventCatalog {
   "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
   "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
@@ -3844,6 +3801,12 @@ export interface ServicesTelegramConnect {
 export interface ServicesTickerFilters {
   baseCurrency?: string;
   decimalsMax?: number;
+  /**
+   * DisplayName is set for HIP-4 prediction-market coins (#N).
+   * Format: "<questionName>: <outcomeName> (<sideName>)".
+   * Empty for regular perp and HIP-3 symbols.
+   */
+  display_name?: string;
   maxPrice?: string;
   maxQty?: string;
   minPrice?: string;
@@ -3917,6 +3880,12 @@ export interface ServicesTrade {
   conclusion?: string;
   created_at?: string;
   description?: string;
+  /**
+   * DisplayName is a human-readable label for HIP-4 prediction-market trades.
+   * Format: "<questionName>: <outcomeName> (<sideName>)" (e.g. "2026 World Cup Champion: Algeria (Yes)").
+   * Empty for regular perp and HIP-3 trades — frontend falls back to Symbol.
+   */
+  display_name?: string;
   duration?: number;
   exchange_id?: ServicesExchangeID;
   exit_reason?: string;
