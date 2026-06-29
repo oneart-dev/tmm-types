@@ -3409,20 +3409,20 @@ export interface ServicesPromoCodePreview {
 export interface ServicesPublicAnnouncementDetail {
   body?: string;
   lang?: string;
-  langAvailable?: string[];
-  publishedAt?: string;
+  lang_available?: string[];
+  published_at?: string;
   slug?: string;
   title?: string;
-  updatedAt?: string;
+  updated_at?: string;
 }
 
 export interface ServicesPublicAnnouncementListItem {
   excerpt?: string;
-  langAvailable?: string[];
-  publishedAt?: string;
+  lang_available?: string[];
+  published_at?: string;
   slug?: string;
   title?: string;
-  updatedAt?: string;
+  updated_at?: string;
 }
 
 export interface ServicesPublicProfile {
@@ -3737,11 +3737,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

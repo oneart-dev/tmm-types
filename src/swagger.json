@@ -35032,13 +35032,13 @@
                 "lang": {
                     "type": "string"
                 },
-                "langAvailable": {
+                "lang_available": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "publishedAt": {
+                "published_at": {
                     "type": "string"
                 },
                 "slug": {
@@ -35047,7 +35047,7 @@
                 "title": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -35058,13 +35058,13 @@
                 "excerpt": {
                     "type": "string"
                 },
-                "langAvailable": {
+                "lang_available": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "publishedAt": {
+                "published_at": {
                     "type": "string"
                 },
                 "slug": {
@@ -35073,7 +35073,7 @@
                 "title": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -35831,18 +35831,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
