@@ -1924,6 +1924,7 @@ export interface ServicesPromoCodePreview {
 }
 export interface ServicesPublicAnnouncementDetail {
     body?: string;
+    image_url?: string;
     lang?: string;
     lang_available?: string[];
     published_at?: string;
@@ -1933,6 +1934,7 @@ export interface ServicesPublicAnnouncementDetail {
 }
 export interface ServicesPublicAnnouncementListItem {
     excerpt?: string;
+    image_url?: string;
     lang_available?: string[];
     published_at?: string;
     slug?: string;
