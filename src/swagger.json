@@ -10279,6 +10279,27 @@
                 }
             }
         },
+        "/chat/sse-events": {
+            "get": {
+                "description": "Maps chat-progress SSE event stages to their typed payloads. NOT callable — returns 501. Exists so tmm-types generates typed bindings for chat SSE events.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat",
+                    "internal"
+                ],
+                "summary": "Chat SSE event catalog (documentation only)",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_SSEChatProgressEventCatalog"
+                        }
+                    }
+                }
+            }
+        },
         "/chat/threads": {
             "get": {
                 "security": [
@@ -15616,6 +15637,103 @@
                         "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/announcements": {
+            "get": {
+                "description": "Returns paginated published global announcements. No authentication required.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "public_announcements"
+                ],
+                "summary": "List public announcements",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Items per page (1–50, default 20)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Offset for pagination",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "en",
+                        "description": "Language code (e.g. en, ru). Falls back to en.",
+                        "name": "lang",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.PublicAnnouncementsListResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/announcements/{slug}": {
+            "get": {
+                "description": "Returns a single published global announcement. No authentication required.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "public_announcements"
+                ],
+                "summary": "Get public announcement by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Announcement slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "en",
+                        "description": "Language code (e.g. en, ru). Falls back to en.",
+                        "name": "lang",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_PublicAnnouncementDetail"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -28086,6 +28204,38 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_PublicAnnouncementDetail": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.PublicAnnouncementDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_SSEChatProgressEventCatalog": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.SSEChatProgressEventCatalog"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_SSEFeedNotificationEventCatalog": {
             "type": "object",
             "properties": {
@@ -28802,6 +28952,29 @@
                 },
                 "value": {
                     "type": "string"
+                }
+            }
+        },
+        "controllers.PublicAnnouncementsListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.PublicAnnouncementListItem"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -29805,6 +29978,24 @@
                 }
             }
         },
+        "dto.ChatPageContext": {
+            "type": "object",
+            "properties": {
+                "dashboard_id": {
+                    "description": "DashboardID is the ID of the dashboard the user is currently viewing.\nRequired when Page==\"summary\"; ignored otherwise.",
+                    "type": "integer",
+                    "example": 42
+                },
+                "page": {
+                    "description": "Page identifies which page the assistant was opened from.\nEnum: \"summary\". Other values are silently ignored.",
+                    "type": "string",
+                    "enum": [
+                        "summary"
+                    ],
+                    "example": "summary"
+                }
+            }
+        },
         "dto.ChatProfileRebuildResponse": {
             "type": "object",
             "properties": {
@@ -29858,6 +30049,14 @@
                 "question"
             ],
             "properties": {
+                "page_context": {
+                    "description": "PageContext is optional. When present and page==\"summary\", the backend\nenriches the system prompt with the current dashboard, its widgets, and\nthe user's plan/limits. The client must NOT send limit or plan numbers —\nthose are computed server-side.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.ChatPageContext"
+                        }
+                    ]
+                },
                 "question": {
                     "type": "string",
                     "example": "summarize my last 10 trades"
@@ -32804,6 +33003,33 @@
                 }
             }
         },
+        "services.ChatToolResultSSEPayload": {
+            "type": "object",
+            "properties": {
+                "dashboard_id": {
+                    "type": "integer"
+                },
+                "seq": {
+                    "type": "integer"
+                },
+                "stage": {
+                    "description": "always \"tool_result\"",
+                    "type": "string"
+                },
+                "thread_uid": {
+                    "type": "string"
+                },
+                "tool": {
+                    "type": "string"
+                },
+                "turn_index": {
+                    "type": "integer"
+                },
+                "widget_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.ConnectionStatus": {
             "type": "integer",
             "format": "int32",
@@ -33153,6 +33379,9 @@
                 "published_at": {
                     "type": "string"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "sort_key": {
                     "description": "SortKey drives the user-feed ordering. Notifications hold it at\npublished_at (frozen after publish — admin edits don't re-bubble).\nTickets bump it on every visible comment + every status change, so\nactivity floats them to the top while the surrounding notifications\nstay where they were chronologically.",
                     "type": "string"
@@ -33262,6 +33491,9 @@
                     "type": "boolean"
                 },
                 "published_at": {
+                    "type": "string"
+                },
+                "slug": {
                     "type": "string"
                 },
                 "sort_key": {
@@ -34791,6 +35023,61 @@
                 }
             }
         },
+        "services.PublicAnnouncementDetail": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "lang": {
+                    "type": "string"
+                },
+                "langAvailable": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "publishedAt": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.PublicAnnouncementListItem": {
+            "type": "object",
+            "properties": {
+                "excerpt": {
+                    "type": "string"
+                },
+                "langAvailable": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "publishedAt": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "services.PublicProfile": {
             "type": "object",
             "properties": {
@@ -35255,6 +35542,14 @@
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "services.SSEChatProgressEventCatalog": {
+            "type": "object",
+            "properties": {
+                "tool_result": {
+                    "$ref": "#/definitions/services.ChatToolResultSSEPayload"
                 }
             }
         },

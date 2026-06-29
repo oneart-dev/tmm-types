@@ -178,6 +178,14 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
     data?: ServicesPromoCodePreview;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
+    data?: ServicesPublicAnnouncementDetail;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
+    data?: ServicesSSEChatProgressEventCatalog;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
     data?: ServicesSSEFeedNotificationEventCatalog;
     status?: ControllersResponseStatusMessage;
@@ -355,6 +363,12 @@ export interface ControllersPnlEntry {
     counter?: number;
     dateValue?: string;
     value?: string;
+}
+export interface ControllersPublicAnnouncementsListResponse {
+    data?: any;
+    items?: ServicesPublicAnnouncementListItem[];
+    status?: ControllersResponseStatusMessage;
+    total?: number;
 }
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
@@ -578,6 +592,10 @@ export interface DtoChatNotAvailableResponse {
     message?: string;
     status?: "error";
 }
+export interface DtoChatPageContext {
+    dashboard_id?: number;
+    page?: "summary";
+}
 export interface DtoChatProfileRebuildResponse {
     profile_build_ms?: number;
     profile_bytes?: number;
@@ -590,6 +608,7 @@ export interface DtoChatQuotaExhaustedResponse {
     status?: "error";
 }
 export interface DtoChatSendMessageRequest {
+    page_context?: DtoChatPageContext;
     question: string;
 }
 export interface DtoChatSendMessageResponse {
@@ -1261,6 +1280,15 @@ export interface ServicesCategory {
     order?: number;
     user_id?: number;
 }
+export interface ServicesChatToolResultSSEPayload {
+    dashboard_id?: number;
+    seq?: number;
+    stage?: string;
+    thread_uid?: string;
+    tool?: string;
+    turn_index?: number;
+    widget_id?: number;
+}
 export declare enum ServicesConnectionStatus {
     TelegramConnectStatusNew = 1,
     TelegramConnectStatusConnected = 2
@@ -1365,6 +1393,7 @@ export interface ServicesFeedNotification {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    slug?: string;
     sort_key?: string;
     ticket_uid?: string;
     type?: ServicesFeedNotificationType;
@@ -1394,6 +1423,7 @@ export interface ServicesFeedNotificationAdminListItem {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    slug?: string;
     sort_key?: string;
     ticket_uid?: string;
     title?: string;
@@ -1892,6 +1922,23 @@ export interface ServicesPromoCodePreview {
     stripe_subscription?: boolean;
     upgrade?: ServicesPromoCodeOutcome;
 }
+export interface ServicesPublicAnnouncementDetail {
+    body?: string;
+    lang?: string;
+    langAvailable?: string[];
+    publishedAt?: string;
+    slug?: string;
+    title?: string;
+    updatedAt?: string;
+}
+export interface ServicesPublicAnnouncementListItem {
+    excerpt?: string;
+    langAvailable?: string[];
+    publishedAt?: string;
+    slug?: string;
+    title?: string;
+    updatedAt?: string;
+}
 export interface ServicesPublicProfile {
     api_keys?: number[];
     bg?: ServicesFile;
@@ -2030,6 +2077,9 @@ export interface ServicesRiskManagementPagination {
     sortDesc?: boolean;
     sort_fields?: string[];
     total?: number;
+}
+export interface ServicesSSEChatProgressEventCatalog {
+    tool_result?: ServicesChatToolResultSSEPayload;
 }
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;

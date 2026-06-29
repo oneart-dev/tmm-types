@@ -26,6 +26,7 @@ export * from './types/Notes';
 export * from './types/NotificationTemplate';
 export * from './types/Notifications';
 export * from './types/Oauth2';
+export * from './types/Public';
 export * from './types/RiskManagement';
 export * from './types/Sse';
 export * from './types/Stats';

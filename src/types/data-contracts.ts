@@ -266,6 +266,18 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
+  data?: ServicesPublicAnnouncementDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
+  data?: ServicesSSEChatProgressEventCatalog;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
   data?: ServicesSSEFeedNotificationEventCatalog;
   /** @example "success" */
@@ -526,6 +538,14 @@ export interface ControllersPnlEntry {
   counter?: number;
   dateValue?: string;
   value?: string;
+}
+
+export interface ControllersPublicAnnouncementsListResponse {
+  data?: any;
+  items?: ServicesPublicAnnouncementListItem[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+  total?: number;
 }
 
 export interface ControllersPublicProfileResponse {
@@ -995,6 +1015,21 @@ export interface DtoChatNotAvailableResponse {
   status?: "error";
 }
 
+export interface DtoChatPageContext {
+  /**
+   * DashboardID is the ID of the dashboard the user is currently viewing.
+   * Required when Page=="summary"; ignored otherwise.
+   * @example 42
+   */
+  dashboard_id?: number;
+  /**
+   * Page identifies which page the assistant was opened from.
+   * Enum: "summary". Other values are silently ignored.
+   * @example "summary"
+   */
+  page?: "summary";
+}
+
 export interface DtoChatProfileRebuildResponse {
   /** @example 1234 */
   profile_build_ms?: number;
@@ -1016,6 +1051,13 @@ export interface DtoChatQuotaExhaustedResponse {
 }
 
 export interface DtoChatSendMessageRequest {
+  /**
+   * PageContext is optional. When present and page=="summary", the backend
+   * enriches the system prompt with the current dashboard, its widgets, and
+   * the user's plan/limits. The client must NOT send limit or plan numbers —
+   * those are computed server-side.
+   */
+  page_context?: DtoChatPageContext;
   /** @example "summarize my last 10 trades" */
   question: string;
 }
@@ -2521,6 +2563,17 @@ export interface ServicesCategory {
   user_id?: number;
 }
 
+export interface ServicesChatToolResultSSEPayload {
+  dashboard_id?: number;
+  seq?: number;
+  /** always "tool_result" */
+  stage?: string;
+  thread_uid?: string;
+  tool?: string;
+  turn_index?: number;
+  widget_id?: number;
+}
+
 /** @format int32 */
 export enum ServicesConnectionStatus {
   TelegramConnectStatusNew = 1,
@@ -2652,6 +2705,7 @@ export interface ServicesFeedNotification {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
+  slug?: string;
   /**
    * SortKey drives the user-feed ordering. Notifications hold it at
    * published_at (frozen after publish — admin edits don't re-bubble).
@@ -2709,6 +2763,7 @@ export interface ServicesFeedNotificationAdminListItem {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
+  slug?: string;
   /**
    * SortKey drives the user-feed ordering. Notifications hold it at
    * published_at (frozen after publish — admin edits don't re-bubble).
@@ -3351,6 +3406,25 @@ export interface ServicesPromoCodePreview {
   upgrade?: ServicesPromoCodeOutcome;
 }
 
+export interface ServicesPublicAnnouncementDetail {
+  body?: string;
+  lang?: string;
+  langAvailable?: string[];
+  publishedAt?: string;
+  slug?: string;
+  title?: string;
+  updatedAt?: string;
+}
+
+export interface ServicesPublicAnnouncementListItem {
+  excerpt?: string;
+  langAvailable?: string[];
+  publishedAt?: string;
+  slug?: string;
+  title?: string;
+  updatedAt?: string;
+}
+
 export interface ServicesPublicProfile {
   api_keys?: number[];
   bg?: ServicesFile;
@@ -3537,6 +3611,10 @@ export interface ServicesRiskManagementPagination {
   sortDesc?: boolean;
   sort_fields?: string[];
   total?: number;
+}
+
+export interface ServicesSSEChatProgressEventCatalog {
+  tool_result?: ServicesChatToolResultSSEPayload;
 }
 
 export interface ServicesSSEFeedNotificationEventCatalog {
