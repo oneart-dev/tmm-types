@@ -15739,6 +15739,73 @@
                 }
             }
         },
+        "/public/exchanges": {
+            "get": {
+                "description": "Returns the static catalogue of exchanges supported by TMM. No authentication required.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "public_exchanges"
+                ],
+                "summary": "List public exchanges",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_ExchangePublicListData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/exchanges/{slug}": {
+            "get": {
+                "description": "Returns metadata for a single exchange. No authentication required.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "public_exchanges"
+                ],
+                "summary": "Get public exchange by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Exchange slug (e.g. binance, bybit, okx)",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ExchangePublicItem"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/risk-management": {
             "put": {
                 "security": [
@@ -27980,6 +28047,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-controllers_ExchangePublicListData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.ExchangePublicListData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-controllers_FeedNotificationAdminCreateData": {
             "type": "object",
             "properties": {
@@ -28081,6 +28164,22 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.Dashboard"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ExchangePublicItem": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ExchangePublicItem"
                 },
                 "status": {
                     "allOf": [
@@ -28506,6 +28605,17 @@
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "controllers.ExchangePublicListData": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ExchangePublicItem"
+                    }
                 }
             }
         },
@@ -33333,6 +33443,58 @@
                 "EXCHANGE_BYBIT_DEMO_LINEAR",
                 "EXCHANGE_BYBIT_DEMO_SPOT"
             ]
+        },
+        "services.ExchangePublicItem": {
+            "type": "object",
+            "properties": {
+                "autoSyncMethod": {
+                    "description": "AutoSyncMethod is how users connect this venue to TMM.\n\"api-key\"       — user supplies an API key + secret.\n\"wallet-address\"— user supplies a public wallet address only (Hyperliquid).",
+                    "type": "string"
+                },
+                "fundingAware": {
+                    "description": "FundingAware indicates whether TMM reconciles funding payments for\nthis venue's perpetual markets.",
+                    "type": "boolean"
+                },
+                "historyLimitDays": {
+                    "description": "HistoryLimitDays is the maximum number of calendar days of trade history\nthat can be backfilled via the exchange's API. 0 means unlimited / full\nhistory is available.",
+                    "type": "integer"
+                },
+                "markets": {
+                    "description": "Markets describes which account/market types TMM supports for this venue.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.ExchangePublicMarkets"
+                        }
+                    ]
+                },
+                "name": {
+                    "description": "Name is the human-readable display name shown in the UI.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "Slug is the URL-safe identifier used as the :slug route parameter.\nE.g. \"binance\", \"bybit\", \"hyperliquid\".",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "Status is always \"live\" for exchanges returned by this endpoint.\nReserved for future use (e.g. \"maintenance\", \"deprecated\").",
+                    "type": "string"
+                }
+            }
+        },
+        "services.ExchangePublicMarkets": {
+            "type": "object",
+            "properties": {
+                "futures": {
+                    "type": "boolean"
+                },
+                "inverse": {
+                    "description": "Inverse = COIN-M / inverse-perpetual contracts (e.g. Bybit Inverse).",
+                    "type": "boolean"
+                },
+                "spot": {
+                    "type": "boolean"
+                }
+            }
         },
         "services.FeedNotification": {
             "type": "object",

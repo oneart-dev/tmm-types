@@ -16,6 +16,18 @@ export class Public extends HttpClient {
             format: "json",
             ...params,
         });
+        this.exchangesList = (params = {}) => this.request({
+            path: `/public/exchanges`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        this.exchangesDetail = (slug, params = {}) => this.request({
+            path: `/public/exchanges/${slug}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }
 //# sourceMappingURL=Public.js.map

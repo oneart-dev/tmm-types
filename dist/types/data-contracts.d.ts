@@ -122,6 +122,10 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
     data?: ControllersArtifactManifestResponse;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessControllersExchangePublicListData {
+    data?: ControllersExchangePublicListData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData {
     data?: ControllersFeedNotificationAdminCreateData;
     status?: ControllersResponseStatusMessage;
@@ -148,6 +152,10 @@ export interface ControllersApiSuccessServicesApiUser {
 }
 export interface ControllersApiSuccessServicesDashboard {
     data?: ServicesDashboard;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangePublicItem {
+    data?: ServicesExchangePublicItem;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesFeedNotificationAnalyticsCounts {
@@ -254,6 +262,9 @@ export interface ControllersExchange {
     enabled?: number;
     id?: ServicesExchangeID;
     name?: string;
+}
+export interface ControllersExchangePublicListData {
+    items?: ServicesExchangePublicItem[];
 }
 export interface ControllersExchangesListResponse {
     data?: ControllersExchange[];
@@ -1380,6 +1391,20 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_FUTURES = 55,
     EXCHANGE_BYBIT_DEMO_LINEAR = 56,
     EXCHANGE_BYBIT_DEMO_SPOT = 57
+}
+export interface ServicesExchangePublicItem {
+    autoSyncMethod?: string;
+    fundingAware?: boolean;
+    historyLimitDays?: number;
+    markets?: ServicesExchangePublicMarkets;
+    name?: string;
+    slug?: string;
+    status?: string;
+}
+export interface ServicesExchangePublicMarkets {
+    futures?: boolean;
+    inverse?: boolean;
+    spot?: boolean;
 }
 export interface ServicesFeedNotification {
     audience_memberships?: string[];

@@ -182,6 +182,12 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersExchangePublicListData {
+  data?: ControllersExchangePublicListData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData {
   data?: ControllersFeedNotificationAdminCreateData;
   /** @example "success" */
@@ -220,6 +226,12 @@ export interface ControllersApiSuccessServicesApiUser {
 
 export interface ControllersApiSuccessServicesDashboard {
   data?: ServicesDashboard;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesExchangePublicItem {
+  data?: ServicesExchangePublicItem;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -378,6 +390,10 @@ export interface ControllersExchange {
   enabled?: number;
   id?: ServicesExchangeID;
   name?: string;
+}
+
+export interface ControllersExchangePublicListData {
+  items?: ServicesExchangePublicItem[];
 }
 
 export interface ControllersExchangesListResponse {
@@ -2678,6 +2694,47 @@ export enum ServicesExchangeID {
   EXCHANGE_KUCOIN_FUTURES = 55,
   EXCHANGE_BYBIT_DEMO_LINEAR = 56,
   EXCHANGE_BYBIT_DEMO_SPOT = 57,
+}
+
+export interface ServicesExchangePublicItem {
+  /**
+   * AutoSyncMethod is how users connect this venue to TMM.
+   * "api-key"       — user supplies an API key + secret.
+   * "wallet-address"— user supplies a public wallet address only (Hyperliquid).
+   */
+  autoSyncMethod?: string;
+  /**
+   * FundingAware indicates whether TMM reconciles funding payments for
+   * this venue's perpetual markets.
+   */
+  fundingAware?: boolean;
+  /**
+   * HistoryLimitDays is the maximum number of calendar days of trade history
+   * that can be backfilled via the exchange's API. 0 means unlimited / full
+   * history is available.
+   */
+  historyLimitDays?: number;
+  /** Markets describes which account/market types TMM supports for this venue. */
+  markets?: ServicesExchangePublicMarkets;
+  /** Name is the human-readable display name shown in the UI. */
+  name?: string;
+  /**
+   * Slug is the URL-safe identifier used as the :slug route parameter.
+   * E.g. "binance", "bybit", "hyperliquid".
+   */
+  slug?: string;
+  /**
+   * Status is always "live" for exchanges returned by this endpoint.
+   * Reserved for future use (e.g. "maintenance", "deprecated").
+   */
+  status?: string;
+}
+
+export interface ServicesExchangePublicMarkets {
+  futures?: boolean;
+  /** Inverse = COIN-M / inverse-perpetual contracts (e.g. Bybit Inverse). */
+  inverse?: boolean;
+  spot?: boolean;
 }
 
 export interface ServicesFeedNotification {

@@ -11,6 +11,8 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessControllersExchangePublicListData,
+  ControllersApiSuccessServicesExchangePublicItem,
   ControllersApiSuccessServicesPublicAnnouncementDetail,
   ControllersApiWarningResponse,
   ControllersPublicAnnouncementsListResponse,
@@ -79,6 +81,39 @@ export class Public<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       path: `/public/announcements/${slug}`,
       method: "GET",
       query: query,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns the static catalogue of exchanges supported by TMM. No authentication required.
+   *
+   * @tags public_exchanges
+   * @name ExchangesList
+   * @summary List public exchanges
+   * @request GET:/public/exchanges
+   */
+  exchangesList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessControllersExchangePublicListData, ControllersApiErrorResponse>({
+      path: `/public/exchanges`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns metadata for a single exchange. No authentication required.
+   *
+   * @tags public_exchanges
+   * @name ExchangesDetail
+   * @summary Get public exchange by slug
+   * @request GET:/public/exchanges/{slug}
+   */
+  exchangesDetail = (slug: string, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesExchangePublicItem,
+      ControllersApiWarningResponse | ControllersApiErrorResponse
+    >({
+      path: `/public/exchanges/${slug}`,
+      method: "GET",
       format: "json",
       ...params,
     });
