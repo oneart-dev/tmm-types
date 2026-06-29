@@ -2351,11 +2351,10 @@ export interface DtoWidgetCreateForm {
   /** @example "income_usdt" */
   source: string;
   /**
-   * @minLength 1
    * @maxLength 255
    * @example "Profit factor"
    */
-  title: string;
+  title?: string;
   /** @example "chart" */
   type: string;
   /** @example "line" */
@@ -2385,11 +2384,10 @@ export interface DtoWidgetFilters {
 export interface DtoWidgetUpdateForm {
   filters?: DtoWidgetFilters;
   /**
-   * @minLength 1
    * @maxLength 255
    * @example "Profit factor"
    */
-  title: string;
+  title?: string;
   /** @example "line" */
   type2?: string;
 }

@@ -32587,7 +32587,6 @@
             "type": "object",
             "required": [
                 "source",
-                "title",
                 "type"
             ],
             "properties": {
@@ -32601,7 +32600,6 @@
                 "title": {
                     "type": "string",
                     "maxLength": 255,
-                    "minLength": 1,
                     "example": "Profit factor"
                 },
                 "type": {
@@ -32658,9 +32656,6 @@
         },
         "dto.WidgetUpdateForm": {
             "type": "object",
-            "required": [
-                "title"
-            ],
             "properties": {
                 "filters": {
                     "$ref": "#/definitions/dto.WidgetFilters"
@@ -32668,7 +32663,6 @@
                 "title": {
                     "type": "string",
                     "maxLength": 255,
-                    "minLength": 1,
                     "example": "Profit factor"
                 },
                 "type2": {

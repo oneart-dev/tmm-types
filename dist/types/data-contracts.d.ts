@@ -1130,7 +1130,7 @@ export interface DtoUserUpdateForm {
 export interface DtoWidgetCreateForm {
     filters?: DtoWidgetFilters;
     source: string;
-    title: string;
+    title?: string;
     type: string;
     type2?: string;
     type3?: string;
@@ -1146,7 +1146,7 @@ export interface DtoWidgetFilters {
 }
 export interface DtoWidgetUpdateForm {
     filters?: DtoWidgetFilters;
-    title: string;
+    title?: string;
     type2?: string;
 }
 export interface ServicesAnalyzerNote {
