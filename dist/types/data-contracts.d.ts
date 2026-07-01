@@ -2201,11 +2201,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2349,6 +2349,7 @@ export interface ServicesTop {
     user_id?: number;
     value?: string;
     value_pnl?: string;
+    wins?: ServicesTopUserWin[];
 }
 export declare enum ServicesTopLeague {
     TopLeagueMoon = 1,
@@ -2364,6 +2365,12 @@ export declare enum ServicesTopType {
     TopTypeDay = 1,
     TopTypeMonth = 2
 }
+export interface ServicesTopUserWin {
+    count?: number;
+    league?: ServicesTopLeague;
+    position?: number;
+    type?: ServicesTopType;
+}
 export interface ServicesTopWinner {
     created_at?: string;
     date?: string;
@@ -2375,6 +2382,7 @@ export interface ServicesTopWinner {
     type?: ServicesTopType;
     updated_at?: string;
     user_id?: number;
+    wins?: ServicesTopUserWin[];
 }
 export interface ServicesTrade {
     api_key_id?: number;

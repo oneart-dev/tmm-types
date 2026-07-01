@@ -35993,18 +35993,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -36426,6 +36426,12 @@
                 },
                 "value_pnl": {
                     "type": "string"
+                },
+                "wins": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TopUserWin"
+                    }
                 }
             }
         },
@@ -36465,6 +36471,23 @@
                 "TopTypeMonth"
             ]
         },
+        "services.TopUserWin": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "league": {
+                    "$ref": "#/definitions/services.TopLeague"
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "type": {
+                    "$ref": "#/definitions/services.TopType"
+                }
+            }
+        },
         "services.TopWinner": {
             "type": "object",
             "properties": {
@@ -36497,6 +36520,12 @@
                 },
                 "user_id": {
                     "type": "integer"
+                },
+                "wins": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TopUserWin"
+                    }
                 }
             }
         },

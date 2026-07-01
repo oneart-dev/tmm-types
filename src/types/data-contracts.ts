@@ -3794,11 +3794,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -3968,6 +3968,7 @@ export interface ServicesTop {
   user_id?: number;
   value?: string;
   value_pnl?: string;
+  wins?: ServicesTopUserWin[];
 }
 
 /** @format int32 */
@@ -3988,6 +3989,13 @@ export enum ServicesTopType {
   TopTypeMonth = 2,
 }
 
+export interface ServicesTopUserWin {
+  count?: number;
+  league?: ServicesTopLeague;
+  position?: number;
+  type?: ServicesTopType;
+}
+
 export interface ServicesTopWinner {
   created_at?: string;
   date?: string;
@@ -3999,6 +4007,7 @@ export interface ServicesTopWinner {
   type?: ServicesTopType;
   updated_at?: string;
   user_id?: number;
+  wins?: ServicesTopUserWin[];
 }
 
 export interface ServicesTrade {
