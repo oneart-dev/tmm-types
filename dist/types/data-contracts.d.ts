@@ -2381,6 +2381,7 @@ export interface ServicesTopWinner {
     result_roi?: string;
     type?: ServicesTopType;
     updated_at?: string;
+    user?: ServicesSafeUser;
     user_id?: number;
     wins?: ServicesTopUserWin[];
 }

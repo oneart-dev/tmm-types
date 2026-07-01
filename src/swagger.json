@@ -36518,6 +36518,9 @@
                 "updated_at": {
                     "type": "string"
                 },
+                "user": {
+                    "$ref": "#/definitions/services.SafeUser"
+                },
                 "user_id": {
                     "type": "integer"
                 },
