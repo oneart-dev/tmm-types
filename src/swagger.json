@@ -35993,18 +35993,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -36505,6 +36505,9 @@
                 },
                 "position": {
                     "type": "integer"
+                },
+                "profile_url": {
+                    "type": "string"
                 },
                 "result_pnl": {
                     "type": "string"

@@ -2201,11 +2201,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2377,6 +2377,7 @@ export interface ServicesTopWinner {
     id?: number;
     league?: ServicesTopLeague;
     position?: number;
+    profile_url?: string;
     result_pnl?: string;
     result_roi?: string;
     type?: ServicesTopType;
