@@ -1395,7 +1395,7 @@ export declare enum ServicesExchangeID {
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;
     fundingAware?: boolean;
-    historyLimitDays?: number;
+    history_limit?: ServicesHistoryLimit;
     markets?: ServicesExchangePublicMarkets;
     name?: string;
     slug?: string;
@@ -1714,6 +1714,15 @@ export interface ServicesFleetNodeDTO {
 export interface ServicesGuideProgress {
     guide_closed?: number;
     guide_step: number;
+}
+export interface ServicesHistoryLimit {
+    kind?: ServicesHistoryLimitKind;
+    value?: number;
+}
+export declare enum ServicesHistoryLimitKind {
+    HistoryLimitKindFull = "full",
+    HistoryLimitKindDays = "days",
+    HistoryLimitKindOrders = "orders"
 }
 export interface ServicesKline {
     close?: number;
@@ -2349,7 +2358,6 @@ export interface ServicesTop {
     user_id?: number;
     value?: string;
     value_pnl?: string;
-    wins?: ServicesTopUserWin[];
 }
 export declare enum ServicesTopLeague {
     TopLeagueMoon = 1,
@@ -2365,26 +2373,17 @@ export declare enum ServicesTopType {
     TopTypeDay = 1,
     TopTypeMonth = 2
 }
-export interface ServicesTopUserWin {
-    count?: number;
-    league?: ServicesTopLeague;
-    position?: number;
-    type?: ServicesTopType;
-}
 export interface ServicesTopWinner {
     created_at?: string;
     date?: string;
     id?: number;
     league?: ServicesTopLeague;
     position?: number;
-    profile_url?: string;
     result_pnl?: string;
     result_roi?: string;
     type?: ServicesTopType;
     updated_at?: string;
-    user?: ServicesSafeUser;
     user_id?: number;
-    wins?: ServicesTopUserWin[];
 }
 export interface ServicesTrade {
     api_key_id?: number;

@@ -2707,11 +2707,12 @@ export interface ServicesExchangePublicItem {
    */
   fundingAware?: boolean;
   /**
-   * HistoryLimitDays is the maximum number of calendar days of trade history
-   * that can be backfilled via the exchange's API. 0 means unlimited / full
-   * history is available.
+   * HistoryLimit describes the first-sync trade-history backfill window.
+   * See HistoryLimit / HistoryLimitKind. Replaces the old flat
+   * historyLimitDays int, which could not represent Hyperliquid's
+   * order-count-based limit.
    */
-  historyLimitDays?: number;
+  history_limit?: ServicesHistoryLimit;
   /** Markets describes which account/market types TMM supports for this venue. */
   markets?: ServicesExchangePublicMarkets;
   /** Name is the human-readable display name shown in the UI. */
@@ -3181,6 +3182,18 @@ export interface ServicesGuideProgress {
    * @max 255
    */
   guide_step: number;
+}
+
+export interface ServicesHistoryLimit {
+  kind?: ServicesHistoryLimitKind;
+  /** Value is omitted when Kind is "full". */
+  value?: number;
+}
+
+export enum ServicesHistoryLimitKind {
+  HistoryLimitKindFull = "full",
+  HistoryLimitKindDays = "days",
+  HistoryLimitKindOrders = "orders",
 }
 
 export interface ServicesKline {
@@ -3968,7 +3981,6 @@ export interface ServicesTop {
   user_id?: number;
   value?: string;
   value_pnl?: string;
-  wins?: ServicesTopUserWin[];
 }
 
 /** @format int32 */
@@ -3989,27 +4001,17 @@ export enum ServicesTopType {
   TopTypeMonth = 2,
 }
 
-export interface ServicesTopUserWin {
-  count?: number;
-  league?: ServicesTopLeague;
-  position?: number;
-  type?: ServicesTopType;
-}
-
 export interface ServicesTopWinner {
   created_at?: string;
   date?: string;
   id?: number;
   league?: ServicesTopLeague;
   position?: number;
-  profile_url?: string;
   result_pnl?: string;
   result_roi?: string;
   type?: ServicesTopType;
   updated_at?: string;
-  user?: ServicesSafeUser;
   user_id?: number;
-  wins?: ServicesTopUserWin[];
 }
 
 export interface ServicesTrade {

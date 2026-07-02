@@ -142,6 +142,12 @@ export var ServicesFileOwnerType;
     ServicesFileOwnerType["FileOwnerTypeNotification"] = "Notification";
     ServicesFileOwnerType["FileOwnerTypeNotificationComment"] = "NotificationComment";
 })(ServicesFileOwnerType || (ServicesFileOwnerType = {}));
+export var ServicesHistoryLimitKind;
+(function (ServicesHistoryLimitKind) {
+    ServicesHistoryLimitKind["HistoryLimitKindFull"] = "full";
+    ServicesHistoryLimitKind["HistoryLimitKindDays"] = "days";
+    ServicesHistoryLimitKind["HistoryLimitKindOrders"] = "orders";
+})(ServicesHistoryLimitKind || (ServicesHistoryLimitKind = {}));
 export var ServicesLoadLevel;
 (function (ServicesLoadLevel) {
     ServicesLoadLevel["LoadLevelNone"] = "empty";

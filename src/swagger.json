@@ -33449,9 +33449,13 @@
                     "description": "FundingAware indicates whether TMM reconciles funding payments for\nthis venue's perpetual markets.",
                     "type": "boolean"
                 },
-                "historyLimitDays": {
-                    "description": "HistoryLimitDays is the maximum number of calendar days of trade history\nthat can be backfilled via the exchange's API. 0 means unlimited / full\nhistory is available.",
-                    "type": "integer"
+                "history_limit": {
+                    "description": "HistoryLimit describes the first-sync trade-history backfill window.\nSee HistoryLimit / HistoryLimitKind. Replaces the old flat\nhistoryLimitDays int, which could not represent Hyperliquid's\norder-count-based limit.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.HistoryLimit"
+                        }
+                    ]
                 },
                 "markets": {
                     "description": "Markets describes which account/market types TMM supports for this venue.",
@@ -34474,6 +34478,31 @@
                     "minimum": 1
                 }
             }
+        },
+        "services.HistoryLimit": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "$ref": "#/definitions/services.HistoryLimitKind"
+                },
+                "value": {
+                    "description": "Value is omitted when Kind is \"full\".",
+                    "type": "integer"
+                }
+            }
+        },
+        "services.HistoryLimitKind": {
+            "type": "string",
+            "enum": [
+                "full",
+                "days",
+                "orders"
+            ],
+            "x-enum-varnames": [
+                "HistoryLimitKindFull",
+                "HistoryLimitKindDays",
+                "HistoryLimitKindOrders"
+            ]
         },
         "services.Kline": {
             "type": "object",
@@ -36426,12 +36455,6 @@
                 },
                 "value_pnl": {
                     "type": "string"
-                },
-                "wins": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.TopUserWin"
-                    }
                 }
             }
         },
@@ -36471,23 +36494,6 @@
                 "TopTypeMonth"
             ]
         },
-        "services.TopUserWin": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "league": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "position": {
-                    "type": "integer"
-                },
-                "type": {
-                    "$ref": "#/definitions/services.TopType"
-                }
-            }
-        },
         "services.TopWinner": {
             "type": "object",
             "properties": {
@@ -36506,9 +36512,6 @@
                 "position": {
                     "type": "integer"
                 },
-                "profile_url": {
-                    "type": "string"
-                },
                 "result_pnl": {
                     "type": "string"
                 },
@@ -36521,17 +36524,8 @@
                 "updated_at": {
                     "type": "string"
                 },
-                "user": {
-                    "$ref": "#/definitions/services.SafeUser"
-                },
                 "user_id": {
                     "type": "integer"
-                },
-                "wins": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.TopUserWin"
-                    }
                 }
             }
         },
