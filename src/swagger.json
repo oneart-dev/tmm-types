@@ -35351,7 +35351,7 @@
                     "type": "integer"
                 },
                 "indexable": {
-                    "description": "Indexable is the SEO index-hygiene gate (Spec 03). TEMPORARY: see\nSEOIndexable — currently status-only (no regression vs. pre-Spec-03\nbehavior) pending a decision on the trade-activity data source.",
+                    "description": "Indexable is the SEO index-hygiene gate (Spec 03): status ON and the\nprofile owner's account is still active. See SEOIndexable. Never\nexpose the underlying users.last_api_call_at timestamp itself in any\npublic response — only this derived bool.",
                     "type": "boolean"
                 },
                 "instagram": {

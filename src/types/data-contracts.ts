@@ -3521,9 +3521,10 @@ export interface ServicesPublicProfile {
   hide_trades_extra?: number;
   id?: number;
   /**
-   * Indexable is the SEO index-hygiene gate (Spec 03). TEMPORARY: see
-   * SEOIndexable — currently status-only (no regression vs. pre-Spec-03
-   * behavior) pending a decision on the trade-activity data source.
+   * Indexable is the SEO index-hygiene gate (Spec 03): status ON and the
+   * profile owner's account is still active. See SEOIndexable. Never
+   * expose the underlying users.last_api_call_at timestamp itself in any
+   * public response — only this derived bool.
    */
   indexable?: boolean;
   instagram?: string;
