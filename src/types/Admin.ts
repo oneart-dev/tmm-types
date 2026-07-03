@@ -18,6 +18,7 @@ import {
   ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessArrayServicesFleetInstanceDTO,
   ControllersApiSuccessArrayServicesFleetNodeDTO,
+  ControllersApiSuccessArrayServicesLeaguePointCheck,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
@@ -548,6 +549,26 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>({
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
+      ...params,
+    });
+  /**
+   * @description Returns the target user's full weekly PRO-league points check history — decision, point/league transition, criteria (with values/thresholds), metrics, and rules_version — most recent week first.
+   *
+   * @tags users
+   * @name UsersLeaguePointChecksDetail
+   * @summary Admin: get a user's full league points checks history
+   * @request GET:/admin/users/{id}/league-point-checks
+   * @secure
+   */
+  usersLeaguePointChecksDetail = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesLeaguePointCheck,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/users/${id}/league-point-checks`,
+      method: "GET",
+      secure: true,
+      format: "json",
       ...params,
     });
   /**

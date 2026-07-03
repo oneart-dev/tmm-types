@@ -11,6 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesPromoCodeApplyResult,
   ControllersApiSuccessServicesPromoCodePreview,
@@ -20,6 +21,7 @@ import {
   ControllersPublicProfileStatsResponse,
   ControllersReferralSummaryResponse,
   ControllersTopTradersSuccessResponse,
+  ControllersUnauthorizedResponse,
   DtoPasswordResetCredentials,
   DtoPromoCodeApplyForm,
   DtoPromoCodePreviewForm,
@@ -344,6 +346,26 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       body: payload,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns the calling user's full weekly PRO-league points history — decision, point/league transition, and which criteria passed — most recent week first. Never exposes internal metrics or thresholds.
+   *
+   * @tags users
+   * @name TopTradersPointsLogList
+   * @summary Get the calling user's league points log
+   * @request GET:/users/top-traders/points-log
+   * @secure
+   */
+  topTradersPointsLogList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/top-traders/points-log`,
+      method: "GET",
+      secure: true,
       format: "json",
       ...params,
     });
