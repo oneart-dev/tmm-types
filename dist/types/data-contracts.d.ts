@@ -50,10 +50,6 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
-    data?: ControllersPublicProfileSitemapEntry[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
@@ -100,6 +96,14 @@ export interface ControllersApiSuccessArrayServicesFleetInstanceDTO {
 }
 export interface ControllersApiSuccessArrayServicesFleetNodeDTO {
     data?: ServicesFleetNodeDTO[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesLeaguePointCheck {
+    data?: ServicesLeaguePointCheck[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem {
+    data?: ServicesLeaguePointCheckPublicItem[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessArrayServicesOrder {
@@ -388,10 +392,6 @@ export interface ControllersPublicAnnouncementsListResponse {
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
-}
-export interface ControllersPublicProfileSitemapEntry {
-    lastmod?: string;
-    url?: string;
 }
 export interface ControllersPublicProfileStatsResponse {
     data?: ServicesPublicProfileStats;
@@ -716,6 +716,7 @@ export interface DtoFeedNotificationCreateForm {
     poll_lock_at?: number;
     poll_multi_select?: boolean;
     poll_options?: DtoFeedNotificationPollOptionForm[];
+    send_email?: boolean;
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
@@ -742,6 +743,7 @@ export interface DtoFeedNotificationUpdateForm {
     poll_lock_at?: number;
     poll_multi_select?: boolean;
     poll_options?: DtoFeedNotificationPollOptionForm[];
+    send_email?: boolean;
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
@@ -1403,7 +1405,7 @@ export declare enum ServicesExchangeID {
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;
     fundingAware?: boolean;
-    history_limit?: ServicesHistoryLimit;
+    historyLimitDays?: number;
     markets?: ServicesExchangePublicMarkets;
     name?: string;
     slug?: string;
@@ -1426,6 +1428,7 @@ export interface ServicesFeedNotification {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    send_email?: boolean;
     slug?: string;
     sort_key?: string;
     ticket_uid?: string;
@@ -1456,6 +1459,7 @@ export interface ServicesFeedNotificationAdminListItem {
     poll_lock_at?: string;
     poll_multi_select?: boolean;
     published_at?: string;
+    send_email?: boolean;
     slug?: string;
     sort_key?: string;
     ticket_uid?: string;
@@ -1723,15 +1727,6 @@ export interface ServicesGuideProgress {
     guide_closed?: number;
     guide_step: number;
 }
-export interface ServicesHistoryLimit {
-    kind?: ServicesHistoryLimitKind;
-    value?: number;
-}
-export declare enum ServicesHistoryLimitKind {
-    HistoryLimitKindFull = "full",
-    HistoryLimitKindDays = "days",
-    HistoryLimitKindOrders = "orders"
-}
 export interface ServicesKline {
     close?: number;
     high?: number;
@@ -1739,6 +1734,71 @@ export interface ServicesKline {
     open?: number;
     timestamp?: number;
     volume?: number;
+}
+export interface ServicesLeagueCheck {
+    class?: string;
+    key?: string;
+    passed?: boolean;
+    threshold?: string;
+    value?: string;
+}
+export declare enum ServicesLeagueDecision {
+    LeagueDecisionGain = 1,
+    LeagueDecisionMaintain = 2,
+    LeagueDecisionLose = 3,
+    LeagueDecisionHoliday = 4
+}
+export interface ServicesLeaguePointCheck {
+    api_key_id?: number;
+    checks?: ServicesLeagueCheck[];
+    created_at?: string;
+    decision?: ServicesLeagueDecision;
+    id?: number;
+    league_after?: ServicesTopLeague;
+    league_before?: ServicesTopLeague;
+    metrics?: ServicesLeagueWeekMetrics;
+    points_after?: number;
+    points_before?: number;
+    public_profile_id?: number;
+    rules_version?: number;
+    user_id?: number;
+    week_end?: string;
+    week_start?: string;
+}
+export interface ServicesLeaguePointCheckPublicCriterion {
+    key?: string;
+    passed?: boolean;
+}
+export interface ServicesLeaguePointCheckPublicItem {
+    criteria?: ServicesLeaguePointCheckPublicCriterion[];
+    decision?: ServicesLeagueDecision;
+    league_after?: ServicesTopLeague;
+    league_before?: ServicesTopLeague;
+    points_after?: number;
+    points_before?: number;
+    week_end?: string;
+    week_start?: string;
+}
+export interface ServicesLeaguePointsUpdatedSSEPayload {
+    decision?: ServicesLeagueDecision;
+    demoted?: boolean;
+    league?: ServicesTopLeague;
+    league_progress?: number;
+    points_after?: number;
+    points_before?: number;
+    promoted?: boolean;
+    week_start?: string;
+}
+export interface ServicesLeagueWeekMetrics {
+    avg_leverage?: string;
+    biggest_loss?: string;
+    biggest_win?: string;
+    gross_loss?: string;
+    gross_win?: string;
+    median_stake?: string;
+    net_profit?: string;
+    trades?: number;
+    volume?: string;
 }
 export interface ServicesLoadBoardResponseChunk {
     errors?: string;
@@ -1992,7 +2052,6 @@ export interface ServicesPublicProfile {
     facebook?: string;
     hide_trades_extra?: number;
     id?: number;
-    indexable?: boolean;
     instagram?: string;
     layout?: ServicesPublicProfileLayout[];
     league?: ServicesTopLeague;
@@ -2136,6 +2195,7 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
+    "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
 }
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
@@ -2219,11 +2279,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2367,6 +2427,7 @@ export interface ServicesTop {
     user_id?: number;
     value?: string;
     value_pnl?: string;
+    wins?: ServicesTopUserWin[];
 }
 export declare enum ServicesTopLeague {
     TopLeagueMoon = 1,
@@ -2382,17 +2443,26 @@ export declare enum ServicesTopType {
     TopTypeDay = 1,
     TopTypeMonth = 2
 }
+export interface ServicesTopUserWin {
+    count?: number;
+    league?: ServicesTopLeague;
+    position?: number;
+    type?: ServicesTopType;
+}
 export interface ServicesTopWinner {
     created_at?: string;
     date?: string;
     id?: number;
     league?: ServicesTopLeague;
     position?: number;
+    profile_url?: string;
     result_pnl?: string;
     result_roi?: string;
     type?: ServicesTopType;
     updated_at?: string;
+    user?: ServicesSafeUser;
     user_id?: number;
+    wins?: ServicesTopUserWin[];
 }
 export interface ServicesTrade {
     api_key_id?: number;

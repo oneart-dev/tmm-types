@@ -161,6 +161,13 @@ export class Admin extends HttpClient {
             method: "GET",
             ...params,
         });
+        this.usersLeaguePointChecksDetail = (id, params = {}) => this.request({
+            path: `/admin/users/${id}/league-point-checks`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
         this.usersTicketsCreate = (id, payload, params = {}) => this.request({
             path: `/admin/users/${id}/tickets`,
             method: "POST",

@@ -142,12 +142,13 @@ export var ServicesFileOwnerType;
     ServicesFileOwnerType["FileOwnerTypeNotification"] = "Notification";
     ServicesFileOwnerType["FileOwnerTypeNotificationComment"] = "NotificationComment";
 })(ServicesFileOwnerType || (ServicesFileOwnerType = {}));
-export var ServicesHistoryLimitKind;
-(function (ServicesHistoryLimitKind) {
-    ServicesHistoryLimitKind["HistoryLimitKindFull"] = "full";
-    ServicesHistoryLimitKind["HistoryLimitKindDays"] = "days";
-    ServicesHistoryLimitKind["HistoryLimitKindOrders"] = "orders";
-})(ServicesHistoryLimitKind || (ServicesHistoryLimitKind = {}));
+export var ServicesLeagueDecision;
+(function (ServicesLeagueDecision) {
+    ServicesLeagueDecision[ServicesLeagueDecision["LeagueDecisionGain"] = 1] = "LeagueDecisionGain";
+    ServicesLeagueDecision[ServicesLeagueDecision["LeagueDecisionMaintain"] = 2] = "LeagueDecisionMaintain";
+    ServicesLeagueDecision[ServicesLeagueDecision["LeagueDecisionLose"] = 3] = "LeagueDecisionLose";
+    ServicesLeagueDecision[ServicesLeagueDecision["LeagueDecisionHoliday"] = 4] = "LeagueDecisionHoliday";
+})(ServicesLeagueDecision || (ServicesLeagueDecision = {}));
 export var ServicesLoadLevel;
 (function (ServicesLoadLevel) {
     ServicesLoadLevel["LoadLevelNone"] = "empty";
@@ -268,11 +269,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
