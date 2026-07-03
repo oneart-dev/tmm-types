@@ -11,12 +11,28 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayControllersPublicProfileSitemapEntry,
   ControllersHotCoinsResponse,
   ControllersServerStatsResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Stats<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * @description Retrieves the trader sitemap entry set: only profiles passing the SEO index-hygiene gate (Spec 03), with a real per-profile lastmod.
+   *
+   * @tags Stats
+   * @name PpLinksList
+   * @summary Get Public Profile Links
+   * @request GET:/stats/pp-links
+   */
+  ppLinksList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessArrayControllersPublicProfileSitemapEntry, any>({
+      path: `/stats/pp-links`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
   /**
    * @description Retrieves public statistics for the server.
    *

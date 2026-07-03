@@ -17703,6 +17703,26 @@
                 }
             }
         },
+        "/stats/pp-links": {
+            "get": {
+                "description": "Retrieves the trader sitemap entry set: only profiles passing the SEO index-hygiene gate (Spec 03), with a real per-profile lastmod.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Public Profile Links",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry"
+                        }
+                    }
+                }
+            }
+        },
         "/stats/server": {
             "get": {
                 "description": "Retrieves public statistics for the server.",
@@ -27708,6 +27728,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.PublicProfileSitemapEntry"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_ApiKey": {
             "type": "object",
             "properties": {
@@ -29101,6 +29140,17 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "lastmod": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
@@ -35281,6 +35331,10 @@
                 "bg": {
                     "$ref": "#/definitions/services.File"
                 },
+                "closed_trades_count": {
+                    "description": "SEO index-hygiene gate (Spec 03). Persisted counters, refreshed\nnightly + at startup by RefreshSEOStats — never computed per request.",
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -35300,8 +35354,15 @@
                 "id": {
                     "type": "integer"
                 },
+                "indexable": {
+                    "description": "Indexable mirrors SEOIndexable(Status, ClosedTradesCount, LastTradeAt, now).\nSet inside the model-\u003eservice conversion so every endpoint returning a\nprofile (including /users/public/:url) carries a consistent flag.",
+                    "type": "boolean"
+                },
                 "instagram": {
                     "type": "string"
+                },
+                "last_trade_at": {
+                    "type": "integer"
                 },
                 "layout": {
                     "type": "array",
@@ -36022,18 +36083,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

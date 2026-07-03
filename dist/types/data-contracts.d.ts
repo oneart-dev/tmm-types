@@ -50,6 +50,10 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
+    data?: ControllersPublicProfileSitemapEntry[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
@@ -384,6 +388,10 @@ export interface ControllersPublicAnnouncementsListResponse {
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersPublicProfileSitemapEntry {
+    lastmod?: string;
+    url?: string;
 }
 export interface ControllersPublicProfileStatsResponse {
     data?: ServicesPublicProfileStats;
@@ -1978,13 +1986,16 @@ export interface ServicesPublicAnnouncementListItem {
 export interface ServicesPublicProfile {
     api_keys?: number[];
     bg?: ServicesFile;
+    closed_trades_count?: number;
     created_at?: string;
     desc?: string;
     discord?: string;
     facebook?: string;
     hide_trades_extra?: number;
     id?: number;
+    indexable?: boolean;
     instagram?: string;
+    last_trade_at?: number;
     layout?: ServicesPublicProfileLayout[];
     league?: ServicesTopLeague;
     league_progress?: number;
@@ -2210,11 +2221,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -74,6 +74,12 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
+  data?: ControllersPublicProfileSitemapEntry[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesApiKey {
   data?: ServicesApiKey[];
   /** @example "success" */
@@ -568,6 +574,11 @@ export interface ControllersPublicProfileResponse {
   data?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersPublicProfileSitemapEntry {
+  lastmod?: string;
+  url?: string;
 }
 
 export interface ControllersPublicProfileStatsResponse {
@@ -3498,6 +3509,11 @@ export interface ServicesPublicAnnouncementListItem {
 export interface ServicesPublicProfile {
   api_keys?: number[];
   bg?: ServicesFile;
+  /**
+   * SEO index-hygiene gate (Spec 03). Persisted counters, refreshed
+   * nightly + at startup by RefreshSEOStats — never computed per request.
+   */
+  closed_trades_count?: number;
   created_at?: string;
   desc?: string;
   discord?: string;
@@ -3509,7 +3525,14 @@ export interface ServicesPublicProfile {
    */
   hide_trades_extra?: number;
   id?: number;
+  /**
+   * Indexable mirrors SEOIndexable(Status, ClosedTradesCount, LastTradeAt, now).
+   * Set inside the model->service conversion so every endpoint returning a
+   * profile (including /users/public/:url) carries a consistent flag.
+   */
+  indexable?: boolean;
   instagram?: string;
+  last_trade_at?: number;
   layout?: ServicesPublicProfileLayout[];
   /**
    * League:
@@ -3807,11 +3830,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
