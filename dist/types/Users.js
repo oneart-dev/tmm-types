@@ -129,13 +129,6 @@ export class Users extends HttpClient {
             format: "json",
             ...params,
         });
-        this.topTradersPointsLogList = (params = {}) => this.request({
-            path: `/users/top-traders/points-log`,
-            method: "GET",
-            secure: true,
-            format: "json",
-            ...params,
-        });
         this.topTradersDetail = (league, params = {}) => this.request({
             path: `/users/top-traders/${league}`,
             method: "GET",

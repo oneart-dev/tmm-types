@@ -74,6 +74,12 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
+  data?: ControllersPublicProfileSitemapEntry[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesApiKey {
   data?: ServicesApiKey[];
   /** @example "success" */
@@ -142,18 +148,6 @@ export interface ControllersApiSuccessArrayServicesFleetInstanceDTO {
 
 export interface ControllersApiSuccessArrayServicesFleetNodeDTO {
   data?: ServicesFleetNodeDTO[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersApiSuccessArrayServicesLeaguePointCheck {
-  data?: ServicesLeaguePointCheck[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem {
-  data?: ServicesLeaguePointCheckPublicItem[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -580,6 +574,11 @@ export interface ControllersPublicProfileResponse {
   data?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersPublicProfileSitemapEntry {
+  lastmod?: string;
+  url?: string;
 }
 
 export interface ControllersPublicProfileStatsResponse {
@@ -1271,14 +1270,6 @@ export interface DtoFeedNotificationCreateForm {
   poll_lock_at?: number;
   poll_multi_select?: boolean;
   poll_options?: DtoFeedNotificationPollOptionForm[];
-  /**
-   * SendEmail requests a transactional email to the target user when this
-   * personal notification is published. Meaningful only for type=personal,
-   * kind=notification; forced false for global rows in AdminCreate (mirrors
-   * the audience-nulling done for personal). Fires at AdminPublish time
-   * (published = visible), not at draft creation.
-   */
-  send_email?: boolean;
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
@@ -1343,14 +1334,6 @@ export interface DtoFeedNotificationUpdateForm {
   poll_lock_at?: number;
   poll_multi_select?: boolean;
   poll_options?: DtoFeedNotificationPollOptionForm[];
-  /**
-   * SendEmail requests a transactional email to the target user when this
-   * personal notification is published. Meaningful only for type=personal,
-   * kind=notification; forced false for global rows in AdminCreate (mirrors
-   * the audience-nulling done for personal). Fires at AdminPublish time
-   * (published = visible), not at draft creation.
-   */
-  send_email?: boolean;
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
@@ -2735,11 +2718,12 @@ export interface ServicesExchangePublicItem {
    */
   fundingAware?: boolean;
   /**
-   * HistoryLimitDays is the maximum number of calendar days of trade history
-   * that can be backfilled via the exchange's API. 0 means unlimited / full
-   * history is available.
+   * HistoryLimit describes the first-sync trade-history backfill window.
+   * See HistoryLimit / HistoryLimitKind. Replaces the old flat
+   * historyLimitDays int, which could not represent Hyperliquid's
+   * order-count-based limit.
    */
-  historyLimitDays?: number;
+  history_limit?: ServicesHistoryLimit;
   /** Markets describes which account/market types TMM supports for this venue. */
   markets?: ServicesExchangePublicMarkets;
   /** Name is the human-readable display name shown in the UI. */
@@ -2788,11 +2772,6 @@ export interface ServicesFeedNotification {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
-  /**
-   * SendEmail flags a personal notification for a transactional email to the
-   * target user. Meaningful only for type=personal; global rows keep it false.
-   */
-  send_email?: boolean;
   slug?: string;
   /**
    * SortKey drives the user-feed ordering. Notifications hold it at
@@ -2851,11 +2830,6 @@ export interface ServicesFeedNotificationAdminListItem {
   poll_lock_at?: string;
   poll_multi_select?: boolean;
   published_at?: string;
-  /**
-   * SendEmail flags a personal notification for a transactional email to the
-   * target user. Meaningful only for type=personal; global rows keep it false.
-   */
-  send_email?: boolean;
   slug?: string;
   /**
    * SortKey drives the user-feed ordering. Notifications hold it at
@@ -3221,6 +3195,18 @@ export interface ServicesGuideProgress {
   guide_step: number;
 }
 
+export interface ServicesHistoryLimit {
+  kind?: ServicesHistoryLimitKind;
+  /** Value is omitted when Kind is "full". */
+  value?: number;
+}
+
+export enum ServicesHistoryLimitKind {
+  HistoryLimitKindFull = "full",
+  HistoryLimitKindDays = "days",
+  HistoryLimitKindOrders = "orders",
+}
+
 export interface ServicesKline {
   close?: number;
   high?: number;
@@ -3228,77 +3214,6 @@ export interface ServicesKline {
   open?: number;
   timestamp?: number;
   volume?: number;
-}
-
-export interface ServicesLeagueCheck {
-  /** "hard" | "gate" */
-  class?: string;
-  key?: string;
-  passed?: boolean;
-  threshold?: string;
-  value?: string;
-}
-
-/** @format int32 */
-export enum ServicesLeagueDecision {
-  LeagueDecisionGain = 1,
-  LeagueDecisionMaintain = 2,
-  LeagueDecisionLose = 3,
-  LeagueDecisionHoliday = 4,
-}
-
-export interface ServicesLeaguePointCheck {
-  api_key_id?: number;
-  /** nil for holiday/no-trades */
-  checks?: ServicesLeagueCheck[];
-  created_at?: string;
-  decision?: ServicesLeagueDecision;
-  id?: number;
-  league_after?: ServicesTopLeague;
-  league_before?: ServicesTopLeague;
-  /** nil when no trades */
-  metrics?: ServicesLeagueWeekMetrics;
-  points_after?: number;
-  points_before?: number;
-  public_profile_id?: number;
-  rules_version?: number;
-  user_id?: number;
-  week_end?: string;
-  /** YYYY-MM-DD */
-  week_start?: string;
-}
-
-export interface ServicesLeaguePointCheckPublicCriterion {
-  key?: string;
-  passed?: boolean;
-}
-
-export interface ServicesLeaguePointCheckPublicItem {
-  /** [] not null */
-  criteria?: ServicesLeaguePointCheckPublicCriterion[];
-  decision?: ServicesLeagueDecision;
-  league_after?: ServicesTopLeague;
-  league_before?: ServicesTopLeague;
-  points_after?: number;
-  points_before?: number;
-  week_end?: string;
-  week_start?: string;
-}
-
-export interface ServicesLeagueWeekMetrics {
-  avg_leverage?: string;
-  /** most negative single trade */
-  biggest_loss?: string;
-  biggest_win?: string;
-  /** negative or zero */
-  gross_loss?: string;
-  gross_win?: string;
-  /** median of per-trade volume/max(1,leverage) */
-  median_stake?: string;
-  net_profit?: string;
-  trades?: number;
-  /** sum of notional */
-  volume?: string;
 }
 
 export interface ServicesLoadBoardResponseChunk {
@@ -3605,6 +3520,12 @@ export interface ServicesPublicProfile {
    */
   hide_trades_extra?: number;
   id?: number;
+  /**
+   * Indexable is the SEO index-hygiene gate (Spec 03), computed live from
+   * the existing api_key_stats aggregate at fetch time — see SEOIndexable.
+   * Frontend reads this to set noindex.
+   */
+  indexable?: boolean;
   instagram?: string;
   layout?: ServicesPublicProfileLayout[];
   /**
@@ -3903,11 +3824,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -4077,7 +3998,6 @@ export interface ServicesTop {
   user_id?: number;
   value?: string;
   value_pnl?: string;
-  wins?: ServicesTopUserWin[];
 }
 
 /** @format int32 */
@@ -4098,27 +4018,17 @@ export enum ServicesTopType {
   TopTypeMonth = 2,
 }
 
-export interface ServicesTopUserWin {
-  count?: number;
-  league?: ServicesTopLeague;
-  position?: number;
-  type?: ServicesTopType;
-}
-
 export interface ServicesTopWinner {
   created_at?: string;
   date?: string;
   id?: number;
   league?: ServicesTopLeague;
   position?: number;
-  profile_url?: string;
   result_pnl?: string;
   result_roi?: string;
   type?: ServicesTopType;
   updated_at?: string;
-  user?: ServicesSafeUser;
   user_id?: number;
-  wins?: ServicesTopUserWin[];
 }
 
 export interface ServicesTrade {

@@ -1058,58 +1058,6 @@
                 }
             }
         },
-        "/admin/users/{id}/league-point-checks": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Returns the target user's full weekly PRO-league points check history — decision, point/league transition, criteria (with values/thresholds), metrics, and rules_version — most recent week first.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Admin: get a user's full league points checks history",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_LeaguePointCheck"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/admin/users/{id}/tickets": {
             "post": {
                 "security": [
@@ -17755,6 +17703,26 @@
                 }
             }
         },
+        "/stats/pp-links": {
+            "get": {
+                "description": "Retrieves the trader sitemap entry set: only profiles passing the SEO index-hygiene gate (Spec 03), with a per-profile lastmod.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Public Profile Links",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry"
+                        }
+                    }
+                }
+            }
+        },
         "/stats/server": {
             "get": {
                 "description": "Retrieves public statistics for the server.",
@@ -27515,44 +27483,6 @@
                 }
             }
         },
-        "/users/top-traders/points-log": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKey": [],
-                        "JWT": []
-                    }
-                ],
-                "description": "Returns the calling user's full weekly PRO-league points history — decision, point/league transition, and which criteria passed — most recent week first. Never exposes internal metrics or thresholds.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get the calling user's league points log",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_LeaguePointCheckPublicItem"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/controllers.ApiErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/users/top-traders/{league}": {
             "get": {
                 "security": [
@@ -27798,6 +27728,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.PublicProfileSitemapEntry"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_ApiKey": {
             "type": "object",
             "properties": {
@@ -28014,44 +27963,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.FleetNodeDTO"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.ApiSuccess-array_services_LeaguePointCheck": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.LeaguePointCheck"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.ApiSuccess-array_services_LeaguePointCheckPublicItem": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.LeaguePointCheckPublicItem"
                     }
                 },
                 "status": {
@@ -29229,6 +29140,17 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "lastmod": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
@@ -30665,10 +30587,6 @@
                         "$ref": "#/definitions/dto.FeedNotificationPollOptionForm"
                     }
                 },
-                "send_email": {
-                    "description": "SendEmail requests a transactional email to the target user when this\npersonal notification is published. Meaningful only for type=personal,\nkind=notification; forced false for global rows in AdminCreate (mirrors\nthe audience-nulling done for personal). Fires at AdminPublish time\n(published = visible), not at draft creation.",
-                    "type": "boolean"
-                },
                 "translations": {
                     "type": "object",
                     "additionalProperties": {
@@ -30788,10 +30706,6 @@
                     "items": {
                         "$ref": "#/definitions/dto.FeedNotificationPollOptionForm"
                     }
-                },
-                "send_email": {
-                    "description": "SendEmail requests a transactional email to the target user when this\npersonal notification is published. Meaningful only for type=personal,\nkind=notification; forced false for global rows in AdminCreate (mirrors\nthe audience-nulling done for personal). Fires at AdminPublish time\n(published = visible), not at draft creation.",
-                    "type": "boolean"
                 },
                 "translations": {
                     "type": "object",
@@ -33585,9 +33499,13 @@
                     "description": "FundingAware indicates whether TMM reconciles funding payments for\nthis venue's perpetual markets.",
                     "type": "boolean"
                 },
-                "historyLimitDays": {
-                    "description": "HistoryLimitDays is the maximum number of calendar days of trade history\nthat can be backfilled via the exchange's API. 0 means unlimited / full\nhistory is available.",
-                    "type": "integer"
+                "history_limit": {
+                    "description": "HistoryLimit describes the first-sync trade-history backfill window.\nSee HistoryLimit / HistoryLimitKind. Replaces the old flat\nhistoryLimitDays int, which could not represent Hyperliquid's\norder-count-based limit.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.HistoryLimit"
+                        }
+                    ]
                 },
                 "markets": {
                     "description": "Markets describes which account/market types TMM supports for this venue.",
@@ -33670,10 +33588,6 @@
                 },
                 "published_at": {
                     "type": "string"
-                },
-                "send_email": {
-                    "description": "SendEmail flags a personal notification for a transactional email to the\ntarget user. Meaningful only for type=personal; global rows keep it false.",
-                    "type": "boolean"
                 },
                 "slug": {
                     "type": "string"
@@ -33788,10 +33702,6 @@
                 },
                 "published_at": {
                     "type": "string"
-                },
-                "send_email": {
-                    "description": "SendEmail flags a personal notification for a transactional email to the\ntarget user. Meaningful only for type=personal; global rows keep it false.",
-                    "type": "boolean"
                 },
                 "slug": {
                     "type": "string"
@@ -34619,6 +34529,31 @@
                 }
             }
         },
+        "services.HistoryLimit": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "$ref": "#/definitions/services.HistoryLimitKind"
+                },
+                "value": {
+                    "description": "Value is omitted when Kind is \"full\".",
+                    "type": "integer"
+                }
+            }
+        },
+        "services.HistoryLimitKind": {
+            "type": "string",
+            "enum": [
+                "full",
+                "days",
+                "orders"
+            ],
+            "x-enum-varnames": [
+                "HistoryLimitKindFull",
+                "HistoryLimitKindDays",
+                "HistoryLimitKindOrders"
+            ]
+        },
         "services.Kline": {
             "type": "object",
             "properties": {
@@ -34639,183 +34574,6 @@
                 },
                 "volume": {
                     "type": "number"
-                }
-            }
-        },
-        "services.LeagueCheck": {
-            "type": "object",
-            "properties": {
-                "class": {
-                    "description": "\"hard\" | \"gate\"",
-                    "type": "string"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "passed": {
-                    "type": "boolean"
-                },
-                "threshold": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
-                }
-            }
-        },
-        "services.LeagueDecision": {
-            "type": "integer",
-            "format": "int32",
-            "enum": [
-                1,
-                2,
-                3,
-                4
-            ],
-            "x-enum-varnames": [
-                "LeagueDecisionGain",
-                "LeagueDecisionMaintain",
-                "LeagueDecisionLose",
-                "LeagueDecisionHoliday"
-            ]
-        },
-        "services.LeaguePointCheck": {
-            "type": "object",
-            "properties": {
-                "api_key_id": {
-                    "type": "integer"
-                },
-                "checks": {
-                    "description": "nil for holiday/no-trades",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.LeagueCheck"
-                    }
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "decision": {
-                    "$ref": "#/definitions/services.LeagueDecision"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "league_after": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "league_before": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "metrics": {
-                    "description": "nil when no trades",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/services.LeagueWeekMetrics"
-                        }
-                    ]
-                },
-                "points_after": {
-                    "type": "integer"
-                },
-                "points_before": {
-                    "type": "integer"
-                },
-                "public_profile_id": {
-                    "type": "integer"
-                },
-                "rules_version": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
-                },
-                "week_end": {
-                    "type": "string"
-                },
-                "week_start": {
-                    "description": "YYYY-MM-DD",
-                    "type": "string"
-                }
-            }
-        },
-        "services.LeaguePointCheckPublicCriterion": {
-            "type": "object",
-            "properties": {
-                "key": {
-                    "type": "string"
-                },
-                "passed": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "services.LeaguePointCheckPublicItem": {
-            "type": "object",
-            "properties": {
-                "criteria": {
-                    "description": "[] not null",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.LeaguePointCheckPublicCriterion"
-                    }
-                },
-                "decision": {
-                    "$ref": "#/definitions/services.LeagueDecision"
-                },
-                "league_after": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "league_before": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "points_after": {
-                    "type": "integer"
-                },
-                "points_before": {
-                    "type": "integer"
-                },
-                "week_end": {
-                    "type": "string"
-                },
-                "week_start": {
-                    "type": "string"
-                }
-            }
-        },
-        "services.LeagueWeekMetrics": {
-            "type": "object",
-            "properties": {
-                "avg_leverage": {
-                    "type": "string"
-                },
-                "biggest_loss": {
-                    "description": "most negative single trade",
-                    "type": "string"
-                },
-                "biggest_win": {
-                    "type": "string"
-                },
-                "gross_loss": {
-                    "description": "negative or zero",
-                    "type": "string"
-                },
-                "gross_win": {
-                    "type": "string"
-                },
-                "median_stake": {
-                    "description": "median of per-trade volume/max(1,leverage)",
-                    "type": "string"
-                },
-                "net_profit": {
-                    "type": "string"
-                },
-                "trades": {
-                    "type": "integer"
-                },
-                "volume": {
-                    "description": "sum of notional",
-                    "type": "string"
                 }
             }
         },
@@ -35592,6 +35350,10 @@
                 "id": {
                     "type": "integer"
                 },
+                "indexable": {
+                    "description": "Indexable is the SEO index-hygiene gate (Spec 03), computed live from\nthe existing api_key_stats aggregate at fetch time — see SEOIndexable.\nFrontend reads this to set noindex.",
+                    "type": "boolean"
+                },
                 "instagram": {
                     "type": "string"
                 },
@@ -36314,18 +36076,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -36747,12 +36509,6 @@
                 },
                 "value_pnl": {
                     "type": "string"
-                },
-                "wins": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.TopUserWin"
-                    }
                 }
             }
         },
@@ -36792,23 +36548,6 @@
                 "TopTypeMonth"
             ]
         },
-        "services.TopUserWin": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "league": {
-                    "$ref": "#/definitions/services.TopLeague"
-                },
-                "position": {
-                    "type": "integer"
-                },
-                "type": {
-                    "$ref": "#/definitions/services.TopType"
-                }
-            }
-        },
         "services.TopWinner": {
             "type": "object",
             "properties": {
@@ -36827,9 +36566,6 @@
                 "position": {
                     "type": "integer"
                 },
-                "profile_url": {
-                    "type": "string"
-                },
                 "result_pnl": {
                     "type": "string"
                 },
@@ -36842,17 +36578,8 @@
                 "updated_at": {
                     "type": "string"
                 },
-                "user": {
-                    "$ref": "#/definitions/services.SafeUser"
-                },
                 "user_id": {
                     "type": "integer"
-                },
-                "wins": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.TopUserWin"
-                    }
                 }
             }
         },
