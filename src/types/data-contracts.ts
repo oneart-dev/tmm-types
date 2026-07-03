@@ -3521,9 +3521,9 @@ export interface ServicesPublicProfile {
   hide_trades_extra?: number;
   id?: number;
   /**
-   * Indexable is the SEO index-hygiene gate (Spec 03), computed live from
-   * the existing api_key_stats aggregate at fetch time — see SEOIndexable.
-   * Frontend reads this to set noindex.
+   * Indexable is the SEO index-hygiene gate (Spec 03). TEMPORARY: see
+   * SEOIndexable — currently status-only (no regression vs. pre-Spec-03
+   * behavior) pending a decision on the trade-activity data source.
    */
   indexable?: boolean;
   instagram?: string;
@@ -3824,11 +3824,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

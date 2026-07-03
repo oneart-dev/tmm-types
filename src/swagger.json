@@ -35351,7 +35351,7 @@
                     "type": "integer"
                 },
                 "indexable": {
-                    "description": "Indexable is the SEO index-hygiene gate (Spec 03), computed live from\nthe existing api_key_stats aggregate at fetch time — see SEOIndexable.\nFrontend reads this to set noindex.",
+                    "description": "Indexable is the SEO index-hygiene gate (Spec 03). TEMPORARY: see\nSEOIndexable — currently status-only (no regression vs. pre-Spec-03\nbehavior) pending a decision on the trade-activity data source.",
                     "type": "boolean"
                 },
                 "instagram": {
@@ -36076,18 +36076,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
