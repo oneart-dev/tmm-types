@@ -3,6 +3,9 @@ enum Locales {
   ru = "ru",
   ua = "ua",
   es = "es",
+  pt = "pt",
+  tr = "tr",
+  id = "id",
 }
 
 export { Locales };
