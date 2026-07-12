@@ -74,6 +74,12 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
+  data?: ControllersPublicProfileSitemapEntry[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesApiKey {
   data?: ServicesApiKey[];
   /** @example "success" */
@@ -374,6 +380,12 @@ export interface ControllersApiUsersListResponse {
 }
 
 export interface ControllersApiWarningResponse {
+  /**
+   * Code is an optional machine-readable identifier (e.g. "demo_read_only",
+   * "demo_unavailable") for clients to branch on without parsing Message.
+   * @example "demo_read_only"
+   */
+  code?: string;
   /** @example "Custom error" */
   message?: string;
   /** @example "warning" */
@@ -390,6 +402,24 @@ export interface ControllersBulkSignUpSuccessResponse {
   data?: ServicesBulkSignUpResponse[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersDemoSessionSuccessResponse {
+  /**
+   * Access token for internal authorization
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphcGFuc3RvcmVsaWZlQGdtYWlsLmNvbSIsInVzZXIiOnRydWUsImV4cCI6MTY1NDc4NzY0MCwiaWF0IjoxNjU0Nzg0MDQwLCJpc3MiOiJUTU0ifQ.Qc7yrSiEtqiN2NnF2krXulNot5X2OvC25eILYrssPtE"
+   */
+  access_token?: string;
+  /**
+   * Token valid until unix timestamp in seconds
+   * @example 1654987850
+   */
+  expires_at?: number;
+  /**
+   * Status "success"
+   * @example "success"
+   */
+  status?: string;
 }
 
 export interface ControllersDiscordListResponse {
@@ -580,6 +610,11 @@ export interface ControllersPublicProfileResponse {
   data?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersPublicProfileSitemapEntry {
+  lastmod?: string;
+  url?: string;
 }
 
 export interface ControllersPublicProfileStatsResponse {
@@ -1409,7 +1444,7 @@ export interface DtoMentorGroupForm {
    */
   invite_code?: string;
   /** @example "en" */
-  language: "ru" | "en";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
   /**
    * @min 1
    * @example 10
@@ -1705,7 +1740,7 @@ export interface DtoSignUpCredentials {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "ru" | "en";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
   /**
    * @minLength 2
    * @maxLength 100
@@ -2304,7 +2339,7 @@ export interface DtoUIData {
 
 export interface DtoUserLanguage {
   /** @example "en" */
-  language: "en" | "ru";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
 }
 
 export interface DtoUserNoteCreateForm {
@@ -2361,7 +2396,7 @@ export interface DtoUserUpdateForm {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "ru" | "en";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
   /**
    * @minLength 3
    * @maxLength 100
@@ -2720,6 +2755,7 @@ export enum ServicesExchangeID {
   EXCHANGE_KUCOIN_FUTURES = 55,
   EXCHANGE_BYBIT_DEMO_LINEAR = 56,
   EXCHANGE_BYBIT_DEMO_SPOT = 57,
+  EXCHANGE_DEMO = 58,
 }
 
 export interface ServicesExchangePublicItem {
@@ -2735,11 +2771,12 @@ export interface ServicesExchangePublicItem {
    */
   fundingAware?: boolean;
   /**
-   * HistoryLimitDays is the maximum number of calendar days of trade history
-   * that can be backfilled via the exchange's API. 0 means unlimited / full
-   * history is available.
+   * HistoryLimit describes the first-sync trade-history backfill window.
+   * See HistoryLimit / HistoryLimitKind. Replaces the old flat
+   * historyLimitDays int, which could not represent Hyperliquid's
+   * order-count-based limit.
    */
-  historyLimitDays?: number;
+  history_limit?: ServicesHistoryLimit;
   /** Markets describes which account/market types TMM supports for this venue. */
   markets?: ServicesExchangePublicMarkets;
   /** Name is the human-readable display name shown in the UI. */
@@ -3221,6 +3258,18 @@ export interface ServicesGuideProgress {
   guide_step: number;
 }
 
+export interface ServicesHistoryLimit {
+  kind?: ServicesHistoryLimitKind;
+  /** Value is omitted when Kind is "full". */
+  value?: number;
+}
+
+export enum ServicesHistoryLimitKind {
+  HistoryLimitKindFull = "full",
+  HistoryLimitKindDays = "days",
+  HistoryLimitKindOrders = "orders",
+}
+
 export interface ServicesKline {
   close?: number;
   high?: number;
@@ -3330,6 +3379,11 @@ export enum ServicesLoadLevel {
 export enum ServicesLocale {
   LocaleRu = "ru",
   LocaleEn = "en",
+  LocaleUa = "ua",
+  LocaleEs = "es",
+  LocalePt = "pt",
+  LocaleTr = "tr",
+  LocaleId = "id",
 }
 
 export enum ServicesMembership {
@@ -3616,7 +3670,20 @@ export interface ServicesPublicProfile {
    */
   hide_trades_extra?: number;
   id?: number;
+  /**
+   * Indexable is the SEO index-hygiene gate (Spec 03): status ON and the
+   * profile owner's account is still active. See SEOIndexable. Never
+   * expose the underlying users.last_api_call_at timestamp itself in any
+   * public response — only this derived bool.
+   */
+  indexable?: boolean;
   instagram?: string;
+  /**
+   * IsDemo is a computed, config-driven flag (Task 19): true when UserID
+   * is listed in demo.user_ids (env.IsDemoUser). Never a stored column —
+   * drives the frontend demo marker + pre-disabled edit affordances.
+   */
+  is_demo?: boolean;
   layout?: ServicesPublicProfileLayout[];
   /**
    * League:
@@ -3915,11 +3982,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -4679,6 +4746,12 @@ export interface ServicesUserWithRelations {
   guides_progress?: ServicesGuideProgress;
   id?: number;
   invite_code?: string;
+  /**
+   * IsDemo (P3) — computed, config-driven (env.IsDemoUser): true when this
+   * session is the shared read-only demo account. Drives the app2 marker +
+   * read-only affordance gating. Never a stored column.
+   */
+  is_demo?: boolean;
   language?: ServicesLocale;
   last_api_call_at?: string;
   league?: number;

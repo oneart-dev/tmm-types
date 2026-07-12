@@ -14,6 +14,7 @@ export * from './types/Board';
 export * from './types/Candles';
 export * from './types/Chat';
 export * from './types/Connections';
+export * from './types/Demo';
 export * from './types/DiscordBot';
 export * from './types/Exchanges';
 export * from './types/Files';

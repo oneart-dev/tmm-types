@@ -2814,7 +2814,8 @@
                             54,
                             55,
                             56,
-                            57
+                            57,
+                            58
                         ],
                         "type": "integer",
                         "x-enum-comments": {
@@ -2870,7 +2871,8 @@
                             "",
                             "",
                             "suppport fast repair",
-                            "suppport fast repair"
+                            "suppport fast repair",
+                            ""
                         ],
                         "x-enum-varnames": [
                             "EXCHANGE_BINANCE_FUTURES",
@@ -2909,7 +2911,8 @@
                             "EXCHANGE_KUCOIN_SPOT",
                             "EXCHANGE_KUCOIN_FUTURES",
                             "EXCHANGE_BYBIT_DEMO_LINEAR",
-                            "EXCHANGE_BYBIT_DEMO_SPOT"
+                            "EXCHANGE_BYBIT_DEMO_SPOT",
+                            "EXCHANGE_DEMO"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -10960,6 +10963,38 @@
                 }
             }
         },
+        "/demo/session": {
+            "post": {
+                "description": "Mints a short-lived JWT authenticated as the shared demo account. Read-only; all mutations return 403 demo_read_only. Rate-limited per IP.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "demo"
+                ],
+                "summary": "Start a read-only demo session",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.DemoSessionSuccessResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/discord-bot": {
             "get": {
                 "security": [
@@ -17755,6 +17790,26 @@
                 }
             }
         },
+        "/stats/pp-links": {
+            "get": {
+                "description": "Retrieves the trader sitemap entry set: only profiles passing the SEO index-hygiene gate (Spec 03), with a per-profile lastmod.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Public Profile Links",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry"
+                        }
+                    }
+                }
+            }
+        },
         "/stats/server": {
             "get": {
                 "description": "Retrieves public statistics for the server.",
@@ -18883,7 +18938,8 @@
                                 54,
                                 55,
                                 56,
-                                57
+                                57,
+                                58
                             ],
                             "type": "integer"
                         },
@@ -27798,6 +27854,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.PublicProfileSitemapEntry"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_ApiKey": {
             "type": "object",
             "properties": {
@@ -28656,6 +28731,11 @@
         "controllers.ApiWarningResponse": {
             "type": "object",
             "properties": {
+                "code": {
+                    "description": "Code is an optional machine-readable identifier (e.g. \"demo_read_only\",\n\"demo_unavailable\") for clients to branch on without parsing Message.",
+                    "type": "string",
+                    "example": "demo_read_only"
+                },
                 "message": {
                     "type": "string",
                     "example": "Custom error"
@@ -28699,6 +28779,26 @@
                             "$ref": "#/definitions/controllers.ResponseStatusMessage"
                         }
                     ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.DemoSessionSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "Access token for internal authorization",
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphcGFuc3RvcmVsaWZlQGdtYWlsLmNvbSIsInVzZXIiOnRydWUsImV4cCI6MTY1NDc4NzY0MCwiaWF0IjoxNjU0Nzg0MDQwLCJpc3MiOiJUTU0ifQ.Qc7yrSiEtqiN2NnF2krXulNot5X2OvC25eILYrssPtE"
+                },
+                "expires_at": {
+                    "description": "Token valid until unix timestamp in seconds",
+                    "type": "integer",
+                    "example": 1654987850
+                },
+                "status": {
+                    "description": "Status \"success\"",
+                    "type": "string",
                     "example": "success"
                 }
             }
@@ -29229,6 +29329,17 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.PublicProfileSitemapEntry": {
+            "type": "object",
+            "properties": {
+                "lastmod": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
@@ -30913,8 +31024,13 @@
                 "language": {
                     "type": "string",
                     "enum": [
+                        "en",
                         "ru",
-                        "en"
+                        "ua",
+                        "es",
+                        "pt",
+                        "tr",
+                        "id"
                     ],
                     "example": "en"
                 },
@@ -31402,8 +31518,13 @@
                 "language": {
                     "type": "string",
                     "enum": [
+                        "en",
                         "ru",
-                        "en"
+                        "ua",
+                        "es",
+                        "pt",
+                        "tr",
+                        "id"
                     ],
                     "example": "en"
                 },
@@ -32526,7 +32647,12 @@
                     "type": "string",
                     "enum": [
                         "en",
-                        "ru"
+                        "ru",
+                        "ua",
+                        "es",
+                        "pt",
+                        "tr",
+                        "id"
                     ],
                     "example": "en"
                 }
@@ -32694,8 +32820,13 @@
                 "language": {
                     "type": "string",
                     "enum": [
+                        "en",
                         "ru",
-                        "en"
+                        "ua",
+                        "es",
+                        "pt",
+                        "tr",
+                        "id"
                     ],
                     "example": "en"
                 },
@@ -33477,7 +33608,8 @@
                 54,
                 55,
                 56,
-                57
+                57,
+                58
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
@@ -33532,7 +33664,8 @@
                 "",
                 "",
                 "suppport fast repair",
-                "suppport fast repair"
+                "suppport fast repair",
+                ""
             ],
             "x-enum-varnames": [
                 "EXCHANGE_BINANCE_FUTURES",
@@ -33571,7 +33704,8 @@
                 "EXCHANGE_KUCOIN_SPOT",
                 "EXCHANGE_KUCOIN_FUTURES",
                 "EXCHANGE_BYBIT_DEMO_LINEAR",
-                "EXCHANGE_BYBIT_DEMO_SPOT"
+                "EXCHANGE_BYBIT_DEMO_SPOT",
+                "EXCHANGE_DEMO"
             ]
         },
         "services.ExchangePublicItem": {
@@ -33585,9 +33719,13 @@
                     "description": "FundingAware indicates whether TMM reconciles funding payments for\nthis venue's perpetual markets.",
                     "type": "boolean"
                 },
-                "historyLimitDays": {
-                    "description": "HistoryLimitDays is the maximum number of calendar days of trade history\nthat can be backfilled via the exchange's API. 0 means unlimited / full\nhistory is available.",
-                    "type": "integer"
+                "history_limit": {
+                    "description": "HistoryLimit describes the first-sync trade-history backfill window.\nSee HistoryLimit / HistoryLimitKind. Replaces the old flat\nhistoryLimitDays int, which could not represent Hyperliquid's\norder-count-based limit.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.HistoryLimit"
+                        }
+                    ]
                 },
                 "markets": {
                     "description": "Markets describes which account/market types TMM supports for this venue.",
@@ -34619,6 +34757,31 @@
                 }
             }
         },
+        "services.HistoryLimit": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "$ref": "#/definitions/services.HistoryLimitKind"
+                },
+                "value": {
+                    "description": "Value is omitted when Kind is \"full\".",
+                    "type": "integer"
+                }
+            }
+        },
+        "services.HistoryLimitKind": {
+            "type": "string",
+            "enum": [
+                "full",
+                "days",
+                "orders"
+            ],
+            "x-enum-varnames": [
+                "HistoryLimitKindFull",
+                "HistoryLimitKindDays",
+                "HistoryLimitKindOrders"
+            ]
+        },
         "services.Kline": {
             "type": "object",
             "properties": {
@@ -34886,11 +35049,21 @@
             "type": "string",
             "enum": [
                 "ru",
-                "en"
+                "en",
+                "ua",
+                "es",
+                "pt",
+                "tr",
+                "id"
             ],
             "x-enum-varnames": [
                 "LocaleRu",
-                "LocaleEn"
+                "LocaleEn",
+                "LocaleUa",
+                "LocaleEs",
+                "LocalePt",
+                "LocaleTr",
+                "LocaleId"
             ]
         },
         "services.Membership": {
@@ -35621,8 +35794,16 @@
                 "id": {
                     "type": "integer"
                 },
+                "indexable": {
+                    "description": "Indexable is the SEO index-hygiene gate (Spec 03): status ON and the\nprofile owner's account is still active. See SEOIndexable. Never\nexpose the underlying users.last_api_call_at timestamp itself in any\npublic response — only this derived bool.",
+                    "type": "boolean"
+                },
                 "instagram": {
                     "type": "string"
+                },
+                "is_demo": {
+                    "description": "IsDemo is a computed, config-driven flag (Task 19): true when UserID\nis listed in demo.user_ids (env.IsDemoUser). Never a stored column —\ndrives the frontend demo marker + pre-disabled edit affordances.",
+                    "type": "boolean"
                 },
                 "layout": {
                     "type": "array",
@@ -36346,18 +36527,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -38404,6 +38585,10 @@
                 },
                 "invite_code": {
                     "type": "string"
+                },
+                "is_demo": {
+                    "description": "IsDemo (P3) — computed, config-driven (env.IsDemoUser): true when this\nsession is the shared read-only demo account. Drives the app2 marker +\nread-only affordance gating. Never a stored column.",
+                    "type": "boolean"
                 },
                 "language": {
                     "$ref": "#/definitions/services.Locale"

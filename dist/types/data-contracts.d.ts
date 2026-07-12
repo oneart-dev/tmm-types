@@ -50,6 +50,10 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
+    data?: ControllersPublicProfileSitemapEntry[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
@@ -250,6 +254,7 @@ export interface ControllersApiUsersListResponse {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiWarningResponse {
+    code?: string;
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
@@ -261,6 +266,11 @@ export interface ControllersArtifactManifestResponse {
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersDemoSessionSuccessResponse {
+    access_token?: string;
+    expires_at?: number;
+    status?: string;
 }
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
@@ -392,6 +402,10 @@ export interface ControllersPublicAnnouncementsListResponse {
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersPublicProfileSitemapEntry {
+    lastmod?: string;
+    url?: string;
 }
 export interface ControllersPublicProfileStatsResponse {
     data?: ServicesPublicProfileStats;
@@ -769,7 +783,7 @@ export interface DtoMentorGroupForm {
     date_start?: string;
     email?: string;
     invite_code?: string;
-    language: "ru" | "en";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
     limit?: number;
     name: string;
     private_text?: string;
@@ -870,7 +884,7 @@ export interface DtoRiskManagementCreateForm {
 }
 export interface DtoSignUpCredentials {
     email: string;
-    language: "ru" | "en";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
     name: string;
     password: string;
     promo?: string;
@@ -1094,7 +1108,7 @@ export interface DtoUIData {
     data: string;
 }
 export interface DtoUserLanguage {
-    language: "en" | "ru";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
 }
 export interface DtoUserNoteCreateForm {
     body_html?: string;
@@ -1132,7 +1146,7 @@ export interface DtoUserUpdateForm {
     default_group_field?: 1 | 2;
     default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
     email: string;
-    language: "ru" | "en";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
     name: string;
     start_of_week?: "sunday" | "monday";
     timezone: string;
@@ -1400,12 +1414,13 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_SPOT = 54,
     EXCHANGE_KUCOIN_FUTURES = 55,
     EXCHANGE_BYBIT_DEMO_LINEAR = 56,
-    EXCHANGE_BYBIT_DEMO_SPOT = 57
+    EXCHANGE_BYBIT_DEMO_SPOT = 57,
+    EXCHANGE_DEMO = 58
 }
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;
     fundingAware?: boolean;
-    historyLimitDays?: number;
+    history_limit?: ServicesHistoryLimit;
     markets?: ServicesExchangePublicMarkets;
     name?: string;
     slug?: string;
@@ -1727,6 +1742,15 @@ export interface ServicesGuideProgress {
     guide_closed?: number;
     guide_step: number;
 }
+export interface ServicesHistoryLimit {
+    kind?: ServicesHistoryLimitKind;
+    value?: number;
+}
+export declare enum ServicesHistoryLimitKind {
+    HistoryLimitKindFull = "full",
+    HistoryLimitKindDays = "days",
+    HistoryLimitKindOrders = "orders"
+}
 export interface ServicesKline {
     close?: number;
     high?: number;
@@ -1815,7 +1839,12 @@ export declare enum ServicesLoadLevel {
 }
 export declare enum ServicesLocale {
     LocaleRu = "ru",
-    LocaleEn = "en"
+    LocaleEn = "en",
+    LocaleUa = "ua",
+    LocaleEs = "es",
+    LocalePt = "pt",
+    LocaleTr = "tr",
+    LocaleId = "id"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
@@ -2052,7 +2081,9 @@ export interface ServicesPublicProfile {
     facebook?: string;
     hide_trades_extra?: number;
     id?: number;
+    indexable?: boolean;
     instagram?: string;
+    is_demo?: boolean;
     layout?: ServicesPublicProfileLayout[];
     league?: ServicesTopLeague;
     league_progress?: number;
@@ -2279,11 +2310,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2958,6 +2989,7 @@ export interface ServicesUserWithRelations {
     guides_progress?: ServicesGuideProgress;
     id?: number;
     invite_code?: string;
+    is_demo?: boolean;
     language?: ServicesLocale;
     last_api_call_at?: string;
     league?: number;
