@@ -254,6 +254,7 @@ export interface ControllersApiUsersListResponse {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiWarningResponse {
+    code?: string;
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
@@ -265,6 +266,11 @@ export interface ControllersArtifactManifestResponse {
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersDemoSessionSuccessResponse {
+    access_token?: string;
+    expires_at?: number;
+    status?: string;
 }
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
@@ -519,7 +525,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 59 | 60;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57;
     extra_info?: string;
     key_private?: string;
     key_public?: string;
@@ -1409,8 +1415,7 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_FUTURES = 55,
     EXCHANGE_BYBIT_DEMO_LINEAR = 56,
     EXCHANGE_BYBIT_DEMO_SPOT = 57,
-    EXCHANGE_KRAKEN_SPOT = 59,
-    EXCHANGE_KRAKEN_FUTURES = 60
+    EXCHANGE_DEMO = 58
 }
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;
@@ -2078,6 +2083,7 @@ export interface ServicesPublicProfile {
     id?: number;
     indexable?: boolean;
     instagram?: string;
+    is_demo?: boolean;
     layout?: ServicesPublicProfileLayout[];
     league?: ServicesTopLeague;
     league_progress?: number;
@@ -2983,6 +2989,7 @@ export interface ServicesUserWithRelations {
     guides_progress?: ServicesGuideProgress;
     id?: number;
     invite_code?: string;
+    is_demo?: boolean;
     language?: ServicesLocale;
     last_api_call_at?: string;
     league?: number;

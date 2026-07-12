@@ -266,8 +266,7 @@ export class Team<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
         | 55
         | 56
         | 57
-        | 59
-        | 60
+        | 58
       )[];
       /** @example "today" */
       period: "today" | "yesterday" | "7days" | "14days" | "30days" | "custom";

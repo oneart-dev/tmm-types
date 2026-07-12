@@ -380,6 +380,12 @@ export interface ControllersApiUsersListResponse {
 }
 
 export interface ControllersApiWarningResponse {
+  /**
+   * Code is an optional machine-readable identifier (e.g. "demo_read_only",
+   * "demo_unavailable") for clients to branch on without parsing Message.
+   * @example "demo_read_only"
+   */
+  code?: string;
   /** @example "Custom error" */
   message?: string;
   /** @example "warning" */
@@ -396,6 +402,24 @@ export interface ControllersBulkSignUpSuccessResponse {
   data?: ServicesBulkSignUpResponse[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersDemoSessionSuccessResponse {
+  /**
+   * Access token for internal authorization
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphcGFuc3RvcmVsaWZlQGdtYWlsLmNvbSIsInVzZXIiOnRydWUsImV4cCI6MTY1NDc4NzY0MCwiaWF0IjoxNjU0Nzg0MDQwLCJpc3MiOiJUTU0ifQ.Qc7yrSiEtqiN2NnF2krXulNot5X2OvC25eILYrssPtE"
+   */
+  access_token?: string;
+  /**
+   * Token valid until unix timestamp in seconds
+   * @example 1654987850
+   */
+  expires_at?: number;
+  /**
+   * Status "success"
+   * @example "success"
+   */
+  status?: string;
 }
 
 export interface ControllersDiscordListResponse {
@@ -829,9 +853,7 @@ export interface DtoApiKeyCreateForm {
     | 54
     | 55
     | 56
-    | 57
-    | 59
-    | 60;
+    | 57;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2733,8 +2755,7 @@ export enum ServicesExchangeID {
   EXCHANGE_KUCOIN_FUTURES = 55,
   EXCHANGE_BYBIT_DEMO_LINEAR = 56,
   EXCHANGE_BYBIT_DEMO_SPOT = 57,
-  EXCHANGE_KRAKEN_SPOT = 59,
-  EXCHANGE_KRAKEN_FUTURES = 60,
+  EXCHANGE_DEMO = 58,
 }
 
 export interface ServicesExchangePublicItem {
@@ -3657,6 +3678,12 @@ export interface ServicesPublicProfile {
    */
   indexable?: boolean;
   instagram?: string;
+  /**
+   * IsDemo is a computed, config-driven flag (Task 19): true when UserID
+   * is listed in demo.user_ids (env.IsDemoUser). Never a stored column —
+   * drives the frontend demo marker + pre-disabled edit affordances.
+   */
+  is_demo?: boolean;
   layout?: ServicesPublicProfileLayout[];
   /**
    * League:
@@ -4719,6 +4746,12 @@ export interface ServicesUserWithRelations {
   guides_progress?: ServicesGuideProgress;
   id?: number;
   invite_code?: string;
+  /**
+   * IsDemo (P3) — computed, config-driven (env.IsDemoUser): true when this
+   * session is the shared read-only demo account. Drives the app2 marker +
+   * read-only affordance gating. Never a stored column.
+   */
+  is_demo?: boolean;
   language?: ServicesLocale;
   last_api_call_at?: string;
   league?: number;
