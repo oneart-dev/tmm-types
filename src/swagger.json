@@ -849,14 +849,26 @@
                     },
                     {
                         "type": "integer",
-                        "description": "Page",
+                        "description": "Page number (1-based)",
                         "name": "page",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Page size (max 100)",
-                        "name": "per_page",
+                        "description": "Page size (max 100, default 20)",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort field: id | created_at | published_at | type | kind",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Sort descending (default true, on id)",
+                        "name": "sortDesc",
                         "in": "query"
                     }
                 ],
@@ -864,7 +876,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationAdminListItem"
+                            "$ref": "#/definitions/services.PaginationResponse-array_services_FeedNotificationAdminListItem"
                         }
                     }
                 }
@@ -1046,13 +1058,37 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (1-based)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size (max 100, default 20)",
+                        "name": "itemsPerPage",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort field: voted_at | user_id | option_id",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Sort descending (default true, on voted_at)",
+                        "name": "sortDesc",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_FeedNotificationRawVote"
+                            "$ref": "#/definitions/services.PaginationResponse-array_services_FeedNotificationRawVote"
                         }
                     }
                 }
@@ -27987,25 +28023,6 @@
                 }
             }
         },
-        "controllers.ApiSuccess-array_services_FeedNotificationAdminListItem": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationAdminListItem"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
         "controllers.ApiSuccess-array_services_FeedNotificationFeedItem": {
             "type": "object",
             "properties": {
@@ -28013,25 +28030,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/services.FeedNotificationFeedItem"
-                    }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.ApiSuccess-array_services_FeedNotificationRawVote": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/services.FeedNotificationRawVote"
                     }
                 },
                 "status": {
@@ -35408,6 +35406,100 @@
                 "OrderOrigTypeLiquidation"
             ]
         },
+        "services.PaginationResponse-array_services_FeedNotificationAdminListItem": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationAdminListItem"
+                    }
+                },
+                "defaultSort": {
+                    "type": "boolean"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "per_page": {
+                    "type": "integer"
+                },
+                "per_page_limit": {
+                    "type": "integer"
+                },
+                "sortBy": {
+                    "type": "string"
+                },
+                "sortDesc": {
+                    "type": "boolean"
+                },
+                "sort_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.PaginationResponse-array_services_FeedNotificationRawVote": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationRawVote"
+                    }
+                },
+                "defaultSort": {
+                    "type": "boolean"
+                },
+                "last_page": {
+                    "type": "integer"
+                },
+                "per_page": {
+                    "type": "integer"
+                },
+                "per_page_limit": {
+                    "type": "integer"
+                },
+                "sortBy": {
+                    "type": "string"
+                },
+                "sortDesc": {
+                    "type": "boolean"
+                },
+                "sort_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "services.PaginationResponse-array_services_FleetActivityDTO": {
             "type": "object",
             "properties": {
@@ -36527,18 +36619,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

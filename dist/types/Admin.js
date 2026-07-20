@@ -156,9 +156,10 @@ export class Admin extends HttpClient {
             method: "POST",
             ...params,
         });
-        this.notificationsVotesDetail = (id, params = {}) => this.request({
+        this.notificationsVotesDetail = (id, query, params = {}) => this.request({
             path: `/admin/notifications/${id}/votes`,
             method: "GET",
+            query: query,
             ...params,
         });
         this.usersLeaguePointChecksDetail = (id, params = {}) => this.request({

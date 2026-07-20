@@ -78,16 +78,8 @@ export interface ControllersApiSuccessArrayServicesDashboard {
     data?: ServicesDashboard[];
     status?: ControllersResponseStatusMessage;
 }
-export interface ControllersApiSuccessArrayServicesFeedNotificationAdminListItem {
-    data?: ServicesFeedNotificationAdminListItem[];
-    status?: ControllersResponseStatusMessage;
-}
 export interface ControllersApiSuccessArrayServicesFeedNotificationFeedItem {
     data?: ServicesFeedNotificationFeedItem[];
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersApiSuccessArrayServicesFeedNotificationRawVote {
-    data?: ServicesFeedNotificationRawVote[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessArrayServicesFile {
@@ -1965,6 +1957,32 @@ export declare enum ServicesOrigType {
     OrderOrigTypeReverse = "REVERSE",
     OrderOrigTypeLiquidation = "LIQUIDATION"
 }
+export interface ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem {
+    current_page?: number;
+    data?: ServicesFeedNotificationAdminListItem[];
+    defaultSort?: boolean;
+    last_page?: number;
+    per_page?: number;
+    per_page_limit?: number;
+    sortBy?: string;
+    sortDesc?: boolean;
+    sort_fields?: string[];
+    status?: string;
+    total?: number;
+}
+export interface ServicesPaginationResponseArrayServicesFeedNotificationRawVote {
+    current_page?: number;
+    data?: ServicesFeedNotificationRawVote[];
+    defaultSort?: boolean;
+    last_page?: number;
+    per_page?: number;
+    per_page_limit?: number;
+    sortBy?: string;
+    sortDesc?: boolean;
+    sort_fields?: string[];
+    status?: string;
+    total?: number;
+}
 export interface ServicesPaginationResponseArrayServicesFleetActivityDTO {
     current_page?: number;
     data?: ServicesFleetActivityDTO[];
@@ -2310,11 +2328,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

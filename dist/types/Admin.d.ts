@@ -1,4 +1,4 @@
-import { ChatExportPayload, ControllersApiErrorResponse, ControllersApiSuccessArrayServicesArtifact, ControllersApiSuccessArrayServicesArtifactVersionDTO, ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, ControllersApiSuccessArrayServicesFeedNotificationRawVote, ControllersApiSuccessArrayServicesFleetInstanceDTO, ControllersApiSuccessArrayServicesFleetNodeDTO, ControllersApiSuccessArrayServicesLeaguePointCheck, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersApiWarningResponse, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationAdminUpdateResponse, ControllersFeedNotificationThreadDetailResponse, ControllersFeedNotificationThreadInboxResponse, ControllersFleetSetTargetVersionForm, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationConversationStatusForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm, DtoTicketQuickCreateForm, ServicesPaginationResponseArrayServicesFleetActivityDTO } from "./data-contracts";
+import { ChatExportPayload, ControllersApiErrorResponse, ControllersApiSuccessArrayServicesArtifact, ControllersApiSuccessArrayServicesArtifactVersionDTO, ControllersApiSuccessArrayServicesFleetInstanceDTO, ControllersApiSuccessArrayServicesFleetNodeDTO, ControllersApiSuccessArrayServicesLeaguePointCheck, ControllersApiSuccessControllersFeedNotificationAdminCreateData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, ControllersApiSuccessServicesFeedNotificationComment, ControllersApiWarningResponse, ControllersFeedNotificationAdminDetailResponse, ControllersFeedNotificationAdminUpdateResponse, ControllersFeedNotificationThreadDetailResponse, ControllersFeedNotificationThreadInboxResponse, ControllersFleetSetTargetVersionForm, ControllersUnauthorizedResponse, DtoChatErrorResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationConversationStatusForm, DtoFeedNotificationCreateForm, DtoFeedNotificationUpdateForm, DtoTicketQuickCreateForm, ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem, ServicesPaginationResponseArrayServicesFeedNotificationRawVote, ServicesPaginationResponseArrayServicesFleetActivityDTO } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     chatThreadsExportDetail: (uid: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ChatExportPayload, ControllersUnauthorizedResponse | DtoChatErrorResponse>>;
@@ -38,15 +38,22 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
         event_kind?: string;
         author?: number;
         page?: number;
-        per_page?: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, any>>;
+        itemsPerPage?: number;
+        sortBy?: string;
+        sortDesc?: boolean;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem, any>>;
     notificationsCreate: (payload: DtoFeedNotificationCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>>;
     notificationsDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminDetailResponse, any>>;
     notificationsUpdate: (id: number, payload: DtoFeedNotificationUpdateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationAdminUpdateResponse, any>>;
     notificationsDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
     notificationsAnalyticsDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationAnalyticsCounts, any>>;
     notificationsPublishCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;
-    notificationsVotesDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>>;
+    notificationsVotesDetail: (id: number, query?: {
+        page?: number;
+        itemsPerPage?: number;
+        sortBy?: string;
+        sortDesc?: boolean;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesPaginationResponseArrayServicesFeedNotificationRawVote, any>>;
     usersLeaguePointChecksDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesLeaguePointCheck, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     usersTicketsCreate: (id: number, payload: DtoTicketQuickCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationAdminCreateData, any>>;
 }

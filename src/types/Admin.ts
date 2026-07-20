@@ -14,8 +14,6 @@ import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesArtifact,
   ControllersApiSuccessArrayServicesArtifactVersionDTO,
-  ControllersApiSuccessArrayServicesFeedNotificationAdminListItem,
-  ControllersApiSuccessArrayServicesFeedNotificationRawVote,
   ControllersApiSuccessArrayServicesFleetInstanceDTO,
   ControllersApiSuccessArrayServicesFleetNodeDTO,
   ControllersApiSuccessArrayServicesLeaguePointCheck,
@@ -36,6 +34,8 @@ import {
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationUpdateForm,
   DtoTicketQuickCreateForm,
+  ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem,
+  ServicesPaginationResponseArrayServicesFeedNotificationRawVote,
   ServicesPaginationResponseArrayServicesFleetActivityDTO,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
@@ -434,14 +434,18 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       event_kind?: string;
       /** created_by_user_id exact */
       author?: number;
-      /** Page */
+      /** Page number (1-based) */
       page?: number;
-      /** Page size (max 100) */
-      per_page?: number;
+      /** Page size (max 100, default 20) */
+      itemsPerPage?: number;
+      /** Sort field: id | created_at | published_at | type | kind */
+      sortBy?: string;
+      /** Sort descending (default true, on id) */
+      sortDesc?: boolean;
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessArrayServicesFeedNotificationAdminListItem, any>({
+    this.request<ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem, any>({
       path: `/admin/notifications`,
       method: "GET",
       query: query,
@@ -545,10 +549,24 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @summary Raw vote list (admin)
    * @request GET:/admin/notifications/{id}/votes
    */
-  notificationsVotesDetail = (id: number, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessArrayServicesFeedNotificationRawVote, any>({
+  notificationsVotesDetail = (
+    id: number,
+    query?: {
+      /** Page number (1-based) */
+      page?: number;
+      /** Page size (max 100, default 20) */
+      itemsPerPage?: number;
+      /** Sort field: voted_at | user_id | option_id */
+      sortBy?: string;
+      /** Sort descending (default true, on voted_at) */
+      sortDesc?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ServicesPaginationResponseArrayServicesFeedNotificationRawVote, any>({
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
+      query: query,
       ...params,
     });
   /**
