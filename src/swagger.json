@@ -2851,7 +2851,9 @@
                             55,
                             56,
                             57,
-                            58
+                            58,
+                            59,
+                            60
                         ],
                         "type": "integer",
                         "x-enum-comments": {
@@ -2908,6 +2910,8 @@
                             "",
                             "suppport fast repair",
                             "suppport fast repair",
+                            "",
+                            "",
                             ""
                         ],
                         "x-enum-varnames": [
@@ -2948,7 +2952,9 @@
                             "EXCHANGE_KUCOIN_FUTURES",
                             "EXCHANGE_BYBIT_DEMO_LINEAR",
                             "EXCHANGE_BYBIT_DEMO_SPOT",
-                            "EXCHANGE_DEMO"
+                            "EXCHANGE_DEMO",
+                            "EXCHANGE_KRAKEN_SPOT",
+                            "EXCHANGE_KRAKEN_FUTURES"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -18975,7 +18981,9 @@
                                 55,
                                 56,
                                 57,
-                                58
+                                58,
+                                59,
+                                60
                             ],
                             "type": "integer"
                         },
@@ -29888,7 +29896,9 @@
                         54,
                         55,
                         56,
-                        57
+                        57,
+                        59,
+                        60
                     ]
                 },
                 "extra_info": {
@@ -33607,7 +33617,9 @@
                 55,
                 56,
                 57,
-                58
+                58,
+                59,
+                60
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
@@ -33663,6 +33675,8 @@
                 "",
                 "suppport fast repair",
                 "suppport fast repair",
+                "",
+                "",
                 ""
             ],
             "x-enum-varnames": [
@@ -33703,7 +33717,9 @@
                 "EXCHANGE_KUCOIN_FUTURES",
                 "EXCHANGE_BYBIT_DEMO_LINEAR",
                 "EXCHANGE_BYBIT_DEMO_SPOT",
-                "EXCHANGE_DEMO"
+                "EXCHANGE_DEMO",
+                "EXCHANGE_KRAKEN_SPOT",
+                "EXCHANGE_KRAKEN_FUTURES"
             ]
         },
         "services.ExchangePublicItem": {

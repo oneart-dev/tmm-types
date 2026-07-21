@@ -517,7 +517,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 59 | 60;
     extra_info?: string;
     key_private?: string;
     key_public?: string;
@@ -1407,7 +1407,9 @@ export declare enum ServicesExchangeID {
     EXCHANGE_KUCOIN_FUTURES = 55,
     EXCHANGE_BYBIT_DEMO_LINEAR = 56,
     EXCHANGE_BYBIT_DEMO_SPOT = 57,
-    EXCHANGE_DEMO = 58
+    EXCHANGE_DEMO = 58,
+    EXCHANGE_KRAKEN_SPOT = 59,
+    EXCHANGE_KRAKEN_FUTURES = 60
 }
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;

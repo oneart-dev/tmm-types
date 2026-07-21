@@ -110,6 +110,8 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_DEMO_LINEAR"] = 56] = "EXCHANGE_BYBIT_DEMO_LINEAR";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BYBIT_DEMO_SPOT"] = 57] = "EXCHANGE_BYBIT_DEMO_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_DEMO"] = 58] = "EXCHANGE_DEMO";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_SPOT"] = 59] = "EXCHANGE_KRAKEN_SPOT";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_FUTURES"] = 60] = "EXCHANGE_KRAKEN_FUTURES";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {

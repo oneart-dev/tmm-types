@@ -841,7 +841,9 @@ export interface DtoApiKeyCreateForm {
     | 54
     | 55
     | 56
-    | 57;
+    | 57
+    | 59
+    | 60;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2744,6 +2746,8 @@ export enum ServicesExchangeID {
   EXCHANGE_BYBIT_DEMO_LINEAR = 56,
   EXCHANGE_BYBIT_DEMO_SPOT = 57,
   EXCHANGE_DEMO = 58,
+  EXCHANGE_KRAKEN_SPOT = 59,
+  EXCHANGE_KRAKEN_FUTURES = 60,
 }
 
 export interface ServicesExchangePublicItem {
