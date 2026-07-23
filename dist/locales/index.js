@@ -7,6 +7,7 @@ var Locales;
     Locales["pt"] = "pt";
     Locales["tr"] = "tr";
     Locales["id"] = "id";
+    Locales["zh"] = "zh";
 })(Locales || (Locales = {}));
 export { Locales };
 //# sourceMappingURL=index.js.map

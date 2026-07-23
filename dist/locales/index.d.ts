@@ -5,7 +5,8 @@ declare enum Locales {
     es = "es",
     pt = "pt",
     tr = "tr",
-    id = "id"
+    id = "id",
+    zh = "zh"
 }
 export { Locales };
 //# sourceMappingURL=index.d.ts.map

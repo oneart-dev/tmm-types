@@ -6,6 +6,7 @@ enum Locales {
   pt = "pt",
   tr = "tr",
   id = "id",
+  zh = "zh",
 }
 
 export { Locales };
