@@ -27,6 +27,7 @@ import {
   DtoDashboardUpdateForm,
   DtoDashboardsSortForm,
   DtoWidgetCreateForm,
+  DtoWidgetShareForm,
   DtoWidgetUpdateForm,
   ServicesLoadBoardResponseChunk,
   ServicesWidgetCreateResponse,
@@ -1101,6 +1102,25 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     >({
       path: `/board/widget/${id}`,
       method: "DELETE",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme) onto the share so the public embed can render them.
+   *
+   * @tags dashboard
+   * @name WidgetShortUrlCreate
+   * @summary Generate Widget Embed Short Link
+   * @request POST:/board/widget/{id}/short-url
+   * @secure
+   */
+  widgetShortUrlCreate = (id: number, payload: DtoWidgetShareForm, params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessString, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/board/widget/${id}/short-url`,
+      method: "POST",
+      body: payload,
       secure: true,
       type: ContentType.Json,
       format: "json",

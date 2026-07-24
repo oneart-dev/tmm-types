@@ -347,6 +347,18 @@ export interface ControllersLoadLayoutResponse {
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersLoadWidgetResponse {
+    dashboard_theme?: string;
+    dashboard_theme_color?: string;
+    errors?: string[];
+    loss_color?: string;
+    profit_color?: string;
+    serverData?: string;
+    status?: ControllersResponseStatusMessage;
+    theme?: string;
+    user_name?: string;
+    widget?: ServicesWidget;
+}
 export interface ControllersLoginSuccessResponse {
     access_token?: string;
     expires_at?: number;
@@ -775,7 +787,7 @@ export interface DtoMentorGroupForm {
     date_start?: string;
     email?: string;
     invite_code?: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     limit?: number;
     name: string;
     private_text?: string;
@@ -876,7 +888,7 @@ export interface DtoRiskManagementCreateForm {
 }
 export interface DtoSignUpCredentials {
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     password: string;
     promo?: string;
@@ -1100,7 +1112,7 @@ export interface DtoUIData {
     data: string;
 }
 export interface DtoUserLanguage {
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 export interface DtoUserNoteCreateForm {
     body_html?: string;
@@ -1138,7 +1150,7 @@ export interface DtoUserUpdateForm {
     default_group_field?: 1 | 2;
     default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     start_of_week?: "sunday" | "monday";
     timezone: string;
@@ -1159,6 +1171,13 @@ export interface DtoWidgetFilters {
     mini?: boolean;
     private?: boolean;
     simpleSortBy?: "value_ask" | "value_desc" | "key_asc" | "key_desc";
+}
+export interface DtoWidgetShareForm {
+    dashboard_theme?: string;
+    dashboard_theme_color?: string;
+    loss_color?: string;
+    profit_color?: string;
+    theme?: "dark" | "light" | "auto";
 }
 export interface DtoWidgetUpdateForm {
     filters?: DtoWidgetFilters;
@@ -1838,7 +1857,8 @@ export declare enum ServicesLocale {
     LocaleEs = "es",
     LocalePt = "pt",
     LocaleTr = "tr",
-    LocaleId = "id"
+    LocaleId = "id",
+    LocaleZh = "zh"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
@@ -2258,6 +2278,7 @@ export interface ServicesShortUrl {
     id?: number;
     model?: ServicesShortUrlModelType;
     model_id?: number;
+    presentation?: string;
     shard_id?: number;
     url?: string;
 }
@@ -2265,7 +2286,8 @@ export declare enum ServicesShortUrlModelType {
     ShortUrlModelTypeTrade = "Trade",
     ShortUrlModelTypeTradeGroup = "TradeGroup",
     ShortUrlModelTypeDashboard = "Dashboard",
-    ShortUrlModelTypeDashboardLayout = "DashboardLayout"
+    ShortUrlModelTypeDashboardLayout = "DashboardLayout",
+    ShortUrlModelTypeWidget = "Widget"
 }
 export interface ServicesStripe {
     billing_cycle?: ServicesStripeBillingCycle;
@@ -3045,11 +3067,22 @@ export interface ServicesValidationErrorResponse {
     status?: string;
 }
 export type ServicesValidationErrors = Record<string, string[]>;
+export declare enum ServicesValueSemantic {
+    SemanticMoney = "money",
+    SemanticNumber = "number",
+    SemanticPercent = "percent",
+    SemanticDuration = "duration",
+    SemanticLeverage = "leverage",
+    SemanticRatio = "ratio",
+    SemanticCount = "count",
+    SemanticPrice = "price"
+}
 export interface ServicesWidget {
     dashboardFilters?: ServicesWidgetFilters;
     dashboard_id?: number;
     filters?: ServicesWidgetFilters;
     id?: number;
+    presentation?: ServicesWidgetValueMeta;
     source?: ServicesWidgetSource;
     status?: number;
     title?: string;
@@ -3195,6 +3228,20 @@ export declare enum ServicesWidgetType2 {
     WidgetType2TreeMap = "treemap",
     WidgetType2Bubble = "bubble",
     WidgetType2CandleStick = "candlestick"
+}
+export interface ServicesWidgetValueMeta {
+    category?: string;
+    decimals?: number;
+    default_sub_type?: string;
+    gauge?: boolean;
+    inverted?: boolean;
+    prefix?: string;
+    sign_colored?: boolean;
+    suffix?: string;
+    title?: string;
+    title_key?: string;
+    unit?: string;
+    value_type?: ServicesValueSemantic;
 }
 export interface ServicesTransactionProrationContribution {
     amount?: string;

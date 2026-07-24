@@ -121,6 +121,15 @@ export class Board extends HttpClient {
             format: "json",
             ...params,
         });
+        this.widgetShortUrlCreate = (id, payload, params = {}) => this.request({
+            path: `/board/widget/${id}/short-url`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.boardCreate = (id, payload, params = {}) => this.request({
             path: `/board/${id}`,
             method: "POST",

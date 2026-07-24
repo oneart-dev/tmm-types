@@ -40,6 +40,7 @@ export * from './types/Transcribe';
 export * from './types/UiData';
 export * from './types/User';
 export * from './types/Users';
+export * from './types/Widget';
 export * from './types/data-contracts';
 export * from './types/http-client';
 

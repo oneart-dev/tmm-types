@@ -522,6 +522,20 @@ export interface ControllersLoadLayoutResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersLoadWidgetResponse {
+  dashboard_theme?: string;
+  dashboard_theme_color?: string;
+  errors?: string[];
+  loss_color?: string;
+  profit_color?: string;
+  serverData?: string;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+  theme?: string;
+  user_name?: string;
+  widget?: ServicesWidget;
+}
+
 export interface ControllersLoginSuccessResponse {
   /**
    * Access token for internal authorization
@@ -1434,7 +1448,7 @@ export interface DtoMentorGroupForm {
    */
   invite_code?: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @min 1
    * @example 10
@@ -1730,7 +1744,7 @@ export interface DtoSignUpCredentials {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 2
    * @maxLength 100
@@ -2329,7 +2343,7 @@ export interface DtoUIData {
 
 export interface DtoUserLanguage {
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 
 export interface DtoUserNoteCreateForm {
@@ -2386,7 +2400,7 @@ export interface DtoUserUpdateForm {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 3
    * @maxLength 100
@@ -2432,6 +2446,19 @@ export interface DtoWidgetFilters {
   private?: boolean;
   /** [UI] Sort by value or key */
   simpleSortBy?: "value_ask" | "value_desc" | "key_asc" | "key_desc";
+}
+
+export interface DtoWidgetShareForm {
+  /** @example "default" */
+  dashboard_theme?: string;
+  /** @example "#111827" */
+  dashboard_theme_color?: string;
+  /** @example "#ef4444" */
+  loss_color?: string;
+  /** @example "#22c55e" */
+  profit_color?: string;
+  /** @example "auto" */
+  theme?: "dark" | "light" | "auto";
 }
 
 export interface DtoWidgetUpdateForm {
@@ -3376,6 +3403,7 @@ export enum ServicesLocale {
   LocalePt = "pt",
   LocaleTr = "tr",
   LocaleId = "id",
+  LocaleZh = "zh",
 }
 
 export enum ServicesMembership {
@@ -3915,6 +3943,8 @@ export interface ServicesShortUrl {
   id?: number;
   model?: ServicesShortUrlModelType;
   model_id?: number;
+  /** Presentation is the JSON presentation snapshot (widget shares only). */
+  presentation?: string;
   shard_id?: number;
   url?: string;
 }
@@ -3924,6 +3954,7 @@ export enum ServicesShortUrlModelType {
   ShortUrlModelTypeTradeGroup = "TradeGroup",
   ShortUrlModelTypeDashboard = "Dashboard",
   ShortUrlModelTypeDashboardLayout = "DashboardLayout",
+  ShortUrlModelTypeWidget = "Widget",
 }
 
 export interface ServicesStripe {
@@ -4823,11 +4854,28 @@ export interface ServicesValidationErrorResponse {
 
 export type ServicesValidationErrors = Record<string, string[]>;
 
+export enum ServicesValueSemantic {
+  SemanticMoney = "money",
+  SemanticNumber = "number",
+  SemanticPercent = "percent",
+  SemanticDuration = "duration",
+  SemanticLeverage = "leverage",
+  SemanticRatio = "ratio",
+  SemanticCount = "count",
+  SemanticPrice = "price",
+}
+
 export interface ServicesWidget {
   dashboardFilters?: ServicesWidgetFilters;
   dashboard_id?: number;
   filters?: ServicesWidgetFilters;
   id?: number;
+  /**
+   * Presentation is the read-time value-semantics projection derived from
+   * Source (see PresentationFor). gorm:"-" — never persisted or queried;
+   * populated when a widget is read for a response.
+   */
+  presentation?: ServicesWidgetValueMeta;
   source?: ServicesWidgetSource;
   status?: number;
   title?: string;
@@ -4981,6 +5029,42 @@ export enum ServicesWidgetType2 {
   WidgetType2TreeMap = "treemap",
   WidgetType2Bubble = "bubble",
   WidgetType2CandleStick = "candlestick",
+}
+
+export interface ServicesWidgetValueMeta {
+  /** Category is the widget catalog category (reserved; may be empty for P1). */
+  category?: string;
+  /** Decimals is the rounding intent; nil means "default for the value type". */
+  decimals?: number;
+  /**
+   * DefaultSubType is the default chart sub-type (type2) for this source.
+   * A user's stored Type2 always wins; this is only the default.
+   */
+  default_sub_type?: string;
+  /** Gauge marks a gauge-style number widget. */
+  gauge?: boolean;
+  /** Inverted marks lower-is-better metrics (loss/drawdown). */
+  inverted?: boolean;
+  /** Prefix is rendered before the value (e.g. "$", "x" for leverage). */
+  prefix?: string;
+  /** SignColored requests profit-green / loss-red coloring on the value sign. */
+  sign_colored?: boolean;
+  /** Suffix is rendered after the value (e.g. "%"). */
+  suffix?: string;
+  /**
+   * Title is the resolved localized display name. Set ONLY on the embed path
+   * (the app resolves its own i18n). Empty otherwise.
+   */
+  title?: string;
+  /** TitleKey is the stable key for client-side i18n (== string(source)). */
+  title_key?: string;
+  /**
+   * Unit is an optional explicit unit label (e.g. "USDT"). Empty for P1;
+   * the visible symbols ride Prefix/Suffix.
+   */
+  unit?: string;
+  /** ValueType is what the number means (money / percent / duration / ...). */
+  value_type?: ServicesValueSemantic;
 }
 
 export interface ServicesTransactionProrationContribution {

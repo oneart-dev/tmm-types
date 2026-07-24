@@ -175,6 +175,7 @@ export var ServicesLocale;
     ServicesLocale["LocalePt"] = "pt";
     ServicesLocale["LocaleTr"] = "tr";
     ServicesLocale["LocaleId"] = "id";
+    ServicesLocale["LocaleZh"] = "zh";
 })(ServicesLocale || (ServicesLocale = {}));
 export var ServicesMembership;
 (function (ServicesMembership) {
@@ -255,6 +256,7 @@ export var ServicesShortUrlModelType;
     ServicesShortUrlModelType["ShortUrlModelTypeTradeGroup"] = "TradeGroup";
     ServicesShortUrlModelType["ShortUrlModelTypeDashboard"] = "Dashboard";
     ServicesShortUrlModelType["ShortUrlModelTypeDashboardLayout"] = "DashboardLayout";
+    ServicesShortUrlModelType["ShortUrlModelTypeWidget"] = "Widget";
 })(ServicesShortUrlModelType || (ServicesShortUrlModelType = {}));
 export var ServicesStripeBillingCycle;
 (function (ServicesStripeBillingCycle) {
@@ -458,6 +460,17 @@ export var ServicesUserStartOfWeek;
     ServicesUserStartOfWeek["UserStartOfWeekSunday"] = "sunday";
     ServicesUserStartOfWeek["UserStartOfWeekMonday"] = "monday";
 })(ServicesUserStartOfWeek || (ServicesUserStartOfWeek = {}));
+export var ServicesValueSemantic;
+(function (ServicesValueSemantic) {
+    ServicesValueSemantic["SemanticMoney"] = "money";
+    ServicesValueSemantic["SemanticNumber"] = "number";
+    ServicesValueSemantic["SemanticPercent"] = "percent";
+    ServicesValueSemantic["SemanticDuration"] = "duration";
+    ServicesValueSemantic["SemanticLeverage"] = "leverage";
+    ServicesValueSemantic["SemanticRatio"] = "ratio";
+    ServicesValueSemantic["SemanticCount"] = "count";
+    ServicesValueSemantic["SemanticPrice"] = "price";
+})(ServicesValueSemantic || (ServicesValueSemantic = {}));
 export var ServicesWidgetFiltersSortBy;
 (function (ServicesWidgetFiltersSortBy) {
     ServicesWidgetFiltersSortBy["WidgetFiltersSortByValueAsc"] = "value_asc";
