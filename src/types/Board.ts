@@ -1108,7 +1108,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme) onto the share so the public embed can render them.
+   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public embed can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.
    *
    * @tags dashboard
    * @name WidgetShortUrlCreate

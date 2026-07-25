@@ -529,6 +529,12 @@ export interface ControllersLoadWidgetResponse {
   loss_color?: string;
   profit_color?: string;
   serverData?: string;
+  /**
+   * ShowUserName is the EFFECTIVE setting, always stated. It cannot be
+   * inferred from user_name: an owner with no display name and an owner who
+   * switched the name off both send an empty user_name.
+   */
+  show_user_name?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   theme?: string;

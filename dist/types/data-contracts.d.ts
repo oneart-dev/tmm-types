@@ -354,6 +354,7 @@ export interface ControllersLoadWidgetResponse {
     loss_color?: string;
     profit_color?: string;
     serverData?: string;
+    show_user_name?: boolean;
     status?: ControllersResponseStatusMessage;
     theme?: string;
     user_name?: string;
