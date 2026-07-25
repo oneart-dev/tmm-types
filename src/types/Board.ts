@@ -19,11 +19,13 @@ import {
   ControllersApiSuccessServicesWidgetPreviewResponse,
   ControllersApiSuccessString,
   ControllersApiWarningResponse,
+  ControllersLoadBoardEmbedResponse,
   ControllersLoadBoardResponse,
   ControllersLoadLayoutResponse,
   ControllersUnauthorizedResponse,
   DtoDashboardCreateForm,
   DtoDashboardExportForm,
+  DtoDashboardShareForm,
   DtoDashboardUpdateForm,
   DtoDashboardsSortForm,
   DtoWidgetCreateForm,
@@ -993,6 +995,33 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
+   * @description Loads an entire public dashboard — every widget's data plus the share's presentation snapshot — for the public whole-board page. No auth; permissive CORS so third-party pages can fetch cross-origin. Widgets arrive pre-sorted in the author's reading order (top row first, left to right); the client does not sort. Stored grid coordinates are deliberately NOT shipped — the page re-flows using each widget's backend-owned presentation.default_w/default_h. Accepts the same token as the legacy /board/public/{code}/load endpoint, so a board link already shared keeps resolving on both.
+   *
+   * @tags dashboard
+   * @name PublicEmbedDetail
+   * @summary Load Public Board Embed
+   * @request GET:/board/public/{code}/embed
+   */
+  publicEmbedDetail = (
+    code: string,
+    query?: {
+      /** locale for widget titles (en, ru, ua, es, pt, tr, id, zh) */
+      lang?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersLoadBoardEmbedResponse,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/board/public/${code}/embed`,
+      method: "GET",
+      query: query,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Loads all widgets for a public dashboard in bulk using a short URL code.
    *
    * @tags dashboard
@@ -1231,21 +1260,22 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a dashboard.
+   * @description Generates a shareable short link for a dashboard, used to power the public whole-board page. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public board can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.
    *
    * @tags dashboard
-   * @name ShortLinkCreate
+   * @name ShortUrlCreate
    * @summary Generate Dashboard Short Link
-   * @request POST:/board/{id}/short-link
+   * @request POST:/board/{id}/short-url
    * @secure
    */
-  shortLinkCreate = (id: number, params: RequestParams = {}) =>
+  shortUrlCreate = (id: number, payload: DtoDashboardShareForm, params: RequestParams = {}) =>
     this.request<
       ControllersApiSuccessString,
       ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
-      path: `/board/${id}/short-link`,
+      path: `/board/${id}/short-url`,
       method: "POST",
+      body: payload,
       secure: true,
       type: ContentType.Json,
       format: "json",

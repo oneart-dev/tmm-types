@@ -8660,6 +8660,118 @@
                 }
             }
         },
+        "/board/public/{code}/embed": {
+            "get": {
+                "description": "Loads an entire public dashboard — every widget's data plus the share's presentation snapshot — for the public whole-board page. No auth; permissive CORS so third-party pages can fetch cross-origin.\nWidgets arrive pre-sorted in the author's reading order (top row first, left to right); the client does not sort. Stored grid coordinates are deliberately NOT shipped — the page re-flows using each widget's backend-owned presentation.default_w/default_h.\nAccepts the same token as the legacy /board/public/{code}/load endpoint, so a board link already shared keeps resolving on both.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dashboard"
+                ],
+                "summary": "Load Public Board Embed",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "short url",
+                        "name": "code",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "locale for widget titles (en, ru, ua, es, pt, tr, id, zh)",
+                        "name": "lang",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.LoadBoardEmbedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/board/public/{code}/load": {
             "get": {
                 "description": "Loads all widgets for a public dashboard in bulk using a short URL code.",
@@ -10105,7 +10217,7 @@
                 }
             }
         },
-        "/board/{id}/short-link": {
+        "/board/{id}/short-url": {
             "post": {
                 "security": [
                     {
@@ -10113,7 +10225,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generates a shareable short link for a dashboard.",
+                "description": "Generates a shareable short link for a dashboard, used to power the public whole-board page.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public board can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.",
                 "consumes": [
                     "application/json"
                 ],
@@ -10131,6 +10243,14 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "presentation snapshot",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DashboardShareForm"
+                        }
                     }
                 ],
                 "responses": {
@@ -29313,6 +29433,60 @@
                 }
             }
         },
+        "controllers.LoadBoardEmbedResponse": {
+            "type": "object",
+            "properties": {
+                "board": {
+                    "$ref": "#/definitions/controllers.PublicBoardEmbedBoard"
+                },
+                "dashboard_theme": {
+                    "type": "string"
+                },
+                "dashboard_theme_color": {
+                    "type": "string"
+                },
+                "loss_color": {
+                    "type": "string"
+                },
+                "profit_color": {
+                    "type": "string"
+                },
+                "show_user_name": {
+                    "description": "ShowUserName is the EFFECTIVE setting, always stated. It cannot be\ninferred from user_name: an owner with no display name and an owner who\nswitched the name off both send no name at all.",
+                    "type": "boolean"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                },
+                "theme": {
+                    "description": "Theme is always stated and always one of dark|light|auto, so the page\nnever has to guess a default the backend already owns.",
+                    "type": "string",
+                    "example": "dark"
+                },
+                "user_avatar_url": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "UserName, UserProfileURL and UserAvatarURL are omitted ENTIRELY when the\nshare was minted with show_user_name=false — the owner's identity must\nnot reach the page as JSON at all.",
+                    "type": "string"
+                },
+                "user_profile_url": {
+                    "type": "string"
+                },
+                "widgets": {
+                    "description": "Widgets arrive pre-sorted in the author's reading order; the page does\nnot sort. A tile the page cannot render (calendar) is still present —\nthe page decides what to do with it.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.PublicBoardEmbedWidget"
+                    }
+                }
+            }
+        },
         "controllers.LoadBoardResponse": {
             "type": "object",
             "properties": {
@@ -29601,6 +29775,37 @@
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "controllers.PublicBoardEmbedBoard": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Best"
+                },
+                "widget_count": {
+                    "description": "WidgetCount is the number of tiles actually shipped, so a page can show\nthe board's size before any tile has rendered.",
+                    "type": "integer",
+                    "example": 12
+                }
+            }
+        },
+        "controllers.PublicBoardEmbedWidget": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "serverData": {
+                    "type": "string"
+                },
+                "widget": {
+                    "$ref": "#/definitions/services.Widget"
                 }
             }
         },
@@ -30909,6 +31114,41 @@
                     "maxLength": 255,
                     "minLength": 1,
                     "example": "Main board"
+                }
+            }
+        },
+        "dto.DashboardShareForm": {
+            "type": "object",
+            "properties": {
+                "dashboard_theme": {
+                    "type": "string",
+                    "example": "default"
+                },
+                "dashboard_theme_color": {
+                    "type": "string",
+                    "example": "#111827"
+                },
+                "loss_color": {
+                    "type": "string",
+                    "example": "#ef4444"
+                },
+                "profit_color": {
+                    "type": "string",
+                    "example": "#22c55e"
+                },
+                "show_user_name": {
+                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public board payload.",
+                    "type": "boolean",
+                    "example": true
+                },
+                "theme": {
+                    "type": "string",
+                    "enum": [
+                        "dark",
+                        "light",
+                        "auto"
+                    ],
+                    "example": "auto"
                 }
             }
         },

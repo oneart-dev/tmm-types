@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesDashboard, ControllersApiSuccessInt64, ControllersApiSuccessNoData, ControllersApiSuccessResponse, ControllersApiSuccessServicesDashboard, ControllersApiSuccessServicesWidgetPreviewResponse, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersLoadBoardResponse, ControllersLoadLayoutResponse, ControllersUnauthorizedResponse, DtoDashboardCreateForm, DtoDashboardExportForm, DtoDashboardUpdateForm, DtoDashboardsSortForm, DtoWidgetCreateForm, DtoWidgetShareForm, DtoWidgetUpdateForm, ServicesLoadBoardResponseChunk, ServicesWidgetCreateResponse } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesDashboard, ControllersApiSuccessInt64, ControllersApiSuccessNoData, ControllersApiSuccessResponse, ControllersApiSuccessServicesDashboard, ControllersApiSuccessServicesWidgetPreviewResponse, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersLoadBoardEmbedResponse, ControllersLoadBoardResponse, ControllersLoadLayoutResponse, ControllersUnauthorizedResponse, DtoDashboardCreateForm, DtoDashboardExportForm, DtoDashboardShareForm, DtoDashboardUpdateForm, DtoDashboardsSortForm, DtoWidgetCreateForm, DtoWidgetShareForm, DtoWidgetUpdateForm, ServicesLoadBoardResponseChunk, ServicesWidgetCreateResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     boardList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesDashboard, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
@@ -297,6 +297,9 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         volumeTo?: number | undefined;
         with_archive?: boolean | undefined;
     } | undefined, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesWidgetPreviewResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    publicEmbedDetail: (code: string, query?: {
+        lang?: string;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoadBoardEmbedResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     publicLoadDetail: (code: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoadBoardResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     sortCreate: (payload: DtoDashboardsSortForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     widgetTempCreate: (payload: DtoWidgetCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesWidgetCreateResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
@@ -309,6 +312,6 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
     cloneCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesDashboard, string | void | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     exportCreate: (id: number, payload: DtoDashboardExportForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
     loadDetail: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesLoadBoardResponseChunk, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
-    shortLinkCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
+    shortUrlCreate: (id: number, payload: DtoDashboardShareForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Board.d.ts.map

@@ -334,6 +334,20 @@ export interface ControllersHotCoinsResponse {
     data?: ControllersHotCoins;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersLoadBoardEmbedResponse {
+    board?: ControllersPublicBoardEmbedBoard;
+    dashboard_theme?: string;
+    dashboard_theme_color?: string;
+    loss_color?: string;
+    profit_color?: string;
+    show_user_name?: boolean;
+    status?: ControllersResponseStatusMessage;
+    theme?: string;
+    user_avatar_url?: string;
+    user_name?: string;
+    user_profile_url?: string;
+    widgets?: ControllersPublicBoardEmbedWidget[];
+}
 export interface ControllersLoadBoardResponse {
     dashboard?: ServicesDashboard;
     errors?: Record<string, string>;
@@ -405,6 +419,15 @@ export interface ControllersPublicAnnouncementsListResponse {
     items?: ServicesPublicAnnouncementListItem[];
     status?: ControllersResponseStatusMessage;
     total?: number;
+}
+export interface ControllersPublicBoardEmbedBoard {
+    name?: string;
+    widget_count?: number;
+}
+export interface ControllersPublicBoardEmbedWidget {
+    errors?: string[];
+    serverData?: string;
+    widget?: ServicesWidget;
 }
 export interface ControllersPublicProfileResponse {
     data?: ServicesPublicProfile;
@@ -702,6 +725,14 @@ export interface DtoDashboardExportForm {
     description?: string;
     keep_filters: boolean;
     name: string;
+}
+export interface DtoDashboardShareForm {
+    dashboard_theme?: string;
+    dashboard_theme_color?: string;
+    loss_color?: string;
+    profit_color?: string;
+    show_user_name?: boolean;
+    theme?: "dark" | "light" | "auto";
 }
 export interface DtoDashboardSort {
     id: number;

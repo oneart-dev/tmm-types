@@ -505,6 +505,42 @@ export interface ControllersHotCoinsResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersLoadBoardEmbedResponse {
+  board?: ControllersPublicBoardEmbedBoard;
+  dashboard_theme?: string;
+  dashboard_theme_color?: string;
+  loss_color?: string;
+  profit_color?: string;
+  /**
+   * ShowUserName is the EFFECTIVE setting, always stated. It cannot be
+   * inferred from user_name: an owner with no display name and an owner who
+   * switched the name off both send no name at all.
+   */
+  show_user_name?: boolean;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+  /**
+   * Theme is always stated and always one of dark|light|auto, so the page
+   * never has to guess a default the backend already owns.
+   * @example "dark"
+   */
+  theme?: string;
+  user_avatar_url?: string;
+  /**
+   * UserName, UserProfileURL and UserAvatarURL are omitted ENTIRELY when the
+   * share was minted with show_user_name=false — the owner's identity must
+   * not reach the page as JSON at all.
+   */
+  user_name?: string;
+  user_profile_url?: string;
+  /**
+   * Widgets arrive pre-sorted in the author's reading order; the page does
+   * not sort. A tile the page cannot render (calendar) is still present —
+   * the page decides what to do with it.
+   */
+  widgets?: ControllersPublicBoardEmbedWidget[];
+}
+
 export interface ControllersLoadBoardResponse {
   dashboard?: ServicesDashboard;
   errors?: Record<string, string>;
@@ -639,6 +675,23 @@ export interface ControllersPublicAnnouncementsListResponse {
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   total?: number;
+}
+
+export interface ControllersPublicBoardEmbedBoard {
+  /** @example "Best" */
+  name?: string;
+  /**
+   * WidgetCount is the number of tiles actually shipped, so a page can show
+   * the board's size before any tile has rendered.
+   * @example 12
+   */
+  widget_count?: number;
+}
+
+export interface ControllersPublicBoardEmbedWidget {
+  errors?: string[];
+  serverData?: string;
+  widget?: ServicesWidget;
 }
 
 export interface ControllersPublicProfileResponse {
@@ -1268,6 +1321,26 @@ export interface DtoDashboardExportForm {
    * @example "Main board"
    */
   name: string;
+}
+
+export interface DtoDashboardShareForm {
+  /** @example "default" */
+  dashboard_theme?: string;
+  /** @example "#111827" */
+  dashboard_theme_color?: string;
+  /** @example "#ef4444" */
+  loss_color?: string;
+  /** @example "#22c55e" */
+  profit_color?: string;
+  /**
+   * ShowUserName is a pointer so "absent" is distinguishable from false:
+   * omitting it keeps the pre-existing behaviour (owner name shown), while
+   * an explicit false strips the name from the public board payload.
+   * @example true
+   */
+  show_user_name?: boolean;
+  /** @example "auto" */
+  theme?: "dark" | "light" | "auto";
 }
 
 export interface DtoDashboardSort {

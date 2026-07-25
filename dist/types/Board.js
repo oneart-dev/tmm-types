@@ -70,6 +70,14 @@ export class Board extends HttpClient {
             format: "json",
             ...params,
         });
+        this.publicEmbedDetail = (code, query, params = {}) => this.request({
+            path: `/board/public/${code}/embed`,
+            method: "GET",
+            query: query,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.publicLoadDetail = (code, params = {}) => this.request({
             path: `/board/public/${code}/load`,
             method: "GET",
@@ -172,9 +180,10 @@ export class Board extends HttpClient {
             format: "json",
             ...params,
         });
-        this.shortLinkCreate = (id, params = {}) => this.request({
-            path: `/board/${id}/short-link`,
+        this.shortUrlCreate = (id, payload, params = {}) => this.request({
+            path: `/board/${id}/short-url`,
             method: "POST",
+            body: payload,
             secure: true,
             type: ContentType.Json,
             format: "json",
