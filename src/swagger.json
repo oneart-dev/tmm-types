@@ -36956,18 +36956,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -39536,6 +39536,10 @@
         "services.WidgetValueMeta": {
             "type": "object",
             "properties": {
+                "aspect_ratio": {
+                    "description": "AspectRatio is DefaultW x DefaultH expressed as a width/height pixel\nratio on the reference 1200px board, rounded to 4 decimals. Consumers\nthat render outside a grid (embed element, /w/:token page, OG image,\npublic profile) size their box with it.",
+                    "type": "number"
+                },
                 "category": {
                     "description": "Category is the widget catalog category (reserved; may be empty for P1).",
                     "type": "string"
@@ -39544,9 +39548,16 @@
                     "description": "Decimals is the rounding intent; nil means \"default for the value type\".",
                     "type": "integer"
                 },
+                "default_h": {
+                    "type": "integer"
+                },
                 "default_sub_type": {
                     "description": "DefaultSubType is the default chart sub-type (type2) for this source.\nA user's stored Type2 always wins; this is only the default.",
                     "type": "string"
+                },
+                "default_w": {
+                    "description": "DefaultW / DefaultH are the widget's natural box in lg/12-column grid\nunits — the same size the dashboard's auto-layout would give it. Unlike\nthe fields above these are NOT source-keyed: they depend on the widget\nROW (type/type2) plus Gauge, so they are stamped per widget by\nPresentationForWidget, not by the registry. See widget_layout.go.",
+                    "type": "integer"
                 },
                 "gauge": {
                     "description": "Gauge marks a gauge-style number widget.",

@@ -4060,11 +4060,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5049,15 +5049,31 @@ export enum ServicesWidgetType2 {
 }
 
 export interface ServicesWidgetValueMeta {
+  /**
+   * AspectRatio is DefaultW x DefaultH expressed as a width/height pixel
+   * ratio on the reference 1200px board, rounded to 4 decimals. Consumers
+   * that render outside a grid (embed element, /w/:token page, OG image,
+   * public profile) size their box with it.
+   */
+  aspect_ratio?: number;
   /** Category is the widget catalog category (reserved; may be empty for P1). */
   category?: string;
   /** Decimals is the rounding intent; nil means "default for the value type". */
   decimals?: number;
+  default_h?: number;
   /**
    * DefaultSubType is the default chart sub-type (type2) for this source.
    * A user's stored Type2 always wins; this is only the default.
    */
   default_sub_type?: string;
+  /**
+   * DefaultW / DefaultH are the widget's natural box in lg/12-column grid
+   * units — the same size the dashboard's auto-layout would give it. Unlike
+   * the fields above these are NOT source-keyed: they depend on the widget
+   * ROW (type/type2) plus Gauge, so they are stamped per widget by
+   * PresentationForWidget, not by the registry. See widget_layout.go.
+   */
+  default_w?: number;
   /** Gauge marks a gauge-style number widget. */
   gauge?: boolean;
   /** Inverted marks lower-is-better metrics (loss/drawdown). */

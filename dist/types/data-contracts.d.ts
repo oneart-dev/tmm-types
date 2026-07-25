@@ -2354,11 +2354,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -3232,9 +3232,12 @@ export declare enum ServicesWidgetType2 {
     WidgetType2CandleStick = "candlestick"
 }
 export interface ServicesWidgetValueMeta {
+    aspect_ratio?: number;
     category?: string;
     decimals?: number;
+    default_h?: number;
     default_sub_type?: string;
+    default_w?: number;
     gauge?: boolean;
     inverted?: boolean;
     prefix?: string;
