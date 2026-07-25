@@ -29405,8 +29405,16 @@
                 "theme": {
                     "type": "string"
                 },
+                "user_avatar_url": {
+                    "description": "UserAvatarURL is the owner's avatar, absolute for the same reason.\nSame gate as UserProfileURL plus \"the owner actually uploaded one\".\n\nIt rides the profile gate deliberately: a face is more identifying than\na display name, so it may not appear on a share whose owner hid their\nname, nor for an owner with no public presence to begin with.",
+                    "type": "string"
+                },
                 "user_name": {
                     "description": "UserName is omitted entirely when the share was minted with\nshow_user_name=false — the name must not reach the embed as JSON at all.",
+                    "type": "string"
+                },
+                "user_profile_url": {
+                    "description": "UserProfileURL is an ABSOLUTE link to the owner's public trader page,\nturning the owner name in the embed's corner into a real link.\n\nAbsolute rather than the bare slug the trader sitemap returns: this\npayload is consumed by an embed running on a THIRD-PARTY origin, where\n\"/trader/x\" would resolve against the host page. Host and scheme follow\nthe request (ProxyMiddleware), so mirrors keep working.\n\nPresent ONLY when the owner has a public profile, it is ENABLED\n(services.PublicProfileStatusON), and the share was minted with\nshow_user_name. Absent otherwise — the embed then renders plain text.",
                     "type": "string"
                 },
                 "widget": {
@@ -36956,18 +36964,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

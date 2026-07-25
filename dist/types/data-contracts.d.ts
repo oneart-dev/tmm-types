@@ -357,7 +357,9 @@ export interface ControllersLoadWidgetResponse {
     show_user_name?: boolean;
     status?: ControllersResponseStatusMessage;
     theme?: string;
+    user_avatar_url?: string;
     user_name?: string;
+    user_profile_url?: string;
     widget?: ServicesWidget;
 }
 export interface ControllersLoginSuccessResponse {
@@ -2354,11 +2356,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

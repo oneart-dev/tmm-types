@@ -539,10 +539,33 @@ export interface ControllersLoadWidgetResponse {
   status?: ControllersResponseStatusMessage;
   theme?: string;
   /**
+   * UserAvatarURL is the owner's avatar, absolute for the same reason.
+   * Same gate as UserProfileURL plus "the owner actually uploaded one".
+   *
+   * It rides the profile gate deliberately: a face is more identifying than
+   * a display name, so it may not appear on a share whose owner hid their
+   * name, nor for an owner with no public presence to begin with.
+   */
+  user_avatar_url?: string;
+  /**
    * UserName is omitted entirely when the share was minted with
    * show_user_name=false — the name must not reach the embed as JSON at all.
    */
   user_name?: string;
+  /**
+   * UserProfileURL is an ABSOLUTE link to the owner's public trader page,
+   * turning the owner name in the embed's corner into a real link.
+   *
+   * Absolute rather than the bare slug the trader sitemap returns: this
+   * payload is consumed by an embed running on a THIRD-PARTY origin, where
+   * "/trader/x" would resolve against the host page. Host and scheme follow
+   * the request (ProxyMiddleware), so mirrors keep working.
+   *
+   * Present ONLY when the owner has a public profile, it is ENABLED
+   * (services.PublicProfileStatusON), and the share was minted with
+   * show_user_name. Absent otherwise — the embed then renders plain text.
+   */
+  user_profile_url?: string;
   widget?: ServicesWidget;
 }
 
@@ -4060,11 +4083,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
