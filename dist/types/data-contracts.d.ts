@@ -1177,6 +1177,7 @@ export interface DtoWidgetShareForm {
     dashboard_theme_color?: string;
     loss_color?: string;
     profit_color?: string;
+    show_user_name?: boolean;
     theme?: "dark" | "light" | "auto";
 }
 export interface DtoWidgetUpdateForm {

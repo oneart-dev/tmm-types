@@ -29402,6 +29402,7 @@
                     "type": "string"
                 },
                 "user_name": {
+                    "description": "UserName is omitted entirely when the share was minted with\nshow_user_name=false — the name must not reach the embed as JSON at all.",
                     "type": "string"
                 },
                 "widget": {
@@ -33220,6 +33221,11 @@
                 "profit_color": {
                     "type": "string",
                     "example": "#22c55e"
+                },
+                "show_user_name": {
+                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public embed payload.",
+                    "type": "boolean",
+                    "example": true
                 },
                 "theme": {
                     "type": "string",

@@ -532,6 +532,10 @@ export interface ControllersLoadWidgetResponse {
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   theme?: string;
+  /**
+   * UserName is omitted entirely when the share was minted with
+   * show_user_name=false — the name must not reach the embed as JSON at all.
+   */
   user_name?: string;
   widget?: ServicesWidget;
 }
@@ -2457,6 +2461,13 @@ export interface DtoWidgetShareForm {
   loss_color?: string;
   /** @example "#22c55e" */
   profit_color?: string;
+  /**
+   * ShowUserName is a pointer so "absent" is distinguishable from false:
+   * omitting it keeps the pre-existing behaviour (owner name shown), while
+   * an explicit false strips the name from the public embed payload.
+   * @example true
+   */
+  show_user_name?: boolean;
   /** @example "auto" */
   theme?: "dark" | "light" | "auto";
 }
