@@ -50,6 +50,10 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayControllersOauthGrantView {
+    data?: ControllersOauthGrantView[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
     data?: ControllersPublicProfileSitemapEntry[];
     status?: ControllersResponseStatusMessage;
@@ -136,6 +140,14 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
 }
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
     data?: ControllersFeedNotificationLikeData;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersOauthAuthorizeContext {
+    data?: ControllersOauthAuthorizeContext;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersOauthAuthorizeResult {
+    data?: ControllersOauthAuthorizeResult;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessDtoChatMemory {
@@ -374,6 +386,59 @@ export interface ControllersMentorListResponse {
 export interface ControllersMentorResponse {
     data?: ServicesMentorGroup;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersOauthAuthorizeContext {
+    already_granted?: boolean;
+    client_host?: string;
+    client_id?: string;
+    client_name?: string;
+    client_uri?: string;
+    is_loopback?: boolean;
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_host?: string;
+    redirect_uri?: string;
+    resource?: string;
+    scopes?: string[];
+    tos_uri?: string;
+}
+export interface ControllersOauthAuthorizeRequest {
+    approved?: boolean;
+    client_id: string;
+    code_challenge?: string;
+    code_challenge_method?: string;
+    nonce?: string;
+    redirect_uri: string;
+    resource?: string;
+    response_type?: string;
+    scope?: string;
+    scopes?: string[];
+    state?: string;
+}
+export interface ControllersOauthAuthorizeResult {
+    redirect_to?: string;
+}
+export interface ControllersOauthGrantView {
+    client_host?: string;
+    client_id?: string;
+    client_name?: string;
+    created_at?: string;
+    id?: number;
+    last_used_at?: string;
+    logo_uri?: string;
+    scopes?: string[];
+}
+export interface ControllersOauthProtocolError {
+    error?: string;
+    error_description?: string;
+    error_uri?: string;
+}
+export interface ControllersOauthTokenResponse {
+    access_token?: string;
+    expires_in?: number;
+    refresh_token?: string;
+    scope?: string;
+    token_type?: string;
 }
 export interface ControllersOrdersListResponse {
     data?: ServicesOrder[];
@@ -775,7 +840,7 @@ export interface DtoMentorGroupForm {
     date_start?: string;
     email?: string;
     invite_code?: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     limit?: number;
     name: string;
     private_text?: string;
@@ -876,7 +941,7 @@ export interface DtoRiskManagementCreateForm {
 }
 export interface DtoSignUpCredentials {
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     password: string;
     promo?: string;
@@ -1100,7 +1165,7 @@ export interface DtoUIData {
     data: string;
 }
 export interface DtoUserLanguage {
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 export interface DtoUserNoteCreateForm {
     body_html?: string;
@@ -1138,7 +1203,7 @@ export interface DtoUserUpdateForm {
     default_group_field?: 1 | 2;
     default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     start_of_week?: "sunday" | "monday";
     timezone: string;
@@ -1236,7 +1301,8 @@ export declare enum ServicesApiUserRead {
 }
 export declare enum ServicesApiUserType {
     API_USER_TYPE_USER_CREATED = 1,
-    API_USER_TYPE_OAUTH_CREATED = 2
+    API_USER_TYPE_OAUTH_CREATED = 2,
+    API_USER_TYPE_MCP = 3
 }
 export interface ServicesArtifact {
     arch?: string;
@@ -1838,7 +1904,8 @@ export declare enum ServicesLocale {
     LocaleEs = "es",
     LocalePt = "pt",
     LocaleTr = "tr",
-    LocaleId = "id"
+    LocaleId = "id",
+    LocaleZh = "zh"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",

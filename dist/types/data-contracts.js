@@ -35,6 +35,7 @@ export var ServicesApiUserType;
 (function (ServicesApiUserType) {
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_MCP"] = 3] = "API_USER_TYPE_MCP";
 })(ServicesApiUserType || (ServicesApiUserType = {}));
 export var ServicesBaseConnectionProvider;
 (function (ServicesBaseConnectionProvider) {
@@ -175,6 +176,7 @@ export var ServicesLocale;
     ServicesLocale["LocalePt"] = "pt";
     ServicesLocale["LocaleTr"] = "tr";
     ServicesLocale["LocaleId"] = "id";
+    ServicesLocale["LocaleZh"] = "zh";
 })(ServicesLocale || (ServicesLocale = {}));
 export var ServicesMembership;
 (function (ServicesMembership) {
