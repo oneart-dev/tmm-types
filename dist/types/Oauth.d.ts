@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessArrayControllersOauthGrantView, ControllersApiSuccessControllersOauthAuthorizeContext, ControllersApiSuccessControllersOauthAuthorizeResult, ControllersApiSuccessNoData, ControllersApiWarningResponse, ControllersOauthAuthorizeRequest, ControllersOauthProtocolError, ControllersOauthTokenResponse, ControllersUnauthorizedResponse } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessArrayControllersOauthGrantView, ControllersApiSuccessControllersOauthAuthorizeContext, ControllersApiSuccessControllersOauthAuthorizeResult, ControllersApiSuccessNoData, ControllersApiWarningResponse, ControllersOauthAuthorizeRequest, ControllersOauthClientRegistrationResponse, ControllersOauthProtocolError, ControllersOauthTokenResponse, ControllersUnauthorizedResponse, OauthClientRegistrationRequest } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Oauth<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     authorizeCreate: (body: ControllersOauthAuthorizeRequest, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersOauthAuthorizeResult, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
@@ -14,6 +14,7 @@ export declare class Oauth<SecurityDataType = unknown> extends HttpClient<Securi
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersOauthAuthorizeContext, ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
     grantsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayControllersOauthGrantView, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     grantsDelete: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    registerCreate: (body: OauthClientRegistrationRequest, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersOauthClientRegistrationResponse, ControllersOauthProtocolError>>;
     revokeCreate: (data: {
         token: string;
         token_type_hint?: string;

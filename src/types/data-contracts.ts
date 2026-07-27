@@ -597,11 +597,25 @@ export interface ControllersOauthAuthorizeContext {
    * scope, letting the UI render "reconnect" instead of "authorize".
    */
   already_granted?: boolean;
-  /** ClientHost is the host of the client_id URL — the verified identity. */
+  /**
+   * ClientHost is the host of the client_id URL — the verified identity.
+   * EMPTY for a self-registered client: its client_id is an opaque `dcr_…`
+   * string, not a host, and rendering it in the position the screen reserves
+   * for a verified identity would be a lie.
+   */
   client_host?: string;
   client_id?: string;
   client_name?: string;
   client_uri?: string;
+  /**
+   * ClientVerified says whether ANYTHING about this client was checked by us.
+   * True for cimd (control of the client_id URL was proven) and for
+   * preregistered (we created the row). FALSE for a client that registered
+   * itself through RFC 7591, where the name, logo and client_uri are strings
+   * it chose thirty seconds ago — the screen must say so rather than present
+   * "Cursor" with the same weight as a verified identity.
+   */
+  client_verified?: boolean;
   /**
    * IsLoopback warns that the callback goes to a process on the user's own
    * machine. Any local process can bind a port and claim a legitimate
@@ -649,10 +663,28 @@ export interface ControllersOauthAuthorizeResult {
   redirect_to?: string;
 }
 
+export interface ControllersOauthClientRegistrationResponse {
+  client_id?: string;
+  /** ClientIDIssuedAt is unix seconds, per RFC 7591 §3.2.1. */
+  client_id_issued_at?: number;
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
 export interface ControllersOauthGrantView {
   client_host?: string;
   client_id?: string;
   client_name?: string;
+  client_verified?: boolean;
   created_at?: string;
   id?: number;
   last_used_at?: string;
@@ -2549,6 +2581,20 @@ export interface DtoWidgetUpdateForm {
   type2?: string;
 }
 
+export interface OauthClientRegistrationRequest {
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
 export interface ServicesAnalyzerNote {
   created_at?: string;
   desc?: string;
@@ -2570,7 +2616,6 @@ export interface ServicesApiKey {
    */
   enabled?: ServicesApiKeyEnabledStatus;
   exchange_id?: ServicesExchangeID;
-  extra_info?: string;
   flag1?: number;
   flag2?: number;
   flag3?: number;

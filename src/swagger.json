@@ -15727,7 +15727,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Called by the consent screen. On approval it upserts the user's grant, mints a one-shot authorization code bound to the client's PKCE challenge, and returns the URL to send the browser to. On denial it returns the same shape carrying error=access_denied. The redirect always carries `iss` (RFC 9207).",
+                "description": "Called by the consent screen. On approval it upserts the user's grant, mints a one-shot authorization code bound to the client's PKCE challenge, and returns the URL to send the browser to. On denial — and on any error raised after redirect_uri has validated (bad PKCE method, unknown resource) — it returns the same shape carrying an `error` parameter instead of a code, because OAuth 2.1 makes the redirect the delivery channel for those. The redirect always carries `iss` (RFC 9207).",
                 "consumes": [
                     "application/json"
                 ],
@@ -15965,6 +15965,59 @@
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/register": {
+            "post": {
+                "description": "RFC 7591 §3.1. Registers a PUBLIC client (PKCE, no secret) and returns an opaque client_id. PUBLIC — no JWT. This is the FALLBACK path: clients that implement client-id metadata documents should use those instead (see `client_id_metadata_document_supported`), and this endpoint exists for the many MCP clients that cannot. The response is raw RFC 7591 JSON, NOT the ApiSuccess envelope, because a registering client parses it literally. No client_secret and no RFC 7592 management credentials are ever issued.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth",
+                    "internal"
+                ],
+                "summary": "OAuth 2.0 dynamic client registration",
+                "parameters": [
+                    {
+                        "description": "RFC 7591 client metadata",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/oauth.ClientRegistrationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthClientRegistrationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
                         }
                     }
                 }
@@ -29817,7 +29870,7 @@
                     "type": "boolean"
                 },
                 "client_host": {
-                    "description": "ClientHost is the host of the client_id URL — the verified identity.",
+                    "description": "ClientHost is the host of the client_id URL — the verified identity.\nEMPTY for a self-registered client: its client_id is an opaque `dcr_…`\nstring, not a host, and rendering it in the position the screen reserves\nfor a verified identity would be a lie.",
                     "type": "string"
                 },
                 "client_id": {
@@ -29828,6 +29881,10 @@
                 },
                 "client_uri": {
                     "type": "string"
+                },
+                "client_verified": {
+                    "description": "ClientVerified says whether ANYTHING about this client was checked by us.\nTrue for cimd (control of the client_id URL was proven) and for\npreregistered (we created the row). FALSE for a client that registered\nitself through RFC 7591, where the name, logo and client_uri are strings\nit chose thirty seconds ago — the screen must say so rather than present\n\"Cursor\" with the same weight as a verified identity.",
+                    "type": "boolean"
                 },
                 "is_loopback": {
                     "description": "IsLoopback warns that the callback goes to a process on the user's own\nmachine. Any local process can bind a port and claim a legitimate\nclient_id, so a loopback callback cannot be attributed to a specific\napplication — CIMD cannot prevent that, only disclosure can.",
@@ -29919,6 +29976,60 @@
                 }
             }
         },
+        "controllers.OauthClientRegistrationResponse": {
+            "type": "object",
+            "properties": {
+                "client_id": {
+                    "type": "string"
+                },
+                "client_id_issued_at": {
+                    "description": "ClientIDIssuedAt is unix seconds, per RFC 7591 §3.2.1.",
+                    "type": "integer"
+                },
+                "client_name": {
+                    "type": "string"
+                },
+                "client_uri": {
+                    "type": "string"
+                },
+                "grant_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "policy_uri": {
+                    "type": "string"
+                },
+                "redirect_uris": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "response_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "software_id": {
+                    "type": "string"
+                },
+                "software_version": {
+                    "type": "string"
+                },
+                "token_endpoint_auth_method": {
+                    "type": "string"
+                },
+                "tos_uri": {
+                    "type": "string"
+                }
+            }
+        },
         "controllers.OauthGrantView": {
             "type": "object",
             "properties": {
@@ -29930,6 +30041,9 @@
                 },
                 "client_name": {
                     "type": "string"
+                },
+                "client_verified": {
+                    "type": "boolean"
                 },
                 "created_at": {
                     "type": "string"
@@ -33678,6 +33792,53 @@
                 }
             }
         },
+        "oauth.ClientRegistrationRequest": {
+            "type": "object",
+            "properties": {
+                "client_name": {
+                    "type": "string"
+                },
+                "client_uri": {
+                    "type": "string"
+                },
+                "grant_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "policy_uri": {
+                    "type": "string"
+                },
+                "redirect_uris": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "response_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "software_id": {
+                    "type": "string"
+                },
+                "software_version": {
+                    "type": "string"
+                },
+                "token_endpoint_auth_method": {
+                    "type": "string"
+                },
+                "tos_uri": {
+                    "type": "string"
+                }
+            }
+        },
         "services.AnalyzerNote": {
             "type": "object",
             "properties": {
@@ -33724,9 +33885,6 @@
                 },
                 "exchange_id": {
                     "$ref": "#/definitions/services.ExchangeID"
-                },
-                "extra_info": {
-                    "type": "string"
                 },
                 "flag1": {
                     "type": "integer"

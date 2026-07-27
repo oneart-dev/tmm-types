@@ -36,6 +36,14 @@ export class Oauth extends HttpClient {
             format: "json",
             ...params,
         });
+        this.registerCreate = (body, params = {}) => this.request({
+            path: `/oauth/register`,
+            method: "POST",
+            body: body,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.revokeCreate = (data, params = {}) => this.request({
             path: `/oauth/revoke`,
             method: "POST",

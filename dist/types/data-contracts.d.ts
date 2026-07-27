@@ -393,6 +393,7 @@ export interface ControllersOauthAuthorizeContext {
     client_id?: string;
     client_name?: string;
     client_uri?: string;
+    client_verified?: boolean;
     is_loopback?: boolean;
     logo_uri?: string;
     policy_uri?: string;
@@ -418,10 +419,26 @@ export interface ControllersOauthAuthorizeRequest {
 export interface ControllersOauthAuthorizeResult {
     redirect_to?: string;
 }
+export interface ControllersOauthClientRegistrationResponse {
+    client_id?: string;
+    client_id_issued_at?: number;
+    client_name?: string;
+    client_uri?: string;
+    grant_types?: string[];
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_uris?: string[];
+    response_types?: string[];
+    software_id?: string;
+    software_version?: string;
+    token_endpoint_auth_method?: string;
+    tos_uri?: string;
+}
 export interface ControllersOauthGrantView {
     client_host?: string;
     client_id?: string;
     client_name?: string;
+    client_verified?: boolean;
     created_at?: string;
     id?: number;
     last_used_at?: string;
@@ -1230,6 +1247,19 @@ export interface DtoWidgetUpdateForm {
     title?: string;
     type2?: string;
 }
+export interface OauthClientRegistrationRequest {
+    client_name?: string;
+    client_uri?: string;
+    grant_types?: string[];
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_uris?: string[];
+    response_types?: string[];
+    software_id?: string;
+    software_version?: string;
+    token_endpoint_auth_method?: string;
+    tos_uri?: string;
+}
 export interface ServicesAnalyzerNote {
     created_at?: string;
     desc?: string;
@@ -1244,7 +1274,6 @@ export interface ServicesApiKey {
     created_at?: string;
     enabled?: ServicesApiKeyEnabledStatus;
     exchange_id?: ServicesExchangeID;
-    extra_info?: string;
     flag1?: number;
     flag2?: number;
     flag3?: number;

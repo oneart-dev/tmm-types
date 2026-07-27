@@ -17,15 +17,17 @@ import {
   ControllersApiSuccessNoData,
   ControllersApiWarningResponse,
   ControllersOauthAuthorizeRequest,
+  ControllersOauthClientRegistrationResponse,
   ControllersOauthProtocolError,
   ControllersOauthTokenResponse,
   ControllersUnauthorizedResponse,
+  OauthClientRegistrationRequest,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Oauth<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Called by the consent screen. On approval it upserts the user's grant, mints a one-shot authorization code bound to the client's PKCE challenge, and returns the URL to send the browser to. On denial it returns the same shape carrying error=access_denied. The redirect always carries `iss` (RFC 9207).
+   * @description Called by the consent screen. On approval it upserts the user's grant, mints a one-shot authorization code bound to the client's PKCE challenge, and returns the URL to send the browser to. On denial — and on any error raised after redirect_uri has validated (bad PKCE method, unknown resource) — it returns the same shape carrying an `error` parameter instead of a code, because OAuth 2.1 makes the redirect the delivery channel for those. The redirect always carries `iss` (RFC 9207).
    *
    * @tags oauth
    * @name AuthorizeCreate
@@ -123,6 +125,23 @@ export class Oauth<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/oauth/grants/${id}`,
       method: "DELETE",
       secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description RFC 7591 §3.1. Registers a PUBLIC client (PKCE, no secret) and returns an opaque client_id. PUBLIC — no JWT. This is the FALLBACK path: clients that implement client-id metadata documents should use those instead (see `client_id_metadata_document_supported`), and this endpoint exists for the many MCP clients that cannot. The response is raw RFC 7591 JSON, NOT the ApiSuccess envelope, because a registering client parses it literally. No client_secret and no RFC 7592 management credentials are ever issued.
+   *
+   * @tags oauth, internal
+   * @name RegisterCreate
+   * @summary OAuth 2.0 dynamic client registration
+   * @request POST:/oauth/register
+   */
+  registerCreate = (body: OauthClientRegistrationRequest, params: RequestParams = {}) =>
+    this.request<ControllersOauthClientRegistrationResponse, ControllersOauthProtocolError>({
+      path: `/oauth/register`,
+      method: "POST",
+      body: body,
       type: ContentType.Json,
       format: "json",
       ...params,
