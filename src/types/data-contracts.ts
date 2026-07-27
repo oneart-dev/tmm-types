@@ -74,6 +74,12 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayControllersOauthGrantView {
+  data?: ControllersOauthGrantView[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
   data?: ControllersPublicProfileSitemapEntry[];
   /** @example "success" */
@@ -202,6 +208,18 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
 
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
   data?: ControllersFeedNotificationLikeData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersOauthAuthorizeContext {
+  data?: ControllersOauthAuthorizeContext;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersOauthAuthorizeResult {
+  data?: ControllersOauthAuthorizeResult;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -571,6 +589,124 @@ export interface ControllersMentorResponse {
   data?: ServicesMentorGroup;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersOauthAuthorizeContext {
+  /**
+   * AlreadyGranted is true when a live grant already covers every listed
+   * scope, letting the UI render "reconnect" instead of "authorize".
+   */
+  already_granted?: boolean;
+  /**
+   * ClientHost is the host of the client_id URL — the verified identity.
+   * EMPTY for a self-registered client: its client_id is an opaque `dcr_…`
+   * string, not a host, and rendering it in the position the screen reserves
+   * for a verified identity would be a lie.
+   */
+  client_host?: string;
+  client_id?: string;
+  client_name?: string;
+  client_uri?: string;
+  /**
+   * ClientVerified says whether ANYTHING about this client was checked by us.
+   * True for cimd (control of the client_id URL was proven) and for
+   * preregistered (we created the row). FALSE for a client that registered
+   * itself through RFC 7591, where the name, logo and client_uri are strings
+   * it chose thirty seconds ago — the screen must say so rather than present
+   * "Cursor" with the same weight as a verified identity.
+   */
+  client_verified?: boolean;
+  /**
+   * IsLoopback warns that the callback goes to a process on the user's own
+   * machine. Any local process can bind a port and claim a legitimate
+   * client_id, so a loopback callback cannot be attributed to a specific
+   * application — CIMD cannot prevent that, only disclosure can.
+   */
+  is_loopback?: boolean;
+  logo_uri?: string;
+  policy_uri?: string;
+  /** RedirectHost is where the browser will actually land. */
+  redirect_host?: string;
+  /** RedirectURI is the validated URI the code will be delivered to. */
+  redirect_uri?: string;
+  /** Resource is the RFC 8707 resource indicator the token will be bound to. */
+  resource?: string;
+  /**
+   * Scopes is the resolved set to display, already narrowed to what this
+   * server supports.
+   */
+  scopes?: string[];
+  tos_uri?: string;
+}
+
+export interface ControllersOauthAuthorizeRequest {
+  /** Approved is false when the user pressed Deny. */
+  approved?: boolean;
+  client_id: string;
+  code_challenge?: string;
+  code_challenge_method?: string;
+  nonce?: string;
+  redirect_uri: string;
+  resource?: string;
+  response_type?: string;
+  /** Scope is the client's original space-delimited request string. */
+  scope?: string;
+  /**
+   * Scopes is the subset the user actually ticked. When present it wins over
+   * Scope — the user may only ever narrow, never widen, the request.
+   */
+  scopes?: string[];
+  state?: string;
+}
+
+export interface ControllersOauthAuthorizeResult {
+  redirect_to?: string;
+}
+
+export interface ControllersOauthClientRegistrationResponse {
+  client_id?: string;
+  /** ClientIDIssuedAt is unix seconds, per RFC 7591 §3.2.1. */
+  client_id_issued_at?: number;
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
+export interface ControllersOauthGrantView {
+  client_host?: string;
+  client_id?: string;
+  client_name?: string;
+  client_verified?: boolean;
+  created_at?: string;
+  id?: number;
+  last_used_at?: string;
+  logo_uri?: string;
+  scopes?: string[];
+}
+
+export interface ControllersOauthProtocolError {
+  /** @example "invalid_grant" */
+  error?: string;
+  error_description?: string;
+  error_uri?: string;
+}
+
+export interface ControllersOauthTokenResponse {
+  access_token?: string;
+  /** @example 3600 */
+  expires_in?: number;
+  refresh_token?: string;
+  scope?: string;
+  /** @example "Bearer" */
+  token_type?: string;
 }
 
 export interface ControllersOrdersListResponse {
@@ -1434,7 +1570,7 @@ export interface DtoMentorGroupForm {
    */
   invite_code?: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @min 1
    * @example 10
@@ -1730,7 +1866,7 @@ export interface DtoSignUpCredentials {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 2
    * @maxLength 100
@@ -2329,7 +2465,7 @@ export interface DtoUIData {
 
 export interface DtoUserLanguage {
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 
 export interface DtoUserNoteCreateForm {
@@ -2386,7 +2522,7 @@ export interface DtoUserUpdateForm {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 3
    * @maxLength 100
@@ -2445,6 +2581,20 @@ export interface DtoWidgetUpdateForm {
   type2?: string;
 }
 
+export interface OauthClientRegistrationRequest {
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
 export interface ServicesAnalyzerNote {
   created_at?: string;
   desc?: string;
@@ -2466,7 +2616,6 @@ export interface ServicesApiKey {
    */
   enabled?: ServicesApiKeyEnabledStatus;
   exchange_id?: ServicesExchangeID;
-  extra_info?: string;
   flag1?: number;
   flag2?: number;
   flag3?: number;
@@ -2545,6 +2694,7 @@ export enum ServicesApiUserRead {
 export enum ServicesApiUserType {
   API_USER_TYPE_USER_CREATED = 1,
   API_USER_TYPE_OAUTH_CREATED = 2,
+  API_USER_TYPE_MCP = 3,
 }
 
 export interface ServicesArtifact {
@@ -3376,6 +3526,7 @@ export enum ServicesLocale {
   LocalePt = "pt",
   LocaleTr = "tr",
   LocaleId = "id",
+  LocaleZh = "zh",
 }
 
 export enum ServicesMembership {

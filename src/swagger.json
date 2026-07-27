@@ -4,7 +4,7 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "\u003cimg src=\"/logo.svg\" width=\"220\" height=\"auto\"\n    alt=\"Trader Make Money Logo\" /\u003e\n\n# Trader Make Money API Reference\n\nWelcome to the **Trader Make Money (TMM)** API. Our API allows you to programmatically access trade data, manage risk settings, and integrate your trading journal with external tools.\n\n---\n\n## 1. Access Points\n\nThe API is accessible via a primary endpoint and mirrors for redundancy.\n\n| Environment   | Base URL                              |\n| :------------ | :------------------------------------ |\n| **Main**      | `https://tradermake.money/api/v2`     |\n| **Mirror EU** | `https://tradermakemoney.com/api/v2`  |\n| **Mirror RU** | `https://tradersmakemoney.com/api/v2` |\n\n---\n\n## 2. Authentication\n\nThe TMM API supports two authentication methods. If both are provided, the **JWT Token** takes precedence. If the provided JWT is invalid, the request will return a `401 Unauthorized` error, even if a valid API Key is present.\n\n### A. API Key\n\nGenerated via the `PUT /api-user` endpoint.\n\n- **Header:** `API-KEY: \u003cyour_api_key\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"API-KEY: your_api_key_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n### B. JWT Token\n\nObtained via `POST /auth/login`. Recommended for interactive applications.\n\n- **Header:** `Authorization: Bearer \u003cyour_jwt_token\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"Authorization: Bearer your_jwt_token_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n**Automatic Token Refresh:**\nA new JWT token is returned in the response headers of every successful request. Update your stored token with the latest one to maintain an active session without manual refreshing.\n\n---\n\n## 3. Rate Limiting\n\nWe enforce rate limits to ensure platform stability. Headers include:\n\n| Header                  | Description                                     |\n| :---------------------- | :---------------------------------------------- |\n| `x-ratelimit-limit`     | Max requests allowed in the current window.     |\n| `x-ratelimit-remaining` | Requests remaining in the current window.       |\n| `x-ratelimit-reset`     | Unix timestamp (seconds) when the limit resets. |\n\n**Important:** Exceeding limits results in a `429 Too Many Requests` error. Persistent violations may lead to account or IP restrictions.\n\n---\n\n## OAuth2 Integration for Third-Party Services\n\nWe provide OAuth2 support for partners and third-party developers who want to integrate TraderMakeMoney (TMM) directly into their platforms. This flow allows your users to securely link their TMM accounts to your service without manually copy-pasting API keys.\n\n### Prerequisites\n\n- **Active Payment Plan:** OAuth2 connection creation is exclusively available to users with a paid plan.\n- **Free Account Restriction:** Requests initiated by users on a free plan will fail.\n  - **Status Code:** `402 Payment Required`\n  - **Response Body:** `{\"error\": \"free account can't use oauth\"}`\n\n### 1. Registration\n\nTo begin integration, please contact us at **info@tradermake.money** to obtain your `client_id` and a `private_key` for your service.\n\n### 2. Authorization Flow\n\nYou must implement a \"Connect to TMM\" button in your interface. This button should redirect users to the following authorization URL:\n\n```text\nhttps://tradermake.money/app2/account/auth2/authorize/{client_id}?redirect_uri={your_redirect_uri}\u0026response_type=code\u0026client_id={client_id}\n```\n\n### 3. Exchanging Code for a Permanent API Key\n\nOnce the user authorizes the connection, TMM will redirect them back to your `redirect_uri` with a temporary `code`. You have **1 minute** to exchange this code for a permanent User API Key using the following endpoint:\n\n**POST** `/oauth2/token`\n\n**Headers:**\n\n- `API-KEY`: Your service's `private_key` (issued by TMM)\n- `Content-Type`: `application/json`\n\n**Request Body:**\n\n```json\n{\n  \"code\": \"temporary_code_from_redirect\",\n  \"client_id\": \"your_client_id\"\n}\n```\n\n### 4. Usage\n\nThe response will contain a permanent **User API Key**. Once obtained, store this key securely. All subsequent requests to the TMM API on behalf of this user should use the standard **API-KEY** authentication header as described in the **Authentication** section.\n\n---\n\n## 4. Recent Changelog\n\n### 2026 Updates\n\n- **June 3: Categories — `trades_user_count` removed from the category list.**\n  - **Breaking — `trades_user_count` is no longer returned.** Category rows from `GET /trades/categories` (and the lists echoed by `POST /trades/categories`, `POST /trades/categories/{id}`, and `POST /trades/update-category`) no longer carry the per-category `trades_user_count` field. The rest of each row is unchanged.\n\n- **May 29: New-ticket email notification**\n  - When admin creates a ticket via `POST /admin/users/:id/tickets` or the full `POST /admin/notifications` ticket form, the target user now receives a transactional email summarizing the ticket: subject `[Ticket #\u003cUID\u003e] \u003ctitle\u003e`, body containing the full ticket text, and a localized instruction to log in to their account to reply. No CTA link — log-in via the website (mirror-agnostic).\n  - No API surface changes. Dispatch is fire-and-forget; a failing email does not fail the ticket-create call.\n\n- **May 29: Notifications — conversation lifecycle unified across tickets, personal, and per-user global threads.**\n  - **Breaking — `feed_notifications.status` removed.** Publication state is now derived from `published_at` (`null` = draft, non-null = published). `AdminDetail` carries a derived `publication_status` field (`\"draft\"` | `\"published\"`). `FeedNotificationFeedItem.status` is gone — see `conversation_status` below.\n  - **Breaking — `FeedNotificationThreadSummary.unanswered` removed**, replaced by `status` (`open` / `pending_user` / `in_progress` / `resolved`). The summary also gains `last_activity_at`, `status_changed_at`, `user_last_read_at`, `admin_last_read_at`, `user_caught_up`, `admin_caught_up`.\n  - **Breaking — `PATCH /admin/notifications/:id/status` removed.** Use `PATCH /admin/notification_threads/:notification_id/:user_id/status` with `{ \"status\": \"open\" | \"pending_user\" | \"in_progress\" | \"resolved\" }`. The admin manual override is unguarded — admin can reopen a resolved thread; auto-transitions on comment activity still flow through the comment service with sticky guards (resolved sticky vs auto, in_progress sticky vs admin reply).\n  - **Breaking — admin inbox `?status=` no longer accepts `answered` / `all`.** Valid values are `open`, `pending_user`, `in_progress`, `resolved`, or omit to surface every active conversation. Sort is fixed: lifecycle priority (open → in_progress → pending_user → resolved) then `last_activity_at DESC`.\n  - **Breaking — SSE `feed-notification-comment-added` no longer carries `unanswered`.** It now carries a `thread_state` envelope (`status`, `last_activity_at`, `status_changed_at`, `user_last_read_at`, `admin_last_read_at`, `user_caught_up`, `admin_caught_up`). The `feed-notification-status-changed` event gains the same envelope. Receivers replace their local thread state wholesale — no per-field merge.\n  - **New — `POST /v2/notifications/:id/thread/seen`** (user) bumps the caller's `user_last_read_at` on the (notification, caller) thread. Idempotent. Fires `admin-feed-notification-thread-seen-changed` so the admin inbox updates its \"user caught up\" pill live.\n  - **New — `POST /admin/notification_threads/:notification_id/:user_id/seen`** (admin) bumps `admin_last_read_at`. Single admin-side pointer (not per-admin). Fires `feed-notification-thread-seen-changed` to the scope user.\n  - **New — `FeedNotificationFeedItem.conversation_status` and `caught_up`** (both `omitempty`). Present when the caller has an FNU row with a non-null status on the notification; absent for items with no active conversation. Lets the user feed render the \"this notification has an open thread you're in\" badge without a follow-up call.\n  - **New — `FeedNotificationThreadDetailResponse.thread_state`** sibling field on the admin thread detail GET, same envelope shape as on SSE. Admin thread UI hydrates the status pill + caught-up indicators in one fetch.\n  - **Migration** — existing `feed_notifications.status` values were moved per-row to `feed_notification_user`: tickets one-to-one with the target user (status + status_changed_at + last_activity_at populated from `MAX(created_at)` of visible comments), notifications derived from comment history (last comment author admin → `pending_user`, last comment author user → `open`). Rows that previously surfaced via the empty-tickets fallback now surface naturally because `AdminCreate` for tickets eagerly upserts the FNU row with `pending_user` / `in_progress`. Rows with `status IS NULL` (seen-only, no conversation) stay hidden from the admin inbox.\n\n- **May 25:** **Notification system v2**. Replaced legacy `/notification/*` endpoints with `/notifications` (user) and `/admin/notifications`, `/admin/notification_threads` (admin). Adds global + personal notifications, multi-language content, image, action button, polls (single/multi/other-text), like, threaded comments (admin reply alias). Old endpoints removed; legacy database tables remain as cold storage.\n\n- **May 14: Candles — turnover (quote-asset volume) added to `/candles/list`.**\n  - **`GET /candles/list`** — each row now includes a 7th element: `[openTime, open, high, low, close, volume, turnover]`. Turnover is the quote-asset volume (sum of `price × base-volume` over the interval). Existing positional readers that index by element are unaffected; readers that assert exact row length must be updated.\n\n- **May 13: Chat — admin-only thread export for forensic debugging.**\n  - **`GET /admin/chat/threads/{uid}/export`** — admin-only endpoint that returns every persisted LLM-request payload for a chat thread as pretty-printed JSON. Intended for forensic debugging of failed turns. Requires the `chat:admin_export` permission (granted to admin / owner / support roles); other callers receive `403 Forbidden`. Non-admin chat routes are unchanged.\n\n- **May 12: Chat — zero-cost canned reply when no trades to analyze.**\n  - **`POST /chat/threads/{uid}/messages`** — when the stored trader profile has no trades to analyze (no connected exchange API key, or no trade history inside the user's tier window), the request now short-circuits with a canned assistant reply at **zero µUSD cost** instead of calling the LLM. The lifecycle is identical to the normal LLM path: HTTP `202 Accepted` with `turn_status:\"running\"`, then ~1s later the goroutine emits the SSE final event (`stage:\"final\"`, `answer:\u003ccanned text\u003e`) and the persisted turn surfaces in `GET /chat/threads/{uid}` with `turn_status:\"done\"` and `totals.cost_usd_micro:0`. Frontends render the same loading state they do for any other turn.\n  - **Tier-aware copy, localized.** Novice users see a 30-day window note; Novice+ users see a 6-month note; Trader / Pro / admin get the base text only. The base text instructs the user to connect/sync an exchange API key. The reply is localized to the user's profile language (`user.language`); currently English (`en`) and Russian (`ru`) are supported, with English as the fallback for unknown locales.\n  - **Free-tier safety.** Novice users have a 1 µUSD lifetime chat allowance; previously a chat send against an empty profile would consume that allowance on an unhelpful LLM reply. The short-circuit persists both the user question and the canned assistant message with `cost_usd_micro = 0`, so the lifetime allowance is preserved across any number of attempts against empty profiles.\n  - **No client changes required.** The response shape, HTTP status, and SSE event sequence are identical to the normal LLM path. Frontends that already render `turns[].final_answer` and listen to `chat-progress stage:\"final\"` will display the canned reply with no modifications.\n\n- **May 11: Chat — `get_trade` field rename, `tag_categories` carries `key`.**\n  - **Breaking — `get_trade` JSON field rename.** The chat tool `get_trade` previously returned mentor-authored note text under the `trade_notes` key. The text is authored by mentors, not by the trader, so the key is renamed to `mentor_notes`. The boolean `mentor_note` flag (a has-note indicator on the trade row) is unrelated and continues to be dropped from the projection. Frontends rendering raw chat-tool output should update their key reads.\n  - **`tag_categories` — `key` field on responses + DTO.** `TagCategory` now carries a stable `key` (snake-case slug, up to 64 chars) derived once from `name` at creation. Built-in keys are `entry_reason`, `exit_reason`, `conclusion`; user-defined columns receive their own slugified key (Unicode-aware — Cyrillic, CJK, Latin all preserved). The slug is stable across renames: renaming the `name` field does NOT regenerate the `key`. `PUT /tag-categories/{id}` now accepts an optional `key` field to override the derived value; collisions are rejected as `ErrDuplicateRecord`. The chat tool `compute_widget` accepts these keys in `tag_columns` for `*_by_tag*` aliases.\n  - **Why** — the audit found two prompt-vs-backend lies: an LLM rule that referenced a `market_context` regime label which was never populated by the backend (model occasionally invented values like `pumping_high_vol` to satisfy it), and a `tag_columns[*].key` field that was always empty for user-defined columns (only the three built-ins worked). The cleanup ships real percentile data for `volumes.\u003cwindow\u003e.pnl_abs` and `pnl_abs_distribution`, populates `tag_categories.key` for everyone, drops the stubbed `market_context` references from the prompt entirely, and fixes the misnamed `trade_notes` field. Internal cache prefix changes once (one-time miss on first warm); ongoing cache hit-rate should match the previous baseline.\n\n- **May 11: Beta feature access — user profile now exposes granted beta features.**\n  - `GET /v2/auth/me` — response now includes `beta_features: string[]` field listing the beta-tester feature slugs granted to the user (empty for most users).\n\n- **May 10: Chat — widget render policy is chart-only; `block_id` required on every `compute_widget` call; widget blocks now carry the applied `filters`.**\n  - **`POST /chat/threads/{uid}/messages`** — `compute_widget` now lists `block_id` as a **required** parameter. Every call must carry a short, stable per-call identifier (`^[a-z0-9_]{1,32}$`, e.g. `curve_all`, `wr_90d`). The runtime caches widget data exclusively by `block_id`; calls that arrive without one are not cached and any inline marker pointing at the alias falls back to literal text.\n  - **Inline marker shape** — widget markers must include the `block_id` segment: `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)`. The previous two-shape form (with the `\u003cblock_id\u003e` segment optional) is gone. Markers without the segment now always drop to literal text. Trade markers are unchanged: `[\u003ctitle\u003e](tmm:trade/\u003cid\u003e)`.\n  - **Render policy — chart aliases only.** Only widgets resolved to `type == \"chart\"` (time-series `*_ts`, `*_curve`; categorical `*_by_\u003cdim\u003e`) become `widget` answer blocks. Scalar aliases (`*_sum`, `*_avg`, `*_max`, `*_min`) resolve to `type == \"number\"` and any marker pointing at them drops to literal text — the value belongs inline in prose (`$143`, `2.45`, `48%`), since a number card duplicates the digits at paragraph height. Frontends rendering `answer_blocks` will never receive a scalar widget block; they only need to keep their chart renderers.\n  - **`AnswerBlock.filters`** — widget answer blocks now carry a `filters` field (raw JSON object, omitted when absent / empty) carrying the scope applied to that card. The shape is the **canonical `services.TradeFilters` JSON** (`api_key_id`, `category`, `durationBetween` in milliseconds, `volumeBetween`, etc.) — the chat-internal dialect the model uses (`apiKeyIds`, `categories`, `durationSecBetween` in seconds, `tradeSizeBetween`, `marketVolume24h`, …) is normalized server-side before reaching the wire. Frontends feed it straight into the same filter-state code their trades view already uses, with no rename step. Two same-alias cards (e.g. all-time vs. last 90d `pnl_curve`) differ visually only by this scope. `dto.ChatAnswerBlock` mirrors the field.\n  - **Why** — under the previous contract the model decided per-call whether to add `block_id`, and asymmetric labelling (e.g. only the 90d call labelled, not the all-time call) silently broke renderability. Making `block_id` mandatory removes the conditional. The chart-only render policy stops the model from emitting visually noisy scalar cards that repeat a digit the prose already states; charts (which carry shape that prose can't show) still render inline as before. Exposing the applied `filters` on the widget block lets the frontend tell paired charts apart without the model having to re-encode the scope in surrounding prose.\n\n- **May 10: Chat — `POST /chat/threads/{uid}/messages` becomes async; final answer arrives via SSE.**\n  - **Breaking — response code + body.** The endpoint now returns `202 Accepted` with `{status, thread_uid, turn_index, turn_status:\"running\"}`. Fields `final_answer`, `answer_blocks`, `totals`, `thread_totals` are no longer in the HTTP body — frontends MUST consume SSE to render the answer.\n  - **New SSE event** — `chat-progress` rides the existing `/sse/stream` connection. Payload: `{thread_uid, turn_index, stage, seq, round?, action?, answer?, answer_blocks?, usage?}`. `stage` is one of `started`, `tool_call`, `tool_done`, `final`, `error`. `seq` is monotonic per turn so the frontend can drop out-of-order events. The `final` stage carries the structured `answer_blocks` array (same shape as `GET /threads/:uid` returns) plus a `usage:{percent, exhausted}` object so the chat budget indicator can refresh from the event without polling `/chat/usage`. Token/cost/timing data are intentionally NOT in the SSE payload.\n  - **Action enum** (present on `tool_call` / `tool_done`): `reading_trades`, `reading_trade`, `counting_trades`, `searching_notes`, `reading_notes`, `computing_widget`, `tagging_outcomes`, `working`. Frontend owns translation; internal tool names never cross the wire.\n  - **Reconnect** — if the SSE connection drops mid-turn, call `GET /chat/threads/{uid}` and read `turns[-1].status` (`running` / `done` / `failed`). The new `status` field is added to every entry under `turns` in the `GET /chat/threads/{uid}` response.\n  - **Error reporting** — `stage:\"error\"` carries no detail (no `message`, no `code`). Show a generic retry UI; the user can resend.\n  - **Pre-flight failures unchanged.** Caller checks, monthly cap, `ErrThreadBusy` still return synchronous 4xx with the existing error envelope (`429` `chat_quota_exhausted`, `409` `thread_busy`, `403` `chat_not_available`, etc.).\n  - **Why** — the previous synchronous flow could exceed reverse-proxy idle timeouts on long turns and gave the user no signal during tool execution. The async flow gives the frontend live progress (`Reading trades…`, `Counting trades…`, etc.) and decouples server-side turn duration from HTTP request lifetime.\n\n- **May 08: Chat — billing-percent endpoint, paying-tier-only access.**\n  - **`GET /chat/usage`** — response now exposes only `usage_percent` (integer 0..100, rounded down and clamped at 100), `exhausted` (bool), and `cycle_end` (calendar-month UTC reset). Token counts, dollar amounts, message counts, and model identifiers are intentionally not exposed on the public surface.\n  - **Access control** — chat is now available only on the **Trader** and **Pro** plans. Trial / Novice / Novice+ users hitting `GET /chat/usage` or `POST /chat/threads/{uid}/messages` receive `403 Forbidden` with `code: \"chat_not_available\"`. Admin / Owner / Support remain unlimited; mentors of any student keep the Pro cap.\n  - **Monthly cap** — Trader $1.50, Pro $3.50 per calendar month UTC. The call that crosses the cap completes (the provider already billed us); the next call returns `429 Too Many Requests` with `code: \"chat_quota_exhausted\"` and `cycle_end`. The previous error code `quota_exceeded` and the dollar/spent fields on the 429 body are removed.\n  - **Migration note** — frontends previously reading `spent_usd_micro` / `cap_usd_micro` / `period_start` from `/chat/usage` must switch to `usage_percent` + `exhausted`.\n\n\n  - **`POST /chat/threads/{uid}/messages`** — `compute_widget` now takes a semantic `alias` (e.g. `pnl_sum`, `pnl_ts`, `pnl_curve`, `winrate_by_symbol`, `drawdown_max`, ~70 aliases total) instead of `widget_id.{source,type}`. Aliases follow `\u003cdomain\u003e_\u003cmetric\u003e[_\u003cdim\u003e][_\u003cshape\u003e]` and pick both data and shape: `_sum`/`_avg`/`_max` are scalars (number widgets), `_ts`/`_curve` are time-series (chart, `groupBy` applies, default `day`), `_by_\u003cdim\u003e` are categorical breakdowns. Optional knobs: `groupBy ∈ {minute, hour, day, week, month}` for time-series; `tag_columns: string[]` for `*_by_tag*` (omit → aggregate across all the user's tag columns); `categories: uint64[]` for `*_by_category`; `block_id` for disambiguating multiple calls of the same alias in one turn.\n  - **Response shape** — the tool now returns `{alias, widget_id:{source,type}, shape, group_by, data, sample_size, optional meta}`. Frontends use `widget_id.{source,type}` to render the card; the LLM uses `alias` and `shape` for reasoning.\n  - **Inline references** — `[](tmm:widget/\u003calias\u003e)` and `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)`. The `\u003csource\u003e` form is gone; the runtime resolves `\u003calias\u003e` to the original `widget_id` when building the answer block.\n  - **`AnswerBlock`** — widget blocks now expose `type` (`number`|`chart`) and `alias` (e.g. `pnl_ts`) alongside the existing `source`. `dto.ChatAnswerBlock` mirrors these. Existing renderers that only read `source` continue to work; cards that need to distinguish chart vs number should read `type`.\n  - **System prompt** — new `## Widgets` section explains the alias model, three shapes, `groupBy` heuristics by query window, and the `tag_columns`/`categories` knobs. `TraderProfile` now carries `tag_columns` (id/key/name/scope per built-in or custom column) and `categories` (id/name) so the LLM can populate those filters with values the user actually has.\n\n- **May 08: Chat — widget block title removed, duplicate widget data fix, and thread titles.**\n  - **`POST /chat/threads/{uid}/messages`** — `widget` answer blocks no longer carry a `title`. The widget card renders as a self-contained unit and the prose around it is the user-facing text, so the model-written label was redundant and noisy. The inline-citation marker for widgets is now `[](tmm:widget/\u003calias\u003e)` or `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)` (empty brackets); any text the model writes inside the brackets is silently dropped. `trade` blocks are unchanged — they still carry a model-written `title` and the marker is still `[\u003cyour title\u003e](tmm:trade/\u003cid\u003e)`. An empty-bracket trade marker now drops to literal text instead of resolving with an empty label.\n  - **`POST /chat/threads/{uid}/messages`** — Fix: when a single assistant turn called `compute_widget` more than once on the same alias (e.g. `pay_off_ratio` for all-time **and** for the last 90 days), every resulting `widget` block carried the last call's data. Each `compute_widget` call now accepts an optional `block_id` (`^[a-z0-9_]{1,16}$`) and the inline-citation marker carries the same id so the runtime can distinguish two calls on the same alias. Markers without a `block_id` keep working when the alias was computed exactly once in the turn; otherwise they fall back to literal markdown so the duplication is visible rather than silent. Older single-call answers are unaffected.\n  - **`GET /chat/threads`** and **`GET /chat/threads/{uid}`** — `ChatThreadHeaderResponse` now carries a `title` field (string, nullable). It is auto-derived from the first user message of a thread (whitespace-collapsed, clipped to 40 characters at a word boundary) and is null until that derivation runs. Existing threads created before this change will pick up a title on their next user send. The field is always present in the response — `title: null` when unset — so the frontend can rely on the shape.\n\n- **May 06: Exchanges — KuCoin Spot and Futures added.**\n  - Added KuCoin Spot (`exchange_id` `54`) and KuCoin Futures (`exchange_id` `55`) to `GET /exchanges` and `POST /api_keys`.\n  - KuCoin requires a passphrase, supplied via `extra_info` on key creation.\n\n- **Apr 30:**\n  - **Breaking — Tag categories: `scopes` renamed to `scope`**: `TagCategoryForm.scopes` (uint8 bitmask) has been replaced by `TagCategoryForm.scope` (uint8 enum: `1 = trade`, `2 = note`). A custom tag category now belongs to exactly one surface; mark it as either trade-scope or note-scope when creating/updating. Filtering: when the trades list filter receives a `tag_groups` entry whose column maps to a note-scope category, matching trades are those whose user-selected time anchor (open or close, per profile) falls within the date range of any of the user's notes that carries one of the requested tags.\n  - **`GET /api/v2/transcribe/usage`**: Response now includes a `tier_limits` array describing the per-tier monthly minute cap and OpenAI model (`novice`, `novice_plus`, `trader`, `pro`), so the FE can render the limits table without hard-coding it.\n- **Apr 28: Audio Transcription**\n  - **`POST /api/v2/transcribe`**: Authenticated endpoint for converting audio recordings to text.\n    - **Request:** `multipart/form-data` with `audio` (≤ 25 MB / ≤ 10 min, webm/mp4/mpeg/wav/ogg). Optional `owner_type` + `owner_id` link the transcription to an existing entity.\n    - **Response:** transcript text, recorded/billed durations, monthly meter, cycle end.\n    - **Quota:** 10 / 120 / 300 / 1000 minutes per calendar month (UTC) for novice / novice_plus / trader / pro. Trial users use the novice allotment.\n    - **Rate limit:** 10 req/min/user.\n    - **Errors:** `audio_too_large`, `audio_too_long`, `audio_too_recent` (pre-recorded audio detected), `quota_exceeded`, `model_not_found`, `transcription_provider_error`, `transcription_timeout`.\n  - **`GET /api/v2/transcribe/usage`**: Returns the current cycle's used / remaining minutes and tier model.\n- **Apr 27:**\n  - **Analyzer Balance Chart Range:** `GET /analyzer/` no longer extends the balance chart one day backward into the prior period. The `balanceHistory` data points now all fall inside the requested range, so periods with no trades render as flat (0% gain) instead of inheriting drift from the prior period's closing balance.\n- **Apr 07:**\n  - **SSE Connection ID:** `GET /sse` now accepts an optional `connection_id` query parameter. Passing a persistent ID (e.g. a UUID stored in `localStorage`) lets the same client reconnect without consuming an additional connection slot — the server replaces the previous connection instead. Clients that do not send `connection_id` are unaffected.\n  - **SSE Connection Limit Response:** Exceeding the per-user connection limit now returns `429 Too Many Requests` instead of `500`.\n- **Mar 23:**\n  - **ASTER Futures Support:** Added support for the ASTER DEX Futures exchange.\n  - **Trade Filter Fixes:** Tag-group filters and merged trade filters now respect the requested column values and override filters correctly.\n- **Mar 19:**\n  - **Widget Preview Filters:** The widget preview endpoint now uses the request filters as the source of truth, so preview output matches the submitted filter set.\n- **Mar 18:**\n  - **Widget Preview API:** Added `GET /board/preview/widget/{id}` for server-side widget previews using the supplied filters, and restored `GET /board/counter/widget/{id}` for counts.\n- **Mar 12:**\n  - **Payment Quote Endpoint:** Renamed `GET /transactions/discount` to `GET /transactions/quote` and expanded it into a full payment quote endpoint that accepts `gateway`, `level`, and `months`.\n  - **Trials and Billing:** Added `PUT /transactions/trial` for the one-time 15-day trial, and updated billing flows to handle proration and referral bonuses during membership changes.\n  - **Promo Codes and Referrals:** Added promo-code preview/apply/redeem flows plus referral summary and referral-code update endpoints for user accounts.\n- **Mar 10:**\n  - **Hybrid Filter Catalog Delivery**: Added `GET /filter-catalog` for authenticated clients to retrieve the filter catalog for the current user or an accessible subject via `subject_user_id`.\n  - **Auth Profile Update**: `GET /auth/me` now includes `filter_catalog` and, when applicable, `mentor_subjects`.\n  - **Backward Compatibility**: `categories`, `tags`, `tag_categories`, and `api_keys_list` remain in `GET /auth/me` for now, but are deprecated. New integrations should prefer `filter_catalog.catalogs`.\n  - **Public Dashboard Filters**: `GET /board/public/{code}/load` now includes `filter_catalog_snapshot`, a selected-only, read-only subset intended for rendering public dashboard filter labels without exposing private catalog options.\n- **Mar 09:**\n  - **Bulk Tag Column Update**: Added `POST /trades/tags/column` to move multiple existing tags to a target column in one request. Request body: `{\"ids\":[...],\"column\":\u003ccolumn_id\u003e}`. The operation is all-or-nothing: if any tag id is invalid, missing, inaccessible, or the target column is not available for the user, no tags are updated.\n  - **Tag Categories API**: Added `GET /trades/tag-categories`, `POST /trades/tag-categories`, `POST /trades/tag-categories/{id}`, and `DELETE /trades/tag-categories/{id}` to list, create, update, reorder, and delete custom tag categories.\n  - **Trade Filtering Update**: Trade-filtered endpoints now support category-aware tag filters via `tag_groups`, `tag_columns`, and category-specific tag parameters. Legacy `tags`, `tags_params`, `exit_tags`, and `exit_tags_params` remain supported but are deprecated.\n  - **User Profile Response**: `GET /me` now includes `tag_categories`.\n  - **Widget Sources**: Added tag-based widget sources `income_by_tag`, `income_by_tag_combination`, `percent_by_tag`, and `win_rate_by_tag_combination`.\n- **Mar 05:**\n  - **New exchange: MEXC**: Futures \u0026 spot support\n- **Mar 02:**\n  - **Analyzer Notes**: The `GET /analyzer/week-list` endpoint now includes user notes in the response.\n- **Feb 26:**\n  - **Connections Endpoint**: Added `GET /connections` to list all external notification service connections (e.g., Telegram, Discord).\n- **Jan 27: Risk Management Overhaul**\n  - **Global Rule Support**: Major update to the risk management system, introducing support for **global (all-account)** rule settings.\n  - **Configuration**: To apply rules globally across all accounts, set the `api_key_id` parameter to `0`.\n  - **Exclusion Logic**: System logic now automatically **excludes frozen API keys** from both global rule enforcement and aggregate balance calculations.\n- **Jan 26:** **Analyzer Enhancement**: The `/analyzer` endpoint now accepts a `close_between` filter to narrow results based on trade closing times.\n- **Jan 16:** **Risk Management Backtest Engine**: Added `POST /risk-management/backtest` for simulating trading rules on historical data.\n- **Jan 14:** Corrected Bitget Spot trading fee calculation.\n- **Jan 06:** Migrated API documentation from Swagger UI to Scalar UI for a better user experience.\n- **Jan 02:** Extended the `/me` endpoint to include additional user information.\n\n### 2025 Updates\n\n- **Dec 12:** Implemented a rolling cache for trade deduplication to optimize memory usage.\n- **Dec 09:** Updated trade categories to support user-specific assignments.\n- **Dec 02:** Added a debouncer for handling high-frequency API requests more efficiently.\n- **Nov 28:** Fixed sorting for trade tags.\n- **Nov 16:** New Exchange Support: **Hyperliquid** (Futures).\n- **Nov 05:** Corrected currency handling for MNT on Bybit.\n- **Oct 29:** Added `PUT /api-key/batch` for bulk management.\n- **Sep 01:** Updated `GET /analyzer/` with `skipData` and `skipBalance` flags.\n- **Jul 24:** Added `income_percent_by_symbol` widget.\n- **Jul 18:** **API Key Migration**: Added `POST /api-key/{id}/migrate-to-new-id`. Reassigns all related data (trades, orders, etc.). (Admins only).\n- **Apr 22:** Added `websocket_status[]` multi-value filter for API keys (Enum `ApiKeyWebsocketStatus`).\n- **Apr 11:** Enhanced `/top` (Teams) endpoint. Now returns detailed user statistics (`pnl`, `percent`, `qty`) for today, yesterday, 7d, 14d, 30d, and custom periods.\n- **Apr 10:** Added `yesterday` and `14days` aggregation intervals for Teams.\n- **Apr 08:** `GET /trades/public-group/{code}` updated for cumulative income and win rate widgets.\n- **Apr 03:** **Risk Management Expansion**: Added support for fixed USD loss limits (`per_trade_usd`, `per_day_usd`). Updated Telegram/Discord notifications.\n- **Apr 01:** Updated Teams with custom 'from' and 'to' date support.\n- **Mar 25:** New Exchange Support: **Tiger X OKX** (Spot \u0026 Futures, IDs 44 \u0026 45).\n- **Mar 19:** New Exchange Support: **Tiger X Binance** (Spot \u0026 Futures, IDs 42 \u0026 43).\n- **Mar 18:** Fixed widget limits for free accounts on Public Profiles.\n- **Mar 03:** **OAuth2 \u0026 SSE**: Added OAuth2 support and SSE stream (`/user/oauth2`, `/oauth2/token`, `/oauth2/sse/{key}`).\n- **Feb 19:** New Exchange Support: **Bitget Spot** (ID 41).\n- **Feb 06:** Added `start_of_week` user setting (Monday/Sunday) for analytics.\n\n---\n\n## 5. Technical Remarks\n\n1. **Timeframes:** All timestamps are in **milliseconds**.\n2. **Performance:** Only the first 10 trades in a list include order data by default. Use `GET /trades/{trade_id}/orders` for the full list.\n",
+        "description": "\u003cimg src=\"/logo.svg\" width=\"220\" height=\"auto\"\n    alt=\"Trader Make Money Logo\" /\u003e\n\n# Trader Make Money API Reference\n\nWelcome to the **Trader Make Money (TMM)** API. Our API allows you to programmatically access trade data, manage risk settings, and integrate your trading journal with external tools.\n\n---\n\n## 1. Access Points\n\nThe API is accessible via a primary endpoint and mirrors for redundancy.\n\n| Environment   | Base URL                              |\n| :------------ | :------------------------------------ |\n| **Main**      | `https://tradermake.money/api/v2`     |\n| **Mirror EU** | `https://tradermakemoney.com/api/v2`  |\n| **Mirror RU** | `https://tradersmakemoney.com/api/v2` |\n\n---\n\n## 2. Authentication\n\nThe TMM API supports two authentication methods. If both are provided, the **JWT Token** takes precedence. If the provided JWT is invalid, the request will return a `401 Unauthorized` error, even if a valid API Key is present.\n\n### A. API Key\n\nGenerated via the `PUT /api-user` endpoint.\n\n- **Header:** `API-KEY: \u003cyour_api_key\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"API-KEY: your_api_key_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n### B. JWT Token\n\nObtained via `POST /auth/login`. Recommended for interactive applications.\n\n- **Header:** `Authorization: Bearer \u003cyour_jwt_token\u003e`\n\n**Example Request:**\n\n```bash\ncurl https://tradermake.money/api/v2/trades \\\\\n   -H \"Authorization: Bearer your_jwt_token_here\" \\\\\n   -H \"Content-Type: application/json\"\n```\n\n**Automatic Token Refresh:**\nA new JWT token is returned in the response headers of every successful request. Update your stored token with the latest one to maintain an active session without manual refreshing.\n\n---\n\n## 3. Rate Limiting\n\nWe enforce rate limits to ensure platform stability. Headers include:\n\n| Header                  | Description                                     |\n| :---------------------- | :---------------------------------------------- |\n| `x-ratelimit-limit`     | Max requests allowed in the current window.     |\n| `x-ratelimit-remaining` | Requests remaining in the current window.       |\n| `x-ratelimit-reset`     | Unix timestamp (seconds) when the limit resets. |\n\n**Important:** Exceeding limits results in a `429 Too Many Requests` error. Persistent violations may lead to account or IP restrictions.\n\n---\n\n## OAuth2 Integration for Third-Party Services\n\nWe provide OAuth2 support for partners and third-party developers who want to integrate TraderMakeMoney (TMM) directly into their platforms. This flow allows your users to securely link their TMM accounts to your service without manually copy-pasting API keys.\n\n### Prerequisites\n\n- **Active Payment Plan:** OAuth2 connection creation is exclusively available to users with a paid plan.\n- **Free Account Restriction:** Requests initiated by users on a free plan will fail.\n  - **Status Code:** `402 Payment Required`\n  - **Response Body:** `{\"error\": \"free account can't use oauth\"}`\n\n### 1. Registration\n\nTo begin integration, please contact us at **info@tradermake.money** to obtain your `client_id` and a `private_key` for your service.\n\n### 2. Authorization Flow\n\nYou must implement a \"Connect to TMM\" button in your interface. This button should redirect users to the following authorization URL:\n\n```text\nhttps://tradermake.money/app2/account/auth2/authorize/{client_id}?redirect_uri={your_redirect_uri}\u0026response_type=code\u0026client_id={client_id}\n```\n\n### 3. Exchanging Code for a Permanent API Key\n\nOnce the user authorizes the connection, TMM will redirect them back to your `redirect_uri` with a temporary `code`. You have **1 minute** to exchange this code for a permanent User API Key using the following endpoint:\n\n**POST** `/oauth2/token`\n\n**Headers:**\n\n- `API-KEY`: Your service's `private_key` (issued by TMM)\n- `Content-Type`: `application/json`\n\n**Request Body:**\n\n```json\n{\n  \"code\": \"temporary_code_from_redirect\",\n  \"client_id\": \"your_client_id\"\n}\n```\n\n### 4. Usage\n\nThe response will contain a permanent **User API Key**. Once obtained, store this key securely. All subsequent requests to the TMM API on behalf of this user should use the standard **API-KEY** authentication header as described in the **Authentication** section.\n\n---\n\n## 4. Recent Changelog\n\n### 2026 Updates\n\n- **July 21: Exchanges — Kraken Spot and Futures added.**\n  - Added Kraken Spot (`exchange_id` `59`) and Kraken Futures (`exchange_id` `60`) to `GET /exchanges`, `GET /v2/public/exchanges`, and `POST /api_keys`. Brand `kraken`, markets spot + futures, `api-key` auto-sync. A key is single-market — either Spot or Futures, not both — so pick the matching `exchange_id` when adding the key.\n\n- **July 7: Localization — `language` enum widened to 7 locales.**\n  - Language fields across the request DTOs (`UserLanguage`, sign-up credentials, the user-update form, the notification-connection language, etc.) now accept `en`, `ru`, `ua`, `es`, `pt`, `tr`, `id`. Values outside this set are rejected; requests for an unregistered locale fall back to English content server-side.\n\n- **June 29: Public metadata — unauthenticated exchange and announcement endpoints.**\n  - **New — `GET /v2/public/exchanges`.** Unauthenticated list of supported exchanges as brand cards: `slug`, `name`, supported markets (`spot` / `futures`), `autoSyncMethod` (e.g. `api-key`), a funding-aware flag, and a structured `history_limit` (`kind` = `full` / `days` / `orders`, with the relevant bound) describing how far back trade history can be imported per exchange.\n  - **New — `GET /v2/public/announcements` and `GET /v2/public/announcements/:slug`.** Unauthenticated feed of public announcements (the broadcast subset of the notification system): title, body, `image_url`, and publish time. List plus single-item detail by slug.\n\n- **June 24: AI Coach can build the Summary dashboard.**\n  - **AI Coach — Summary dashboard editing.** `POST /chat/threads/{uid}/messages` accepts an optional `page_context` object. When the caller is on the Summary page the assistant can list the widget catalog, explain widgets, and add / edit / remove dashboard widgets on the user's behalf (bounded by a per-turn mutation limit). Callers that omit `page_context` see no change to the request, response, or SSE envelope.\n\n- **June 23: Notifications — new template tokens `{{category}}` and `{{tags:\u003ccolumn_id\u003e}}`.**\n  - External notification templates (Telegram / Discord) now resolve `{{category}}` (the trade's category name) and `{{tags:\u003ccolumn_id\u003e}}` (the trade's tags within the given tag column). Existing template tokens are unchanged.\n\n- **July 5: Teams — weekly league points system.**\n  - **New — `GET /users/top-traders/points-log`** (user). Returns the caller's weekly league points history.\n  - **New SSE — `league-points-updated`** fires after each weekly league evaluation with the user's updated standing (`LeaguePointsUpdatedSSEPayload`). League promotion / demotion also raise a personal notification and a transactional email.\n\n- **July 2: Top Traders — winner enrichment.**\n  - The `GET /top` (Teams / Top Traders) response now carries per-user `wins` (the user's winning periods) and, on winner rows, `profile_url` plus the embedded winner `user` object. Winner arrays are always present, never `null`.\n\n- **June 8: Notifications — `POST /notifications/seen-all`.**\n  - Marks every one of the caller's feed notifications as seen in a single call, alongside the existing per-item `POST /notifications/:id/seen`.\n\n- **June 3: Categories — `trades_user_count` removed from the category list.**\n  - **Breaking — `trades_user_count` is no longer returned.** Category rows from `GET /trades/categories` (and the lists echoed by `POST /trades/categories`, `POST /trades/categories/{id}`, and `POST /trades/update-category`) no longer carry the per-category `trades_user_count` field. The rest of each row is unchanged.\n\n- **May 29: Notifications — conversation lifecycle unified across tickets, personal, and per-user global threads.**\n  - **Breaking — `feed_notifications.status` removed.** Publication state is now derived from `published_at` (`null` = draft, non-null = published). `FeedNotificationFeedItem.status` is gone — see `conversation_status` below.\n  - **Breaking — `FeedNotificationThreadSummary.unanswered` removed**, replaced by `status` (`open` / `pending_user` / `in_progress` / `resolved`). The summary also gains `last_activity_at`, `status_changed_at`, `user_last_read_at`, `admin_last_read_at`, `user_caught_up`, `admin_caught_up`.\n  - **Breaking — SSE `feed-notification-comment-added` no longer carries `unanswered`.** It now carries a `thread_state` envelope (`status`, `last_activity_at`, `status_changed_at`, `user_last_read_at`, `admin_last_read_at`, `user_caught_up`, `admin_caught_up`). The `feed-notification-status-changed` event gains the same envelope. Receivers replace their local thread state wholesale — no per-field merge.\n  - **New — `POST /v2/notifications/:id/thread/seen`** (user) bumps the caller's `user_last_read_at` on the (notification, caller) thread. Idempotent.\n  - **New — `FeedNotificationFeedItem.conversation_status` and `caught_up`** (both `omitempty`). Present when the caller has an FNU row with a non-null status on the notification; absent for items with no active conversation. Lets the user feed render the \"this notification has an open thread you're in\" badge without a follow-up call.\n- **May 25:** **Notification system v2**. Replaced legacy `/notification/*` endpoints with `/notifications`. Adds global + personal notifications, multi-language content, image, action button, polls (single/multi/other-text), like, and threaded comments. Old endpoints removed; legacy database tables remain as cold storage.\n\n- **May 14: Candles — turnover (quote-asset volume) added to `/candles/list`.**\n  - **`GET /candles/list`** — each row now includes a 7th element: `[openTime, open, high, low, close, volume, turnover]`. Turnover is the quote-asset volume (sum of `price × base-volume` over the interval). Existing positional readers that index by element are unaffected; readers that assert exact row length must be updated.\n\n- **May 12: Chat — zero-cost canned reply when no trades to analyze.**\n  - **`POST /chat/threads/{uid}/messages`** — when the stored trader profile has no trades to analyze (no connected exchange API key, or no trade history inside the user's tier window), the request now short-circuits with a canned assistant reply at **zero µUSD cost** instead of calling the LLM. The lifecycle is identical to the normal LLM path: HTTP `202 Accepted` with `turn_status:\"running\"`, then ~1s later the goroutine emits the SSE final event (`stage:\"final\"`, `answer:\u003ccanned text\u003e`) and the persisted turn surfaces in `GET /chat/threads/{uid}` with `turn_status:\"done\"` and `totals.cost_usd_micro:0`. Frontends render the same loading state they do for any other turn.\n  - **Tier-aware copy, localized.** Novice users see a 30-day window note; Novice+ users see a 6-month note; Trader / Pro / admin get the base text only. The base text instructs the user to connect/sync an exchange API key. The reply is localized to the user's profile language (`user.language`); currently English (`en`) and Russian (`ru`) are supported, with English as the fallback for unknown locales.\n  - **Free-tier safety.** Novice users have a 1 µUSD lifetime chat allowance; previously a chat send against an empty profile would consume that allowance on an unhelpful LLM reply. The short-circuit persists both the user question and the canned assistant message with `cost_usd_micro = 0`, so the lifetime allowance is preserved across any number of attempts against empty profiles.\n  - **No client changes required.** The response shape, HTTP status, and SSE event sequence are identical to the normal LLM path. Frontends that already render `turns[].final_answer` and listen to `chat-progress stage:\"final\"` will display the canned reply with no modifications.\n\n- **May 11: Chat — `get_trade` field rename, `tag_categories` carries `key`.**\n  - **Breaking — `get_trade` JSON field rename.** The chat tool `get_trade` previously returned mentor-authored note text under the `trade_notes` key. The text is authored by mentors, not by the trader, so the key is renamed to `mentor_notes`. The boolean `mentor_note` flag (a has-note indicator on the trade row) is unrelated and continues to be dropped from the projection. Frontends rendering raw chat-tool output should update their key reads.\n  - **`tag_categories` — `key` field on responses + DTO.** `TagCategory` now carries a stable `key` (snake-case slug, up to 64 chars) derived once from `name` at creation. Built-in keys are `entry_reason`, `exit_reason`, `conclusion`; user-defined columns receive their own slugified key (Unicode-aware — Cyrillic, CJK, Latin all preserved). The slug is stable across renames: renaming the `name` field does NOT regenerate the `key`. `PUT /tag-categories/{id}` now accepts an optional `key` field to override the derived value; collisions are rejected as `ErrDuplicateRecord`. The chat tool `compute_widget` accepts these keys in `tag_columns` for `*_by_tag*` aliases.\n  - **Why** — the audit found two prompt-vs-backend lies: an LLM rule that referenced a `market_context` regime label which was never populated by the backend (model occasionally invented values like `pumping_high_vol` to satisfy it), and a `tag_columns[*].key` field that was always empty for user-defined columns (only the three built-ins worked). The cleanup ships real percentile data for `volumes.\u003cwindow\u003e.pnl_abs` and `pnl_abs_distribution`, populates `tag_categories.key` for everyone, drops the stubbed `market_context` references from the prompt entirely, and fixes the misnamed `trade_notes` field. Internal cache prefix changes once (one-time miss on first warm); ongoing cache hit-rate should match the previous baseline.\n\n- **May 11: Beta feature access — user profile now exposes granted beta features.**\n  - `GET /v2/auth/me` — response now includes `beta_features: string[]` field listing the beta-tester feature slugs granted to the user (empty for most users).\n\n- **May 10: Chat — widget render policy is chart-only; `block_id` required on every `compute_widget` call; widget blocks now carry the applied `filters`.**\n  - **`POST /chat/threads/{uid}/messages`** — `compute_widget` now lists `block_id` as a **required** parameter. Every call must carry a short, stable per-call identifier (`^[a-z0-9_]{1,32}$`, e.g. `curve_all`, `wr_90d`). The runtime caches widget data exclusively by `block_id`; calls that arrive without one are not cached and any inline marker pointing at the alias falls back to literal text.\n  - **Inline marker shape** — widget markers must include the `block_id` segment: `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)`. The previous two-shape form (with the `\u003cblock_id\u003e` segment optional) is gone. Markers without the segment now always drop to literal text. Trade markers are unchanged: `[\u003ctitle\u003e](tmm:trade/\u003cid\u003e)`.\n  - **Render policy — chart aliases only.** Only widgets resolved to `type == \"chart\"` (time-series `*_ts`, `*_curve`; categorical `*_by_\u003cdim\u003e`) become `widget` answer blocks. Scalar aliases (`*_sum`, `*_avg`, `*_max`, `*_min`) resolve to `type == \"number\"` and any marker pointing at them drops to literal text — the value belongs inline in prose (`$143`, `2.45`, `48%`), since a number card duplicates the digits at paragraph height. Frontends rendering `answer_blocks` will never receive a scalar widget block; they only need to keep their chart renderers.\n  - **`AnswerBlock.filters`** — widget answer blocks now carry a `filters` field (raw JSON object, omitted when absent / empty) carrying the scope applied to that card. The shape is the **canonical `services.TradeFilters` JSON** (`api_key_id`, `category`, `durationBetween` in milliseconds, `volumeBetween`, etc.) — the chat-internal dialect the model uses (`apiKeyIds`, `categories`, `durationSecBetween` in seconds, `tradeSizeBetween`, `marketVolume24h`, …) is normalized server-side before reaching the wire. Frontends feed it straight into the same filter-state code their trades view already uses, with no rename step. Two same-alias cards (e.g. all-time vs. last 90d `pnl_curve`) differ visually only by this scope. `dto.ChatAnswerBlock` mirrors the field.\n  - **Why** — under the previous contract the model decided per-call whether to add `block_id`, and asymmetric labelling (e.g. only the 90d call labelled, not the all-time call) silently broke renderability. Making `block_id` mandatory removes the conditional. The chart-only render policy stops the model from emitting visually noisy scalar cards that repeat a digit the prose already states; charts (which carry shape that prose can't show) still render inline as before. Exposing the applied `filters` on the widget block lets the frontend tell paired charts apart without the model having to re-encode the scope in surrounding prose.\n\n- **May 10: Chat — `POST /chat/threads/{uid}/messages` becomes async; final answer arrives via SSE.**\n  - **Breaking — response code + body.** The endpoint now returns `202 Accepted` with `{status, thread_uid, turn_index, turn_status:\"running\"}`. Fields `final_answer`, `answer_blocks`, `totals`, `thread_totals` are no longer in the HTTP body — frontends MUST consume SSE to render the answer.\n  - **New SSE event** — `chat-progress` rides the existing `/sse/stream` connection. Payload: `{thread_uid, turn_index, stage, seq, round?, action?, answer?, answer_blocks?, usage?}`. `stage` is one of `started`, `tool_call`, `tool_done`, `final`, `error`. `seq` is monotonic per turn so the frontend can drop out-of-order events. The `final` stage carries the structured `answer_blocks` array (same shape as `GET /threads/:uid` returns) plus a `usage:{percent, exhausted}` object so the chat budget indicator can refresh from the event without polling `/chat/usage`. Token/cost/timing data are intentionally NOT in the SSE payload.\n  - **Action enum** (present on `tool_call` / `tool_done`): `reading_trades`, `reading_trade`, `counting_trades`, `searching_notes`, `reading_notes`, `computing_widget`, `tagging_outcomes`, `working`. Frontend owns translation; internal tool names never cross the wire.\n  - **Reconnect** — if the SSE connection drops mid-turn, call `GET /chat/threads/{uid}` and read `turns[-1].status` (`running` / `done` / `failed`). The new `status` field is added to every entry under `turns` in the `GET /chat/threads/{uid}` response.\n  - **Error reporting** — `stage:\"error\"` carries no detail (no `message`, no `code`). Show a generic retry UI; the user can resend.\n  - **Pre-flight failures unchanged.** Caller checks, monthly cap, `ErrThreadBusy` still return synchronous 4xx with the existing error envelope (`429` `chat_quota_exhausted`, `409` `thread_busy`, `403` `chat_not_available`, etc.).\n  - **Why** — the previous synchronous flow could exceed reverse-proxy idle timeouts on long turns and gave the user no signal during tool execution. The async flow gives the frontend live progress (`Reading trades…`, `Counting trades…`, etc.) and decouples server-side turn duration from HTTP request lifetime.\n\n- **May 08: Chat — billing-percent endpoint, paying-tier-only access.**\n  - **`GET /chat/usage`** — response now exposes only `usage_percent` (integer 0..100, rounded down and clamped at 100), `exhausted` (bool), and `cycle_end` (calendar-month UTC reset). Token counts, dollar amounts, message counts, and model identifiers are intentionally not exposed on the public surface.\n  - **Access control** — chat is now available only on the **Trader** and **Pro** plans. Trial / Novice / Novice+ users hitting `GET /chat/usage` or `POST /chat/threads/{uid}/messages` receive `403 Forbidden` with `code: \"chat_not_available\"`. Admin / Owner / Support remain unlimited; mentors of any student keep the Pro cap.\n  - **Monthly cap** — Trader $1.50, Pro $3.50 per calendar month UTC. The call that crosses the cap completes (the provider already billed us); the next call returns `429 Too Many Requests` with `code: \"chat_quota_exhausted\"` and `cycle_end`. The previous error code `quota_exceeded` and the dollar/spent fields on the 429 body are removed.\n  - **Migration note** — frontends previously reading `spent_usd_micro` / `cap_usd_micro` / `period_start` from `/chat/usage` must switch to `usage_percent` + `exhausted`.\n\n\n  - **`POST /chat/threads/{uid}/messages`** — `compute_widget` now takes a semantic `alias` (e.g. `pnl_sum`, `pnl_ts`, `pnl_curve`, `winrate_by_symbol`, `drawdown_max`, ~70 aliases total) instead of `widget_id.{source,type}`. Aliases follow `\u003cdomain\u003e_\u003cmetric\u003e[_\u003cdim\u003e][_\u003cshape\u003e]` and pick both data and shape: `_sum`/`_avg`/`_max` are scalars (number widgets), `_ts`/`_curve` are time-series (chart, `groupBy` applies, default `day`), `_by_\u003cdim\u003e` are categorical breakdowns. Optional knobs: `groupBy ∈ {minute, hour, day, week, month}` for time-series; `tag_columns: string[]` for `*_by_tag*` (omit → aggregate across all the user's tag columns); `categories: uint64[]` for `*_by_category`; `block_id` for disambiguating multiple calls of the same alias in one turn.\n  - **Response shape** — the tool now returns `{alias, widget_id:{source,type}, shape, group_by, data, sample_size, optional meta}`. Frontends use `widget_id.{source,type}` to render the card; the LLM uses `alias` and `shape` for reasoning.\n  - **Inline references** — `[](tmm:widget/\u003calias\u003e)` and `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)`. The `\u003csource\u003e` form is gone; the runtime resolves `\u003calias\u003e` to the original `widget_id` when building the answer block.\n  - **`AnswerBlock`** — widget blocks now expose `type` (`number`|`chart`) and `alias` (e.g. `pnl_ts`) alongside the existing `source`. `dto.ChatAnswerBlock` mirrors these. Existing renderers that only read `source` continue to work; cards that need to distinguish chart vs number should read `type`.\n  - **System prompt** — new `## Widgets` section explains the alias model, three shapes, `groupBy` heuristics by query window, and the `tag_columns`/`categories` knobs. `TraderProfile` now carries `tag_columns` (id/key/name/scope per built-in or custom column) and `categories` (id/name) so the LLM can populate those filters with values the user actually has.\n\n- **May 08: Chat — widget block title removed, duplicate widget data fix, and thread titles.**\n  - **`POST /chat/threads/{uid}/messages`** — `widget` answer blocks no longer carry a `title`. The widget card renders as a self-contained unit and the prose around it is the user-facing text, so the model-written label was redundant and noisy. The inline-citation marker for widgets is now `[](tmm:widget/\u003calias\u003e)` or `[](tmm:widget/\u003calias\u003e/\u003cblock_id\u003e)` (empty brackets); any text the model writes inside the brackets is silently dropped. `trade` blocks are unchanged — they still carry a model-written `title` and the marker is still `[\u003cyour title\u003e](tmm:trade/\u003cid\u003e)`. An empty-bracket trade marker now drops to literal text instead of resolving with an empty label.\n  - **`POST /chat/threads/{uid}/messages`** — Fix: when a single assistant turn called `compute_widget` more than once on the same alias (e.g. `pay_off_ratio` for all-time **and** for the last 90 days), every resulting `widget` block carried the last call's data. Each `compute_widget` call now accepts an optional `block_id` (`^[a-z0-9_]{1,16}$`) and the inline-citation marker carries the same id so the runtime can distinguish two calls on the same alias. Markers without a `block_id` keep working when the alias was computed exactly once in the turn; otherwise they fall back to literal markdown so the duplication is visible rather than silent. Older single-call answers are unaffected.\n  - **`GET /chat/threads`** and **`GET /chat/threads/{uid}`** — `ChatThreadHeaderResponse` now carries a `title` field (string, nullable). It is auto-derived from the first user message of a thread (whitespace-collapsed, clipped to 40 characters at a word boundary) and is null until that derivation runs. Existing threads created before this change will pick up a title on their next user send. The field is always present in the response — `title: null` when unset — so the frontend can rely on the shape.\n\n- **May 06: Exchanges — KuCoin Spot and Futures added.**\n  - Added KuCoin Spot (`exchange_id` `54`) and KuCoin Futures (`exchange_id` `55`) to `GET /exchanges` and `POST /api_keys`.\n  - KuCoin requires a passphrase, supplied via `extra_info` on key creation.\n\n- **Apr 30:**\n  - **Breaking — Tag categories: `scopes` renamed to `scope`**: `TagCategoryForm.scopes` (uint8 bitmask) has been replaced by `TagCategoryForm.scope` (uint8 enum: `1 = trade`, `2 = note`). A custom tag category now belongs to exactly one surface; mark it as either trade-scope or note-scope when creating/updating. Filtering: when the trades list filter receives a `tag_groups` entry whose column maps to a note-scope category, matching trades are those whose user-selected time anchor (open or close, per profile) falls within the date range of any of the user's notes that carries one of the requested tags.\n  - **`GET /api/v2/transcribe/usage`**: Response now includes a `tier_limits` array describing the per-tier monthly minute cap and OpenAI model (`novice`, `novice_plus`, `trader`, `pro`), so the FE can render the limits table without hard-coding it.\n- **Apr 28: Audio Transcription**\n  - **`POST /api/v2/transcribe`**: Authenticated endpoint for converting audio recordings to text.\n    - **Request:** `multipart/form-data` with `audio` (≤ 25 MB / ≤ 10 min, webm/mp4/mpeg/wav/ogg). Optional `owner_type` + `owner_id` link the transcription to an existing entity.\n    - **Response:** transcript text, recorded/billed durations, monthly meter, cycle end.\n    - **Quota:** 10 / 120 / 300 / 1000 minutes per calendar month (UTC) for novice / novice_plus / trader / pro. Trial users use the novice allotment.\n    - **Rate limit:** 10 req/min/user.\n    - **Errors:** `audio_too_large`, `audio_too_long`, `audio_too_recent` (pre-recorded audio detected), `quota_exceeded`, `model_not_found`, `transcription_provider_error`, `transcription_timeout`.\n  - **`GET /api/v2/transcribe/usage`**: Returns the current cycle's used / remaining minutes and tier model.\n- **Apr 27:**\n  - **Analyzer Balance Chart Range:** `GET /analyzer/` no longer extends the balance chart one day backward into the prior period. The `balanceHistory` data points now all fall inside the requested range, so periods with no trades render as flat (0% gain) instead of inheriting drift from the prior period's closing balance.\n- **Apr 07:**\n  - **SSE Connection ID:** `GET /sse` now accepts an optional `connection_id` query parameter. Passing a persistent ID (e.g. a UUID stored in `localStorage`) lets the same client reconnect without consuming an additional connection slot — the server replaces the previous connection instead. Clients that do not send `connection_id` are unaffected.\n  - **SSE Connection Limit Response:** Exceeding the per-user connection limit now returns `429 Too Many Requests` instead of `500`.\n- **Mar 23:**\n  - **ASTER Futures Support:** Added support for the ASTER DEX Futures exchange.\n  - **Trade Filter Fixes:** Tag-group filters and merged trade filters now respect the requested column values and override filters correctly.\n- **Mar 19:**\n  - **Widget Preview Filters:** The widget preview endpoint now uses the request filters as the source of truth, so preview output matches the submitted filter set.\n- **Mar 18:**\n  - **Widget Preview API:** Added `GET /board/preview/widget/{id}` for server-side widget previews using the supplied filters, and restored `GET /board/counter/widget/{id}` for counts.\n- **Mar 12:**\n  - **Payment Quote Endpoint:** Renamed `GET /transactions/discount` to `GET /transactions/quote` and expanded it into a full payment quote endpoint that accepts `gateway`, `level`, and `months`.\n  - **Trials and Billing:** Added `PUT /transactions/trial` for the one-time 15-day trial, and updated billing flows to handle proration and referral bonuses during membership changes.\n  - **Promo Codes and Referrals:** Added promo-code preview/apply/redeem flows plus referral summary and referral-code update endpoints for user accounts.\n- **Mar 10:**\n  - **Hybrid Filter Catalog Delivery**: Added `GET /filter-catalog` for authenticated clients to retrieve the filter catalog for the current user or an accessible subject via `subject_user_id`.\n  - **Auth Profile Update**: `GET /auth/me` now includes `filter_catalog` and, when applicable, `mentor_subjects`.\n  - **Backward Compatibility**: `categories`, `tags`, `tag_categories`, and `api_keys_list` remain in `GET /auth/me` for now, but are deprecated. New integrations should prefer `filter_catalog.catalogs`.\n  - **Public Dashboard Filters**: `GET /board/public/{code}/load` now includes `filter_catalog_snapshot`, a selected-only, read-only subset intended for rendering public dashboard filter labels without exposing private catalog options.\n- **Mar 09:**\n  - **Bulk Tag Column Update**: Added `POST /trades/tags/column` to move multiple existing tags to a target column in one request. Request body: `{\"ids\":[...],\"column\":\u003ccolumn_id\u003e}`. The operation is all-or-nothing: if any tag id is invalid, missing, inaccessible, or the target column is not available for the user, no tags are updated.\n  - **Tag Categories API**: Added `GET /trades/tag-categories`, `POST /trades/tag-categories`, `POST /trades/tag-categories/{id}`, and `DELETE /trades/tag-categories/{id}` to list, create, update, reorder, and delete custom tag categories.\n  - **Trade Filtering Update**: Trade-filtered endpoints now support category-aware tag filters via `tag_groups`, `tag_columns`, and category-specific tag parameters. Legacy `tags`, `tags_params`, `exit_tags`, and `exit_tags_params` remain supported but are deprecated.\n  - **User Profile Response**: `GET /me` now includes `tag_categories`.\n  - **Widget Sources**: Added tag-based widget sources `income_by_tag`, `income_by_tag_combination`, `percent_by_tag`, and `win_rate_by_tag_combination`.\n- **Mar 05:**\n  - **New exchange: MEXC**: Futures \u0026 spot support\n- **Mar 02:**\n  - **Analyzer Notes**: The `GET /analyzer/week-list` endpoint now includes user notes in the response.\n- **Feb 26:**\n  - **Connections Endpoint**: Added `GET /connections` to list all external notification service connections (e.g., Telegram, Discord).\n- **Jan 27: Risk Management Overhaul**\n  - **Global Rule Support**: Major update to the risk management system, introducing support for **global (all-account)** rule settings.\n  - **Configuration**: To apply rules globally across all accounts, set the `api_key_id` parameter to `0`.\n  - **Exclusion Logic**: System logic now automatically **excludes frozen API keys** from both global rule enforcement and aggregate balance calculations.\n- **Jan 26:** **Analyzer Enhancement**: The `/analyzer` endpoint now accepts a `close_between` filter to narrow results based on trade closing times.\n- **Jan 16:** **Risk Management Backtest Engine**: Added `POST /risk-management/backtest` for simulating trading rules on historical data.\n- **Jan 14:** Corrected Bitget Spot trading fee calculation.\n- **Jan 06:** Migrated API documentation from Swagger UI to Scalar UI for a better user experience.\n- **Jan 02:** Extended the `/me` endpoint to include additional user information.\n\n### 2025 Updates\n\n- **Dec 12:** Implemented a rolling cache for trade deduplication to optimize memory usage.\n- **Dec 09:** Updated trade categories to support user-specific assignments.\n- **Dec 02:** Added a debouncer for handling high-frequency API requests more efficiently.\n- **Nov 28:** Fixed sorting for trade tags.\n- **Nov 16:** New Exchange Support: **Hyperliquid** (Futures).\n- **Nov 05:** Corrected currency handling for MNT on Bybit.\n- **Oct 29:** Added `PUT /api-key/batch` for bulk management.\n- **Sep 01:** Updated `GET /analyzer/` with `skipData` and `skipBalance` flags.\n- **Jul 24:** Added `income_percent_by_symbol` widget.\n- **Apr 22:** Added `websocket_status[]` multi-value filter for API keys (Enum `ApiKeyWebsocketStatus`).\n- **Apr 11:** Enhanced `/top` (Teams) endpoint. Now returns detailed user statistics (`pnl`, `percent`, `qty`) for today, yesterday, 7d, 14d, 30d, and custom periods.\n- **Apr 10:** Added `yesterday` and `14days` aggregation intervals for Teams.\n- **Apr 08:** `GET /trades/public-group/{code}` updated for cumulative income and win rate widgets.\n- **Apr 03:** **Risk Management Expansion**: Added support for fixed USD loss limits (`per_trade_usd`, `per_day_usd`). Updated Telegram/Discord notifications.\n- **Apr 01:** Updated Teams with custom 'from' and 'to' date support.\n- **Mar 25:** New Exchange Support: **Tiger X OKX** (Spot \u0026 Futures, IDs 44 \u0026 45).\n- **Mar 19:** New Exchange Support: **Tiger X Binance** (Spot \u0026 Futures, IDs 42 \u0026 43).\n- **Mar 18:** Fixed widget limits for free accounts on Public Profiles.\n- **Mar 03:** **OAuth2 \u0026 SSE**: Added OAuth2 support and SSE stream (`/user/oauth2`, `/oauth2/token`, `/oauth2/sse/{key}`).\n- **Feb 19:** New Exchange Support: **Bitget Spot** (ID 41).\n- **Feb 06:** Added `start_of_week` user setting (Monday/Sunday) for analytics.\n\n---\n\n## 5. Technical Remarks\n\n1. **Timeframes:** All timestamps are in **milliseconds**.\n2. **Performance:** Only the first 10 trades in a list include order data by default. Use `GET /trades/{trade_id}/orders` for the full list.\n",
         "title": "TMM API",
         "termsOfService": "https://tradermake.money/terms-and-conditions/",
         "contact": {
@@ -4980,6 +4980,109 @@
                                 "type": "integer",
                                 "description": "1654898909"
                             },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api-user/mcp": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Mints (or returns the existing) read-only, MCP-only API token for the current user. Available to every verified user. The token is scoped to the /api/v2/mcp endpoint only and is rejected on every other REST route. Idempotent — one MCP token per user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-user"
+                ],
+                "summary": "Create MCP Token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
                             "x-ratelimit-limit": {
                                 "type": "integer",
                                 "description": "20"
@@ -15612,6 +15715,454 @@
                         "description": "Poll locked",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/authorize": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Called by the consent screen. On approval it upserts the user's grant, mints a one-shot authorization code bound to the client's PKCE challenge, and returns the URL to send the browser to. On denial — and on any error raised after redirect_uri has validated (bad PKCE method, unknown resource) — it returns the same shape carrying an `error` parameter instead of a code, because OAuth 2.1 makes the redirect the delivery channel for those. The redirect always carries `iss` (RFC 9207).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth"
+                ],
+                "summary": "Record consent and mint an authorization code",
+                "parameters": [
+                    {
+                        "description": "Consent decision",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthAuthorizeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_OauthAuthorizeResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/authorize-context": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Resolves the client behind client_id (pre-registered row, or its client-id metadata document), validates the redirect_uri against the client's registered list, and returns what the consent screen must render. The screen shows client_host and redirect_host — the verified facts — not the self-asserted client_name.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth"
+                ],
+                "summary": "Consent screen context",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Client ID (an https CIMD URL, or a pre-registered id)",
+                        "name": "client_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Where the code will be delivered",
+                        "name": "redirect_uri",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space-delimited requested scopes",
+                        "name": "scope",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client state, echoed on the redirect",
+                        "name": "state",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "PKCE S256 challenge",
+                        "name": "code_challenge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Must be S256",
+                        "name": "code_challenge_method",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "RFC 8707 resource indicator",
+                        "name": "resource",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Must be code",
+                        "name": "response_type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_OauthAuthorizeContext"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/grants": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Every application the caller has authorized, most recently used first.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth"
+                ],
+                "summary": "Connected applications",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_controllers_OauthGrantView"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/grants/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Revokes the grant and every access and refresh token minted under it, so access stops on the next request rather than whenever the current access token happens to expire.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth"
+                ],
+                "summary": "Disconnect an application",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Grant id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/register": {
+            "post": {
+                "description": "RFC 7591 §3.1. Registers a PUBLIC client (PKCE, no secret) and returns an opaque client_id. PUBLIC — no JWT. This is the FALLBACK path: clients that implement client-id metadata documents should use those instead (see `client_id_metadata_document_supported`), and this endpoint exists for the many MCP clients that cannot. The response is raw RFC 7591 JSON, NOT the ApiSuccess envelope, because a registering client parses it literally. No client_secret and no RFC 7592 management credentials are ever issued.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth",
+                    "internal"
+                ],
+                "summary": "OAuth 2.0 dynamic client registration",
+                "parameters": [
+                    {
+                        "description": "RFC 7591 client metadata",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/oauth.ClientRegistrationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthClientRegistrationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/revoke": {
+            "post": {
+                "description": "RFC 7009. Revokes an access or refresh token. PUBLIC, form-urlencoded. Always answers 200 — including for an unknown token, so the endpoint cannot be used to probe token validity (§2.2).",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth",
+                    "internal"
+                ],
+                "summary": "OAuth 2.0 token revocation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The token to revoke",
+                        "name": "token",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "access_token | refresh_token (advisory only)",
+                        "name": "token_type_hint",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client ID",
+                        "name": "client_id",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/token": {
+            "post": {
+                "description": "RFC 6749 §3.2. Exchanges an authorization code (PKCE S256) or a refresh token for an access token. PUBLIC — no JWT. Request body is application/x-www-form-urlencoded; the response is raw RFC 6749 JSON, NOT the ApiSuccess envelope, because OAuth clients parse it literally.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "oauth",
+                    "internal"
+                ],
+                "summary": "OAuth 2.1 token endpoint",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "authorization_code | refresh_token",
+                        "name": "grant_type",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Authorization code (authorization_code grant)",
+                        "name": "code",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Must match the URI the code was issued to",
+                        "name": "redirect_uri",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client ID (a CIMD https URL, or a pre-registered id)",
+                        "name": "client_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "PKCE verifier (authorization_code grant)",
+                        "name": "code_verifier",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Refresh token (refresh_token grant)",
+                        "name": "refresh_token",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "RFC 8707 resource indicator",
+                        "name": "resource",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+                        "name": "client_assertion_type",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "private_key_jwt assertion (RFC 7523)",
+                        "name": "client_assertion",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthTokenResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.OauthProtocolError"
                         }
                     }
                 }
@@ -27898,6 +28449,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_controllers_OauthGrantView": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/controllers.OauthGrantView"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_controllers_PublicProfileSitemapEntry": {
             "type": "object",
             "properties": {
@@ -28293,6 +28863,38 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/controllers.FeedNotificationLikeData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_OauthAuthorizeContext": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.OauthAuthorizeContext"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_OauthAuthorizeResult": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.OauthAuthorizeResult"
                 },
                 "status": {
                     "allOf": [
@@ -29257,6 +29859,246 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.OauthAuthorizeContext": {
+            "type": "object",
+            "properties": {
+                "already_granted": {
+                    "description": "AlreadyGranted is true when a live grant already covers every listed\nscope, letting the UI render \"reconnect\" instead of \"authorize\".",
+                    "type": "boolean"
+                },
+                "client_host": {
+                    "description": "ClientHost is the host of the client_id URL — the verified identity.\nEMPTY for a self-registered client: its client_id is an opaque `dcr_…`\nstring, not a host, and rendering it in the position the screen reserves\nfor a verified identity would be a lie.",
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string"
+                },
+                "client_name": {
+                    "type": "string"
+                },
+                "client_uri": {
+                    "type": "string"
+                },
+                "client_verified": {
+                    "description": "ClientVerified says whether ANYTHING about this client was checked by us.\nTrue for cimd (control of the client_id URL was proven) and for\npreregistered (we created the row). FALSE for a client that registered\nitself through RFC 7591, where the name, logo and client_uri are strings\nit chose thirty seconds ago — the screen must say so rather than present\n\"Cursor\" with the same weight as a verified identity.",
+                    "type": "boolean"
+                },
+                "is_loopback": {
+                    "description": "IsLoopback warns that the callback goes to a process on the user's own\nmachine. Any local process can bind a port and claim a legitimate\nclient_id, so a loopback callback cannot be attributed to a specific\napplication — CIMD cannot prevent that, only disclosure can.",
+                    "type": "boolean"
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "policy_uri": {
+                    "type": "string"
+                },
+                "redirect_host": {
+                    "description": "RedirectHost is where the browser will actually land.",
+                    "type": "string"
+                },
+                "redirect_uri": {
+                    "description": "RedirectURI is the validated URI the code will be delivered to.",
+                    "type": "string"
+                },
+                "resource": {
+                    "description": "Resource is the RFC 8707 resource indicator the token will be bound to.",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "Scopes is the resolved set to display, already narrowed to what this\nserver supports.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tos_uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.OauthAuthorizeRequest": {
+            "type": "object",
+            "required": [
+                "client_id",
+                "redirect_uri"
+            ],
+            "properties": {
+                "approved": {
+                    "description": "Approved is false when the user pressed Deny.",
+                    "type": "boolean"
+                },
+                "client_id": {
+                    "type": "string"
+                },
+                "code_challenge": {
+                    "type": "string"
+                },
+                "code_challenge_method": {
+                    "type": "string"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "redirect_uri": {
+                    "type": "string"
+                },
+                "resource": {
+                    "type": "string"
+                },
+                "response_type": {
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "Scope is the client's original space-delimited request string.",
+                    "type": "string"
+                },
+                "scopes": {
+                    "description": "Scopes is the subset the user actually ticked. When present it wins over\nScope — the user may only ever narrow, never widen, the request.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "state": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.OauthAuthorizeResult": {
+            "type": "object",
+            "properties": {
+                "redirect_to": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.OauthClientRegistrationResponse": {
+            "type": "object",
+            "properties": {
+                "client_id": {
+                    "type": "string"
+                },
+                "client_id_issued_at": {
+                    "description": "ClientIDIssuedAt is unix seconds, per RFC 7591 §3.2.1.",
+                    "type": "integer"
+                },
+                "client_name": {
+                    "type": "string"
+                },
+                "client_uri": {
+                    "type": "string"
+                },
+                "grant_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "policy_uri": {
+                    "type": "string"
+                },
+                "redirect_uris": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "response_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "software_id": {
+                    "type": "string"
+                },
+                "software_version": {
+                    "type": "string"
+                },
+                "token_endpoint_auth_method": {
+                    "type": "string"
+                },
+                "tos_uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.OauthGrantView": {
+            "type": "object",
+            "properties": {
+                "client_host": {
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string"
+                },
+                "client_name": {
+                    "type": "string"
+                },
+                "client_verified": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_used_at": {
+                    "type": "string"
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "controllers.OauthProtocolError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "invalid_grant"
+                },
+                "error_description": {
+                    "type": "string"
+                },
+                "error_uri": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.OauthTokenResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires_in": {
+                    "type": "integer",
+                    "example": 3600
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "token_type": {
+                    "type": "string",
+                    "example": "Bearer"
                 }
             }
         },
@@ -31038,7 +31880,8 @@
                         "es",
                         "pt",
                         "tr",
-                        "id"
+                        "id",
+                        "zh"
                     ],
                     "example": "en"
                 },
@@ -31532,7 +32375,8 @@
                         "es",
                         "pt",
                         "tr",
-                        "id"
+                        "id",
+                        "zh"
                     ],
                     "example": "en"
                 },
@@ -32660,7 +33504,8 @@
                         "es",
                         "pt",
                         "tr",
-                        "id"
+                        "id",
+                        "zh"
                     ],
                     "example": "en"
                 }
@@ -32834,7 +33679,8 @@
                         "es",
                         "pt",
                         "tr",
-                        "id"
+                        "id",
+                        "zh"
                     ],
                     "example": "en"
                 },
@@ -32946,6 +33792,53 @@
                 }
             }
         },
+        "oauth.ClientRegistrationRequest": {
+            "type": "object",
+            "properties": {
+                "client_name": {
+                    "type": "string"
+                },
+                "client_uri": {
+                    "type": "string"
+                },
+                "grant_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "logo_uri": {
+                    "type": "string"
+                },
+                "policy_uri": {
+                    "type": "string"
+                },
+                "redirect_uris": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "response_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "software_id": {
+                    "type": "string"
+                },
+                "software_version": {
+                    "type": "string"
+                },
+                "token_endpoint_auth_method": {
+                    "type": "string"
+                },
+                "tos_uri": {
+                    "type": "string"
+                }
+            }
+        },
         "services.AnalyzerNote": {
             "type": "object",
             "properties": {
@@ -32992,9 +33885,6 @@
                 },
                 "exchange_id": {
                     "$ref": "#/definitions/services.ExchangeID"
-                },
-                "extra_info": {
-                    "type": "string"
                 },
                 "flag1": {
                     "type": "integer"
@@ -33171,11 +34061,13 @@
             "format": "int32",
             "enum": [
                 1,
-                2
+                2,
+                3
             ],
             "x-enum-varnames": [
                 "API_USER_TYPE_USER_CREATED",
-                "API_USER_TYPE_OAUTH_CREATED"
+                "API_USER_TYPE_OAUTH_CREATED",
+                "API_USER_TYPE_MCP"
             ]
         },
         "services.Artifact": {
@@ -35068,7 +35960,8 @@
                 "es",
                 "pt",
                 "tr",
-                "id"
+                "id",
+                "zh"
             ],
             "x-enum-varnames": [
                 "LocaleRu",
@@ -35077,7 +35970,8 @@
                 "LocaleEs",
                 "LocalePt",
                 "LocaleTr",
-                "LocaleId"
+                "LocaleId",
+                "LocaleZh"
             ]
         },
         "services.Membership": {

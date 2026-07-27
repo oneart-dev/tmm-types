@@ -19,6 +19,14 @@ export class ApiUser extends HttpClient {
             format: "json",
             ...params,
         });
+        this.putApiUser = (params = {}) => this.request({
+            path: `/api-user/mcp`,
+            method: "PUT",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.apiUserDelete = (id, params = {}) => this.request({
             path: `/api-user/${id}`,
             method: "DELETE",
