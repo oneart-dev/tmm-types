@@ -106,6 +106,10 @@ export interface ControllersApiSuccessArrayServicesOrder {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
     data?: ServicesRiskManagementBacktestResult[];
     status?: ControllersResponseStatusMessage;
@@ -192,6 +196,14 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
 }
 export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
     data?: ServicesPublicAnnouncementDetail;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralDashboard {
+    data?: ServicesReferralDashboard;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
@@ -775,7 +787,7 @@ export interface DtoMentorGroupForm {
     date_start?: string;
     email?: string;
     invite_code?: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     limit?: number;
     name: string;
     private_text?: string;
@@ -866,6 +878,18 @@ export interface DtoPublicProfileUpdateForm {
     website?: string;
     youtube?: string;
 }
+export interface DtoReferralWithdrawalActionForm {
+    note?: string;
+}
+export interface DtoReferralWithdrawalCreateForm {
+    address: string;
+    amount: string;
+    network: "TRC20" | "BEP20";
+}
+export interface DtoReferralWithdrawalMarkPaidForm {
+    note?: string;
+    tx_hash: string;
+}
 export interface DtoRiskManagementCreateForm {
     api_key_id?: number;
     max_leverage?: string;
@@ -876,7 +900,7 @@ export interface DtoRiskManagementCreateForm {
 }
 export interface DtoSignUpCredentials {
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     password: string;
     promo?: string;
@@ -1092,6 +1116,7 @@ export interface DtoTradesMergeForm {
     id: number[];
 }
 export interface DtoTransactionCreateForm {
+    apply_referral_cash?: boolean;
     gateway: string;
     level: string;
     months: number;
@@ -1100,7 +1125,7 @@ export interface DtoUIData {
     data: string;
 }
 export interface DtoUserLanguage {
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 export interface DtoUserNoteCreateForm {
     body_html?: string;
@@ -1138,7 +1163,7 @@ export interface DtoUserUpdateForm {
     default_group_field?: 1 | 2;
     default_time_frame?: "1s" | "5s" | "1m" | "3m" | "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "1d";
     email: string;
-    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
     start_of_week?: "sunday" | "monday";
     timezone: string;
@@ -1838,7 +1863,8 @@ export declare enum ServicesLocale {
     LocaleEs = "es",
     LocalePt = "pt",
     LocaleTr = "tr",
-    LocaleId = "id"
+    LocaleId = "id",
+    LocaleZh = "zh"
 }
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
@@ -2164,6 +2190,80 @@ export interface ServicesPublicStats {
     trade_processing?: Record<string, ServicesLoadLevel>;
     trade_processing_queue?: Record<string, ServicesLoadLevel>;
     ws_queue?: ServicesLoadLevel;
+}
+export interface ServicesReferralDashboard {
+    available_balance?: string;
+    commission_tiers?: ServicesReferralTierInfo[];
+    current_tier_index?: number;
+    current_tier_rate?: number;
+    earnings?: ServicesReferralEarning[];
+    lifetime_earned?: string;
+    min_withdrawal?: number;
+    next_tier_threshold?: number;
+    paying_referrals?: number;
+    pending_balance?: string;
+    referrals?: ServicesReferralRefereeInfo[];
+    spent_total?: string;
+    withdrawals?: ServicesReferralWithdrawal[];
+    withdrawals_in_review_total?: string;
+    withdrawn_total?: string;
+}
+export interface ServicesReferralEarning {
+    available_at?: string;
+    coin?: string;
+    commission_amount?: string;
+    commission_rate?: string;
+    created_at?: string;
+    gross_amount?: string;
+    id?: number;
+    referee_user_id?: number;
+    referrer_user_id?: number;
+    reversal_reason?: ServicesReferralReversalReason;
+    status?: ServicesReferralEarningStatus;
+    transaction_id?: number;
+    updated_at?: string;
+}
+export declare enum ServicesReferralEarningStatus {
+    ReferralEarningPending = "pending",
+    ReferralEarningAvailable = "available",
+    ReferralEarningReversed = "reversed"
+}
+export interface ServicesReferralRefereeInfo {
+    earned?: string;
+    joined_at?: string;
+    paid?: boolean;
+    status?: string;
+    uid?: number;
+}
+export declare enum ServicesReferralReversalReason {
+    ReferralReversalRefund = "refund",
+    ReferralReversalAbuseDupe = "abuse_duplicate_account"
+}
+export interface ServicesReferralTierInfo {
+    rate?: number;
+    threshold?: number;
+}
+export interface ServicesReferralWithdrawal {
+    admin_note?: string;
+    amount?: string;
+    coin?: string;
+    created_at?: string;
+    id?: number;
+    network?: string;
+    payout_address?: string;
+    processed_at?: string;
+    processed_by?: number;
+    requested_at?: string;
+    status?: ServicesReferralWithdrawalStatus;
+    tx_hash?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesReferralWithdrawalStatus {
+    ReferralWithdrawalRequested = "requested",
+    ReferralWithdrawalApproved = "approved",
+    ReferralWithdrawalPaid = "paid",
+    ReferralWithdrawalRejected = "rejected"
 }
 export interface ServicesRiskManagement {
     api_key_id?: number;
@@ -2881,6 +2981,7 @@ export interface ServicesTransaction {
     valid_until?: number;
 }
 export interface ServicesTransactionQuote {
+    available_referral_cash?: string;
     base_amount?: string;
     billing_months?: number;
     contributions?: ServicesTransactionProrationContribution[];
@@ -2897,6 +2998,8 @@ export interface ServicesTransactionQuote {
     lines?: ServicesTransactionQuoteLine[];
     months?: number;
     quote_type?: ServicesTransactionQuoteType;
+    referral_cash_applied?: string;
+    referral_cash_eligible?: boolean;
     subtotal_amount?: string;
     total_discount_amount?: string;
     unused_balance_amount?: string;

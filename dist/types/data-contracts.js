@@ -175,6 +175,7 @@ export var ServicesLocale;
     ServicesLocale["LocalePt"] = "pt";
     ServicesLocale["LocaleTr"] = "tr";
     ServicesLocale["LocaleId"] = "id";
+    ServicesLocale["LocaleZh"] = "zh";
 })(ServicesLocale || (ServicesLocale = {}));
 export var ServicesMembership;
 (function (ServicesMembership) {
@@ -241,6 +242,24 @@ export var ServicesPublicProfileStatus;
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusOFF"] = 2] = "PublicProfileStatusOFF";
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusBAN"] = 3] = "PublicProfileStatusBAN";
 })(ServicesPublicProfileStatus || (ServicesPublicProfileStatus = {}));
+export var ServicesReferralEarningStatus;
+(function (ServicesReferralEarningStatus) {
+    ServicesReferralEarningStatus["ReferralEarningPending"] = "pending";
+    ServicesReferralEarningStatus["ReferralEarningAvailable"] = "available";
+    ServicesReferralEarningStatus["ReferralEarningReversed"] = "reversed";
+})(ServicesReferralEarningStatus || (ServicesReferralEarningStatus = {}));
+export var ServicesReferralReversalReason;
+(function (ServicesReferralReversalReason) {
+    ServicesReferralReversalReason["ReferralReversalRefund"] = "refund";
+    ServicesReferralReversalReason["ReferralReversalAbuseDupe"] = "abuse_duplicate_account";
+})(ServicesReferralReversalReason || (ServicesReferralReversalReason = {}));
+export var ServicesReferralWithdrawalStatus;
+(function (ServicesReferralWithdrawalStatus) {
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRequested"] = "requested";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalApproved"] = "approved";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalPaid"] = "paid";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRejected"] = "rejected";
+})(ServicesReferralWithdrawalStatus || (ServicesReferralWithdrawalStatus = {}));
 export var ServicesRiskManagementLogType;
 (function (ServicesRiskManagementLogType) {
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLoss"] = 1] = "RiskManagementLogTypeTradeLoss";

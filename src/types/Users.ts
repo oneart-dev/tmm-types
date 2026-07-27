@@ -12,9 +12,13 @@
 import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem,
+  ControllersApiSuccessArrayServicesReferralWithdrawal,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesPromoCodeApplyResult,
   ControllersApiSuccessServicesPromoCodePreview,
+  ControllersApiSuccessServicesReferralDashboard,
+  ControllersApiSuccessServicesReferralWithdrawal,
+  ControllersApiWarningResponse,
   ControllersBulkSignUpSuccessResponse,
   ControllersLoginSuccessResponse,
   ControllersPublicProfileResponse,
@@ -26,6 +30,7 @@ import {
   DtoPromoCodeApplyForm,
   DtoPromoCodePreviewForm,
   DtoPublicProfileUpdateForm,
+  DtoReferralWithdrawalCreateForm,
   DtoUserLanguage,
   DtoUserReferralCode,
   DtoUserTheme,
@@ -323,6 +328,68 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   referralCodeCreate = (payload: DtoUserReferralCode, params: RequestParams = {}) =>
     this.request<ControllersApiSuccessResponse, ServicesValidationErrorResponse>({
       path: `/users/referral-code`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns the current user's referral dashboard: balances, tier rate, referrals, withdrawals, and earnings.
+   *
+   * @tags referral
+   * @name ReferralDashboardList
+   * @summary Get cash-referral dashboard
+   * @request GET:/users/referral/dashboard
+   * @secure
+   */
+  referralDashboardList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesReferralDashboard,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/referral/dashboard`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Lists all referral withdrawal requests submitted by the current user.
+   *
+   * @tags referral
+   * @name ReferralWithdrawalsList
+   * @summary List own referral withdrawals
+   * @request GET:/users/referral/withdrawals
+   * @secure
+   */
+  referralWithdrawalsList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesReferralWithdrawal,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/referral/withdrawals`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Requests a manual crypto payout of the current user's available referral cash balance.
+   *
+   * @tags referral
+   * @name ReferralWithdrawalsCreate
+   * @summary Request a referral cash withdrawal
+   * @request POST:/users/referral/withdrawals
+   * @secure
+   */
+  referralWithdrawalsCreate = (payload: DtoReferralWithdrawalCreateForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesReferralWithdrawal,
+      ControllersApiWarningResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/referral/withdrawals`,
       method: "POST",
       body: payload,
       secure: true,

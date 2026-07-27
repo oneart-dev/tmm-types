@@ -158,6 +158,12 @@ export interface ControllersApiSuccessArrayServicesOrder {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
   data?: ServicesRiskManagementBacktestResult[];
   /** @example "success" */
@@ -286,6 +292,18 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
 
 export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
   data?: ServicesPublicAnnouncementDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralDashboard {
+  data?: ServicesReferralDashboard;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1434,7 +1452,7 @@ export interface DtoMentorGroupForm {
    */
   invite_code?: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @min 1
    * @example 10
@@ -1708,6 +1726,39 @@ export interface DtoPublicProfileUpdateForm {
   youtube?: string;
 }
 
+export interface DtoReferralWithdrawalActionForm {
+  /**
+   * @maxLength 1000
+   * @example "Paid via TRC20 tx 0xabc..."
+   */
+  note?: string;
+}
+
+export interface DtoReferralWithdrawalCreateForm {
+  /**
+   * @maxLength 255
+   * @example "TXabc123..."
+   */
+  address: string;
+  /** @example "25.5" */
+  amount: string;
+  /** @example "TRC20" */
+  network: "TRC20" | "BEP20";
+}
+
+export interface DtoReferralWithdrawalMarkPaidForm {
+  /**
+   * @maxLength 1000
+   * @example "paid manually"
+   */
+  note?: string;
+  /**
+   * @maxLength 128
+   * @example "0xabc123..."
+   */
+  tx_hash: string;
+}
+
 export interface DtoRiskManagementCreateForm {
   /**
    * Empty means global settings for all API keys combined. Only 1 global settings allowed.
@@ -1730,7 +1781,7 @@ export interface DtoSignUpCredentials {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 2
    * @maxLength 100
@@ -2302,6 +2353,8 @@ export interface DtoTradesMergeForm {
 }
 
 export interface DtoTransactionCreateForm {
+  /** @example false */
+  apply_referral_cash?: boolean;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2329,7 +2382,7 @@ export interface DtoUIData {
 
 export interface DtoUserLanguage {
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
 }
 
 export interface DtoUserNoteCreateForm {
@@ -2386,7 +2439,7 @@ export interface DtoUserUpdateForm {
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
-  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id";
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
   /**
    * @minLength 3
    * @maxLength 100
@@ -3376,6 +3429,7 @@ export enum ServicesLocale {
   LocalePt = "pt",
   LocaleTr = "tr",
   LocaleId = "id",
+  LocaleZh = "zh",
 }
 
 export enum ServicesMembership {
@@ -3799,6 +3853,97 @@ export interface ServicesPublicStats {
   trade_processing?: Record<string, ServicesLoadLevel>;
   trade_processing_queue?: Record<string, ServicesLoadLevel>;
   ws_queue?: ServicesLoadLevel;
+}
+
+export interface ServicesReferralDashboard {
+  available_balance?: string;
+  commission_tiers?: ServicesReferralTierInfo[];
+  current_tier_index?: number;
+  current_tier_rate?: number;
+  earnings?: ServicesReferralEarning[];
+  lifetime_earned?: string;
+  /**
+   * MinWithdrawal is the resolved minimum payout amount (USDT) the withdrawal
+   * form enforces and displays. Config-driven, defaults to 50.
+   */
+  min_withdrawal?: number;
+  next_tier_threshold?: number;
+  paying_referrals?: number;
+  pending_balance?: string;
+  referrals?: ServicesReferralRefereeInfo[];
+  spent_total?: string;
+  withdrawals?: ServicesReferralWithdrawal[];
+  /**
+   * WithdrawalsInReviewTotal is money committed to payouts that are requested
+   * (or legacy-approved) but not yet paid. AvailableBalance already subtracts
+   * it, so it has to be visible for the dashboard to add up.
+   */
+  withdrawals_in_review_total?: string;
+  withdrawn_total?: string;
+}
+
+export interface ServicesReferralEarning {
+  available_at?: string;
+  coin?: string;
+  commission_amount?: string;
+  commission_rate?: string;
+  created_at?: string;
+  gross_amount?: string;
+  id?: number;
+  referee_user_id?: number;
+  referrer_user_id?: number;
+  reversal_reason?: ServicesReferralReversalReason;
+  status?: ServicesReferralEarningStatus;
+  transaction_id?: number;
+  updated_at?: string;
+}
+
+export enum ServicesReferralEarningStatus {
+  ReferralEarningPending = "pending",
+  ReferralEarningAvailable = "available",
+  ReferralEarningReversed = "reversed",
+}
+
+export interface ServicesReferralRefereeInfo {
+  earned?: string;
+  joined_at?: string;
+  paid?: boolean;
+  status?: string;
+  uid?: number;
+}
+
+export enum ServicesReferralReversalReason {
+  ReferralReversalRefund = "refund",
+  ReferralReversalAbuseDupe = "abuse_duplicate_account",
+}
+
+export interface ServicesReferralTierInfo {
+  rate?: number;
+  threshold?: number;
+}
+
+export interface ServicesReferralWithdrawal {
+  admin_note?: string;
+  amount?: string;
+  coin?: string;
+  created_at?: string;
+  id?: number;
+  network?: string;
+  payout_address?: string;
+  processed_at?: string;
+  processed_by?: number;
+  requested_at?: string;
+  status?: ServicesReferralWithdrawalStatus;
+  tx_hash?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export enum ServicesReferralWithdrawalStatus {
+  ReferralWithdrawalRequested = "requested",
+  ReferralWithdrawalApproved = "approved",
+  ReferralWithdrawalPaid = "paid",
+  ReferralWithdrawalRejected = "rejected",
 }
 
 export interface ServicesRiskManagement {
@@ -4632,6 +4777,12 @@ export interface ServicesTransaction {
 }
 
 export interface ServicesTransactionQuote {
+  /**
+   * AvailableReferralCash is the user's spendable referral-cash balance,
+   * reported whenever the cash-referral program is enabled (0 otherwise) so
+   * the UI can show it regardless of whether it was applied.
+   */
+  available_referral_cash?: string;
   base_amount?: string;
   billing_months?: number;
   contributions?: ServicesTransactionProrationContribution[];
@@ -4648,6 +4799,23 @@ export interface ServicesTransactionQuote {
   lines?: ServicesTransactionQuoteLine[];
   months?: number;
   quote_type?: ServicesTransactionQuoteType;
+  /**
+   * ReferralCashApplied is the amount of referral cash actually credited
+   * against FinalAmount on this quote (0 unless ApplyReferralCash was set
+   * and eligible).
+   */
+  referral_cash_applied?: string;
+  /**
+   * ReferralCashEligible tells the UI whether referral cash CAN be spent on
+   * this quote at all: the cash-referral program is enabled, cash->membership
+   * conversion is allowed by config, and the selected gateway supports the
+   * settle-time debit (every gateway except Stripe). Independent of whether
+   * the user opted in (ApplyReferralCash) and of the balance being > 0, so a
+   * user with a positive AvailableReferralCash and eligible=false can be told
+   * the balance exists but this payment method cannot spend it, instead of
+   * being shown an opt-in control that would silently do nothing.
+   */
+  referral_cash_eligible?: boolean;
   subtotal_amount?: string;
   total_discount_amount?: string;
   unused_balance_amount?: string;
