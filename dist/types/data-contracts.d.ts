@@ -341,6 +341,7 @@ export interface ControllersLoadBoardEmbedResponse {
     loss_color?: string;
     profit_color?: string;
     show_user_name?: boolean;
+    show_watermark?: boolean;
     status?: ControllersResponseStatusMessage;
     theme?: string;
     user_avatar_url?: string;
@@ -369,6 +370,7 @@ export interface ControllersLoadWidgetResponse {
     profit_color?: string;
     serverData?: string;
     show_user_name?: boolean;
+    show_watermark?: boolean;
     status?: ControllersResponseStatusMessage;
     theme?: string;
     user_avatar_url?: string;
@@ -732,6 +734,7 @@ export interface DtoDashboardShareForm {
     loss_color?: string;
     profit_color?: string;
     show_user_name?: boolean;
+    show_watermark?: boolean;
     theme?: "dark" | "light" | "auto";
 }
 export interface DtoDashboardSort {
@@ -1212,6 +1215,7 @@ export interface DtoWidgetShareForm {
     loss_color?: string;
     profit_color?: string;
     show_user_name?: boolean;
+    show_watermark?: boolean;
     theme?: "dark" | "light" | "auto";
 }
 export interface DtoWidgetUpdateForm {

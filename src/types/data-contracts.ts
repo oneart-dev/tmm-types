@@ -512,11 +512,17 @@ export interface ControllersLoadBoardEmbedResponse {
   loss_color?: string;
   profit_color?: string;
   /**
-   * ShowUserName is the EFFECTIVE setting, always stated. It cannot be
-   * inferred from user_name: an owner with no display name and an owner who
-   * switched the name off both send no name at all.
+   * ShowUserName is the EFFECTIVE setting for the page's author credit,
+   * always stated. It cannot be inferred from user_name: an owner with no
+   * display name and an owner who switched the credit off both send no name.
    */
   show_user_name?: boolean;
+  /**
+   * ShowWatermark is the EFFECTIVE setting for the centered watermark drawn
+   * inside each chart tile, always stated and fully independent of
+   * ShowUserName.
+   */
+  show_watermark?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   /**
@@ -527,9 +533,12 @@ export interface ControllersLoadBoardEmbedResponse {
   theme?: string;
   user_avatar_url?: string;
   /**
-   * UserName, UserProfileURL and UserAvatarURL are omitted ENTIRELY when the
-   * share was minted with show_user_name=false — the owner's identity must
-   * not reach the page as JSON at all.
+   * UserName is omitted ENTIRELY when NEITHER surface that draws it is on —
+   * the owner's identity must not reach the page as JSON at all. A
+   * watermark-only share still ships it: there would be nothing to draw.
+   *
+   * UserProfileURL and UserAvatarURL ride on show_user_name ALONE: they
+   * belong to the author credit, and a watermark is a name, not a face.
    */
   user_name?: string;
   user_profile_url?: string;
@@ -566,11 +575,19 @@ export interface ControllersLoadWidgetResponse {
   profit_color?: string;
   serverData?: string;
   /**
-   * ShowUserName is the EFFECTIVE setting, always stated. It cannot be
-   * inferred from user_name: an owner with no display name and an owner who
-   * switched the name off both send an empty user_name.
+   * ShowUserName is the EFFECTIVE setting for the bottom-left author credit,
+   * always stated. It cannot be inferred from user_name: an owner with no
+   * display name, an owner who switched the credit off, and an owner running
+   * watermark-only all differ.
    */
   show_user_name?: boolean;
+  /**
+   * ShowWatermark is the EFFECTIVE setting for the centered chart watermark,
+   * always stated and fully independent of ShowUserName. The embed draws the
+   * watermark at RENDER time, so the live preview, the public /w/ page and a
+   * third-party embed all agree with the downloaded image.
+   */
+  show_watermark?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   theme?: string;
@@ -584,8 +601,10 @@ export interface ControllersLoadWidgetResponse {
    */
   user_avatar_url?: string;
   /**
-   * UserName is omitted entirely when the share was minted with
-   * show_user_name=false — the name must not reach the embed as JSON at all.
+   * UserName is omitted entirely when NEITHER surface that can draw the name
+   * is on — the name must not reach the embed as JSON at all. A
+   * watermark-only share still ships it: there would be nothing to draw
+   * otherwise.
    */
   user_name?: string;
   /**
@@ -1336,9 +1355,22 @@ export interface DtoDashboardShareForm {
    * ShowUserName is a pointer so "absent" is distinguishable from false:
    * omitting it keeps the pre-existing behaviour (owner name shown), while
    * an explicit false strips the name from the public board payload.
+   *
+   * It drives ONE thing: the author credit in the page's corner. The chart
+   * watermark is a separate, independent setting.
    * @example true
    */
   show_user_name?: boolean;
+  /**
+   * ShowWatermark drives the centered translucent owner name drawn INSIDE
+   * each chart. Independent of ShowUserName: either, both or neither may be
+   * on.
+   *
+   * Also a pointer, but with the opposite default: absent means false, so a
+   * share minted before this field existed keeps rendering exactly as it did.
+   * @example false
+   */
+  show_watermark?: boolean;
   /** @example "auto" */
   theme?: "dark" | "light" | "auto";
 }
@@ -2567,9 +2599,23 @@ export interface DtoWidgetShareForm {
    * ShowUserName is a pointer so "absent" is distinguishable from false:
    * omitting it keeps the pre-existing behaviour (owner name shown), while
    * an explicit false strips the name from the public embed payload.
+   *
+   * It drives ONE thing: the author credit in the embed's bottom-left
+   * corner. The chart watermark is a separate, independent setting.
    * @example true
    */
   show_user_name?: boolean;
+  /**
+   * ShowWatermark drives the centered translucent owner name drawn INSIDE
+   * the chart. Independent of ShowUserName: either, both or neither may be
+   * on.
+   *
+   * Also a pointer, but with the opposite default: absent means false, so a
+   * share minted before this field existed keeps rendering exactly as it did
+   * on whatever third-party page it is already pasted into.
+   * @example false
+   */
+  show_watermark?: boolean;
   /** @example "auto" */
   theme?: "dark" | "light" | "auto";
 }

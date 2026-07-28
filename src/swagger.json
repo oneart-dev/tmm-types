@@ -9477,7 +9477,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generates a shareable short link for a single widget, used to power an embeddable `\u003ctmm-widget\u003e`.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public embed can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.",
+                "description": "Generates a shareable short link for a single widget, used to power an embeddable `\u003ctmm-widget\u003e`.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public embed can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.",
                 "consumes": [
                     "application/json"
                 ],
@@ -10225,7 +10225,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generates a shareable short link for a dashboard, used to power the public whole-board page.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public board can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.",
+                "description": "Generates a shareable short link for a dashboard, used to power the public whole-board page.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public board can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.",
                 "consumes": [
                     "application/json"
                 ],
@@ -29452,7 +29452,11 @@
                     "type": "string"
                 },
                 "show_user_name": {
-                    "description": "ShowUserName is the EFFECTIVE setting, always stated. It cannot be\ninferred from user_name: an owner with no display name and an owner who\nswitched the name off both send no name at all.",
+                    "description": "ShowUserName is the EFFECTIVE setting for the page's author credit,\nalways stated. It cannot be inferred from user_name: an owner with no\ndisplay name and an owner who switched the credit off both send no name.",
+                    "type": "boolean"
+                },
+                "show_watermark": {
+                    "description": "ShowWatermark is the EFFECTIVE setting for the centered watermark drawn\ninside each chart tile, always stated and fully independent of\nShowUserName.",
                     "type": "boolean"
                 },
                 "status": {
@@ -29472,7 +29476,7 @@
                     "type": "string"
                 },
                 "user_name": {
-                    "description": "UserName, UserProfileURL and UserAvatarURL are omitted ENTIRELY when the\nshare was minted with show_user_name=false — the owner's identity must\nnot reach the page as JSON at all.",
+                    "description": "UserName is omitted ENTIRELY when NEITHER surface that draws it is on —\nthe owner's identity must not reach the page as JSON at all. A\nwatermark-only share still ships it: there would be nothing to draw.\n\nUserProfileURL and UserAvatarURL ride on show_user_name ALONE: they\nbelong to the author credit, and a watermark is a name, not a face.",
                     "type": "string"
                 },
                 "user_profile_url": {
@@ -29565,7 +29569,11 @@
                     "type": "string"
                 },
                 "show_user_name": {
-                    "description": "ShowUserName is the EFFECTIVE setting, always stated. It cannot be\ninferred from user_name: an owner with no display name and an owner who\nswitched the name off both send an empty user_name.",
+                    "description": "ShowUserName is the EFFECTIVE setting for the bottom-left author credit,\nalways stated. It cannot be inferred from user_name: an owner with no\ndisplay name, an owner who switched the credit off, and an owner running\nwatermark-only all differ.",
+                    "type": "boolean"
+                },
+                "show_watermark": {
+                    "description": "ShowWatermark is the EFFECTIVE setting for the centered chart watermark,\nalways stated and fully independent of ShowUserName. The embed draws the\nwatermark at RENDER time, so the live preview, the public /w/ page and a\nthird-party embed all agree with the downloaded image.",
                     "type": "boolean"
                 },
                 "status": {
@@ -29584,7 +29592,7 @@
                     "type": "string"
                 },
                 "user_name": {
-                    "description": "UserName is omitted entirely when the share was minted with\nshow_user_name=false — the name must not reach the embed as JSON at all.",
+                    "description": "UserName is omitted entirely when NEITHER surface that can draw the name\nis on — the name must not reach the embed as JSON at all. A\nwatermark-only share still ships it: there would be nothing to draw\notherwise.",
                     "type": "string"
                 },
                 "user_profile_url": {
@@ -31137,9 +31145,14 @@
                     "example": "#22c55e"
                 },
                 "show_user_name": {
-                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public board payload.",
+                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public board payload.\n\nIt drives ONE thing: the author credit in the page's corner. The chart\nwatermark is a separate, independent setting.",
                     "type": "boolean",
                     "example": true
+                },
+                "show_watermark": {
+                    "description": "ShowWatermark drives the centered translucent owner name drawn INSIDE\neach chart. Independent of ShowUserName: either, both or neither may be\non.\n\nAlso a pointer, but with the opposite default: absent means false, so a\nshare minted before this field existed keeps rendering exactly as it did.",
+                    "type": "boolean",
+                    "example": false
                 },
                 "theme": {
                     "type": "string",
@@ -33475,9 +33488,14 @@
                     "example": "#22c55e"
                 },
                 "show_user_name": {
-                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public embed payload.",
+                    "description": "ShowUserName is a pointer so \"absent\" is distinguishable from false:\nomitting it keeps the pre-existing behaviour (owner name shown), while\nan explicit false strips the name from the public embed payload.\n\nIt drives ONE thing: the author credit in the embed's bottom-left\ncorner. The chart watermark is a separate, independent setting.",
                     "type": "boolean",
                     "example": true
+                },
+                "show_watermark": {
+                    "description": "ShowWatermark drives the centered translucent owner name drawn INSIDE\nthe chart. Independent of ShowUserName: either, both or neither may be\non.\n\nAlso a pointer, but with the opposite default: absent means false, so a\nshare minted before this field existed keeps rendering exactly as it did\non whatever third-party page it is already pasted into.",
+                    "type": "boolean",
+                    "example": false
                 },
                 "theme": {
                     "type": "string",

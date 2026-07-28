@@ -1137,7 +1137,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public embed can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.
+   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public embed can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.
    *
    * @tags dashboard
    * @name WidgetShortUrlCreate
@@ -1260,7 +1260,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a dashboard, used to power the public whole-board page. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name) onto the share so the public board can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.
+   * @description Generates a shareable short link for a dashboard, used to power the public whole-board page. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public board can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.
    *
    * @tags dashboard
    * @name ShortUrlCreate
