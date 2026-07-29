@@ -32,6 +32,7 @@ import {
   DtoWidgetShareForm,
   DtoWidgetUpdateForm,
   ServicesLoadBoardResponseChunk,
+  ServicesValidationErrorResponse,
   ServicesWidgetCreateResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
@@ -1137,7 +1138,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public embed can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.
+   * @description Generates a shareable short link for a single widget, used to power an embeddable `<tmm-widget>`. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, background, show_user_name, show_watermark) onto the share so the public embed can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token. background must be a `#rgb` / `#rrggbb` / `#rrggbbaa` hex color or the literal "transparent"; anything else is rejected with 400. An explicit empty string clears a previously stored value.
    *
    * @tags dashboard
    * @name WidgetShortUrlCreate
@@ -1146,7 +1147,10 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   widgetShortUrlCreate = (id: number, payload: DtoWidgetShareForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessString, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<
+      ControllersApiSuccessString,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
       path: `/board/widget/${id}/short-url`,
       method: "POST",
       body: payload,
@@ -1260,7 +1264,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Generates a shareable short link for a dashboard, used to power the public whole-board page. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public board can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.
+   * @description Generates a shareable short link for a dashboard, used to power the public whole-board page. The optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, background, show_user_name, show_watermark) onto the share so the public board can render them. Fields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving. background must be a `#rgb` / `#rrggbb` / `#rrggbbaa` hex color or the literal "transparent"; anything else is rejected with 400. An explicit empty string clears a previously stored value.
    *
    * @tags dashboard
    * @name ShortUrlCreate
@@ -1271,7 +1275,11 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
   shortUrlCreate = (id: number, payload: DtoDashboardShareForm, params: RequestParams = {}) =>
     this.request<
       ControllersApiSuccessString,
-      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+      | ServicesValidationErrorResponse
+      | ControllersUnauthorizedResponse
+      | ControllersApiWarningResponse
+      | string
+      | ControllersApiErrorResponse
     >({
       path: `/board/${id}/short-url`,
       method: "POST",

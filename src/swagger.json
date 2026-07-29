@@ -9477,7 +9477,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generates a shareable short link for a single widget, used to power an embeddable `\u003ctmm-widget\u003e`.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public embed can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.",
+                "description": "Generates a shareable short link for a single widget, used to power an embeddable `\u003ctmm-widget\u003e`.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, background, show_user_name, show_watermark) onto the share so the public embed can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token.\nbackground must be a `#rgb` / `#rrggbb` / `#rrggbbaa` hex color or the literal \"transparent\"; anything else is rejected with 400. An explicit empty string clears a previously stored value.",
                 "consumes": [
                     "application/json"
                 ],
@@ -9510,6 +9510,26 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -10225,7 +10245,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Generates a shareable short link for a dashboard, used to power the public whole-board page.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, show_user_name, show_watermark) onto the share so the public board can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.",
+                "description": "Generates a shareable short link for a dashboard, used to power the public whole-board page.\nThe optional body snapshots client-only presentation settings (profit/loss colors, dashboard theme, background, show_user_name, show_watermark) onto the share so the public board can render them.\nFields are merged, not replaced: an omitted field keeps the value already stored, so posting an empty body is a safe way to fetch the existing token. Re-minting always returns the same token, so links already in the wild keep resolving.\nbackground must be a `#rgb` / `#rrggbb` / `#rrggbbaa` hex color or the literal \"transparent\"; anything else is rejected with 400. An explicit empty string clears a previously stored value.",
                 "consumes": [
                     "application/json"
                 ],
@@ -10258,6 +10278,26 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -29436,6 +29476,10 @@
         "controllers.LoadBoardEmbedResponse": {
             "type": "object",
             "properties": {
+                "background": {
+                    "description": "Background is the author-chosen card background (hex color or\n\"transparent\") applied to every tile, omitted entirely when the author\nnever set one.",
+                    "type": "string"
+                },
                 "board": {
                     "$ref": "#/definitions/controllers.PublicBoardEmbedBoard"
                 },
@@ -29547,6 +29591,10 @@
         "controllers.LoadWidgetResponse": {
             "type": "object",
             "properties": {
+                "background": {
+                    "description": "Background is the author-chosen card background (hex color or\n\"transparent\"), omitted entirely when the author never set one — the\nruntime then falls back to its own theme default rather than seeing a\nfalse \"no preference, but the field is there\" signal.",
+                    "type": "string"
+                },
                 "dashboard_theme": {
                     "type": "string"
                 },
@@ -31128,6 +31176,12 @@
         "dto.DashboardShareForm": {
             "type": "object",
             "properties": {
+                "background": {
+                    "description": "Background is an author-chosen card background for every tile on the\nboard embed, echoed into the public page's CSS — so unlike the other\nfree-text settings above it is format-checked (dto.ValidShareBackground)\nand rejected with 400 rather than stored when it isn't a hex color or\n\"transparent\".",
+                    "type": "string",
+                    "maxLength": 32,
+                    "example": "#0b1220"
+                },
                 "dashboard_theme": {
                     "type": "string",
                     "example": "default"
@@ -33457,10 +33511,10 @@
                     "type": "boolean"
                 },
                 "simpleSortBy": {
-                    "description": "[UI] Sort by value or key",
+                    "description": "[UI] Sort by value or key. Drives the ORDER BY of every unordered-category\nwidget source; unset means the source's own default (value_desc for a\nranked chart). The legacy misspelling \"value_ask\" is still accepted as\n\"value_asc\" — it was in this enum for years, though nothing ever stored it.",
                     "type": "string",
                     "enum": [
-                        "value_ask",
+                        "value_asc",
                         "value_desc",
                         "key_asc",
                         "key_desc"
@@ -33471,6 +33525,12 @@
         "dto.WidgetShareForm": {
             "type": "object",
             "properties": {
+                "background": {
+                    "description": "Background is an author-chosen card background for the embed, echoed\ninto the public page's CSS — so unlike the other free-text settings\nabove it is format-checked (dto.ValidShareBackground) and rejected with\n400 rather than stored when it isn't a hex color or \"transparent\".",
+                    "type": "string",
+                    "maxLength": 32,
+                    "example": "#0b1220"
+                },
                 "dashboard_theme": {
                     "type": "string",
                     "example": "default"
@@ -37222,18 +37282,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

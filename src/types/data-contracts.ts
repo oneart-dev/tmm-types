@@ -506,6 +506,12 @@ export interface ControllersHotCoinsResponse {
 }
 
 export interface ControllersLoadBoardEmbedResponse {
+  /**
+   * Background is the author-chosen card background (hex color or
+   * "transparent") applied to every tile, omitted entirely when the author
+   * never set one.
+   */
+  background?: string;
   board?: ControllersPublicBoardEmbedBoard;
   dashboard_theme?: string;
   dashboard_theme_color?: string;
@@ -568,6 +574,13 @@ export interface ControllersLoadLayoutResponse {
 }
 
 export interface ControllersLoadWidgetResponse {
+  /**
+   * Background is the author-chosen card background (hex color or
+   * "transparent"), omitted entirely when the author never set one — the
+   * runtime then falls back to its own theme default rather than seeing a
+   * false "no preference, but the field is there" signal.
+   */
+  background?: string;
   dashboard_theme?: string;
   dashboard_theme_color?: string;
   errors?: string[];
@@ -1343,6 +1356,16 @@ export interface DtoDashboardExportForm {
 }
 
 export interface DtoDashboardShareForm {
+  /**
+   * Background is an author-chosen card background for every tile on the
+   * board embed, echoed into the public page's CSS — so unlike the other
+   * free-text settings above it is format-checked (dto.ValidShareBackground)
+   * and rejected with 400 rather than stored when it isn't a hex color or
+   * "transparent".
+   * @maxLength 32
+   * @example "#0b1220"
+   */
+  background?: string;
   /** @example "default" */
   dashboard_theme?: string;
   /** @example "#111827" */
@@ -2582,11 +2605,25 @@ export interface DtoWidgetFilters {
   mini?: boolean;
   /** Makes server return relative values. Safe to share with public. */
   private?: boolean;
-  /** [UI] Sort by value or key */
-  simpleSortBy?: "value_ask" | "value_desc" | "key_asc" | "key_desc";
+  /**
+   * [UI] Sort by value or key. Drives the ORDER BY of every unordered-category
+   * widget source; unset means the source's own default (value_desc for a
+   * ranked chart). The legacy misspelling "value_ask" is still accepted as
+   * "value_asc" — it was in this enum for years, though nothing ever stored it.
+   */
+  simpleSortBy?: "value_asc" | "value_desc" | "key_asc" | "key_desc";
 }
 
 export interface DtoWidgetShareForm {
+  /**
+   * Background is an author-chosen card background for the embed, echoed
+   * into the public page's CSS — so unlike the other free-text settings
+   * above it is format-checked (dto.ValidShareBackground) and rejected with
+   * 400 rather than stored when it isn't a hex color or "transparent".
+   * @maxLength 32
+   * @example "#0b1220"
+   */
+  background?: string;
   /** @example "default" */
   dashboard_theme?: string;
   /** @example "#111827" */
@@ -4202,11 +4239,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

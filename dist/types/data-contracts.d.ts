@@ -335,6 +335,7 @@ export interface ControllersHotCoinsResponse {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersLoadBoardEmbedResponse {
+    background?: string;
     board?: ControllersPublicBoardEmbedBoard;
     dashboard_theme?: string;
     dashboard_theme_color?: string;
@@ -363,6 +364,7 @@ export interface ControllersLoadLayoutResponse {
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersLoadWidgetResponse {
+    background?: string;
     dashboard_theme?: string;
     dashboard_theme_color?: string;
     errors?: string[];
@@ -729,6 +731,7 @@ export interface DtoDashboardExportForm {
     name: string;
 }
 export interface DtoDashboardShareForm {
+    background?: string;
     dashboard_theme?: string;
     dashboard_theme_color?: string;
     loss_color?: string;
@@ -1207,9 +1210,10 @@ export interface DtoWidgetFilters {
     ma?: number;
     mini?: boolean;
     private?: boolean;
-    simpleSortBy?: "value_ask" | "value_desc" | "key_asc" | "key_desc";
+    simpleSortBy?: "value_asc" | "value_desc" | "key_asc" | "key_desc";
 }
 export interface DtoWidgetShareForm {
+    background?: string;
     dashboard_theme?: string;
     dashboard_theme_color?: string;
     loss_color?: string;
@@ -2391,11 +2395,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
