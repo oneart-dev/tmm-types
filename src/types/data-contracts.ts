@@ -4311,6 +4311,22 @@ export interface ServicesTickerFilters {
    * Empty for regular perp and HIP-3 symbols.
    */
   display_name?: string;
+  /**
+   * InstrumentID is the exchange's own current identifier for this symbol
+   * (e.g. OKX "BTC-USD_UM_XPERP-310404"). The symbol is deliberately
+   * stable while the instrument behind it is not — the X-Perp expiry rolls
+   * and differs per base — so anything addressing the exchange directly,
+   * notably the browser's price websocket, must use this instead of
+   * rebuilding an instId from the symbol. Empty when symbol == instrument.
+   */
+  instrumentID?: string;
+  /**
+   * InverseCtVal is the USD notional per contract for this symbol's
+   * coin-margined inverse instrument (e.g. OKX BTC-USD-SWAP), used
+   * together with a fill's price to size inverse contracts in base
+   * units. Zero when the symbol has no inverse instrument.
+   */
+  inverseCtVal?: string;
   maxPrice?: string;
   maxQty?: string;
   minPrice?: string;

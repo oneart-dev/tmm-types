@@ -2550,6 +2550,8 @@ export interface ServicesTickerFilters {
     baseCurrency?: string;
     decimalsMax?: number;
     display_name?: string;
+    instrumentID?: string;
+    inverseCtVal?: string;
     maxPrice?: string;
     maxQty?: string;
     minPrice?: string;
