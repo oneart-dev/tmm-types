@@ -979,7 +979,8 @@ export interface DtoApiKeyCreateForm {
     | 56
     | 57
     | 59
-    | 60;
+    | 60
+    | 61;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2898,6 +2899,7 @@ export enum ServicesExchangeID {
   EXCHANGE_DEMO = 58,
   EXCHANGE_KRAKEN_SPOT = 59,
   EXCHANGE_KRAKEN_FUTURES = 60,
+  EXCHANGE_BINGX_SPOT = 61,
 }
 
 export interface ServicesExchangePublicItem {
@@ -4163,11 +4165,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

@@ -2853,7 +2853,8 @@
                             57,
                             58,
                             59,
-                            60
+                            60,
+                            61
                         ],
                         "type": "integer",
                         "x-enum-comments": {
@@ -2912,6 +2913,7 @@
                             "suppport fast repair",
                             "",
                             "",
+                            "",
                             ""
                         ],
                         "x-enum-varnames": [
@@ -2954,7 +2956,8 @@
                             "EXCHANGE_BYBIT_DEMO_SPOT",
                             "EXCHANGE_DEMO",
                             "EXCHANGE_KRAKEN_SPOT",
-                            "EXCHANGE_KRAKEN_FUTURES"
+                            "EXCHANGE_KRAKEN_FUTURES",
+                            "EXCHANGE_BINGX_SPOT"
                         ],
                         "name": "exchange_id",
                         "in": "query"
@@ -19534,7 +19537,8 @@
                                 57,
                                 58,
                                 59,
-                                60
+                                60,
+                                61
                             ],
                             "type": "integer"
                         },
@@ -30740,7 +30744,8 @@
                         56,
                         57,
                         59,
-                        60
+                        60,
+                        61
                     ]
                 },
                 "extra_info": {
@@ -34511,7 +34516,8 @@
                 57,
                 58,
                 59,
-                60
+                60,
+                61
             ],
             "x-enum-comments": {
                 "EXCHANGE_BINANCE_FUTURES": "suppport fast repair",
@@ -34569,6 +34575,7 @@
                 "suppport fast repair",
                 "",
                 "",
+                "",
                 ""
             ],
             "x-enum-varnames": [
@@ -34611,7 +34618,8 @@
                 "EXCHANGE_BYBIT_DEMO_SPOT",
                 "EXCHANGE_DEMO",
                 "EXCHANGE_KRAKEN_SPOT",
-                "EXCHANGE_KRAKEN_FUTURES"
+                "EXCHANGE_KRAKEN_FUTURES",
+                "EXCHANGE_BINGX_SPOT"
             ]
         },
         "services.ExchangePublicItem": {
@@ -37529,18 +37537,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
