@@ -27,6 +27,14 @@ export class ApiUser extends HttpClient {
             format: "json",
             ...params,
         });
+        this.newsUpdate = (params = {}) => this.request({
+            path: `/api-user/news`,
+            method: "PUT",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.apiUserDelete = (id, params = {}) => this.request({
             path: `/api-user/${id}`,
             method: "DELETE",

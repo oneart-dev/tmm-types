@@ -1,0 +1,1 @@
+{"version":3,"file":"Contact.d.ts","sourceRoot":"","sources":["../../src/types/Contact.ts"],"names":[],"mappings":"AAWA,OAAO,EACL,2BAA2B,EAC3B,2BAA2B,EAC3B,oCAAoC,EACpC,cAAc,EACf,MAAM,kBAAkB,CAAC;AAC1B,OAAO,EAAe,UAAU,EAAE,aAAa,EAAE,MAAM,eAAe,CAAC;AAEvE,qBAAa,OAAO,CAAC,gBAAgB,GAAG,OAAO,CAAE,SAAQ,UAAU,CAAC,gBAAgB,CAAC;IASnF,aAAa,YAAa,cAAc,WAAU,aAAa,6JAW1D;CACN"}
