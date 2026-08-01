@@ -26,17 +26,20 @@ import {
   ControllersFeedNotificationAdminUpdateResponse,
   ControllersFeedNotificationThreadDetailResponse,
   ControllersFeedNotificationThreadInboxResponse,
+  ControllersFeedNotificationTranslationsPatchResponse,
   ControllersFleetSetTargetVersionForm,
   ControllersUnauthorizedResponse,
   DtoChatErrorResponse,
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationConversationStatusForm,
   DtoFeedNotificationCreateForm,
+  DtoFeedNotificationTranslationsPatchForm,
   DtoFeedNotificationUpdateForm,
   DtoTicketQuickCreateForm,
   ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem,
   ServicesPaginationResponseArrayServicesFeedNotificationRawVote,
   ServicesPaginationResponseArrayServicesFleetActivityDTO,
+  ServicesValidationErrorResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -539,6 +542,31 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     this.request<ControllersApiSuccessNoData, any>({
       path: `/admin/notifications/${id}/publish`,
       method: "POST",
+      ...params,
+    });
+  /**
+   * @description Upsert-only locale merge. Unlike PUT /admin/notifications/{id} this never deletes a translation row, never creates or removes poll options, never touches published_at / sort_key / slug and never wipes poll votes — so an already published announcement can gain a locale without republishing, re-emailing or re-bubbling the feed. `overwrite=false` (default) skips a locale that already exists and reports it under `skipped`. `broadcast=false` (default) suppresses SSE even on a published row. `poll_option_translations` relabels EXISTING options only; ids that don't belong to this notification are rejected.
+   *
+   * @tags admin_feed_notifications
+   * @name NotificationsTranslationsUpdate
+   * @summary Merge translations into a notification
+   * @request PUT:/admin/notifications/{id}/translations
+   * @secure
+   */
+  notificationsTranslationsUpdate = (
+    id: number,
+    payload: DtoFeedNotificationTranslationsPatchForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersFeedNotificationTranslationsPatchResponse,
+      ServicesValidationErrorResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/notifications/${id}/translations`,
+      method: "PUT",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
       ...params,
     });
   /**

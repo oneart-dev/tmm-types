@@ -164,6 +164,12 @@ export interface ControllersApiSuccessArrayServicesOrder {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesPaymentGateway {
+  data?: ServicesPaymentGateway[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
   data?: ServicesRiskManagementBacktestResult[];
   /** @example "success" */
@@ -184,6 +190,12 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
 
 export interface ControllersApiSuccessArrayServicesTransaction {
   data?: ServicesTransaction[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersApiUserNewsTokenData {
+  data?: ControllersApiUserNewsTokenData;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -379,6 +391,12 @@ export interface ControllersApiSuccessResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiUserNewsTokenData {
+  api_key?: string;
+  id?: number;
+  name?: string;
+}
+
 export interface ControllersApiUsersListResponse {
   data?: ServicesApiUser[];
   /** @example "success" */
@@ -407,6 +425,14 @@ export interface ControllersArtifactManifestResponse {
 export interface ControllersBulkSignUpSuccessResponse {
   data?: ServicesBulkSignUpResponse[];
   /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersContactBadRequestResponse {
+  errors?: ServicesValidationErrors;
+  /** @example "Captcha verification failed. Please try again." */
+  message?: string;
+  /** @example "error" */
   status?: ControllersResponseStatusMessage;
 }
 
@@ -492,6 +518,15 @@ export interface ControllersFeedNotificationThreadInboxResponse {
   search_truncated?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationTranslationsPatchResponse {
+  data?: any;
+  skipped?: string[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+  translations?: ServicesFeedNotificationTranslation[];
+  written?: string[];
 }
 
 export interface ControllersFilesResponse {
@@ -1056,6 +1091,25 @@ export interface DtoApiUserUpdateForm {
   userID?: number;
 }
 
+export interface DtoAttributionForm {
+  /** @maxLength 64 */
+  ga_client_id?: string;
+  /** @maxLength 255 */
+  gbraid?: string;
+  /** @maxLength 255 */
+  gclid?: string;
+  /** @maxLength 500 */
+  landing_page?: string;
+  /** @maxLength 255 */
+  utm_campaign?: string;
+  /** @maxLength 255 */
+  utm_medium?: string;
+  /** @maxLength 255 */
+  utm_source?: string;
+  /** @maxLength 255 */
+  wbraid?: string;
+}
+
 export interface DtoBalanceRecord {
   /** @example 93.59532867 */
   balance_usd: number;
@@ -1338,6 +1392,28 @@ export interface DtoChatUsageResponse {
   usage_percent?: number;
 }
 
+export interface DtoContactForm {
+  /**
+   * CaptchaToken is the Cloudflare Turnstile response token. No
+   * `binding:"required"` on purpose: whether it's actually required is a
+   * server-side config decision (Turnstile.SecretKey set or not), not a
+   * request-shape rule — an empty token must still reach the controller so
+   * CaptchaService can report the right error when the feature is enabled.
+   */
+  captcha_token?: string;
+  /** @maxLength 254 */
+  email: string;
+  /**
+   * @minLength 20
+   * @maxLength 4000
+   */
+  message: string;
+  /** @maxLength 100 */
+  name: string;
+  topic?: "general" | "billing" | "partnership" | "press" | "other";
+  website?: string;
+}
+
 export interface DtoDashboardCreateForm {
   /**
    * @minLength 1
@@ -1470,6 +1546,32 @@ export interface DtoFeedNotificationTranslationForm {
    * @maxLength 255
    */
   title: string;
+}
+
+export interface DtoFeedNotificationTranslationsPatchForm {
+  /**
+   * Broadcast false (default) means no SSE is emitted even for a published
+   * row — a translation backfill shouldn't make every connected client
+   * re-render the card.
+   */
+  broadcast?: boolean;
+  /**
+   * Overwrite false (default) means a lang that already has a row is
+   * SKIPPED, not clobbered — the response reports it under `skipped`.
+   * True replaces the existing row's content.
+   */
+  overwrite?: boolean;
+  /**
+   * PollOptionTranslations maps optionID -> lang -> label. Labels ONLY —
+   * this never creates or removes an option. Option ids that don't belong
+   * to this notification are rejected outright.
+   */
+  poll_option_translations?: Record<string, Record<string, string>>;
+  /**
+   * Translations maps lang -> content. Reuses the existing per-locale form
+   * so validation is identical to create/update.
+   */
+  translations: Record<string, DtoFeedNotificationTranslationForm>;
 }
 
 export interface DtoFeedNotificationUpdateForm {
@@ -1864,6 +1966,7 @@ export interface DtoRiskManagementCreateForm {
 }
 
 export interface DtoSignUpCredentials {
+  attribution?: DtoAttributionForm;
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
@@ -2696,6 +2799,7 @@ export enum ServicesApiUserType {
   API_USER_TYPE_USER_CREATED = 1,
   API_USER_TYPE_OAUTH_CREATED = 2,
   API_USER_TYPE_MCP = 3,
+  API_USER_TYPE_NEWS = 4,
 }
 
 export interface ServicesArtifact {
@@ -3783,6 +3887,46 @@ export enum ServicesPartnerID {
   PARTNER_ID_TIGER = 2,
 }
 
+export interface ServicesPaymentGateway {
+  /**
+   * Coin is the ticker the user pays in. Empty for card gateways.
+   * @example "USDC"
+   */
+  coin?: string;
+  /**
+   * Enabled reports whether the gateway can be used right now.
+   * @example true
+   */
+  enabled?: boolean;
+  /**
+   * ID is the gateway identifier to pass as `gateway` when creating a
+   * transaction, e.g. "usdc_erc20" or "stripe".
+   * @example "usdc_erc20"
+   */
+  id?: string;
+  /**
+   * Kind is "crypto" or "card".
+   * @example "crypto"
+   */
+  kind?: string;
+  /**
+   * MinAmount is the minimum accepted payment, decimal as a string. "0"
+   * means no floor.
+   * @example "0"
+   */
+  min_amount?: string;
+  /**
+   * Network is the network slug. Empty for card gateways.
+   * @example "erc20"
+   */
+  network?: string;
+  /**
+   * NetworkLabel is the human-readable network. Empty for card gateways.
+   * @example "Ethereum (ERC-20)"
+   */
+  network_label?: string;
+}
+
 export enum ServicesPromoCodeAction {
   PromoCodeActionExtend = "extend",
   PromoCodeActionUpgrade = "upgrade",
@@ -3823,6 +3967,8 @@ export interface ServicesPublicAnnouncementDetail {
   image_url?: string;
   lang?: string;
   lang_available?: string[];
+  link_title?: string;
+  link_url?: string;
   published_at?: string;
   slug?: string;
   title?: string;
@@ -3833,6 +3979,8 @@ export interface ServicesPublicAnnouncementListItem {
   excerpt?: string;
   image_url?: string;
   lang_available?: string[];
+  link_title?: string;
+  link_url?: string;
   published_at?: string;
   slug?: string;
   title?: string;
@@ -4165,11 +4313,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -4846,6 +4994,8 @@ export enum ServicesTransactionQuoteType {
 
 export enum ServicesTransactionSource {
   TransactionSourceUsdtTrc20 = "usdt_trc20",
+  TransactionSourceUsdtErc20 = "usdt_erc20",
+  TransactionSourceUsdcErc20 = "usdc_erc20",
   TransactionSourceBUsdBep20 = "busd_bep20",
   TransactionSourceUsdtBep20 = "usdt_bep20",
   TransactionSourceTmm = "tmm",

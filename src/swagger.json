@@ -1045,6 +1045,68 @@
                 }
             }
         },
+        "/admin/notifications/{id}/translations": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Upsert-only locale merge. Unlike PUT /admin/notifications/{id} this never deletes a translation row, never creates or removes poll options, never touches published_at / sort_key / slug and never wipes poll votes — so an already published announcement can gain a locale without republishing, re-emailing or re-bubbling the feed. `overwrite=false` (default) skips a locale that already exists and reports it under `skipped`. `broadcast=false` (default) suppresses SSE even on a published row. `poll_option_translations` relabels EXISTING options only; ids that don't belong to this notification are rejected.",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin_feed_notifications"
+                ],
+                "summary": "Merge translations into a notification",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Notification id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "translations merge",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FeedNotificationTranslationsPatchForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "written + skipped + full post-write translations",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.FeedNotificationTranslationsPatchResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "unsupported language, or a poll option id that isn't this notification's",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/notifications/{id}/votes": {
             "get": {
                 "tags": [
@@ -5044,6 +5106,128 @@
                         "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api-user/news": {
+            "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Mints (or returns the existing) news/i18n machine token for the current user and returns its value. ADMIN ONLY. The token is fenced by ApiKeyAuthMiddleware to the /api/v2/admin/notifications surface, and within it to reads, the draft create and the merge-only translations PUT — publish, the destructive full update and delete are all rejected with 403. Idempotent — one news token per user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api-user"
+                ],
+                "summary": "Create news/i18n Token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_ApiUserNewsTokenData"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -11106,6 +11290,58 @@
                                 "type": "integer",
                                 "description": "1654898909"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/contact": {
+            "post": {
+                "description": "Sends a message to the site's contact inbox. Unauthenticated, heavily rate-limited (3/min per IP), and gated by Cloudflare Turnstile (captcha_token) when Turnstile.SecretKey is configured — an unverifiable or rejected token fails the request closed. Never emails the submitter back.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "contact"
+                ],
+                "summary": "Submit the public contact form",
+                "parameters": [
+                    {
+                        "description": "Contact form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ContactForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation failure (errors) or captcha rejection (message)",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ContactBadRequestResponse"
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "503": {
+                        "description": "Contact form not configured",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -26435,6 +26671,125 @@
                 }
             }
         },
+        "/transactions/gateways": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "List Payment Gateways",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_PaymentGateway"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "version": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            },
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/transactions/pending": {
             "get": {
                 "security": [
@@ -28738,6 +29093,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_PaymentGateway": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.PaymentGateway"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_RiskManagementBacktestResult": {
             "type": "object",
             "properties": {
@@ -28803,6 +29177,22 @@
                     "items": {
                         "$ref": "#/definitions/services.Transaction"
                     }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-controllers_ApiUserNewsTokenData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.ApiUserNewsTokenData"
                 },
                 "status": {
                     "allOf": [
@@ -29321,6 +29711,20 @@
                 }
             }
         },
+        "controllers.ApiUserNewsTokenData": {
+            "type": "object",
+            "properties": {
+                "api_key": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "controllers.ApiUsersListResponse": {
             "type": "object",
             "properties": {
@@ -29392,6 +29796,26 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.ContactBadRequestResponse": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "$ref": "#/definitions/services.ValidationErrors"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Captcha verification failed. Please try again."
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "error"
                 }
             }
         },
@@ -29599,6 +30023,38 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.FeedNotificationTranslationsPatchResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "skipped": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                },
+                "translations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.FeedNotificationTranslation"
+                    }
+                },
+                "written": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -30849,6 +31305,43 @@
                 }
             }
         },
+        "dto.AttributionForm": {
+            "type": "object",
+            "properties": {
+                "ga_client_id": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "gbraid": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "gclid": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "landing_page": {
+                    "type": "string",
+                    "maxLength": 500
+                },
+                "utm_campaign": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "utm_medium": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "utm_source": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "wbraid": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
         "dto.BalanceRecord": {
             "type": "object",
             "required": [
@@ -31440,6 +31933,46 @@
                 }
             }
         },
+        "dto.ContactForm": {
+            "type": "object",
+            "required": [
+                "email",
+                "message",
+                "name"
+            ],
+            "properties": {
+                "captcha_token": {
+                    "description": "CaptchaToken is the Cloudflare Turnstile response token. No\n`binding:\"required\"` on purpose: whether it's actually required is a\nserver-side config decision (Turnstile.SecretKey set or not), not a\nrequest-shape rule — an empty token must still reach the controller so\nCaptchaService can report the right error when the feature is enabled.",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "maxLength": 254
+                },
+                "message": {
+                    "type": "string",
+                    "maxLength": 4000,
+                    "minLength": 20
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "topic": {
+                    "type": "string",
+                    "enum": [
+                        "general",
+                        "billing",
+                        "partnership",
+                        "press",
+                        "other"
+                    ]
+                },
+                "website": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.DashboardCreateForm": {
             "type": "object",
             "required": [
@@ -31700,6 +32233,39 @@
                     "type": "string",
                     "maxLength": 255,
                     "minLength": 1
+                }
+            }
+        },
+        "dto.FeedNotificationTranslationsPatchForm": {
+            "type": "object",
+            "required": [
+                "translations"
+            ],
+            "properties": {
+                "broadcast": {
+                    "description": "Broadcast false (default) means no SSE is emitted even for a published\nrow — a translation backfill shouldn't make every connected client\nre-render the card.",
+                    "type": "boolean"
+                },
+                "overwrite": {
+                    "description": "Overwrite false (default) means a lang that already has a row is\nSKIPPED, not clobbered — the response reports it under `skipped`.\nTrue replaces the existing row's content.",
+                    "type": "boolean"
+                },
+                "poll_option_translations": {
+                    "description": "PollOptionTranslations maps optionID -\u003e lang -\u003e label. Labels ONLY —\nthis never creates or removes an option. Option ids that don't belong\nto this notification are rejected outright.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "translations": {
+                    "description": "Translations maps lang -\u003e content. Reuses the existing per-locale form\nso validation is identical to create/update.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/dto.FeedNotificationTranslationForm"
+                    }
                 }
             }
         },
@@ -32367,6 +32933,9 @@
                 "timezone"
             ],
             "properties": {
+                "attribution": {
+                    "$ref": "#/definitions/dto.AttributionForm"
+                },
                 "email": {
                     "type": "string",
                     "example": "test@example.com"
@@ -34067,12 +34636,14 @@
             "enum": [
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "API_USER_TYPE_USER_CREATED",
                 "API_USER_TYPE_OAUTH_CREATED",
-                "API_USER_TYPE_MCP"
+                "API_USER_TYPE_MCP",
+                "API_USER_TYPE_NEWS"
             ]
         },
         "services.Artifact": {
@@ -36620,6 +37191,46 @@
                 "PARTNER_ID_TIGER"
             ]
         },
+        "services.PaymentGateway": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "description": "Coin is the ticker the user pays in. Empty for card gateways.",
+                    "type": "string",
+                    "example": "USDC"
+                },
+                "enabled": {
+                    "description": "Enabled reports whether the gateway can be used right now.",
+                    "type": "boolean",
+                    "example": true
+                },
+                "id": {
+                    "description": "ID is the gateway identifier to pass as `gateway` when creating a\ntransaction, e.g. \"usdc_erc20\" or \"stripe\".",
+                    "type": "string",
+                    "example": "usdc_erc20"
+                },
+                "kind": {
+                    "description": "Kind is \"crypto\" or \"card\".",
+                    "type": "string",
+                    "example": "crypto"
+                },
+                "min_amount": {
+                    "description": "MinAmount is the minimum accepted payment, decimal as a string. \"0\"\nmeans no floor.",
+                    "type": "string",
+                    "example": "0"
+                },
+                "network": {
+                    "description": "Network is the network slug. Empty for card gateways.",
+                    "type": "string",
+                    "example": "erc20"
+                },
+                "network_label": {
+                    "description": "NetworkLabel is the human-readable network. Empty for card gateways.",
+                    "type": "string",
+                    "example": "Ethereum (ERC-20)"
+                }
+            }
+        },
         "services.PromoCodeAction": {
             "type": "string",
             "enum": [
@@ -36730,6 +37341,12 @@
                         "type": "string"
                     }
                 },
+                "link_title": {
+                    "type": "string"
+                },
+                "link_url": {
+                    "type": "string"
+                },
                 "published_at": {
                     "type": "string"
                 },
@@ -36758,6 +37375,12 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "link_title": {
+                    "type": "string"
+                },
+                "link_url": {
+                    "type": "string"
                 },
                 "published_at": {
                     "type": "string"
@@ -37537,18 +38160,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -39349,6 +39972,8 @@
             "type": "string",
             "enum": [
                 "usdt_trc20",
+                "usdt_erc20",
+                "usdc_erc20",
                 "busd_bep20",
                 "usdt_bep20",
                 "tmm",
@@ -39368,6 +39993,8 @@
             ],
             "x-enum-varnames": [
                 "TransactionSourceUsdtTrc20",
+                "TransactionSourceUsdtErc20",
+                "TransactionSourceUsdcErc20",
                 "TransactionSourceBUsdBep20",
                 "TransactionSourceUsdtBep20",
                 "TransactionSourceTmm",
