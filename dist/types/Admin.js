@@ -156,6 +156,14 @@ export class Admin extends HttpClient {
             method: "POST",
             ...params,
         });
+        this.notificationsTranslationsUpdate = (id, payload, params = {}) => this.request({
+            path: `/admin/notifications/${id}/translations`,
+            method: "PUT",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            ...params,
+        });
         this.notificationsVotesDetail = (id, query, params = {}) => this.request({
             path: `/admin/notifications/${id}/votes`,
             method: "GET",

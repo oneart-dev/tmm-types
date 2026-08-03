@@ -11,6 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessControllersApiUserNewsTokenData,
   ControllersApiSuccessResponse,
   ControllersApiUsersListResponse,
   ControllersUnauthorizedResponse,
@@ -83,6 +84,27 @@ export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityData
         ...params,
       },
     );
+  /**
+   * @description Mints (or returns the existing) news/i18n machine token for the current user and returns its value. ADMIN ONLY. The token is fenced by ApiKeyAuthMiddleware to the /api/v2/admin/notifications surface, and within it to reads, the draft create and the merge-only translations PUT — publish, the destructive full update and delete are all rejected with 403. Idempotent — one news token per user.
+   *
+   * @tags api-user
+   * @name NewsUpdate
+   * @summary Create news/i18n Token
+   * @request PUT:/api-user/news
+   * @secure
+   */
+  newsUpdate = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersApiUserNewsTokenData,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse | string
+    >({
+      path: `/api-user/news`,
+      method: "PUT",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Deletes an API user.
    *

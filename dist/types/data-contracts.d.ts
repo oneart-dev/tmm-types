@@ -110,6 +110,10 @@ export interface ControllersApiSuccessArrayServicesOrder {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesPaymentGateway {
+    data?: ServicesPaymentGateway[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
     data?: ServicesRiskManagementBacktestResult[];
     status?: ControllersResponseStatusMessage;
@@ -124,6 +128,10 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
 }
 export interface ControllersApiSuccessArrayServicesTransaction {
     data?: ServicesTransaction[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersApiUserNewsTokenData {
+    data?: ControllersApiUserNewsTokenData;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessControllersArtifactManifestResponse {
@@ -253,6 +261,11 @@ export interface ControllersApiSuccessResponse {
     data?: any;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiUserNewsTokenData {
+    api_key?: string;
+    id?: number;
+    name?: string;
+}
 export interface ControllersApiUsersListResponse {
     data?: ServicesApiUser[];
     status?: ControllersResponseStatusMessage;
@@ -269,6 +282,11 @@ export interface ControllersArtifactManifestResponse {
 }
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersContactBadRequestResponse {
+    errors?: ServicesValidationErrors;
+    message?: string;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersDemoSessionSuccessResponse {
@@ -324,6 +342,13 @@ export interface ControllersFeedNotificationThreadInboxResponse {
     data?: ServicesFeedNotificationThreadSummary[];
     search_truncated?: boolean;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersFeedNotificationTranslationsPatchResponse {
+    data?: any;
+    skipped?: string[];
+    status?: ControllersResponseStatusMessage;
+    translations?: ServicesFeedNotificationTranslation[];
+    written?: string[];
 }
 export interface ControllersFilesResponse {
     data?: ServicesFile[];
@@ -620,6 +645,16 @@ export interface DtoApiUserUpdateForm {
     read_only?: boolean;
     userID?: number;
 }
+export interface DtoAttributionForm {
+    gbraid?: string;
+    gclid?: string;
+    landing_page?: string;
+    referrer?: string;
+    utm_campaign?: string;
+    utm_medium?: string;
+    utm_source?: string;
+    wbraid?: string;
+}
 export interface DtoBalanceRecord {
     balance_usd: number;
     updated_at: number;
@@ -762,6 +797,14 @@ export interface DtoChatUsageResponse {
     status?: "success";
     usage_percent?: number;
 }
+export interface DtoContactForm {
+    captcha_token?: string;
+    email: string;
+    message: string;
+    name: string;
+    topic?: "general" | "billing" | "partnership" | "press" | "other";
+    website?: string;
+}
 export interface DtoDashboardCreateForm {
     name: string;
 }
@@ -820,6 +863,12 @@ export interface DtoFeedNotificationTranslationForm {
     link_url?: string;
     text: string;
     title: string;
+}
+export interface DtoFeedNotificationTranslationsPatchForm {
+    broadcast?: boolean;
+    overwrite?: boolean;
+    poll_option_translations?: Record<string, Record<string, string>>;
+    translations: Record<string, DtoFeedNotificationTranslationForm>;
 }
 export interface DtoFeedNotificationUpdateForm {
     audience_memberships?: string[];
@@ -957,6 +1006,7 @@ export interface DtoRiskManagementCreateForm {
     per_trade_usd?: string;
 }
 export interface DtoSignUpCredentials {
+    attribution?: DtoAttributionForm;
     email: string;
     language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
@@ -1331,7 +1381,8 @@ export declare enum ServicesApiUserRead {
 export declare enum ServicesApiUserType {
     API_USER_TYPE_USER_CREATED = 1,
     API_USER_TYPE_OAUTH_CREATED = 2,
-    API_USER_TYPE_MCP = 3
+    API_USER_TYPE_MCP = 3,
+    API_USER_TYPE_NEWS = 4
 }
 export interface ServicesArtifact {
     arch?: string;
@@ -2139,6 +2190,15 @@ export declare enum ServicesPartnerID {
     PARTNER_ID_WLC = 1,
     PARTNER_ID_TIGER = 2
 }
+export interface ServicesPaymentGateway {
+    coin?: string;
+    enabled?: boolean;
+    id?: string;
+    kind?: string;
+    min_amount?: string;
+    network?: string;
+    network_label?: string;
+}
 export declare enum ServicesPromoCodeAction {
     PromoCodeActionExtend = "extend",
     PromoCodeActionUpgrade = "upgrade"
@@ -2175,6 +2235,8 @@ export interface ServicesPublicAnnouncementDetail {
     image_url?: string;
     lang?: string;
     lang_available?: string[];
+    link_title?: string;
+    link_url?: string;
     published_at?: string;
     slug?: string;
     title?: string;
@@ -2184,6 +2246,8 @@ export interface ServicesPublicAnnouncementListItem {
     excerpt?: string;
     image_url?: string;
     lang_available?: string[];
+    link_title?: string;
+    link_url?: string;
     published_at?: string;
     slug?: string;
     title?: string;
@@ -2427,11 +2491,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -2972,6 +3036,8 @@ export interface ServicesTransaction {
     id?: number;
     level?: ServicesMembership;
     months?: number;
+    network?: string;
+    network_label?: string;
     payed?: string;
     source?: ServicesTransactionSource;
     status?: ServicesTransactionStatus;
@@ -3021,6 +3087,8 @@ export declare enum ServicesTransactionQuoteType {
 }
 export declare enum ServicesTransactionSource {
     TransactionSourceUsdtTrc20 = "usdt_trc20",
+    TransactionSourceUsdtErc20 = "usdt_erc20",
+    TransactionSourceUsdcErc20 = "usdc_erc20",
     TransactionSourceBUsdBep20 = "busd_bep20",
     TransactionSourceUsdtBep20 = "usdt_bep20",
     TransactionSourceTmm = "tmm",

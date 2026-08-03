@@ -36,6 +36,7 @@ export var ServicesApiUserType;
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_MCP"] = 3] = "API_USER_TYPE_MCP";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_NEWS"] = 4] = "API_USER_TYPE_NEWS";
 })(ServicesApiUserType || (ServicesApiUserType = {}));
 export var ServicesBaseConnectionProvider;
 (function (ServicesBaseConnectionProvider) {
@@ -286,11 +287,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -425,6 +426,8 @@ export var ServicesTransactionQuoteType;
 export var ServicesTransactionSource;
 (function (ServicesTransactionSource) {
     ServicesTransactionSource["TransactionSourceUsdtTrc20"] = "usdt_trc20";
+    ServicesTransactionSource["TransactionSourceUsdtErc20"] = "usdt_erc20";
+    ServicesTransactionSource["TransactionSourceUsdcErc20"] = "usdc_erc20";
     ServicesTransactionSource["TransactionSourceBUsdBep20"] = "busd_bep20";
     ServicesTransactionSource["TransactionSourceUsdtBep20"] = "usdt_bep20";
     ServicesTransactionSource["TransactionSourceTmm"] = "tmm";
