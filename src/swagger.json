@@ -9440,7 +9440,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.WidgetUpdateResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -30155,6 +30155,13 @@
                 "dashboard": {
                     "$ref": "#/definitions/services.Dashboard"
                 },
+                "effectiveGroupBy": {
+                    "description": "EffectiveGroupBy is keyed by widget id, exactly like ServerData, and\ncarries only the widgets whose groupBy the SERVER derived for this\nrender (see services.AdaptiveGroupByResolver). A present key IS the\nauto flag, so there is no second map. It sits next to `serverData`,\ndeliberately outside each widget's `filters`: a client that persisted\nwhat it displayed would otherwise make the derived value permanent.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
                 "errors": {
                     "type": "object",
                     "additionalProperties": {
@@ -31094,6 +31101,35 @@
                     "items": {
                         "$ref": "#/definitions/services.UserNote"
                     }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.WidgetUpdateResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.Widget"
+                },
+                "effectiveGroupBy": {
+                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `data.filters`.",
+                    "type": "string"
+                },
+                "errors": {
+                    "type": "string"
+                },
+                "groupByAuto": {
+                    "type": "boolean"
+                },
+                "serverData": {
+                    "type": "string"
                 },
                 "status": {
                     "allOf": [
@@ -36499,8 +36535,15 @@
         "services.LoadBoardResponseChunk": {
             "type": "object",
             "properties": {
+                "effectiveGroupBy": {
+                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `filters`.",
+                    "type": "string"
+                },
                 "errors": {
                     "type": "string"
+                },
+                "groupByAuto": {
+                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"
@@ -37533,11 +37576,18 @@
         "services.PublicProfileLayout": {
             "type": "object",
             "properties": {
+                "effectiveGroupBy": {
+                    "description": "See services.WidgetPreviewResponse — same contract. Public profile\nwidgets are rendered by the same chart components, so they need the\nsame time-axis hint.",
+                    "type": "string"
+                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
+                },
+                "groupByAuto": {
+                    "type": "boolean"
                 },
                 "h": {
                     "type": "integer"
@@ -40419,11 +40469,18 @@
                 "data": {
                     "$ref": "#/definitions/services.Widget"
                 },
+                "effectiveGroupBy": {
+                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `data.filters`.",
+                    "type": "string"
+                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
+                },
+                "groupByAuto": {
+                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"
@@ -40478,11 +40535,18 @@
         "services.WidgetPreviewResponse": {
             "type": "object",
             "properties": {
+                "effectiveGroupBy": {
+                    "description": "EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for\nthis render (see services.AdaptiveGroupByResolver). They sit next to\n`serverData`, deliberately OUTSIDE `filters`: the frontend persists what\nit displays, so an auto value written into the widget's filters would\nbecome permanent the moment the user hits Save.",
+                    "type": "string"
+                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
+                },
+                "groupByAuto": {
+                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"

@@ -14,7 +14,6 @@ import {
   ControllersApiSuccessArrayServicesDashboard,
   ControllersApiSuccessInt64,
   ControllersApiSuccessNoData,
-  ControllersApiSuccessResponse,
   ControllersApiSuccessServicesDashboard,
   ControllersApiSuccessServicesWidgetPreviewResponse,
   ControllersApiSuccessString,
@@ -22,6 +21,7 @@ import {
   ControllersLoadBoardResponse,
   ControllersLoadLayoutResponse,
   ControllersUnauthorizedResponse,
+  ControllersWidgetUpdateResponse,
   DtoDashboardCreateForm,
   DtoDashboardExportForm,
   DtoDashboardUpdateForm,
@@ -1074,17 +1074,18 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   widgetCreate = (id: number, payload: DtoWidgetUpdateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/board/widget/${id}`,
-        method: "POST",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<
+      ControllersWidgetUpdateResponse,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/board/widget/${id}`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Deletes a widget from a dashboard.
    *

@@ -373,6 +373,7 @@ export interface ControllersHotCoinsResponse {
 }
 export interface ControllersLoadBoardResponse {
     dashboard?: ServicesDashboard;
+    effectiveGroupBy?: Record<string, string>;
     errors?: Record<string, string>;
     filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
     public_profile?: ServicesPublicProfile;
@@ -612,6 +613,14 @@ export interface ControllersUnauthorizedResponse {
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
     notes?: ServicesUserNote[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersWidgetUpdateResponse {
+    data?: ServicesWidget;
+    effectiveGroupBy?: string;
+    errors?: string;
+    groupByAuto?: boolean;
+    serverData?: string;
     status?: ControllersResponseStatusMessage;
 }
 export interface DtoAnalyzerNoteForm {
@@ -1966,7 +1975,9 @@ export interface ServicesLeagueWeekMetrics {
     volume?: string;
 }
 export interface ServicesLoadBoardResponseChunk {
+    effectiveGroupBy?: string;
     errors?: string;
+    groupByAuto?: boolean;
     serverData?: string;
     widget?: ServicesWidget;
     widget_id?: number;
@@ -2289,7 +2300,9 @@ export interface ServicesPublicProfile {
     youtube?: string;
 }
 export interface ServicesPublicProfileLayout {
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     h?: number;
     i?: number;
     model?: ServicesWidget;
@@ -3226,7 +3239,9 @@ export interface ServicesWidget {
 }
 export interface ServicesWidgetCreateResponse {
     data?: ServicesWidget;
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     serverData?: string;
     status?: string;
 }
@@ -3246,7 +3261,9 @@ export declare enum ServicesWidgetFiltersSortBy {
     WidgetFiltersSortByCountKeyAsc = "key_asc"
 }
 export interface ServicesWidgetPreviewResponse {
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     serverData?: string;
 }
 export declare enum ServicesWidgetSource {

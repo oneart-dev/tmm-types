@@ -560,6 +560,15 @@ export interface ControllersHotCoinsResponse {
 
 export interface ControllersLoadBoardResponse {
   dashboard?: ServicesDashboard;
+  /**
+   * EffectiveGroupBy is keyed by widget id, exactly like ServerData, and
+   * carries only the widgets whose groupBy the SERVER derived for this
+   * render (see services.AdaptiveGroupByResolver). A present key IS the
+   * auto flag, so there is no second map. It sits next to `serverData`,
+   * deliberately outside each widget's `filters`: a client that persisted
+   * what it displayed would otherwise make the derived value permanent.
+   */
+  effectiveGroupBy?: Record<string, string>;
   errors?: Record<string, string>;
   filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
   public_profile?: ServicesPublicProfile;
@@ -945,6 +954,20 @@ export interface ControllersUnauthorizedResponse {
 export interface ControllersWeekListResponse {
   data?: ServicesTradeCountByWeek[];
   notes?: ServicesUserNote[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersWidgetUpdateResponse {
+  data?: ServicesWidget;
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `data.filters`.
+   */
+  effectiveGroupBy?: string;
+  errors?: string;
+  groupByAuto?: boolean;
+  serverData?: string;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -3610,7 +3633,13 @@ export interface ServicesLeagueWeekMetrics {
 }
 
 export interface ServicesLoadBoardResponseChunk {
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `filters`.
+   */
+  effectiveGroupBy?: string;
   errors?: string;
+  groupByAuto?: boolean;
   serverData?: string;
   widget?: ServicesWidget;
   widget_id?: number;
@@ -4058,7 +4087,14 @@ export interface ServicesPublicProfile {
 }
 
 export interface ServicesPublicProfileLayout {
+  /**
+   * See services.WidgetPreviewResponse — same contract. Public profile
+   * widgets are rendered by the same chart components, so they need the
+   * same time-axis hint.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   h?: number;
   i?: number;
   model?: ServicesWidget;
@@ -5177,7 +5213,13 @@ export interface ServicesWidget {
 
 export interface ServicesWidgetCreateResponse {
   data?: ServicesWidget;
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `data.filters`.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   serverData?: string;
   /** @example "success" */
   status?: string;
@@ -5201,7 +5243,16 @@ export enum ServicesWidgetFiltersSortBy {
 }
 
 export interface ServicesWidgetPreviewResponse {
+  /**
+   * EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for
+   * this render (see services.AdaptiveGroupByResolver). They sit next to
+   * `serverData`, deliberately OUTSIDE `filters`: the frontend persists what
+   * it displays, so an auto value written into the widget's filters would
+   * become permanent the moment the user hits Save.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   serverData?: string;
 }
 
