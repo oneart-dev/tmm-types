@@ -32219,6 +32219,14 @@
                 },
                 "user_id": {
                     "type": "integer"
+                },
+                "user_ids": {
+                    "description": "UserIDs is the batch form of UserID: one notification row addressed to\nevery listed user, instead of N rows carrying N copies of the same\ntranslations. Valid only for type=personal, kind=notification. Exactly\none of user_id / user_ids may be set — sending both is rejected rather\nthan silently merged.\n\nA segment campaign therefore costs one create + one publish call and\nreports as ONE row in /admin/notifications/{id}/analytics, because the\nengagement tables are already keyed (notification_id, user_id).\n\nNOTE: `user_ids` on TicketQuickCreateForm means something different —\nthere it fans out N independent ticket rows, because a ticket is a 1:1\nsupport conversation. Here it addresses a single shared row.\n\nCapped at 5000 to bound the recipient insert and the publish-time SSE\nfan-out; larger segments should be split into several campaigns.",
+                    "type": "array",
+                    "maxItems": 5000,
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -32259,7 +32267,7 @@
                     "maxLength": 255
                 },
                 "link_url": {
-                    "description": "LinkURL is locale-specific so EN/RU can point at different landing\npages. Same validator as the old notification-level field — accepts\n\"/relative\" or \"https://absolute\" URLs.",
+                    "description": "LinkURL is locale-specific so EN/RU can point at different landing\npages. Same validator as the old notification-level field — accepts\n\"/relative\" or \"https://absolute\" URLs, plus \"http://\" ONLY for local\ndev hosts (localhost, 127.0.0.1, [::1], *.test, *.local, *.localhost)\nso dev-stack URLs can be pasted while testing. See\nValidateFeedNotificationLinkURL.",
                     "type": "string"
                 },
                 "text": {
@@ -32376,6 +32384,14 @@
                 },
                 "user_id": {
                     "type": "integer"
+                },
+                "user_ids": {
+                    "description": "UserIDs is the batch form of UserID: one notification row addressed to\nevery listed user, instead of N rows carrying N copies of the same\ntranslations. Valid only for type=personal, kind=notification. Exactly\none of user_id / user_ids may be set — sending both is rejected rather\nthan silently merged.\n\nA segment campaign therefore costs one create + one publish call and\nreports as ONE row in /admin/notifications/{id}/analytics, because the\nengagement tables are already keyed (notification_id, user_id).\n\nNOTE: `user_ids` on TicketQuickCreateForm means something different —\nthere it fans out N independent ticket rows, because a ticket is a 1:1\nsupport conversation. Here it addresses a single shared row.\n\nCapped at 5000 to bound the recipient insert and the publish-time SSE\nfan-out; larger segments should be split into several campaigns.",
+                    "type": "array",
+                    "maxItems": 5000,
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -35383,6 +35399,13 @@
                     "description": "PublicationStatus is derived from Notification.PublishedAt:\n\"draft\" when nil, \"published\" otherwise. Surfaces the publish state\nto the admin UI without re-introducing a status column on the parent\nrow — conversation lifecycle lives on feed_notification_user.",
                     "type": "string"
                 },
+                "recipient_user_ids": {
+                    "description": "RecipientUserIDs is the effective addressee list of a personal\nnotification, normalized across BOTH storage shapes: a single-recipient\nrow reports its one user_id here, a batch row reports its recipient\ntable. Empty for global notifications.\n\nThe admin edit form reads this and posts it straight back as `user_ids`,\nso it round-trips without ever having to know which shape is on disk.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "translations": {
                     "type": "array",
                     "items": {
@@ -38210,18 +38233,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

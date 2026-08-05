@@ -860,6 +860,7 @@ export interface DtoFeedNotificationCreateForm {
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
+    user_ids?: number[];
 }
 export interface DtoFeedNotificationPollOptionForm {
     is_other?: boolean;
@@ -893,6 +894,7 @@ export interface DtoFeedNotificationUpdateForm {
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
+    user_ids?: number[];
 }
 export interface DtoFeedNotificationVoteForm {
     option_ids: number[];
@@ -1607,6 +1609,7 @@ export interface ServicesFeedNotificationAdminDetail {
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
     poll_options?: ServicesFeedNotificationPollOption[];
     publication_status?: string;
+    recipient_user_ids?: number[];
     translations?: ServicesFeedNotificationTranslation[];
     votes_count?: number;
 }
@@ -2504,11 +2507,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

@@ -1543,6 +1543,26 @@ export interface DtoFeedNotificationCreateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationPollOptionForm {
@@ -1560,7 +1580,10 @@ export interface DtoFeedNotificationTranslationForm {
   /**
    * LinkURL is locale-specific so EN/RU can point at different landing
    * pages. Same validator as the old notification-level field — accepts
-   * "/relative" or "https://absolute" URLs.
+   * "/relative" or "https://absolute" URLs, plus "http://" ONLY for local
+   * dev hosts (localhost, 127.0.0.1, [::1], *.test, *.local, *.localhost)
+   * so dev-stack URLs can be pasted while testing. See
+   * ValidateFeedNotificationLinkURL.
    */
   link_url?: string;
   text: string;
@@ -1641,6 +1664,26 @@ export interface DtoFeedNotificationUpdateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationVoteForm {
@@ -3128,6 +3171,16 @@ export interface ServicesFeedNotificationAdminDetail {
    * row — conversation lifecycle lives on feed_notification_user.
    */
   publication_status?: string;
+  /**
+   * RecipientUserIDs is the effective addressee list of a personal
+   * notification, normalized across BOTH storage shapes: a single-recipient
+   * row reports its one user_id here, a batch row reports its recipient
+   * table. Empty for global notifications.
+   *
+   * The admin edit form reads this and posts it straight back as `user_ids`,
+   * so it round-trips without ever having to know which shape is on disk.
+   */
+  recipient_user_ids?: number[];
   translations?: ServicesFeedNotificationTranslation[];
   votes_count?: number;
 }
@@ -4349,11 +4402,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
