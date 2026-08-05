@@ -27,7 +27,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Provides a detailed trading summary for a specific week, day, or month. Balance history is included for premium members. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.
+   * @description Provides a detailed trading summary for a specific week, day, or month. Cumulative profit history is always included, for every account. Balance history is premium-only and skippable via 'skipBalance' — it is a slow query. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.
    *
    * @tags analyzer
    * @name AnalyzerList

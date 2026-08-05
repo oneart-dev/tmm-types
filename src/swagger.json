@@ -1259,7 +1259,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Provides a detailed trading summary for a specific week, day, or month. Balance history is included for premium members. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.",
+                "description": "Provides a detailed trading summary for a specific week, day, or month. Cumulative profit history is always included, for every account. Balance history is premium-only and skippable via 'skipBalance' — it is a slow query. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.",
                 "consumes": [
                     "application/json"
                 ],
@@ -28775,6 +28775,9 @@
                 "balanceHistory": {
                     "type": "string"
                 },
+                "cumulativeHistory": {
+                    "type": "string"
+                },
                 "data": {
                     "type": "array",
                     "items": {
@@ -38210,18 +38213,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {

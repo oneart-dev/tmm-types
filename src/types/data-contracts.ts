@@ -62,6 +62,7 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
   balanceGain?: string;
   balanceHistory?: string;
+  cumulativeHistory?: string;
   data?: ServicesTradeSummary[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
@@ -4349,11 +4350,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
