@@ -9440,7 +9440,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.WidgetUpdateResponse"
+                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -30155,13 +30155,6 @@
                 "dashboard": {
                     "$ref": "#/definitions/services.Dashboard"
                 },
-                "effectiveGroupBy": {
-                    "description": "EffectiveGroupBy is keyed by widget id, exactly like ServerData, and\ncarries only the widgets whose groupBy the SERVER derived for this\nrender (see services.AdaptiveGroupByResolver). A present key IS the\nauto flag, so there is no second map. It sits next to `serverData`,\ndeliberately outside each widget's `filters`: a client that persisted\nwhat it displayed would otherwise make the derived value permanent.",
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
                 "errors": {
                     "type": "object",
                     "additionalProperties": {
@@ -31101,35 +31094,6 @@
                     "items": {
                         "$ref": "#/definitions/services.UserNote"
                     }
-                },
-                "status": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
-                        }
-                    ],
-                    "example": "success"
-                }
-            }
-        },
-        "controllers.WidgetUpdateResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/services.Widget"
-                },
-                "effectiveGroupBy": {
-                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `data.filters`.",
-                    "type": "string"
-                },
-                "errors": {
-                    "type": "string"
-                },
-                "groupByAuto": {
-                    "type": "boolean"
-                },
-                "serverData": {
-                    "type": "string"
                 },
                 "status": {
                     "allOf": [
@@ -32219,6 +32183,14 @@
                 },
                 "user_id": {
                     "type": "integer"
+                },
+                "user_ids": {
+                    "description": "UserIDs is the batch form of UserID: one notification row addressed to\nevery listed user, instead of N rows carrying N copies of the same\ntranslations. Valid only for type=personal, kind=notification. Exactly\none of user_id / user_ids may be set — sending both is rejected rather\nthan silently merged.\n\nA segment campaign therefore costs one create + one publish call and\nreports as ONE row in /admin/notifications/{id}/analytics, because the\nengagement tables are already keyed (notification_id, user_id).\n\nNOTE: `user_ids` on TicketQuickCreateForm means something different —\nthere it fans out N independent ticket rows, because a ticket is a 1:1\nsupport conversation. Here it addresses a single shared row.\n\nCapped at 5000 to bound the recipient insert and the publish-time SSE\nfan-out; larger segments should be split into several campaigns.",
+                    "type": "array",
+                    "maxItems": 5000,
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -32376,6 +32348,14 @@
                 },
                 "user_id": {
                     "type": "integer"
+                },
+                "user_ids": {
+                    "description": "UserIDs is the batch form of UserID: one notification row addressed to\nevery listed user, instead of N rows carrying N copies of the same\ntranslations. Valid only for type=personal, kind=notification. Exactly\none of user_id / user_ids may be set — sending both is rejected rather\nthan silently merged.\n\nA segment campaign therefore costs one create + one publish call and\nreports as ONE row in /admin/notifications/{id}/analytics, because the\nengagement tables are already keyed (notification_id, user_id).\n\nNOTE: `user_ids` on TicketQuickCreateForm means something different —\nthere it fans out N independent ticket rows, because a ticket is a 1:1\nsupport conversation. Here it addresses a single shared row.\n\nCapped at 5000 to bound the recipient insert and the publish-time SSE\nfan-out; larger segments should be split into several campaigns.",
+                    "type": "array",
+                    "maxItems": 5000,
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -35383,6 +35363,13 @@
                     "description": "PublicationStatus is derived from Notification.PublishedAt:\n\"draft\" when nil, \"published\" otherwise. Surfaces the publish state\nto the admin UI without re-introducing a status column on the parent\nrow — conversation lifecycle lives on feed_notification_user.",
                     "type": "string"
                 },
+                "recipient_user_ids": {
+                    "description": "RecipientUserIDs is the effective addressee list of a personal\nnotification, normalized across BOTH storage shapes: a single-recipient\nrow reports its one user_id here, a batch row reports its recipient\ntable. Empty for global notifications.\n\nThe admin edit form reads this and posts it straight back as `user_ids`,\nso it round-trips without ever having to know which shape is on disk.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
                 "translations": {
                     "type": "array",
                     "items": {
@@ -36535,15 +36522,8 @@
         "services.LoadBoardResponseChunk": {
             "type": "object",
             "properties": {
-                "effectiveGroupBy": {
-                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `filters`.",
-                    "type": "string"
-                },
                 "errors": {
                     "type": "string"
-                },
-                "groupByAuto": {
-                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"
@@ -37576,18 +37556,11 @@
         "services.PublicProfileLayout": {
             "type": "object",
             "properties": {
-                "effectiveGroupBy": {
-                    "description": "See services.WidgetPreviewResponse — same contract. Public profile\nwidgets are rendered by the same chart components, so they need the\nsame time-axis hint.",
-                    "type": "string"
-                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
-                },
-                "groupByAuto": {
-                    "type": "boolean"
                 },
                 "h": {
                     "type": "integer"
@@ -40469,18 +40442,11 @@
                 "data": {
                     "$ref": "#/definitions/services.Widget"
                 },
-                "effectiveGroupBy": {
-                    "description": "See WidgetPreviewResponse — same contract, same reason for living\noutside `data.filters`.",
-                    "type": "string"
-                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
-                },
-                "groupByAuto": {
-                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"
@@ -40535,18 +40501,11 @@
         "services.WidgetPreviewResponse": {
             "type": "object",
             "properties": {
-                "effectiveGroupBy": {
-                    "description": "EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for\nthis render (see services.AdaptiveGroupByResolver). They sit next to\n`serverData`, deliberately OUTSIDE `filters`: the frontend persists what\nit displays, so an auto value written into the widget's filters would\nbecome permanent the moment the user hits Save.",
-                    "type": "string"
-                },
                 "errors": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
-                },
-                "groupByAuto": {
-                    "type": "boolean"
                 },
                 "serverData": {
                     "type": "string"

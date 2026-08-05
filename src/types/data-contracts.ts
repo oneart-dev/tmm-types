@@ -560,15 +560,6 @@ export interface ControllersHotCoinsResponse {
 
 export interface ControllersLoadBoardResponse {
   dashboard?: ServicesDashboard;
-  /**
-   * EffectiveGroupBy is keyed by widget id, exactly like ServerData, and
-   * carries only the widgets whose groupBy the SERVER derived for this
-   * render (see services.AdaptiveGroupByResolver). A present key IS the
-   * auto flag, so there is no second map. It sits next to `serverData`,
-   * deliberately outside each widget's `filters`: a client that persisted
-   * what it displayed would otherwise make the derived value permanent.
-   */
-  effectiveGroupBy?: Record<string, string>;
   errors?: Record<string, string>;
   filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
   public_profile?: ServicesPublicProfile;
@@ -954,20 +945,6 @@ export interface ControllersUnauthorizedResponse {
 export interface ControllersWeekListResponse {
   data?: ServicesTradeCountByWeek[];
   notes?: ServicesUserNote[];
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersWidgetUpdateResponse {
-  data?: ServicesWidget;
-  /**
-   * See WidgetPreviewResponse — same contract, same reason for living
-   * outside `data.filters`.
-   */
-  effectiveGroupBy?: string;
-  errors?: string;
-  groupByAuto?: boolean;
-  serverData?: string;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1543,6 +1520,26 @@ export interface DtoFeedNotificationCreateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationPollOptionForm {
@@ -1641,6 +1638,26 @@ export interface DtoFeedNotificationUpdateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationVoteForm {
@@ -3128,6 +3145,16 @@ export interface ServicesFeedNotificationAdminDetail {
    * row — conversation lifecycle lives on feed_notification_user.
    */
   publication_status?: string;
+  /**
+   * RecipientUserIDs is the effective addressee list of a personal
+   * notification, normalized across BOTH storage shapes: a single-recipient
+   * row reports its one user_id here, a batch row reports its recipient
+   * table. Empty for global notifications.
+   *
+   * The admin edit form reads this and posts it straight back as `user_ids`,
+   * so it round-trips without ever having to know which shape is on disk.
+   */
+  recipient_user_ids?: number[];
   translations?: ServicesFeedNotificationTranslation[];
   votes_count?: number;
 }
@@ -3633,13 +3660,7 @@ export interface ServicesLeagueWeekMetrics {
 }
 
 export interface ServicesLoadBoardResponseChunk {
-  /**
-   * See WidgetPreviewResponse — same contract, same reason for living
-   * outside `filters`.
-   */
-  effectiveGroupBy?: string;
   errors?: string;
-  groupByAuto?: boolean;
   serverData?: string;
   widget?: ServicesWidget;
   widget_id?: number;
@@ -4087,14 +4108,7 @@ export interface ServicesPublicProfile {
 }
 
 export interface ServicesPublicProfileLayout {
-  /**
-   * See services.WidgetPreviewResponse — same contract. Public profile
-   * widgets are rendered by the same chart components, so they need the
-   * same time-axis hint.
-   */
-  effectiveGroupBy?: string;
   errors?: string[];
-  groupByAuto?: boolean;
   h?: number;
   i?: number;
   model?: ServicesWidget;
@@ -5213,13 +5227,7 @@ export interface ServicesWidget {
 
 export interface ServicesWidgetCreateResponse {
   data?: ServicesWidget;
-  /**
-   * See WidgetPreviewResponse — same contract, same reason for living
-   * outside `data.filters`.
-   */
-  effectiveGroupBy?: string;
   errors?: string[];
-  groupByAuto?: boolean;
   serverData?: string;
   /** @example "success" */
   status?: string;
@@ -5243,16 +5251,7 @@ export enum ServicesWidgetFiltersSortBy {
 }
 
 export interface ServicesWidgetPreviewResponse {
-  /**
-   * EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for
-   * this render (see services.AdaptiveGroupByResolver). They sit next to
-   * `serverData`, deliberately OUTSIDE `filters`: the frontend persists what
-   * it displays, so an auto value written into the widget's filters would
-   * become permanent the moment the user hits Save.
-   */
-  effectiveGroupBy?: string;
   errors?: string[];
-  groupByAuto?: boolean;
   serverData?: string;
 }
 
