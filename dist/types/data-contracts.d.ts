@@ -43,7 +43,9 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
     balanceGain?: string;
     balanceHistory?: string;
+    balanceHistoryGroupBy?: string;
     cumulativeHistory?: string;
+    cumulativeHistoryGroupBy?: string;
     data?: ServicesTradeSummary[];
     status?: ControllersResponseStatusMessage;
 }

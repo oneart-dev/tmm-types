@@ -28775,7 +28775,13 @@
                 "balanceHistory": {
                     "type": "string"
                 },
+                "balanceHistoryGroupBy": {
+                    "type": "string"
+                },
                 "cumulativeHistory": {
+                    "type": "string"
+                },
+                "cumulativeHistoryGroupBy": {
                     "type": "string"
                 },
                 "data": {
