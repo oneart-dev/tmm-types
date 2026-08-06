@@ -1259,7 +1259,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Provides a detailed trading summary for a specific week, day, or month. Balance history is included for premium members. Use 'skipData' and 'skipBalance' parameters to exclude trade data or balance history for a faster response.",
+                "description": "Provides a detailed trading summary for a specific week, day, or month. Cumulative profit history is included for every account, regardless of membership. Balance history is premium-only. Use the 'skipData', 'skipBalance' and 'skipCumulative' parameters to exclude trade data, balance history or cumulative profit history for a faster response.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1281,6 +1281,12 @@
                         "type": "boolean",
                         "description": "Pass true to skip balance history",
                         "name": "skipBalance",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Pass true to skip cumulative profit history",
+                        "name": "skipCumulative",
                         "in": "query"
                     },
                     {
@@ -28775,6 +28781,15 @@
                 "balanceHistory": {
                     "type": "string"
                 },
+                "balanceHistoryGroupBy": {
+                    "type": "string"
+                },
+                "cumulativeHistory": {
+                    "type": "string"
+                },
+                "cumulativeHistoryGroupBy": {
+                    "type": "string"
+                },
                 "data": {
                     "type": "array",
                     "items": {
@@ -38233,18 +38248,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
