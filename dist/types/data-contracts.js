@@ -245,6 +245,24 @@ export var ServicesPublicProfileStatus;
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusOFF"] = 2] = "PublicProfileStatusOFF";
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusBAN"] = 3] = "PublicProfileStatusBAN";
 })(ServicesPublicProfileStatus || (ServicesPublicProfileStatus = {}));
+export var ServicesReferralEarningStatus;
+(function (ServicesReferralEarningStatus) {
+    ServicesReferralEarningStatus["ReferralEarningPending"] = "pending";
+    ServicesReferralEarningStatus["ReferralEarningAvailable"] = "available";
+    ServicesReferralEarningStatus["ReferralEarningReversed"] = "reversed";
+})(ServicesReferralEarningStatus || (ServicesReferralEarningStatus = {}));
+export var ServicesReferralReversalReason;
+(function (ServicesReferralReversalReason) {
+    ServicesReferralReversalReason["ReferralReversalRefund"] = "refund";
+    ServicesReferralReversalReason["ReferralReversalAbuseDupe"] = "abuse_duplicate_account";
+})(ServicesReferralReversalReason || (ServicesReferralReversalReason = {}));
+export var ServicesReferralWithdrawalStatus;
+(function (ServicesReferralWithdrawalStatus) {
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRequested"] = "requested";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalApproved"] = "approved";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalPaid"] = "paid";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRejected"] = "rejected";
+})(ServicesReferralWithdrawalStatus || (ServicesReferralWithdrawalStatus = {}));
 export var ServicesRiskManagementLogType;
 (function (ServicesRiskManagementLogType) {
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLoss"] = 1] = "RiskManagementLogTypeTradeLoss";
@@ -499,6 +517,9 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceVolumePerSymbol"] = "volume_per_symbol";
     ServicesWidgetSource["WidgetSourceAvgVolume"] = "avg_volume";
     ServicesWidgetSource["WidgetSourceAvgVolumePerSymbol"] = "avg_volume_per_symbol";
+    ServicesWidgetSource["WidgetSourceEntryVolume"] = "entry_volume";
+    ServicesWidgetSource["WidgetSourceEntryVolumePerSymbol"] = "entry_volume_per_symbol";
+    ServicesWidgetSource["WidgetSourceEntryVolumeAccumulative"] = "entry_volume_accumulative";
     ServicesWidgetSource["WidgetSourceWinPercent"] = "winning_percent";
     ServicesWidgetSource["WidgetSourceLossPercent"] = "loosing_percent";
     ServicesWidgetSource["WidgetSourceIncomeByApiKey"] = "income_usdt_api_keys";

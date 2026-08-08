@@ -173,6 +173,12 @@ export interface ControllersApiSuccessArrayServicesPaymentGateway {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
   data?: ServicesRiskManagementBacktestResult[];
   /** @example "success" */
@@ -193,6 +199,12 @@ export interface ControllersApiSuccessArrayServicesTeamTopData {
 
 export interface ControllersApiSuccessArrayServicesTransaction {
   data?: ServicesTransaction[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayString {
+  data?: string[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -319,6 +331,24 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
 
 export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
   data?: ServicesPublicAnnouncementDetail;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesPulseWeek {
+  data?: ServicesPulseWeek;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralDashboard {
+  data?: ServicesReferralDashboard;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -2016,6 +2046,43 @@ export interface DtoPublicProfileUpdateForm {
   youtube?: string;
 }
 
+export interface DtoReferralWithdrawalActionForm {
+  /**
+   * @minLength 3
+   * @maxLength 500
+   * @example "The payout address does not match the selected network."
+   */
+  note: string;
+}
+
+export interface DtoReferralWithdrawalCreateForm {
+  /**
+   * @maxLength 255
+   * @example "TXabc123..."
+   */
+  address: string;
+  /**
+   * @maxLength 32
+   * @example "25.5"
+   */
+  amount: string;
+  /** @example "TRC20" */
+  network: "TRC20" | "BEP20";
+}
+
+export interface DtoReferralWithdrawalMarkPaidForm {
+  /**
+   * @maxLength 500
+   * @example "paid manually"
+   */
+  note?: string;
+  /**
+   * @maxLength 128
+   * @example "0xabc123..."
+   */
+  tx_hash: string;
+}
+
 export interface DtoRiskManagementCreateForm {
   /**
    * Empty means global settings for all API keys combined. Only 1 global settings allowed.
@@ -2611,6 +2678,8 @@ export interface DtoTradesMergeForm {
 }
 
 export interface DtoTransactionCreateForm {
+  /** @example false */
+  apply_referral_cash?: boolean;
   /**
    * @minLength 1
    * @maxLength 255
@@ -4194,6 +4263,155 @@ export interface ServicesPublicStats {
   ws_queue?: ServicesLoadLevel;
 }
 
+export interface ServicesPulseBenchmark {
+  /** 0 = outside the ranked set */
+  rank?: number;
+  /** "BTCUSDT" */
+  symbol?: string;
+  trader_share_pct?: number;
+}
+
+export interface ServicesPulseBoard {
+  /** BTCUSDT reference; nil if screened out */
+  benchmark?: ServicesPulseBenchmark;
+  /** #1 share < 45 AND #1/#3 < 1.30 */
+  diffuse?: boolean;
+  /** names in top-10-by-traders not in the previous week's; -1 if no previous week stored */
+  new_entrants?: number;
+  top_by_traders?: ServicesPulseCoin[];
+  top_by_trades?: ServicesPulseCoin[];
+}
+
+export interface ServicesPulseBucket {
+  /** scalp|fast|intraday|swing */
+  bucket?: string;
+  /** 0..100 */
+  trade_share_pct?: number;
+  /** 0..100, share of trades closed net-of-fees above zero */
+  win_rate_pct?: number;
+}
+
+export interface ServicesPulseCoin {
+  rank?: number;
+  /** full pair, e.g. "AKEUSDT" */
+  symbol?: string;
+  /** 0..100, share of the week's trades */
+  trade_share_pct?: number;
+  /** 0..100, share of the week's active traders */
+  trader_share_pct?: number;
+}
+
+export interface ServicesPulseWeek {
+  board?: ServicesPulseBoard;
+  /** RFC3339 */
+  generated_at?: string;
+  /** always 4, in scalp,fast,intraday,swing order */
+  holding?: ServicesPulseBucket[];
+  sentiment?: {
+    /** 0..100, RAW per-trade long share only */
+    long_pct?: number;
+  };
+  totals?: {
+    distinct_symbols?: number;
+    trades?: number;
+  };
+  /** exclusive */
+  week_end?: string;
+  /** "2026-07-13" (Monday, UTC) */
+  week_start?: string;
+}
+
+export interface ServicesReferralDashboard {
+  available_balance?: string;
+  commission_tiers?: ServicesReferralTierInfo[];
+  current_tier_index?: number;
+  current_tier_rate?: number;
+  earnings?: ServicesReferralEarning[];
+  lifetime_earned?: string;
+  /**
+   * MinWithdrawal is the resolved minimum payout amount (USDT) the withdrawal
+   * form enforces and displays. Config-driven, defaults to 50.
+   */
+  min_withdrawal?: number;
+  next_tier_threshold?: number;
+  paying_referrals?: number;
+  pending_balance?: string;
+  referrals?: ServicesReferralRefereeInfo[];
+  spent_total?: string;
+  withdrawals?: ServicesReferralWithdrawal[];
+  /**
+   * WithdrawalsInReviewTotal is money committed to payouts that are requested
+   * (or legacy-approved) but not yet paid. AvailableBalance already subtracts
+   * it, so it has to be visible for the dashboard to add up.
+   */
+  withdrawals_in_review_total?: string;
+  withdrawn_total?: string;
+}
+
+export interface ServicesReferralEarning {
+  available_at?: string;
+  coin?: string;
+  commission_amount?: string;
+  commission_rate?: string;
+  created_at?: string;
+  gross_amount?: string;
+  id?: number;
+  referee_user_id?: number;
+  referrer_user_id?: number;
+  reversal_reason?: ServicesReferralReversalReason;
+  status?: ServicesReferralEarningStatus;
+  transaction_id?: number;
+  updated_at?: string;
+}
+
+export enum ServicesReferralEarningStatus {
+  ReferralEarningPending = "pending",
+  ReferralEarningAvailable = "available",
+  ReferralEarningReversed = "reversed",
+}
+
+export interface ServicesReferralRefereeInfo {
+  earned?: string;
+  joined_at?: string;
+  paid?: boolean;
+  status?: string;
+  uid?: number;
+}
+
+export enum ServicesReferralReversalReason {
+  ReferralReversalRefund = "refund",
+  ReferralReversalAbuseDupe = "abuse_duplicate_account",
+}
+
+export interface ServicesReferralTierInfo {
+  rate?: number;
+  threshold?: number;
+}
+
+export interface ServicesReferralWithdrawal {
+  admin_note?: string;
+  amount?: string;
+  coin?: string;
+  created_at?: string;
+  id?: number;
+  network?: string;
+  payout_address?: string;
+  processed_at?: string;
+  processed_by?: number;
+  requested_at?: string;
+  status?: ServicesReferralWithdrawalStatus;
+  tx_hash?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export enum ServicesReferralWithdrawalStatus {
+  ReferralWithdrawalRequested = "requested",
+  ReferralWithdrawalApproved = "approved",
+  ReferralWithdrawalPaid = "paid",
+  ReferralWithdrawalRejected = "rejected",
+}
+
 export interface ServicesRiskManagement {
   api_key_id?: number;
   created_at?: string;
@@ -5061,6 +5279,12 @@ export interface ServicesTransaction {
 }
 
 export interface ServicesTransactionQuote {
+  /**
+   * AvailableReferralCash is the user's spendable referral-cash balance,
+   * reported whenever the cash-referral program is enabled (0 otherwise) so
+   * the UI can show it regardless of whether it was applied.
+   */
+  available_referral_cash?: string;
   base_amount?: string;
   billing_months?: number;
   contributions?: ServicesTransactionProrationContribution[];
@@ -5077,6 +5301,23 @@ export interface ServicesTransactionQuote {
   lines?: ServicesTransactionQuoteLine[];
   months?: number;
   quote_type?: ServicesTransactionQuoteType;
+  /**
+   * ReferralCashApplied is the amount of referral cash actually credited
+   * against FinalAmount on this quote (0 unless ApplyReferralCash was set
+   * and eligible).
+   */
+  referral_cash_applied?: string;
+  /**
+   * ReferralCashEligible tells the UI whether referral cash CAN be spent on
+   * this quote at all: the cash-referral program is enabled, cash->membership
+   * conversion is allowed by config, and the selected gateway supports the
+   * settle-time debit (every gateway except Stripe). Independent of whether
+   * the user opted in (ApplyReferralCash) and of the balance being > 0, so a
+   * user with a positive AvailableReferralCash and eligible=false can be told
+   * the balance exists but this payment method cannot spend it, instead of
+   * being shown an opt-in control that would silently do nothing.
+   */
+  referral_cash_eligible?: boolean;
   subtotal_amount?: string;
   total_discount_amount?: string;
   unused_balance_amount?: string;
@@ -5225,6 +5466,15 @@ export interface ServicesUserWithRelations {
   public_profile?: ServicesPublicProfile;
   referral?: string;
   referral_code?: string;
+  /**
+   * ReferralHashID is the PERMANENT, id-derived referral code. Unlike
+   * ReferralLink it is never replaced by a custom code: ReferralLink is
+   * EITHER the custom code OR the hashid, so setting a custom code made the
+   * hashid disappear from every response — even though ParseReferral keeps
+   * accepting it forever. Anything that has to show a link that never breaks
+   * (the share modal) needs this field, not ReferralLink.
+   */
+  referral_hashid?: string;
   referral_summary?: ServicesUserReferralSummary;
   referred_by?: number;
   risk_management?: ServicesRiskManagement[];
@@ -5339,6 +5589,9 @@ export enum ServicesWidgetSource {
   WidgetSourceVolumePerSymbol = "volume_per_symbol",
   WidgetSourceAvgVolume = "avg_volume",
   WidgetSourceAvgVolumePerSymbol = "avg_volume_per_symbol",
+  WidgetSourceEntryVolume = "entry_volume",
+  WidgetSourceEntryVolumePerSymbol = "entry_volume_per_symbol",
+  WidgetSourceEntryVolumeAccumulative = "entry_volume_accumulative",
   WidgetSourceWinPercent = "winning_percent",
   WidgetSourceLossPercent = "loosing_percent",
   WidgetSourceIncomeByApiKey = "income_usdt_api_keys",

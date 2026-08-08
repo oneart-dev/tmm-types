@@ -23,6 +23,7 @@ export * from './types/Notifications';
 export * from './types/Oauth';
 export * from './types/Oauth2';
 export * from './types/Public';
+export * from './types/Pulse';
 export * from './types/RiskManagement';
 export * from './types/Sse';
 export * from './types/Stats';

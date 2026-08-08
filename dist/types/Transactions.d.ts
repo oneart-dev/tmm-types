@@ -14,6 +14,7 @@ export declare class Transactions<SecurityDataType = unknown> extends HttpClient
         gateway: string;
         level: string;
         months: number;
+        apply_referral_cash?: boolean;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesTransactionQuote, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     redirectList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     stripeDelete: (query: {
