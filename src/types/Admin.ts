@@ -17,8 +17,10 @@ import {
   ControllersApiSuccessArrayServicesFleetInstanceDTO,
   ControllersApiSuccessArrayServicesFleetNodeDTO,
   ControllersApiSuccessArrayServicesLeaguePointCheck,
+  ControllersApiSuccessArrayServicesReferralWithdrawal,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessNoData,
+  ControllersApiSuccessServicesExchangeRequestsAdminSummary,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
   ControllersApiSuccessServicesFeedNotificationComment,
   ControllersApiWarningResponse,
@@ -35,6 +37,8 @@ import {
   DtoFeedNotificationCreateForm,
   DtoFeedNotificationTranslationsPatchForm,
   DtoFeedNotificationUpdateForm,
+  DtoReferralWithdrawalActionForm,
+  DtoReferralWithdrawalMarkPaidForm,
   DtoTicketQuickCreateForm,
   ServicesPaginationResponseArrayServicesFeedNotificationAdminListItem,
   ServicesPaginationResponseArrayServicesFeedNotificationRawVote,
@@ -58,6 +62,34 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/admin/chat/threads/${uid}/export`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Admin read-out of the "my exchange isn't listed" submissions inside the window: a top-10 aggregate grouped by the normalized name plus the latest 100 raw rows joined to the requester's email.
+   *
+   * @tags admin_exchange_requests
+   * @name ExchangeRequestsList
+   * @summary Requested exchanges
+   * @request GET:/admin/exchange-requests
+   * @secure
+   */
+  exchangeRequestsList = (
+    query?: {
+      /** Window in days (default 30, max 365) */
+      days?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessServicesExchangeRequestsAdminSummary,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/exchange-requests`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -595,6 +627,91 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/admin/notifications/${id}/votes`,
       method: "GET",
       query: query,
+      ...params,
+    });
+  /**
+   * @description Lists referral withdrawal requests, optionally filtered by status. Omitting status returns requested+approved (the actionable queue; `approved` is a legacy state kept listable, nothing writes it any more).
+   *
+   * @tags referral, internal
+   * @name ReferralWithdrawalsList
+   * @summary Admin: list referral withdrawal requests
+   * @request GET:/admin/referral/withdrawals
+   * @secure
+   */
+  referralWithdrawalsList = (
+    query?: {
+      /** requested|approved|paid|rejected */
+      status?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessArrayServicesReferralWithdrawal,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/referral/withdrawals`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Transitions a requested withdrawal to paid, recording the on-chain tx hash. This is the single admin action for a payout — the money is sent by hand off-platform first.
+   *
+   * @tags referral, internal
+   * @name ReferralWithdrawalsMarkPaidCreate
+   * @summary Admin: mark a referral withdrawal as paid
+   * @request POST:/admin/referral/withdrawals/{id}/mark-paid
+   * @secure
+   */
+  referralWithdrawalsMarkPaidCreate = (
+    id: number,
+    payload: DtoReferralWithdrawalMarkPaidForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      | ServicesValidationErrorResponse
+      | ControllersUnauthorizedResponse
+      | ControllersApiWarningResponse
+      | ControllersApiErrorResponse
+    >({
+      path: `/admin/referral/withdrawals/${id}/mark-paid`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Transitions a requested withdrawal to rejected, freeing the held balance. The note is the rejection REASON and is required — it is the whole body of the mail the affiliate receives.
+   *
+   * @tags referral, internal
+   * @name ReferralWithdrawalsRejectCreate
+   * @summary Admin: reject a referral withdrawal
+   * @request POST:/admin/referral/withdrawals/{id}/reject
+   * @secure
+   */
+  referralWithdrawalsRejectCreate = (
+    id: number,
+    payload: DtoReferralWithdrawalActionForm,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      | ServicesValidationErrorResponse
+      | ControllersUnauthorizedResponse
+      | ControllersApiWarningResponse
+      | ControllersApiErrorResponse
+    >({
+      path: `/admin/referral/withdrawals/${id}/reject`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
       ...params,
     });
   /**

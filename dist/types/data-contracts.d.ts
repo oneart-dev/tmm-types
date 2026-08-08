@@ -117,6 +117,10 @@ export interface ControllersApiSuccessArrayServicesPaymentGateway {
     data?: ServicesPaymentGateway[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
     data?: ServicesRiskManagementBacktestResult[];
     status?: ControllersResponseStatusMessage;
@@ -185,6 +189,14 @@ export interface ControllersApiSuccessServicesExchangePublicItem {
     data?: ServicesExchangePublicItem;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesExchangeRequest {
+    data?: ServicesExchangeRequest;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangeRequestsAdminSummary {
+    data?: ServicesExchangeRequestsAdminSummary;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesFeedNotificationAnalyticsCounts {
     data?: ServicesFeedNotificationAnalyticsCounts;
     status?: ControllersResponseStatusMessage;
@@ -215,6 +227,14 @@ export interface ControllersApiSuccessServicesPromoCodePreview {
 }
 export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
     data?: ServicesPublicAnnouncementDetail;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralDashboard {
+    data?: ServicesReferralDashboard;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
@@ -837,6 +857,11 @@ export interface DtoDashboardUpdateForm {
 export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
 }
+export interface DtoExchangeRequestCreateForm {
+    segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
+    source?: "grid" | "rescue";
+    text: string;
+}
 export interface DtoFeedNotificationCommentCreateForm {
     image_file_ids?: number[];
     reply_to_user_id?: number;
@@ -1010,6 +1035,18 @@ export interface DtoPublicProfileUpdateForm {
     vk?: string;
     website?: string;
     youtube?: string;
+}
+export interface DtoReferralWithdrawalActionForm {
+    note: string;
+}
+export interface DtoReferralWithdrawalCreateForm {
+    address: string;
+    amount: string;
+    network: "TRC20" | "BEP20";
+}
+export interface DtoReferralWithdrawalMarkPaidForm {
+    note?: string;
+    tx_hash: string;
 }
 export interface DtoRiskManagementCreateForm {
     api_key_id?: number;
@@ -1238,6 +1275,7 @@ export interface DtoTradesMergeForm {
     id: number[];
 }
 export interface DtoTransactionCreateForm {
+    apply_referral_cash?: boolean;
     gateway: string;
     level: string;
     months: number;
@@ -1585,6 +1623,43 @@ export interface ServicesExchangePublicMarkets {
     futures?: boolean;
     inverse?: boolean;
     spot?: boolean;
+}
+export interface ServicesExchangeRequest {
+    created_at?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export interface ServicesExchangeRequestRecent {
+    created_at?: string;
+    email?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    user_id?: number;
+}
+export declare enum ServicesExchangeRequestSegment {
+    ExchangeRequestSegmentCrypto = "crypto",
+    ExchangeRequestSegmentStocks = "stocks",
+    ExchangeRequestSegmentForex = "forex",
+    ExchangeRequestSegmentFutures = "futures",
+    ExchangeRequestSegmentOther = "other"
+}
+export declare enum ServicesExchangeRequestSource {
+    ExchangeRequestSourceGrid = "grid",
+    ExchangeRequestSourceRescue = "rescue"
+}
+export interface ServicesExchangeRequestTop {
+    count?: number;
+    text_normalized?: string;
+}
+export interface ServicesExchangeRequestsAdminSummary {
+    recent?: ServicesExchangeRequestRecent[];
+    top?: ServicesExchangeRequestTop[];
 }
 export interface ServicesFeedNotification {
     audience_memberships?: string[];
@@ -2345,6 +2420,80 @@ export interface ServicesPublicStats {
     trade_processing_queue?: Record<string, ServicesLoadLevel>;
     ws_queue?: ServicesLoadLevel;
 }
+export interface ServicesReferralDashboard {
+    available_balance?: string;
+    commission_tiers?: ServicesReferralTierInfo[];
+    current_tier_index?: number;
+    current_tier_rate?: number;
+    earnings?: ServicesReferralEarning[];
+    lifetime_earned?: string;
+    min_withdrawal?: number;
+    next_tier_threshold?: number;
+    paying_referrals?: number;
+    pending_balance?: string;
+    referrals?: ServicesReferralRefereeInfo[];
+    spent_total?: string;
+    withdrawals?: ServicesReferralWithdrawal[];
+    withdrawals_in_review_total?: string;
+    withdrawn_total?: string;
+}
+export interface ServicesReferralEarning {
+    available_at?: string;
+    coin?: string;
+    commission_amount?: string;
+    commission_rate?: string;
+    created_at?: string;
+    gross_amount?: string;
+    id?: number;
+    referee_user_id?: number;
+    referrer_user_id?: number;
+    reversal_reason?: ServicesReferralReversalReason;
+    status?: ServicesReferralEarningStatus;
+    transaction_id?: number;
+    updated_at?: string;
+}
+export declare enum ServicesReferralEarningStatus {
+    ReferralEarningPending = "pending",
+    ReferralEarningAvailable = "available",
+    ReferralEarningReversed = "reversed"
+}
+export interface ServicesReferralRefereeInfo {
+    earned?: string;
+    joined_at?: string;
+    paid?: boolean;
+    status?: string;
+    uid?: number;
+}
+export declare enum ServicesReferralReversalReason {
+    ReferralReversalRefund = "refund",
+    ReferralReversalAbuseDupe = "abuse_duplicate_account"
+}
+export interface ServicesReferralTierInfo {
+    rate?: number;
+    threshold?: number;
+}
+export interface ServicesReferralWithdrawal {
+    admin_note?: string;
+    amount?: string;
+    coin?: string;
+    created_at?: string;
+    id?: number;
+    network?: string;
+    payout_address?: string;
+    processed_at?: string;
+    processed_by?: number;
+    requested_at?: string;
+    status?: ServicesReferralWithdrawalStatus;
+    tx_hash?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesReferralWithdrawalStatus {
+    ReferralWithdrawalRequested = "requested",
+    ReferralWithdrawalApproved = "approved",
+    ReferralWithdrawalPaid = "paid",
+    ReferralWithdrawalRejected = "rejected"
+}
 export interface ServicesRiskManagement {
     api_key_id?: number;
     created_at?: string;
@@ -3065,6 +3214,7 @@ export interface ServicesTransaction {
     valid_until?: number;
 }
 export interface ServicesTransactionQuote {
+    available_referral_cash?: string;
     base_amount?: string;
     billing_months?: number;
     contributions?: ServicesTransactionProrationContribution[];
@@ -3081,6 +3231,8 @@ export interface ServicesTransactionQuote {
     lines?: ServicesTransactionQuoteLine[];
     months?: number;
     quote_type?: ServicesTransactionQuoteType;
+    referral_cash_applied?: string;
+    referral_cash_eligible?: boolean;
     subtotal_amount?: string;
     total_discount_amount?: string;
     unused_balance_amount?: string;
@@ -3208,6 +3360,7 @@ export interface ServicesUserWithRelations {
     public_profile?: ServicesPublicProfile;
     referral?: string;
     referral_code?: string;
+    referral_hashid?: string;
     referral_summary?: ServicesUserReferralSummary;
     referred_by?: number;
     risk_management?: ServicesRiskManagement[];

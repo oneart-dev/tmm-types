@@ -74,6 +74,66 @@
                 }
             }
         },
+        "/admin/exchange-requests": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Admin read-out of the \"my exchange isn't listed\" submissions inside the window: a top-10 aggregate grouped by the normalized name plus the latest 100 raw rows joined to the requester's email.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin_exchange_requests"
+                ],
+                "summary": "Requested exchanges",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Window in days (default 30, max 365)",
+                        "name": "days",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ExchangeRequestsAdminSummary"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/fleet/activity": {
             "get": {
                 "security": [
@@ -1151,6 +1211,214 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/services.PaginationResponse-array_services_FeedNotificationRawVote"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/referral/withdrawals": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Lists referral withdrawal requests, optionally filtered by status. Omitting status returns requested+approved (the actionable queue; `approved` is a legacy state kept listable, nothing writes it any more).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral",
+                    "internal"
+                ],
+                "summary": "Admin: list referral withdrawal requests",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "requested|approved|paid|rejected",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_ReferralWithdrawal"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/referral/withdrawals/{id}/mark-paid": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Transitions a requested withdrawal to paid, recording the on-chain tx hash. This is the single admin action for a payout — the money is sent by hand off-platform first.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral",
+                    "internal"
+                ],
+                "summary": "Admin: mark a referral withdrawal as paid",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Withdrawal id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Optional admin note + on-chain tx hash",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ReferralWithdrawalMarkPaidForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/referral/withdrawals/{id}/reject": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Transitions a requested withdrawal to rejected, freeing the held balance. The note is the rejection REASON and is required — it is the whole body of the mail the affiliate receives.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral",
+                    "internal"
+                ],
+                "summary": "Admin: reject a referral withdrawal",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Withdrawal id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Rejection reason (required, 3-500 chars)",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ReferralWithdrawalActionForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -11766,6 +12034,140 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange-requests": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Records a free-text exchange/broker name the user could not find in the connect wizard. Rate limited to 3 submissions per user per rolling 24 hours; over the budget the endpoint answers with a standard 400 validation payload on the `text` field.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "exchange-requests"
+                ],
+                "summary": "Request an exchange",
+                "parameters": [
+                    {
+                        "description": "request payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ExchangeRequestCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ExchangeRequest"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -26955,6 +27357,12 @@
                         "name": "months",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Credit the user's available referral cash against the total",
+                        "name": "apply_referral_cash",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -28494,6 +28902,138 @@
                 }
             }
         },
+        "/users/referral/dashboard": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the current user's referral dashboard: balances, tier rate, referrals, withdrawals, and earnings.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral"
+                ],
+                "summary": "Get cash-referral dashboard",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ReferralDashboard"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/referral/withdrawals": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Lists all referral withdrawal requests submitted by the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral"
+                ],
+                "summary": "List own referral withdrawals",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_ReferralWithdrawal"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Requests a manual crypto payout of the current user's available referral cash balance.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "referral"
+                ],
+                "summary": "Request a referral cash withdrawal",
+                "parameters": [
+                    {
+                        "description": "Withdrawal request payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ReferralWithdrawalCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ReferralWithdrawal"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/users/theme": {
             "post": {
                 "security": [
@@ -29127,6 +29667,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_ReferralWithdrawal": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ReferralWithdrawal"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_RiskManagementBacktestResult": {
             "type": "object",
             "properties": {
@@ -29411,6 +29970,38 @@
                 }
             }
         },
+        "controllers.ApiSuccess-services_ExchangeRequest": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ExchangeRequest"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ExchangeRequestsAdminSummary": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ExchangeRequestsAdminSummary"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-services_FeedNotificationAnalyticsCounts": {
             "type": "object",
             "properties": {
@@ -29528,6 +30119,38 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.PublicAnnouncementDetail"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ReferralDashboard": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ReferralDashboard"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ReferralWithdrawal": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ReferralWithdrawal"
                 },
                 "status": {
                     "allOf": [
@@ -32110,6 +32733,38 @@
                 }
             }
         },
+        "dto.ExchangeRequestCreateForm": {
+            "type": "object",
+            "required": [
+                "text"
+            ],
+            "properties": {
+                "segment": {
+                    "type": "string",
+                    "enum": [
+                        "crypto",
+                        "stocks",
+                        "forex",
+                        "futures",
+                        "other"
+                    ],
+                    "example": "crypto"
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "grid",
+                        "rescue"
+                    ],
+                    "example": "grid"
+                },
+                "text": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "example": "Deribit"
+                }
+            }
+        },
         "dto.FeedNotificationCommentCreateForm": {
             "type": "object",
             "properties": {
@@ -32957,6 +33612,66 @@
                     "maxLength": 255,
                     "minLength": 2,
                     "example": "username"
+                }
+            }
+        },
+        "dto.ReferralWithdrawalActionForm": {
+            "type": "object",
+            "required": [
+                "note"
+            ],
+            "properties": {
+                "note": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 3,
+                    "example": "The payout address does not match the selected network."
+                }
+            }
+        },
+        "dto.ReferralWithdrawalCreateForm": {
+            "type": "object",
+            "required": [
+                "address",
+                "amount",
+                "network"
+            ],
+            "properties": {
+                "address": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "TXabc123..."
+                },
+                "amount": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "example": "25.5"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "TRC20",
+                        "BEP20"
+                    ],
+                    "example": "TRC20"
+                }
+            }
+        },
+        "dto.ReferralWithdrawalMarkPaidForm": {
+            "type": "object",
+            "required": [
+                "tx_hash"
+            ],
+            "properties": {
+                "note": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "example": "paid manually"
+                },
+                "tx_hash": {
+                    "type": "string",
+                    "maxLength": 128,
+                    "example": "0xabc123..."
                 }
             }
         },
@@ -34098,6 +34813,10 @@
                 "months"
             ],
             "properties": {
+                "apply_referral_cash": {
+                    "type": "boolean",
+                    "example": false
+                },
                 "gateway": {
                     "type": "string",
                     "maxLength": 255,
@@ -35313,6 +36032,114 @@
                 },
                 "spot": {
                     "type": "boolean"
+                }
+            }
+        },
+        "services.ExchangeRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "segment": {
+                    "$ref": "#/definitions/services.ExchangeRequestSegment"
+                },
+                "source": {
+                    "$ref": "#/definitions/services.ExchangeRequestSource"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ExchangeRequestRecent": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "segment": {
+                    "$ref": "#/definitions/services.ExchangeRequestSegment"
+                },
+                "source": {
+                    "$ref": "#/definitions/services.ExchangeRequestSource"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ExchangeRequestSegment": {
+            "type": "string",
+            "enum": [
+                "crypto",
+                "stocks",
+                "forex",
+                "futures",
+                "other"
+            ],
+            "x-enum-varnames": [
+                "ExchangeRequestSegmentCrypto",
+                "ExchangeRequestSegmentStocks",
+                "ExchangeRequestSegmentForex",
+                "ExchangeRequestSegmentFutures",
+                "ExchangeRequestSegmentOther"
+            ]
+        },
+        "services.ExchangeRequestSource": {
+            "type": "string",
+            "enum": [
+                "grid",
+                "rescue"
+            ],
+            "x-enum-varnames": [
+                "ExchangeRequestSourceGrid",
+                "ExchangeRequestSourceRescue"
+            ]
+        },
+        "services.ExchangeRequestTop": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "text_normalized": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.ExchangeRequestsAdminSummary": {
+            "type": "object",
+            "properties": {
+                "recent": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ExchangeRequestRecent"
+                    }
+                },
+                "top": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ExchangeRequestTop"
+                    }
                 }
             }
         },
@@ -37744,6 +38571,231 @@
                 }
             }
         },
+        "services.ReferralDashboard": {
+            "type": "object",
+            "properties": {
+                "available_balance": {
+                    "type": "string"
+                },
+                "commission_tiers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ReferralTierInfo"
+                    }
+                },
+                "current_tier_index": {
+                    "type": "integer"
+                },
+                "current_tier_rate": {
+                    "type": "number"
+                },
+                "earnings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ReferralEarning"
+                    }
+                },
+                "lifetime_earned": {
+                    "type": "string"
+                },
+                "min_withdrawal": {
+                    "description": "MinWithdrawal is the resolved minimum payout amount (USDT) the withdrawal\nform enforces and displays. Config-driven, defaults to 50.",
+                    "type": "number"
+                },
+                "next_tier_threshold": {
+                    "type": "integer"
+                },
+                "paying_referrals": {
+                    "type": "integer"
+                },
+                "pending_balance": {
+                    "type": "string"
+                },
+                "referrals": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ReferralRefereeInfo"
+                    }
+                },
+                "spent_total": {
+                    "type": "string"
+                },
+                "withdrawals": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ReferralWithdrawal"
+                    }
+                },
+                "withdrawals_in_review_total": {
+                    "description": "WithdrawalsInReviewTotal is money committed to payouts that are requested\n(or legacy-approved) but not yet paid. AvailableBalance already subtracts\nit, so it has to be visible for the dashboard to add up.",
+                    "type": "string"
+                },
+                "withdrawn_total": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.ReferralEarning": {
+            "type": "object",
+            "properties": {
+                "available_at": {
+                    "type": "string"
+                },
+                "coin": {
+                    "type": "string"
+                },
+                "commission_amount": {
+                    "type": "string"
+                },
+                "commission_rate": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "gross_amount": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "referee_user_id": {
+                    "type": "integer"
+                },
+                "referrer_user_id": {
+                    "type": "integer"
+                },
+                "reversal_reason": {
+                    "$ref": "#/definitions/services.ReferralReversalReason"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.ReferralEarningStatus"
+                },
+                "transaction_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.ReferralEarningStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "available",
+                "reversed"
+            ],
+            "x-enum-varnames": [
+                "ReferralEarningPending",
+                "ReferralEarningAvailable",
+                "ReferralEarningReversed"
+            ]
+        },
+        "services.ReferralRefereeInfo": {
+            "type": "object",
+            "properties": {
+                "earned": {
+                    "type": "string"
+                },
+                "joined_at": {
+                    "type": "string"
+                },
+                "paid": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ReferralReversalReason": {
+            "type": "string",
+            "enum": [
+                "refund",
+                "abuse_duplicate_account"
+            ],
+            "x-enum-varnames": [
+                "ReferralReversalRefund",
+                "ReferralReversalAbuseDupe"
+            ]
+        },
+        "services.ReferralTierInfo": {
+            "type": "object",
+            "properties": {
+                "rate": {
+                    "type": "number"
+                },
+                "threshold": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ReferralWithdrawal": {
+            "type": "object",
+            "properties": {
+                "admin_note": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "string"
+                },
+                "coin": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "payout_address": {
+                    "type": "string"
+                },
+                "processed_at": {
+                    "type": "string"
+                },
+                "processed_by": {
+                    "type": "integer"
+                },
+                "requested_at": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/services.ReferralWithdrawalStatus"
+                },
+                "tx_hash": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ReferralWithdrawalStatus": {
+            "type": "string",
+            "enum": [
+                "requested",
+                "approved",
+                "paid",
+                "rejected"
+            ],
+            "x-enum-varnames": [
+                "ReferralWithdrawalRequested",
+                "ReferralWithdrawalApproved",
+                "ReferralWithdrawalPaid",
+                "ReferralWithdrawalRejected"
+            ]
+        },
         "services.RiskManagement": {
             "type": "object",
             "properties": {
@@ -39948,6 +41000,10 @@
         "services.TransactionQuote": {
             "type": "object",
             "properties": {
+                "available_referral_cash": {
+                    "description": "AvailableReferralCash is the user's spendable referral-cash balance,\nreported whenever the cash-referral program is enabled (0 otherwise) so\nthe UI can show it regardless of whether it was applied.",
+                    "type": "string"
+                },
                 "base_amount": {
                     "type": "string"
                 },
@@ -40001,6 +41057,14 @@
                 },
                 "quote_type": {
                     "$ref": "#/definitions/services.TransactionQuoteType"
+                },
+                "referral_cash_applied": {
+                    "description": "ReferralCashApplied is the amount of referral cash actually credited\nagainst FinalAmount on this quote (0 unless ApplyReferralCash was set\nand eligible).",
+                    "type": "string"
+                },
+                "referral_cash_eligible": {
+                    "description": "ReferralCashEligible tells the UI whether referral cash CAN be spent on\nthis quote at all: the cash-referral program is enabled, cash-\u003emembership\nconversion is allowed by config, and the selected gateway supports the\nsettle-time debit (every gateway except Stripe). Independent of whether\nthe user opted in (ApplyReferralCash) and of the balance being \u003e 0, so a\nuser with a positive AvailableReferralCash and eligible=false can be told\nthe balance exists but this payment method cannot spend it, instead of\nbeing shown an opt-in control that would silently do nothing.",
+                    "type": "boolean"
                 },
                 "subtotal_amount": {
                     "type": "string"
@@ -40371,6 +41435,10 @@
                     "type": "string"
                 },
                 "referral_code": {
+                    "type": "string"
+                },
+                "referral_hashid": {
+                    "description": "ReferralHashID is the PERMANENT, id-derived referral code. Unlike\nReferralLink it is never replaced by a custom code: ReferralLink is\nEITHER the custom code OR the hashid, so setting a custom code made the\nhashid disappear from every response — even though ParseReferral keeps\naccepting it forever. Anything that has to show a link that never breaks\n(the share modal) needs this field, not ReferralLink.",
                     "type": "string"
                 },
                 "referral_summary": {

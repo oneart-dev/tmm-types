@@ -116,6 +116,19 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_FUTURES"] = 60] = "EXCHANGE_KRAKEN_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_SPOT"] = 61] = "EXCHANGE_BINGX_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
+export var ServicesExchangeRequestSegment;
+(function (ServicesExchangeRequestSegment) {
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentCrypto"] = "crypto";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentStocks"] = "stocks";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentForex"] = "forex";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentFutures"] = "futures";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentOther"] = "other";
+})(ServicesExchangeRequestSegment || (ServicesExchangeRequestSegment = {}));
+export var ServicesExchangeRequestSource;
+(function (ServicesExchangeRequestSource) {
+    ServicesExchangeRequestSource["ExchangeRequestSourceGrid"] = "grid";
+    ServicesExchangeRequestSource["ExchangeRequestSourceRescue"] = "rescue";
+})(ServicesExchangeRequestSource || (ServicesExchangeRequestSource = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {
     ServicesFeedNotificationKind["FeedNotificationKindNotification"] = "notification";
@@ -245,6 +258,24 @@ export var ServicesPublicProfileStatus;
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusOFF"] = 2] = "PublicProfileStatusOFF";
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusBAN"] = 3] = "PublicProfileStatusBAN";
 })(ServicesPublicProfileStatus || (ServicesPublicProfileStatus = {}));
+export var ServicesReferralEarningStatus;
+(function (ServicesReferralEarningStatus) {
+    ServicesReferralEarningStatus["ReferralEarningPending"] = "pending";
+    ServicesReferralEarningStatus["ReferralEarningAvailable"] = "available";
+    ServicesReferralEarningStatus["ReferralEarningReversed"] = "reversed";
+})(ServicesReferralEarningStatus || (ServicesReferralEarningStatus = {}));
+export var ServicesReferralReversalReason;
+(function (ServicesReferralReversalReason) {
+    ServicesReferralReversalReason["ReferralReversalRefund"] = "refund";
+    ServicesReferralReversalReason["ReferralReversalAbuseDupe"] = "abuse_duplicate_account";
+})(ServicesReferralReversalReason || (ServicesReferralReversalReason = {}));
+export var ServicesReferralWithdrawalStatus;
+(function (ServicesReferralWithdrawalStatus) {
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRequested"] = "requested";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalApproved"] = "approved";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalPaid"] = "paid";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRejected"] = "rejected";
+})(ServicesReferralWithdrawalStatus || (ServicesReferralWithdrawalStatus = {}));
 export var ServicesRiskManagementLogType;
 (function (ServicesRiskManagementLogType) {
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLoss"] = 1] = "RiskManagementLogTypeTradeLoss";

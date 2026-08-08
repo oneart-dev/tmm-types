@@ -139,6 +139,8 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       level: string;
       /** Billing months */
       months: number;
+      /** Credit the user's available referral cash against the total */
+      apply_referral_cash?: boolean;
     },
     params: RequestParams = {},
   ) =>
