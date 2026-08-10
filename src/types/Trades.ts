@@ -14,6 +14,7 @@ import {
   ControllersApiSuccessArrayServicesCategory,
   ControllersApiSuccessArrayServicesOrder,
   ControllersApiSuccessArrayServicesTag,
+  ControllersApiSuccessControllersUpdateDescBulkData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTag,
@@ -37,6 +38,7 @@ import {
   DtoTradeChartForm,
   DtoTradeDrawingForm,
   DtoTradeGroupShortLink,
+  DtoTradeUpdateDescBulkForm,
   DtoTradeUpdateDescForm,
   DtoTradeUpdateTagsBulkForm,
   DtoTradeUpdateTagsForm,
@@ -1140,6 +1142,28 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/trades/update-category`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Mass-sets description / conclusion / video link on a selection of trades. Omit a field entirely to leave that column untouched. With `replace` false (default) description and conclusion are appended below the existing text and the video link is only written onto trades that don't have one yet; with `replace` true every provided field overwrites the stored value, so an empty string clears it. Trades that don't belong to the caller are silently ignored. An update for each changed trade is sent through the SSE channel.
+   *
+   * @tags trades
+   * @name UpdateNotesCreate
+   * @summary Update Notes for Multiple Trades
+   * @request POST:/trades/update-notes
+   * @secure
+   */
+  updateNotesCreate = (payload: DtoTradeUpdateDescBulkForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersUpdateDescBulkData,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/trades/update-notes`,
       method: "POST",
       body: payload,
       secure: true,

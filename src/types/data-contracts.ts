@@ -251,6 +251,12 @@ export interface ControllersApiSuccessControllersOauthAuthorizeResult {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersUpdateDescBulkData {
+  data?: ControllersUpdateDescBulkData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessDtoChatMemory {
   data?: DtoChatMemory;
   /** @example "success" */
@@ -831,6 +837,12 @@ export interface ControllersPublicTradeGroupResponse {
   public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  /**
+   * TagCategories are the trade owner's tag categories (builtin + custom,
+   * note-scope excluded) that are actually referenced by a tag on at least
+   * one of the returned trades. Always a non-nil slice.
+   */
+  tag_categories?: ServicesTagCategory[];
   to?: number;
   win_rate?: ControllersPnlEntry;
 }
@@ -841,6 +853,12 @@ export interface ControllersPublicTradeResponse {
   public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  /**
+   * TagCategories are the trade owner's tag categories (builtin + custom,
+   * note-scope excluded) that are actually referenced by a tag on the
+   * returned trade. Always a non-nil slice.
+   */
+  tag_categories?: ServicesTagCategory[];
 }
 
 export interface ControllersReferralSummaryResponse {
@@ -982,6 +1000,16 @@ export interface ControllersUnauthorizedResponse {
   message?: string;
   /** @example "error" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersUpdateDescBulkData {
+  /**
+   * Updated is the number of trades whose stored values actually changed.
+   * Trades that were skipped (video link already set while replace is off)
+   * or already carried the exact value are not counted.
+   * @example 12
+   */
+  updated?: number;
 }
 
 export interface ControllersWeekListResponse {
@@ -2630,6 +2658,25 @@ export interface DtoTradeGroupShortLink {
    * @minItems 1
    */
   id: number[];
+}
+
+export interface DtoTradeUpdateDescBulkForm {
+  /** @example "Conclusion of the trade" */
+  conclusion?: string;
+  /** @example "Description of the trade" */
+  description?: string;
+  /**
+   * @maxItems 1000
+   * @minItems 1
+   */
+  id: number[];
+  /** @example false */
+  replace?: boolean;
+  /**
+   * @maxLength 255
+   * @example "https://www.youtube.com/watch?v=0000000000"
+   */
+  video_link?: string;
 }
 
 export interface DtoTradeUpdateDescForm {
@@ -4589,9 +4636,9 @@ export interface ServicesTag {
   /** @example "#ffffff" */
   color_bg?: string;
   /**
-   * 0 - entry reason
-   * 1 - exit reason
-   * 2 - conclusion
+   * 1 - entry reason
+   * 2 - exit reason
+   * 3 - conclusion
    */
   column?: ServicesTagColumn;
   id?: number;
@@ -4623,11 +4670,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {

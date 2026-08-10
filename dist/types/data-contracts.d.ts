@@ -169,6 +169,10 @@ export interface ControllersApiSuccessControllersOauthAuthorizeResult {
     data?: ControllersOauthAuthorizeResult;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessControllersUpdateDescBulkData {
+    data?: ControllersUpdateDescBulkData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessDtoChatMemory {
     data?: DtoChatMemory;
     status?: ControllersResponseStatusMessage;
@@ -540,6 +544,7 @@ export interface ControllersPublicTradeGroupResponse {
     from?: number;
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+    tag_categories?: ServicesTagCategory[];
     to?: number;
     win_rate?: ControllersPnlEntry;
 }
@@ -548,6 +553,7 @@ export interface ControllersPublicTradeResponse {
     drawings?: string;
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+    tag_categories?: ServicesTagCategory[];
 }
 export interface ControllersReferralSummaryResponse {
     data?: ServicesUserReferralSummary;
@@ -632,6 +638,9 @@ export interface ControllersUIDataResponse {
 export interface ControllersUnauthorizedResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersUpdateDescBulkData {
+    updated?: number;
 }
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
@@ -1247,6 +1256,13 @@ export interface DtoTradeFilters {
 }
 export interface DtoTradeGroupShortLink {
     id: number[];
+}
+export interface DtoTradeUpdateDescBulkForm {
+    conclusion?: string;
+    description?: string;
+    id: number[];
+    replace?: boolean;
+    video_link?: string;
 }
 export interface DtoTradeUpdateDescForm {
     conclusion?: string;
@@ -2654,11 +2670,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;

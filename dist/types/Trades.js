@@ -220,6 +220,15 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.updateNotesCreate = (payload, params = {}) => this.request({
+            path: `/trades/update-notes`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.chartDataCreate = (id, payload, params = {}) => this.request({
             path: `/trades/${id}/chart-data`,
             method: "POST",

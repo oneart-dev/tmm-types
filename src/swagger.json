@@ -25380,6 +25380,139 @@
                 }
             }
         },
+        "/trades/update-notes": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Mass-sets description / conclusion / video link on a selection of trades. Omit a field entirely to leave that column untouched. With `replace` false (default) description and conclusion are appended below the existing text and the video link is only written onto trades that don't have one yet; with `replace` true every provided field overwrites the stored value, so an empty string clears it. Trades that don't belong to the caller are silently ignored. An update for each changed trade is sent through the SSE channel.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "trades"
+                ],
+                "summary": "Update Notes for Multiple Trades",
+                "parameters": [
+                    {
+                        "description": "form payload",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TradeUpdateDescBulkForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_UpdateDescBulkData"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "Locked",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/trades/{id}/chart-data": {
             "post": {
                 "security": [
@@ -29807,6 +29940,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-controllers_UpdateDescBulkData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.UpdateDescBulkData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-dto_ChatMemory": {
             "type": "object",
             "properties": {
@@ -31258,6 +31407,13 @@
                     ],
                     "example": "success"
                 },
+                "tag_categories": {
+                    "description": "TagCategories are the trade owner's tag categories (builtin + custom,\nnote-scope excluded) that are actually referenced by a tag on at least\none of the returned trades. Always a non-nil slice.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TagCategory"
+                    }
+                },
                 "to": {
                     "type": "integer"
                 },
@@ -31285,6 +31441,13 @@
                         }
                     ],
                     "example": "success"
+                },
+                "tag_categories": {
+                    "description": "TagCategories are the trade owner's tag categories (builtin + custom,\nnote-scope excluded) that are actually referenced by a tag on the\nreturned trade. Always a non-nil slice.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.TagCategory"
+                    }
                 }
             }
         },
@@ -31639,6 +31802,16 @@
                         }
                     ],
                     "example": "error"
+                }
+            }
+        },
+        "controllers.UpdateDescBulkData": {
+            "type": "object",
+            "properties": {
+                "updated": {
+                    "description": "Updated is the number of trades whose stored values actually changed.\nTrades that were skipped (video link already set while replace is off)\nor already carried the exact value are not counted.",
+                    "type": "integer",
+                    "example": 12
                 }
             }
         },
@@ -34591,6 +34764,39 @@
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "dto.TradeUpdateDescBulkForm": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "conclusion": {
+                    "type": "string",
+                    "example": "Conclusion of the trade"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Description of the trade"
+                },
+                "id": {
+                    "type": "array",
+                    "maxItems": 1000,
+                    "minItems": 1,
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "replace": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "video_link": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "example": "https://www.youtube.com/watch?v=0000000000"
                 }
             }
         },
@@ -39137,7 +39343,7 @@
                     "example": "#ffffff"
                 },
                 "column": {
-                    "description": "0 - entry reason\n1 - exit reason\n2 - conclusion",
+                    "description": "1 - entry reason\n2 - exit reason\n3 - conclusion",
                     "allOf": [
                         {
                             "$ref": "#/definitions/services.TagColumn"
@@ -39210,18 +39416,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
