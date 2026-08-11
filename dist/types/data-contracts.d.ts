@@ -249,6 +249,10 @@ export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
     data?: ServicesSSEFeedNotificationEventCatalog;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesSSETradeEventCatalog {
+    data?: ServicesSSETradeEventCatalog;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTag {
     data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
@@ -2588,6 +2592,12 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
     "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
 }
+export interface ServicesSSETradeEventCatalog {
+    trade?: ServicesTradeSSEPayload;
+    "trade-update"?: ServicesTradeSSEPayload;
+    trades?: ServicesSSETradesRefreshPayload;
+}
+export type ServicesSSETradesRefreshPayload = object;
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
     id?: number;
@@ -2670,11 +2680,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -3147,6 +3157,59 @@ export declare enum ServicesTradeProcess {
     TradeUnprocessed = 0,
     TradePartiallyProcessed = 1,
     TradeProcessCompleted = 3
+}
+export interface ServicesTradeSSEPayload {
+    api_key_id?: number;
+    archive?: number;
+    avg_price_entry?: string;
+    avg_price_exit?: string;
+    category_id?: number;
+    category_name?: string;
+    close_time?: number;
+    closed_value?: string;
+    commission?: string;
+    commission_asset?: string;
+    conclusion?: string;
+    created_at?: string;
+    description?: string;
+    display_name?: string;
+    duration?: number;
+    exchange_id?: ServicesExchangeID;
+    exit_reason?: string;
+    funding?: string;
+    id?: number;
+    images?: ServicesFile[];
+    leverage?: string;
+    max_loose_percent?: string;
+    max_win_percent?: string;
+    mentor_note?: number;
+    mentor_notes?: ServicesMentorNote[];
+    multiplier?: ServicesTradeMultiplier;
+    net_profit?: string;
+    open_qty?: string;
+    open_time?: number;
+    orders?: ServicesOrder[];
+    orders_total?: number;
+    orders_truncated?: boolean;
+    payload_truncated?: boolean;
+    peak_qty?: string;
+    percent?: string;
+    process?: ServicesTradeProcess;
+    profit_deposit?: string;
+    qty?: string;
+    realized_pnl?: string;
+    risk_management_log?: ServicesRiskManagementLog[];
+    short_url?: ServicesShortUrl;
+    side?: ServicesTradeSide;
+    symbol?: string;
+    t_t_tools_data?: string;
+    t_t_tools_data_close?: string;
+    tags?: ServicesTag[];
+    trade_extra?: ServicesTradeExtra;
+    updated_at?: string;
+    user_id?: number;
+    video_link?: string;
+    volume?: string;
 }
 export declare enum ServicesTradeSide {
     TradeLong = "LONG",

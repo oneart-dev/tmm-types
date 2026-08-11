@@ -125,6 +125,12 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.sseEventsList = (params = {}) => this.request({
+            path: `/trades/sse-events`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         this.tagCategoriesList = (params = {}) => this.request({
             path: `/trades/tag-categories`,
             method: "GET",

@@ -17,6 +17,7 @@ import {
   ControllersApiSuccessControllersUpdateDescBulkData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
+  ControllersApiSuccessServicesSSETradeEventCatalog,
   ControllersApiSuccessServicesTag,
   ControllersApiSuccessServicesTagCategory,
   ControllersApiSuccessString,
@@ -905,6 +906,21 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       body: payload,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Maps trade SSE event names (trade, trade-update, trades) to their typed payloads. The orders array inside trade/trade-update is capped at 1000 entries; when cut, orders_truncated=true and orders_total carry the real count and consumers must fetch the full list via GET /trades/{id}/orders. payload_truncated=true means heavy optional fields were stripped too — refetch the trade over REST. NOT a callable HTTP endpoint — calling it returns 501.
+   *
+   * @tags trades, internal
+   * @name SseEventsList
+   * @summary SSE trade event catalog (documentation only)
+   * @request GET:/trades/sse-events
+   */
+  sseEventsList = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessServicesSSETradeEventCatalog, any>({
+      path: `/trades/sse-events`,
+      method: "GET",
       format: "json",
       ...params,
     });
