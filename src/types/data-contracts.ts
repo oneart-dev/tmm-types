@@ -227,6 +227,12 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersEmailPreferencesData {
+  data?: ControllersEmailPreferencesData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersExchangePublicListData {
   data?: ControllersExchangePublicListData;
   /** @example "success" */
@@ -521,6 +527,15 @@ export interface ControllersDiscordListResponse {
   data?: ServicesDiscordConnect[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersEmailPreferencesData {
+  /** @example false */
+  all?: boolean;
+  /** @example ["news"] */
+  feeds?: string[];
+  /** @example ["guides"] */
+  optouts?: string[];
 }
 
 export interface ControllersExchange {
@@ -1562,6 +1577,11 @@ export interface DtoDashboardUpdateForm {
 
 export interface DtoDashboardsSortForm {
   dashboards: DtoDashboardSort[];
+}
+
+export interface DtoEmailPreferencesForm {
+  /** @example ["guides"] */
+  optouts: string[];
 }
 
 export interface DtoExchangeRequestCreateForm {

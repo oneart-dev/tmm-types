@@ -12205,23 +12205,70 @@
                 }
             }
         },
-        "/email/unsubscribe": {
+        "/email/preferences": {
             "get": {
-                "description": "One-click unsubscribe for the post-signup activation email sequence. The token is signed and carries the user id, so no authentication is required and a tampered id fails verification. The call is idempotent — clicking the link a second time succeeds the same way. Browsers are redirected to the app with `?unsubscribed=1`; a request sent with `Accept: application/json` gets a JSON response instead.",
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Returns the feed registry and the current user's opt-outs for the settings modal.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "email"
                 ],
-                "summary": "Opt out of activation emails",
+                "summary": "Read email preferences",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_EmailPreferencesData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Full-state write for the settings modal: the submitted list REPLACES every opt-out the user had.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Write email preferences",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Signed unsubscribe token from the email footer",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
+                        "description": "Full opt-out state",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.EmailPreferencesForm"
+                        }
                     }
                 ],
                 "responses": {
@@ -12231,8 +12278,189 @@
                             "$ref": "#/definitions/controllers.ApiSuccessNoData"
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/email/preferences/public": {
+            "get": {
+                "description": "Returns the feed registry and the caller's current opt-outs. The signed token from an email footer IS the credential — no login required. Read-only: link prefetchers and antivirus scanners can hit it without changing anything.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Read email preferences with a signed token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Signed email-preference token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-controllers_EmailPreferencesData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Full-state write: the submitted list REPLACES every opt-out the user had. An empty list re-subscribes to everything; a list containing \"all\" opts out of every suppressible feed, present and future. Transactional mail (password reset, verification) is never affected.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Write email preferences with a signed token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Signed email-preference token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Full opt-out state",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.EmailPreferencesForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/email/unsubscribe": {
+            "get": {
+                "description": "The visible unsubscribe link in the email footer. Verifies the token and redirects (307) to the public preferences page in the user's own locale. It NEVER mutates anything — a mail client that prefetches links must not be able to unsubscribe anybody.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Open the email preferences page",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Signed email-preference token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
                     "307": {
-                        "description": "Redirect to the app with ?unsubscribed=1"
+                        "description": "Redirect to the public preferences page carrying the token"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "The endpoint behind `List-Unsubscribe-Post: List-Unsubscribe=One-Click`. Mail clients POST here with no user interaction, so the token and the optional feed are read from the QUERY STRING of the header URL first (the RFC fixes the request body to `List-Unsubscribe=One-Click`), falling back to form fields for hand-built calls. An unknown or missing feed opts the user out of everything. Adds to the existing opt-outs rather than replacing them, and is idempotent.",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "One-click unsubscribe (RFC 8058)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Signed email-preference token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Feed slug to opt out of; anything unknown means every feed",
+                        "name": "feed",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -30230,6 +30458,22 @@
                 }
             }
         },
+        "controllers.ApiSuccess-controllers_EmailPreferencesData": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/controllers.EmailPreferencesData"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-controllers_ExchangePublicListData": {
             "type": "object",
             "properties": {
@@ -30977,6 +31221,33 @@
                         }
                     ],
                     "example": "success"
+                }
+            }
+        },
+        "controllers.EmailPreferencesData": {
+            "type": "object",
+            "properties": {
+                "all": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "feeds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "news"
+                    ]
+                },
+                "optouts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "guides"
+                    ]
                 }
             }
         },
@@ -33238,6 +33509,23 @@
                     "items": {
                         "$ref": "#/definitions/dto.DashboardSort"
                     }
+                }
+            }
+        },
+        "dto.EmailPreferencesForm": {
+            "type": "object",
+            "required": [
+                "optouts"
+            ],
+            "properties": {
+                "optouts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "guides"
+                    ]
                 }
             }
         },

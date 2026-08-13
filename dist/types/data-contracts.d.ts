@@ -153,6 +153,10 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
     data?: ControllersArtifactManifestResponse;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessControllersEmailPreferencesData {
+    data?: ControllersEmailPreferencesData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessControllersExchangePublicListData {
     data?: ControllersExchangePublicListData;
     status?: ControllersResponseStatusMessage;
@@ -340,6 +344,11 @@ export interface ControllersDemoSessionSuccessResponse {
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersEmailPreferencesData {
+    all?: boolean;
+    feeds?: string[];
+    optouts?: string[];
 }
 export interface ControllersExchange {
     enabled?: number;
@@ -881,6 +890,9 @@ export interface DtoDashboardUpdateForm {
 }
 export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
+}
+export interface DtoEmailPreferencesForm {
+    optouts: string[];
 }
 export interface DtoExchangeRequestCreateForm {
     segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
