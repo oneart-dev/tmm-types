@@ -4290,6 +4290,23 @@ export interface ServicesPublicAnnouncementListItem {
   updated_at?: string;
 }
 
+export interface ServicesPublicFilterTag {
+  column?: number;
+  id?: number;
+  name?: string;
+}
+
+export interface ServicesPublicFilterTagCategory {
+  id?: number;
+  key?: string;
+  name?: string;
+}
+
+export interface ServicesPublicFilterVocabulary {
+  tag_categories?: ServicesPublicFilterTagCategory[];
+  tags?: ServicesPublicFilterTag[];
+}
+
 export interface ServicesPublicProfile {
   api_keys?: number[];
   bg?: ServicesFile;
@@ -4389,6 +4406,14 @@ export enum ServicesPublicProfileShowTrades {
 export interface ServicesPublicProfileStats {
   average_duration?: number;
   count_api_keys?: number;
+  /**
+   * FilterVocabulary labels the numeric tag-category / tag ids that the
+   * stored layout's widget filters reference, so a viewer-facing filter
+   * chip can read "Setup: Breakout" instead of "12: 88". Populated ONLY
+   * with referenced ids — never the owner's whole taxonomy — and omitted
+   * entirely when the layout references none.
+   */
+  filter_vocabulary?: ServicesPublicFilterVocabulary;
   from?: string;
   hidden_data?: boolean;
   last_update_at?: number;
@@ -4788,7 +4813,8 @@ export enum ServicesTagColumn {
 }
 
 export interface ServicesTagFilterGroup {
-  column?: ServicesTagColumn;
+  /** See TradeFilters.TagColumns for why the enum $ref is bypassed. */
+  column?: number;
   ids?: number[];
   params?: string;
 }
@@ -5265,7 +5291,15 @@ export interface ServicesTradeFilters {
   state?: ServicesTradeState;
   symbol?: string[];
   symbol_params?: string;
-  tag_columns?: ServicesTagColumn[];
+  /**
+   * swaggertype pins this to a plain integer array. Without it swag emits
+   * a $ref to services.TagColumn, whose "enum" is [10,127,1,2,3] — that is
+   * the two CUSTOM-RANGE BOUNDS (TagCategoryCustomMin/Max) plus the three
+   * built-ins, not a member list. Generated clients turned that into a
+   * closed union, so no real custom tag-category id (any value in 10..127)
+   * was assignable and "… by tag" widgets could not be given a category.
+   */
+  tag_columns?: number[];
   tag_groups?: ServicesTagFilterGroup[];
   tag_ids?: number[];
   tag_params?: string;
