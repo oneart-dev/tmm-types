@@ -20,6 +20,7 @@ import {
   ControllersApiSuccessArrayServicesReferralWithdrawal,
   ControllersApiSuccessControllersFeedNotificationAdminCreateData,
   ControllersApiSuccessNoData,
+  ControllersApiSuccessServicesExchangeRequestsAdminSummary,
   ControllersApiSuccessServicesFeedNotificationAnalyticsCounts,
   ControllersApiSuccessServicesFeedNotificationComment,
   ControllersApiWarningResponse,
@@ -61,6 +62,34 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/admin/chat/threads/${uid}/export`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Admin read-out of the "my exchange isn't listed" submissions inside the window: a top-10 aggregate grouped by the normalized name plus the latest 100 raw rows joined to the requester's email.
+   *
+   * @tags admin_exchange_requests
+   * @name ExchangeRequestsList
+   * @summary Requested exchanges
+   * @request GET:/admin/exchange-requests
+   * @secure
+   */
+  exchangeRequestsList = (
+    query?: {
+      /** Window in days (default 30, max 365) */
+      days?: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ControllersApiSuccessServicesExchangeRequestsAdminSummary,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/admin/exchange-requests`,
+      method: "GET",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

@@ -184,7 +184,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Validates the verification token sent via email. If requested via a browser (Accept: text/html), it redirects to the dashboard. If requested via API, it returns a JSON response. Link is valid for 1 hour.
+   * @description Validates the verification token sent via email. If requested via a browser (Accept: text/html), it redirects into the app; users with zero non-deleted api keys are sent to `/account/api-keys?modal=add-key&source=verify`, everyone else to `/`. If requested via API, it returns a JSON response. Link is valid for 1 hour.
    *
    * @tags auth
    * @name VerifyDetail

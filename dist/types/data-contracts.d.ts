@@ -61,6 +61,10 @@ export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry 
     data?: ControllersPublicProfileSitemapEntry[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesActivationRow {
+    data?: ServicesActivationRow[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesApiKey {
     data?: ServicesApiKey[];
     status?: ControllersResponseStatusMessage;
@@ -195,6 +199,14 @@ export interface ControllersApiSuccessServicesDashboard {
 }
 export interface ControllersApiSuccessServicesExchangePublicItem {
     data?: ServicesExchangePublicItem;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangeRequest {
+    data?: ServicesExchangeRequest;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangeRequestsAdminSummary {
+    data?: ServicesExchangeRequestsAdminSummary;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesFeedNotificationAnalyticsCounts {
@@ -870,6 +882,11 @@ export interface DtoDashboardUpdateForm {
 export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
 }
+export interface DtoExchangeRequestCreateForm {
+    segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
+    source?: "grid" | "rescue";
+    text: string;
+}
 export interface DtoFeedNotificationCommentCreateForm {
     image_file_ids?: number[];
     reply_to_user_id?: number;
@@ -1377,6 +1394,15 @@ export interface OauthClientRegistrationRequest {
     token_endpoint_auth_method?: string;
     tos_uri?: string;
 }
+export interface ServicesActivationRow {
+    activated_30d?: number;
+    activated_7d?: number;
+    rate_30d?: number;
+    rate_7d?: number;
+    signups?: number;
+    source?: string;
+    week?: string;
+}
 export interface ServicesAnalyzerNote {
     created_at?: string;
     desc?: string;
@@ -1408,6 +1434,15 @@ export declare enum ServicesApiKeyEnabledStatus {
     API_KEY_WS_DISABLED = 0,
     API_KEY_WS_FROZEN = 2,
     API_KEY_WS_BLOCKED_HIGH_LOAD = 3
+}
+export declare enum ServicesApiKeyErrorCode {
+    ApiKeyErrorCodeInvalidKey = "invalid_key",
+    ApiKeyErrorCodeInvalidPermissions = "invalid_permissions",
+    ApiKeyErrorCodeInvalidPassphrase = "invalid_passphrase",
+    ApiKeyErrorCodeIPRestricted = "ip_restricted",
+    ApiKeyErrorCodeRateLimited = "rate_limited",
+    ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
+    ApiKeyErrorCodeUnknown = "unknown"
 }
 export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_DISCONNECTED = 0,
@@ -1638,6 +1673,43 @@ export interface ServicesExchangePublicMarkets {
     futures?: boolean;
     inverse?: boolean;
     spot?: boolean;
+}
+export interface ServicesExchangeRequest {
+    created_at?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export interface ServicesExchangeRequestRecent {
+    created_at?: string;
+    email?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    user_id?: number;
+}
+export declare enum ServicesExchangeRequestSegment {
+    ExchangeRequestSegmentCrypto = "crypto",
+    ExchangeRequestSegmentStocks = "stocks",
+    ExchangeRequestSegmentForex = "forex",
+    ExchangeRequestSegmentFutures = "futures",
+    ExchangeRequestSegmentOther = "other"
+}
+export declare enum ServicesExchangeRequestSource {
+    ExchangeRequestSourceGrid = "grid",
+    ExchangeRequestSourceRescue = "rescue"
+}
+export interface ServicesExchangeRequestTop {
+    count?: number;
+    text_normalized?: string;
+}
+export interface ServicesExchangeRequestsAdminSummary {
+    recent?: ServicesExchangeRequestRecent[];
+    top?: ServicesExchangeRequestTop[];
 }
 export interface ServicesFeedNotification {
     audience_memberships?: string[];
@@ -2680,11 +2752,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: ServicesTagColumn;
@@ -3419,6 +3491,7 @@ export interface ServicesUserWithRelations {
     filter_catalog?: ServicesFilterCatalogPayload;
     filter_presets?: ServicesFilterPreset[];
     guides_progress?: ServicesGuideProgress;
+    has_api_keys?: boolean;
     id?: number;
     invite_code?: string;
     is_demo?: boolean;
@@ -3454,7 +3527,9 @@ export interface ServicesUserWithRelations {
     trial_available?: boolean;
 }
 export interface ServicesValidationErrorResponse {
+    code?: "invalid_key" | "invalid_permissions" | "invalid_passphrase" | "ip_restricted" | "rate_limited" | "exchange_unreachable" | "unknown";
     errors?: ServicesValidationErrors;
+    exchange_id?: number;
     status?: string;
 }
 export type ServicesValidationErrors = Record<string, string[]>;

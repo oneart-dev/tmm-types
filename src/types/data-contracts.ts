@@ -89,6 +89,12 @@ export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry 
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesActivationRow {
+  data?: ServicesActivationRow[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesApiKey {
   data?: ServicesApiKey[];
   /** @example "success" */
@@ -289,6 +295,18 @@ export interface ControllersApiSuccessServicesDashboard {
 
 export interface ControllersApiSuccessServicesExchangePublicItem {
   data?: ServicesExchangePublicItem;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesExchangeRequest {
+  data?: ServicesExchangeRequest;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesExchangeRequestsAdminSummary {
+  data?: ServicesExchangeRequestsAdminSummary;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -1544,6 +1562,18 @@ export interface DtoDashboardUpdateForm {
 
 export interface DtoDashboardsSortForm {
   dashboards: DtoDashboardSort[];
+}
+
+export interface DtoExchangeRequestCreateForm {
+  /** @example "crypto" */
+  segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
+  /** @example "grid" */
+  source?: "grid" | "rescue";
+  /**
+   * @maxLength 120
+   * @example "Deribit"
+   */
+  text: string;
 }
 
 export interface DtoFeedNotificationCommentCreateForm {
@@ -2890,6 +2920,16 @@ export interface OauthClientRegistrationRequest {
   tos_uri?: string;
 }
 
+export interface ServicesActivationRow {
+  activated_30d?: number;
+  activated_7d?: number;
+  rate_30d?: number;
+  rate_7d?: number;
+  signups?: number;
+  source?: string;
+  week?: string;
+}
+
 export interface ServicesAnalyzerNote {
   created_at?: string;
   desc?: string;
@@ -2937,6 +2977,16 @@ export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_DISABLED = 0,
   API_KEY_WS_FROZEN = 2,
   API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
+}
+
+export enum ServicesApiKeyErrorCode {
+  ApiKeyErrorCodeInvalidKey = "invalid_key",
+  ApiKeyErrorCodeInvalidPermissions = "invalid_permissions",
+  ApiKeyErrorCodeInvalidPassphrase = "invalid_passphrase",
+  ApiKeyErrorCodeIPRestricted = "ip_restricted",
+  ApiKeyErrorCodeRateLimited = "rate_limited",
+  ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
+  ApiKeyErrorCodeUnknown = "unknown",
 }
 
 /** @format int32 */
@@ -3237,6 +3287,49 @@ export interface ServicesExchangePublicMarkets {
   /** Inverse = COIN-M / inverse-perpetual contracts (e.g. Bybit Inverse). */
   inverse?: boolean;
   spot?: boolean;
+}
+
+export interface ServicesExchangeRequest {
+  created_at?: string;
+  id?: number;
+  segment?: ServicesExchangeRequestSegment;
+  source?: ServicesExchangeRequestSource;
+  text?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export interface ServicesExchangeRequestRecent {
+  created_at?: string;
+  email?: string;
+  id?: number;
+  segment?: ServicesExchangeRequestSegment;
+  source?: ServicesExchangeRequestSource;
+  text?: string;
+  user_id?: number;
+}
+
+export enum ServicesExchangeRequestSegment {
+  ExchangeRequestSegmentCrypto = "crypto",
+  ExchangeRequestSegmentStocks = "stocks",
+  ExchangeRequestSegmentForex = "forex",
+  ExchangeRequestSegmentFutures = "futures",
+  ExchangeRequestSegmentOther = "other",
+}
+
+export enum ServicesExchangeRequestSource {
+  ExchangeRequestSourceGrid = "grid",
+  ExchangeRequestSourceRescue = "rescue",
+}
+
+export interface ServicesExchangeRequestTop {
+  count?: number;
+  text_normalized?: string;
+}
+
+export interface ServicesExchangeRequestsAdminSummary {
+  recent?: ServicesExchangeRequestRecent[];
+  top?: ServicesExchangeRequestTop[];
 }
 
 export interface ServicesFeedNotification {
@@ -4684,11 +4777,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5566,6 +5659,14 @@ export interface ServicesUserWithRelations {
   filter_catalog?: ServicesFilterCatalogPayload;
   filter_presets?: ServicesFilterPreset[];
   guides_progress?: ServicesGuideProgress;
+  /**
+   * HasApiKeys — computed: COUNT of the user's non-deleted api_keys > 0.
+   * Activation funnel contract (A3): the SPA routes a 0-key session into the
+   * add-key wizard on login / root entry. Clients MUST read this field —
+   * never infer it by fetching the api-key list.
+   * @example true
+   */
+  has_api_keys?: boolean;
   id?: number;
   invite_code?: string;
   /**
@@ -5617,7 +5718,28 @@ export interface ServicesUserWithRelations {
 }
 
 export interface ServicesValidationErrorResponse {
+  /**
+   * Code is an optional machine-readable classification of the failure,
+   * sitting next to the human-readable message in Errors. Currently emitted
+   * by the add/update api-key endpoints (see ApiKeyErrorCode). Absent on
+   * plain field-validation failures.
+   * @example "invalid_permissions"
+   */
+  code?:
+    | "invalid_key"
+    | "invalid_permissions"
+    | "invalid_passphrase"
+    | "ip_restricted"
+    | "rate_limited"
+    | "exchange_unreachable"
+    | "unknown";
   errors?: ServicesValidationErrors;
+  /**
+   * ExchangeID is the exchange whose driver rejected the credentials.
+   * Present only together with Code; 0/absent when not applicable.
+   * @example 1
+   */
+  exchange_id?: number;
   /** @example "error" */
   status?: string;
 }

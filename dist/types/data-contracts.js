@@ -18,6 +18,16 @@ export var ServicesApiKeyEnabledStatus;
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_FROZEN"] = 2] = "API_KEY_WS_FROZEN";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_BLOCKED_HIGH_LOAD"] = 3] = "API_KEY_WS_BLOCKED_HIGH_LOAD";
 })(ServicesApiKeyEnabledStatus || (ServicesApiKeyEnabledStatus = {}));
+export var ServicesApiKeyErrorCode;
+(function (ServicesApiKeyErrorCode) {
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidKey"] = "invalid_key";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPermissions"] = "invalid_permissions";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPassphrase"] = "invalid_passphrase";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeIPRestricted"] = "ip_restricted";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeRateLimited"] = "rate_limited";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeExchangeUnreachable"] = "exchange_unreachable";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeUnknown"] = "unknown";
+})(ServicesApiKeyErrorCode || (ServicesApiKeyErrorCode = {}));
 export var ServicesApiKeyWebsocketStatus;
 (function (ServicesApiKeyWebsocketStatus) {
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_DISCONNECTED"] = 0] = "API_KEY_WS_DISCONNECTED";
@@ -116,6 +126,19 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_FUTURES"] = 60] = "EXCHANGE_KRAKEN_FUTURES";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_SPOT"] = 61] = "EXCHANGE_BINGX_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
+export var ServicesExchangeRequestSegment;
+(function (ServicesExchangeRequestSegment) {
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentCrypto"] = "crypto";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentStocks"] = "stocks";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentForex"] = "forex";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentFutures"] = "futures";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentOther"] = "other";
+})(ServicesExchangeRequestSegment || (ServicesExchangeRequestSegment = {}));
+export var ServicesExchangeRequestSource;
+(function (ServicesExchangeRequestSource) {
+    ServicesExchangeRequestSource["ExchangeRequestSourceGrid"] = "grid";
+    ServicesExchangeRequestSource["ExchangeRequestSourceRescue"] = "rescue";
+})(ServicesExchangeRequestSource || (ServicesExchangeRequestSource = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {
     ServicesFeedNotificationKind["FeedNotificationKindNotification"] = "notification";
@@ -305,11 +328,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {

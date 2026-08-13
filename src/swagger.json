@@ -74,6 +74,66 @@
                 }
             }
         },
+        "/admin/exchange-requests": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Admin read-out of the \"my exchange isn't listed\" submissions inside the window: a top-10 aggregate grouped by the normalized name plus the latest 100 raw rows joined to the requester's email.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin_exchange_requests"
+                ],
+                "summary": "Requested exchanges",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Window in days (default 30, max 365)",
+                        "name": "days",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ExchangeRequestsAdminSummary"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/fleet/activity": {
             "get": {
                 "security": [
@@ -1454,6 +1514,58 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-controllers_FeedNotificationAdminCreateData"
+                        }
+                    }
+                }
+            }
+        },
+        "/analytics/activation": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Weekly signup cohorts (verified users only) with the share that connected their first API key within 7 and 30 days. Rates are ratios in [0,1]. Admin only.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "analytics",
+                    "internal"
+                ],
+                "summary": "Weekly activation cohorts",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Lookback in weeks, default 26, clamped to 104",
+                        "name": "weeks",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "attribution_source"
+                        ],
+                        "type": "string",
+                        "description": "Split each week by signup source",
+                        "name": "dimension",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-array_services_ActivationRow"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
                         }
                     }
                 }
@@ -2963,7 +3075,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Adds a new API key to the user's account.",
+                "description": "Adds a new API key to the user's account.\n\nOn a credential failure the 400 body carries a stable machine-readable\n`code` and the failing `exchange_id` next to the translated message in\n`errors.key_public`. Codes: `invalid_key`, `invalid_permissions`,\n`invalid_passphrase`, `ip_restricted`, `rate_limited`,\n`exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown`\nand fall back to the message.",
                 "consumes": [
                     "application/json"
                 ],
@@ -2989,6 +3101,26 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccess-services_ApiKey"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "credential failure — see code/exchange_id",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -3405,7 +3537,7 @@
                         "JWT": []
                     }
                 ],
-                "description": "Adds multiple API keys in a single batch request.",
+                "description": "Adds multiple API keys in a single batch request.\n\nOn a credential failure the 400 body carries a stable machine-readable\n`code` and the failing `exchange_id` next to the translated message in\n`errors.key_public`. Codes: `invalid_key`, `invalid_permissions`,\n`invalid_passphrase`, `ip_restricted`, `rate_limited`,\n`exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown`\nand fall back to the message.",
                 "consumes": [
                     "application/json"
                 ],
@@ -3431,6 +3563,26 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "credential failure — see code/exchange_id",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -6122,7 +6274,7 @@
         },
         "/auth/verify/{user_id}/{token}": {
             "get": {
-                "description": "Validates the verification token sent via email. If requested via a browser (Accept: text/html), it redirects to the dashboard. If requested via API, it returns a JSON response. Link is valid for 1 hour.",
+                "description": "Validates the verification token sent via email. If requested via a browser (Accept: text/html), it redirects into the app; users with zero non-deleted api keys are sent to `/account/api-keys?modal=add-key\u0026source=verify`, everyone else to `/`. If requested via API, it returns a JSON response. Link is valid for 1 hour.",
                 "produces": [
                     "application/json"
                 ],
@@ -11974,6 +12126,184 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UnauthorizedResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Limit exceeded",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/email/unsubscribe": {
+            "get": {
+                "description": "One-click unsubscribe for the post-signup activation email sequence. The token is signed and carries the user id, so no authentication is required and a tampered id fails verification. The call is idempotent — clicking the link a second time succeeds the same way. Browsers are redirected to the app with `?unsubscribed=1`; a request sent with `Accept: application/json` gets a JSON response instead.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "email"
+                ],
+                "summary": "Opt out of activation emails",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Signed unsubscribe token from the email footer",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccessNoData"
+                        }
+                    },
+                    "307": {
+                        "description": "Redirect to the app with ?unsubscribed=1"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiWarningResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange-requests": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKey": [],
+                        "JWT": []
+                    }
+                ],
+                "description": "Records a free-text exchange/broker name the user could not find in the connect wizard. Rate limited to 3 submissions per user per rolling 24 hours; over the budget the endpoint answers with a standard 400 validation payload on the `text` field.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "exchange-requests"
+                ],
+                "summary": "Request an exchange",
+                "parameters": [
+                    {
+                        "description": "request payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ExchangeRequestCreateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ApiSuccess-services_ExchangeRequest"
+                        },
+                        "headers": {
+                            "x-ratelimit-limit": {
+                                "type": "integer",
+                                "description": "20"
+                            },
+                            "x-ratelimit-remaining": {
+                                "type": "integer",
+                                "description": "19"
+                            },
+                            "x-ratelimit-reset": {
+                                "type": "integer",
+                                "description": "1654898909"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/services.ValidationErrorResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -29469,6 +29799,25 @@
                 }
             }
         },
+        "controllers.ApiSuccess-array_services_ActivationRow": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ActivationRow"
+                    }
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
         "controllers.ApiSuccess-array_services_ApiKey": {
             "type": "object",
             "properties": {
@@ -30062,6 +30411,38 @@
             "properties": {
                 "data": {
                     "$ref": "#/definitions/services.ExchangePublicItem"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ExchangeRequest": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ExchangeRequest"
+                },
+                "status": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/controllers.ResponseStatusMessage"
+                        }
+                    ],
+                    "example": "success"
+                }
+            }
+        },
+        "controllers.ApiSuccess-services_ExchangeRequestsAdminSummary": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/services.ExchangeRequestsAdminSummary"
                 },
                 "status": {
                     "allOf": [
@@ -32860,6 +33241,38 @@
                 }
             }
         },
+        "dto.ExchangeRequestCreateForm": {
+            "type": "object",
+            "required": [
+                "text"
+            ],
+            "properties": {
+                "segment": {
+                    "type": "string",
+                    "enum": [
+                        "crypto",
+                        "stocks",
+                        "forex",
+                        "futures",
+                        "other"
+                    ],
+                    "example": "crypto"
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "grid",
+                        "rescue"
+                    ],
+                    "example": "grid"
+                },
+                "text": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "example": "Deribit"
+                }
+            }
+        },
         "dto.FeedNotificationCommentCreateForm": {
             "type": "object",
             "properties": {
@@ -35327,6 +35740,32 @@
                 }
             }
         },
+        "services.ActivationRow": {
+            "type": "object",
+            "properties": {
+                "activated_30d": {
+                    "type": "integer"
+                },
+                "activated_7d": {
+                    "type": "integer"
+                },
+                "rate_30d": {
+                    "type": "number"
+                },
+                "rate_7d": {
+                    "type": "number"
+                },
+                "signups": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "week": {
+                    "type": "string"
+                }
+            }
+        },
         "services.AnalyzerNote": {
             "type": "object",
             "properties": {
@@ -35428,6 +35867,27 @@
                 "API_KEY_WS_DISABLED",
                 "API_KEY_WS_FROZEN",
                 "API_KEY_WS_BLOCKED_HIGH_LOAD"
+            ]
+        },
+        "services.ApiKeyErrorCode": {
+            "type": "string",
+            "enum": [
+                "invalid_key",
+                "invalid_permissions",
+                "invalid_passphrase",
+                "ip_restricted",
+                "rate_limited",
+                "exchange_unreachable",
+                "unknown"
+            ],
+            "x-enum-varnames": [
+                "ApiKeyErrorCodeInvalidKey",
+                "ApiKeyErrorCodeInvalidPermissions",
+                "ApiKeyErrorCodeInvalidPassphrase",
+                "ApiKeyErrorCodeIPRestricted",
+                "ApiKeyErrorCodeRateLimited",
+                "ApiKeyErrorCodeExchangeUnreachable",
+                "ApiKeyErrorCodeUnknown"
             ]
         },
         "services.ApiKeyWebsocketStatus": {
@@ -36160,6 +36620,114 @@
                 },
                 "spot": {
                     "type": "boolean"
+                }
+            }
+        },
+        "services.ExchangeRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "segment": {
+                    "$ref": "#/definitions/services.ExchangeRequestSegment"
+                },
+                "source": {
+                    "$ref": "#/definitions/services.ExchangeRequestSource"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ExchangeRequestRecent": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "segment": {
+                    "$ref": "#/definitions/services.ExchangeRequestSegment"
+                },
+                "source": {
+                    "$ref": "#/definitions/services.ExchangeRequestSource"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "services.ExchangeRequestSegment": {
+            "type": "string",
+            "enum": [
+                "crypto",
+                "stocks",
+                "forex",
+                "futures",
+                "other"
+            ],
+            "x-enum-varnames": [
+                "ExchangeRequestSegmentCrypto",
+                "ExchangeRequestSegmentStocks",
+                "ExchangeRequestSegmentForex",
+                "ExchangeRequestSegmentFutures",
+                "ExchangeRequestSegmentOther"
+            ]
+        },
+        "services.ExchangeRequestSource": {
+            "type": "string",
+            "enum": [
+                "grid",
+                "rescue"
+            ],
+            "x-enum-varnames": [
+                "ExchangeRequestSourceGrid",
+                "ExchangeRequestSourceRescue"
+            ]
+        },
+        "services.ExchangeRequestTop": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "text_normalized": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.ExchangeRequestsAdminSummary": {
+            "type": "object",
+            "properties": {
+                "recent": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ExchangeRequestRecent"
+                    }
+                },
+                "top": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.ExchangeRequestTop"
+                    }
                 }
             }
         },
@@ -39470,18 +40038,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
+                10,
+                127,
                 1,
                 2,
-                3,
-                10,
-                127
+                3
             ],
             "x-enum-varnames": [
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion",
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax"
+                "TagColumnConclusion"
             ]
         },
         "services.TagFilterGroup": {
@@ -41729,6 +42297,11 @@
                 "guides_progress": {
                     "$ref": "#/definitions/services.GuideProgress"
                 },
+                "has_api_keys": {
+                    "description": "HasApiKeys — computed: COUNT of the user's non-deleted api_keys \u003e 0.\nActivation funnel contract (A3): the SPA routes a 0-key session into the\nadd-key wizard on login / root entry. Clients MUST read this field —\nnever infer it by fetching the api-key list.",
+                    "type": "boolean",
+                    "example": true
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -41860,8 +42433,31 @@
         "services.ValidationErrorResponse": {
             "type": "object",
             "properties": {
+                "code": {
+                    "description": "Code is an optional machine-readable classification of the failure,\nsitting next to the human-readable message in Errors. Currently emitted\nby the add/update api-key endpoints (see ApiKeyErrorCode). Absent on\nplain field-validation failures.",
+                    "enum": [
+                        "invalid_key",
+                        "invalid_permissions",
+                        "invalid_passphrase",
+                        "ip_restricted",
+                        "rate_limited",
+                        "exchange_unreachable",
+                        "unknown"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.ApiKeyErrorCode"
+                        }
+                    ],
+                    "example": "invalid_permissions"
+                },
                 "errors": {
                     "$ref": "#/definitions/services.ValidationErrors"
+                },
+                "exchange_id": {
+                    "description": "ExchangeID is the exchange whose driver rejected the credentials.\nPresent only together with Code; 0/absent when not applicable.",
+                    "type": "integer",
+                    "example": 1
                 },
                 "status": {
                     "type": "string",

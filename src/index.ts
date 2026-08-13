@@ -6,6 +6,7 @@
 
 // types
 export * from './types/Admin';
+export * from './types/Analytics';
 export * from './types/Analyzer';
 export * from './types/ApiKey';
 export * from './types/ApiUser';
@@ -17,6 +18,8 @@ export * from './types/Connections';
 export * from './types/Contact';
 export * from './types/Demo';
 export * from './types/DiscordBot';
+export * from './types/Email';
+export * from './types/ExchangeRequests';
 export * from './types/Exchanges';
 export * from './types/Files';
 export * from './types/FilterCatalog';

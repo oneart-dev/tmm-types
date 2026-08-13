@@ -9,6 +9,15 @@ export class Admin extends HttpClient {
             format: "json",
             ...params,
         });
+        this.exchangeRequestsList = (query, params = {}) => this.request({
+            path: `/admin/exchange-requests`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.fleetActivityList = (query, params = {}) => this.request({
             path: `/admin/fleet/activity`,
             method: "GET",

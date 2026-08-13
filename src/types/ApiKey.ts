@@ -22,12 +22,13 @@ import {
   DtoApiKeyUpdateNameForm,
   DtoBatchApiKeyCreateForm,
   ServicesApiKeysListPagination,
+  ServicesValidationErrorResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Adds a new API key to the user's account.
+   * @description Adds a new API key to the user's account. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
    *
    * @tags api-key
    * @name ApiKeyUpdate
@@ -38,7 +39,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   apiKeyUpdate = (payload: DtoApiKeyCreateForm, params: RequestParams = {}) =>
     this.request<
       ControllersApiSuccessServicesApiKey,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/api-key`,
       method: "PUT",
@@ -129,7 +130,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Adds multiple API keys in a single batch request.
+   * @description Adds multiple API keys in a single batch request. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
    *
    * @tags api-key
    * @name BatchUpdate
@@ -138,7 +139,10 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * @secure
    */
   batchUpdate = (payload: DtoBatchApiKeyCreateForm, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<
+      ControllersApiSuccessNoData,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
       path: `/api-key/batch`,
       method: "PUT",
       body: payload,
