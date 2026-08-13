@@ -35860,13 +35860,15 @@
                 1,
                 0,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "API_KEY_WS_ENABLED",
                 "API_KEY_WS_DISABLED",
                 "API_KEY_WS_FROZEN",
-                "API_KEY_WS_BLOCKED_HIGH_LOAD"
+                "API_KEY_WS_BLOCKED_HIGH_LOAD",
+                "API_KEY_WS_EXPIRED"
             ]
         },
         "services.ApiKeyErrorCode": {
@@ -35875,6 +35877,8 @@
                 "invalid_key",
                 "invalid_permissions",
                 "invalid_passphrase",
+                "key_not_read_only",
+                "key_expired",
                 "ip_restricted",
                 "rate_limited",
                 "exchange_unreachable",
@@ -35884,6 +35888,8 @@
                 "ApiKeyErrorCodeInvalidKey",
                 "ApiKeyErrorCodeInvalidPermissions",
                 "ApiKeyErrorCodeInvalidPassphrase",
+                "ApiKeyErrorCodeNotReadOnly",
+                "ApiKeyErrorCodeExpired",
                 "ApiKeyErrorCodeIPRestricted",
                 "ApiKeyErrorCodeRateLimited",
                 "ApiKeyErrorCodeExchangeUnreachable",
@@ -40038,18 +40044,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {

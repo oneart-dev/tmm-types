@@ -17,12 +17,15 @@ export var ServicesApiKeyEnabledStatus;
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_DISABLED"] = 0] = "API_KEY_WS_DISABLED";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_FROZEN"] = 2] = "API_KEY_WS_FROZEN";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_BLOCKED_HIGH_LOAD"] = 3] = "API_KEY_WS_BLOCKED_HIGH_LOAD";
+    ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_EXPIRED"] = 4] = "API_KEY_WS_EXPIRED";
 })(ServicesApiKeyEnabledStatus || (ServicesApiKeyEnabledStatus = {}));
 export var ServicesApiKeyErrorCode;
 (function (ServicesApiKeyErrorCode) {
     ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidKey"] = "invalid_key";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPermissions"] = "invalid_permissions";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPassphrase"] = "invalid_passphrase";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeNotReadOnly"] = "key_not_read_only";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeExpired"] = "key_expired";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeIPRestricted"] = "ip_restricted";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeRateLimited"] = "rate_limited";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeExchangeUnreachable"] = "exchange_unreachable";
@@ -328,11 +331,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {

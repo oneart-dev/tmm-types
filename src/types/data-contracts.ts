@@ -2977,12 +2977,15 @@ export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_DISABLED = 0,
   API_KEY_WS_FROZEN = 2,
   API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
+  API_KEY_WS_EXPIRED = 4,
 }
 
 export enum ServicesApiKeyErrorCode {
   ApiKeyErrorCodeInvalidKey = "invalid_key",
   ApiKeyErrorCodeInvalidPermissions = "invalid_permissions",
   ApiKeyErrorCodeInvalidPassphrase = "invalid_passphrase",
+  ApiKeyErrorCodeNotReadOnly = "key_not_read_only",
+  ApiKeyErrorCodeExpired = "key_expired",
   ApiKeyErrorCodeIPRestricted = "ip_restricted",
   ApiKeyErrorCodeRateLimited = "rate_limited",
   ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
@@ -4777,11 +4780,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
