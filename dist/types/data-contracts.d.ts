@@ -1326,6 +1326,8 @@ export interface DtoTransactionCreateForm {
 }
 export interface DtoUIData {
     data: string;
+    deleted_keys?: string[];
+    replace?: boolean;
 }
 export interface DtoUserLanguage {
     language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
@@ -2410,6 +2412,20 @@ export interface ServicesPublicAnnouncementListItem {
     title?: string;
     updated_at?: string;
 }
+export interface ServicesPublicFilterTag {
+    column?: number;
+    id?: number;
+    name?: string;
+}
+export interface ServicesPublicFilterTagCategory {
+    id?: number;
+    key?: string;
+    name?: string;
+}
+export interface ServicesPublicFilterVocabulary {
+    tag_categories?: ServicesPublicFilterTagCategory[];
+    tags?: ServicesPublicFilterTag[];
+}
 export interface ServicesPublicProfile {
     api_keys?: number[];
     bg?: ServicesFile;
@@ -2466,6 +2482,7 @@ export declare enum ServicesPublicProfileShowTrades {
 export interface ServicesPublicProfileStats {
     average_duration?: number;
     count_api_keys?: number;
+    filter_vocabulary?: ServicesPublicFilterVocabulary;
     from?: string;
     hidden_data?: boolean;
     last_update_at?: number;
@@ -2774,7 +2791,7 @@ export declare enum ServicesTagColumn {
     TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
-    column?: ServicesTagColumn;
+    column?: number;
     ids?: number[];
     params?: string;
 }
@@ -3183,7 +3200,7 @@ export interface ServicesTradeFilters {
     state?: ServicesTradeState;
     symbol?: string[];
     symbol_params?: string;
-    tag_columns?: ServicesTagColumn[];
+    tag_columns?: number[];
     tag_groups?: ServicesTagFilterGroup[];
     tag_ids?: number[];
     tag_params?: string;

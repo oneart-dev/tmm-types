@@ -11,7 +11,6 @@
 
 import {
   ControllersApiErrorResponse,
-  ControllersApiSuccessResponse,
   ControllersUIDataResponse,
   ControllersUnauthorizedResponse,
   DtoUIData,
@@ -47,15 +46,13 @@ export class UiData<SecurityDataType = unknown> extends HttpClient<SecurityDataT
    * @secure
    */
   uiDataUpdate = (payload: DtoUIData, params: RequestParams = {}) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/ui-data`,
-        method: "PUT",
-        body: payload,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersUIDataResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/ui-data`,
+      method: "PUT",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
 }

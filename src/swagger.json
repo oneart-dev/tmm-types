@@ -28681,7 +28681,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.ApiSuccessResponse"
+                            "$ref": "#/definitions/controllers.UIDataResponse"
                         },
                         "headers": {
                             "x-ratelimit-limit": {
@@ -35675,6 +35675,21 @@
                 "data": {
                     "type": "string",
                     "example": "{}"
+                },
+                "deleted_keys": {
+                    "description": "Keys to remove from the stored blob. Applied after Data is merged in.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "oldWidgetPref"
+                    ]
+                },
+                "replace": {
+                    "description": "Opt-in escape hatch: when true the stored blob is replaced entirely with Data\n(old behavior) instead of being merged.",
+                    "type": "boolean",
+                    "example": false
                 }
             }
         },
@@ -39186,6 +39201,51 @@
                 }
             }
         },
+        "services.PublicFilterTag": {
+            "type": "object",
+            "properties": {
+                "column": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.PublicFilterTagCategory": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "services.PublicFilterVocabulary": {
+            "type": "object",
+            "properties": {
+                "tag_categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.PublicFilterTagCategory"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services.PublicFilterTag"
+                    }
+                }
+            }
+        },
         "services.PublicProfile": {
             "type": "object",
             "properties": {
@@ -39383,6 +39443,14 @@
                 },
                 "count_api_keys": {
                     "type": "integer"
+                },
+                "filter_vocabulary": {
+                    "description": "FilterVocabulary labels the numeric tag-category / tag ids that the\nstored layout's widget filters reference, so a viewer-facing filter\nchip can read \"Setup: Breakout\" instead of \"12: 88\". Populated ONLY\nwith referenced ids — never the owner's whole taxonomy — and omitted\nentirely when the layout references none.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.PublicFilterVocabulary"
+                        }
+                    ]
                 },
                 "from": {
                     "type": "string"
@@ -40350,7 +40418,8 @@
             "type": "object",
             "properties": {
                 "column": {
-                    "$ref": "#/definitions/services.TagColumn"
+                    "description": "See TradeFilters.TagColumns for why the enum $ref is bypassed.",
+                    "type": "integer"
                 },
                 "ids": {
                     "type": "array",
@@ -41604,9 +41673,10 @@
                     "type": "string"
                 },
                 "tag_columns": {
+                    "description": "swaggertype pins this to a plain integer array. Without it swag emits\na $ref to services.TagColumn, whose \"enum\" is [10,127,1,2,3] — that is\nthe two CUSTOM-RANGE BOUNDS (TagCategoryCustomMin/Max) plus the three\nbuilt-ins, not a member list. Generated clients turned that into a\nclosed union, so no real custom tag-category id (any value in 10..127)\nwas assignable and \"… by tag\" widgets could not be given a category.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/services.TagColumn"
+                        "type": "integer"
                     }
                 },
                 "tag_groups": {
