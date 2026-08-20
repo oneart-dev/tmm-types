@@ -56,6 +56,28 @@ export class Auth extends HttpClient {
             format: "json",
             ...params,
         });
+        this.registerCompleteCreate = (payload, params = {}) => this.request({
+            path: `/auth/register/complete`,
+            method: "POST",
+            body: payload,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.registerEmailCreate = (payload, params = {}) => this.request({
+            path: `/auth/register/email`,
+            method: "POST",
+            body: payload,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.registerStateDetail = (userId, token, params = {}) => this.request({
+            path: `/auth/register/state/${userId}/${token}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         this.resetCreate = (payload, params = {}) => this.request({
             path: `/auth/reset`,
             method: "POST",

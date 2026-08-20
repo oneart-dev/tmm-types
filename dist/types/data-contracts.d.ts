@@ -177,6 +177,14 @@ export interface ControllersApiSuccessControllersOauthAuthorizeResult {
     data?: ControllersOauthAuthorizeResult;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessControllersRegisterEmailData {
+    data?: ControllersRegisterEmailData;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersRegisterStateData {
+    data?: ControllersRegisterStateData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessControllersUpdateDescBulkData {
     data?: ControllersUpdateDescBulkData;
     status?: ControllersResponseStatusMessage;
@@ -588,6 +596,14 @@ export interface ControllersRefreshSuccessResponse {
     access_token?: string;
     expires_at?: number;
     status?: string;
+}
+export interface ControllersRegisterEmailData {
+    ticket?: string;
+    user_id?: number;
+}
+export interface ControllersRegisterStateData {
+    email?: string;
+    state?: "pending" | "active" | "invalid";
 }
 export declare enum ControllersResponseStatusMessage {
     ResponseStatusSuccess = "success",
@@ -1084,6 +1100,21 @@ export interface DtoReferralWithdrawalCreateForm {
 export interface DtoReferralWithdrawalMarkPaidForm {
     note?: string;
     tx_hash: string;
+}
+export interface DtoRegisterCompleteForm {
+    email_token?: string;
+    name: string;
+    password: string;
+    ticket?: string;
+    user_id: number;
+}
+export interface DtoRegisterEmailForm {
+    attribution?: DtoAttributionForm;
+    email: string;
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
+    promo?: string;
+    ref?: string;
+    timezone: string;
 }
 export interface DtoRiskManagementCreateForm {
     api_key_id?: number;
@@ -3508,6 +3539,11 @@ export declare enum ServicesUserStartOfWeek {
     UserStartOfWeekSunday = "sunday",
     UserStartOfWeekMonday = "monday"
 }
+export declare enum ServicesUserStatus {
+    UserStatusActive = 1,
+    UserStatusBanned = 2,
+    UserStatusEmailOnly = 3
+}
 export interface ServicesUserWithRelations {
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
@@ -3547,6 +3583,7 @@ export interface ServicesUserWithRelations {
     session_reset_at?: number;
     shard_id?: number;
     start_of_week?: ServicesUserStartOfWeek;
+    status?: ServicesUserStatus;
     stripe?: ServicesStripe;
     tag_categories?: ServicesTagCategory[];
     tags?: ServicesTag[];

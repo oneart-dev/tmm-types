@@ -11,6 +11,8 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessControllersRegisterEmailData,
+  ControllersApiSuccessControllersRegisterStateData,
   ControllersApiSuccessResponse,
   ControllersLoginSuccessResponse,
   ControllersMeSuccessResponse,
@@ -19,6 +21,8 @@ import {
   DtoLoginCredentials,
   DtoNewPasswordCredentials,
   DtoPasswordResetCredentials,
+  DtoRegisterCompleteForm,
+  DtoRegisterEmailForm,
   DtoSignUpCredentials,
   ServicesValidationErrorResponse,
 } from "./data-contracts";
@@ -145,6 +149,61 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       method: "POST",
       body: payload,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Turns a lead created by /auth/register/email into a real account by setting a name and a password. Exactly one credential authorises the call — the session `ticket` returned by /auth/register/email, or the `email_token` from the finish-signup mail link (the latter also verifies the email). Returns a JWT, also exposed in the `Authorization` header.
+   *
+   * @tags auth
+   * @name RegisterCompleteCreate
+   * @summary Finish an email-first signup
+   * @request POST:/auth/register/complete
+   */
+  registerCompleteCreate = (payload: DtoRegisterCompleteForm, params: RequestParams = {}) =>
+    this.request<ControllersLoginSuccessResponse, ServicesValidationErrorResponse | ControllersApiErrorResponse>({
+      path: `/auth/register/complete`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Captures a lead from an email address alone and mails a finish-signup link. Returns the lead's user id and a short-lived ticket that lets the same browser session finish the signup without leaving the page. Re-posting the same email while the account is still a lead is idempotent — it re-sends the mail and issues a fresh ticket.
+   *
+   * @tags auth
+   * @name RegisterEmailCreate
+   * @summary Start signup with an email only
+   * @request POST:/auth/register/email
+   */
+  registerEmailCreate = (payload: DtoRegisterEmailForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersRegisterEmailData,
+      ServicesValidationErrorResponse | ControllersApiErrorResponse
+    >({
+      path: `/auth/register/email`,
+      method: "POST",
+      body: payload,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Tells the finish-signup page what to render for a mailed link — "pending" when the lead still needs a name and password, "active" when the account is already complete, "invalid" when the user is unknown or the token is wrong or expired. Always 200: "invalid" is a state, not an error.
+   *
+   * @tags auth
+   * @name RegisterStateDetail
+   * @summary Check an email-first signup link
+   * @request GET:/auth/register/state/{user_id}/{token}
+   */
+  registerStateDetail = (userId: number, token: string, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersRegisterStateData,
+      ServicesValidationErrorResponse | ControllersApiErrorResponse
+    >({
+      path: `/auth/register/state/${userId}/${token}`,
+      method: "GET",
       format: "json",
       ...params,
     });

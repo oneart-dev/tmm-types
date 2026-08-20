@@ -508,6 +508,12 @@ export var ServicesUserStartOfWeek;
     ServicesUserStartOfWeek["UserStartOfWeekSunday"] = "sunday";
     ServicesUserStartOfWeek["UserStartOfWeekMonday"] = "monday";
 })(ServicesUserStartOfWeek || (ServicesUserStartOfWeek = {}));
+export var ServicesUserStatus;
+(function (ServicesUserStatus) {
+    ServicesUserStatus[ServicesUserStatus["UserStatusActive"] = 1] = "UserStatusActive";
+    ServicesUserStatus[ServicesUserStatus["UserStatusBanned"] = 2] = "UserStatusBanned";
+    ServicesUserStatus[ServicesUserStatus["UserStatusEmailOnly"] = 3] = "UserStatusEmailOnly";
+})(ServicesUserStatus || (ServicesUserStatus = {}));
 export var ServicesWidgetFiltersSortBy;
 (function (ServicesWidgetFiltersSortBy) {
     ServicesWidgetFiltersSortBy["WidgetFiltersSortByValueAsc"] = "value_asc";

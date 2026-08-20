@@ -263,6 +263,18 @@ export interface ControllersApiSuccessControllersOauthAuthorizeResult {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersRegisterEmailData {
+  data?: ControllersRegisterEmailData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersRegisterStateData {
+  data?: ControllersRegisterStateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersUpdateDescBulkData {
   data?: ControllersUpdateDescBulkData;
   /** @example "success" */
@@ -922,6 +934,26 @@ export interface ControllersRefreshSuccessResponse {
    * @example "success"
    */
   status?: string;
+}
+
+export interface ControllersRegisterEmailData {
+  /** @example "6f1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d" */
+  ticket?: string;
+  /** @example 123 */
+  user_id?: number;
+}
+
+export interface ControllersRegisterStateData {
+  /**
+   * Email the link was mailed to. Empty when State is "invalid". The
+   * finish-signup page shows it so the visitor can confirm the address, and
+   * renders it as the form's username field — a password manager will not
+   * offer to save a new password it cannot pair with an identifier.
+   * @example "trader@example.com"
+   */
+  email?: string;
+  /** @example "pending" */
+  state?: "pending" | "active" | "invalid";
 }
 
 export enum ControllersResponseStatusMessage {
@@ -2165,6 +2197,35 @@ export interface DtoReferralWithdrawalMarkPaidForm {
    * @example "0xabc123..."
    */
   tx_hash: string;
+}
+
+export interface DtoRegisterCompleteForm {
+  email_token?: string;
+  /**
+   * @minLength 2
+   * @maxLength 100
+   * @example "Nick"
+   */
+  name: string;
+  /**
+   * @minLength 8
+   * @maxLength 200
+   */
+  password: string;
+  ticket?: string;
+  user_id: number;
+}
+
+export interface DtoRegisterEmailForm {
+  attribution?: DtoAttributionForm;
+  /** @example "test@example.com" */
+  email: string;
+  /** @example "en" */
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
+  promo?: string;
+  ref?: string;
+  /** @example "UTC" */
+  timezone: string;
 }
 
 export interface DtoRiskManagementCreateForm {
@@ -5710,6 +5771,13 @@ export enum ServicesUserStartOfWeek {
   UserStartOfWeekMonday = "monday",
 }
 
+/** @format int32 */
+export enum ServicesUserStatus {
+  UserStatusActive = 1,
+  UserStatusBanned = 2,
+  UserStatusEmailOnly = 3,
+}
+
 export interface ServicesUserWithRelations {
   /** Deprecated: prefer filter_catalog.catalogs.apiKeys. */
   api_keys_list?: ServicesApiKey[];
@@ -5771,6 +5839,13 @@ export interface ServicesUserWithRelations {
   session_reset_at?: number;
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
+  /**
+   * Lifecycle state (1 active, 2 banned, 3 email-only lead). Serialized so the
+   * admin users list can tell an unfinished email-first signup apart from a
+   * real account — without it every lead reads as a normal novice user with a
+   * blank name. Harmless on /auth/me: it is the caller's own state.
+   */
+  status?: ServicesUserStatus;
   stripe?: ServicesStripe;
   /** Deprecated: prefer filter_catalog.catalogs.tagCategories. */
   tag_categories?: ServicesTagCategory[];

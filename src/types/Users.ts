@@ -302,7 +302,7 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       /**
        * Limit per page
        * @min 1
-       * @max 150
+       * @max 300
        * @default 20
        */
       itemsPerPage?: number;
