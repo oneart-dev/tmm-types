@@ -62,6 +62,9 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
   balanceGain?: string;
   balanceHistory?: string;
+  balanceHistoryGroupBy?: string;
+  cumulativeHistory?: string;
+  cumulativeHistoryGroupBy?: string;
   data?: ServicesTradeSummary[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
@@ -74,8 +77,20 @@ export interface ControllersApiErrorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayControllersOauthGrantView {
+  data?: ControllersOauthGrantView[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
   data?: ControllersPublicProfileSitemapEntry[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesActivationRow {
+  data?: ServicesActivationRow[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -158,6 +173,18 @@ export interface ControllersApiSuccessArrayServicesOrder {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayServicesPaymentGateway {
+  data?: ServicesPaymentGateway[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
   data?: ServicesRiskManagementBacktestResult[];
   /** @example "success" */
@@ -182,8 +209,26 @@ export interface ControllersApiSuccessArrayServicesTransaction {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessArrayString {
+  data?: string[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersApiUserNewsTokenData {
+  data?: ControllersApiUserNewsTokenData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersArtifactManifestResponse {
   data?: ControllersArtifactManifestResponse;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersEmailPreferencesData {
+  data?: ControllersEmailPreferencesData;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -202,6 +247,36 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
 
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
   data?: ControllersFeedNotificationLikeData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersOauthAuthorizeContext {
+  data?: ControllersOauthAuthorizeContext;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersOauthAuthorizeResult {
+  data?: ControllersOauthAuthorizeResult;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersRegisterEmailData {
+  data?: ControllersRegisterEmailData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersRegisterStateData {
+  data?: ControllersRegisterStateData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessControllersUpdateDescBulkData {
+  data?: ControllersUpdateDescBulkData;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -238,6 +313,18 @@ export interface ControllersApiSuccessServicesDashboard {
 
 export interface ControllersApiSuccessServicesExchangePublicItem {
   data?: ServicesExchangePublicItem;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesExchangeRequest {
+  data?: ServicesExchangeRequest;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesExchangeRequestsAdminSummary {
+  data?: ServicesExchangeRequestsAdminSummary;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -290,6 +377,24 @@ export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesPulseWeek {
+  data?: ServicesPulseWeek;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralDashboard {
+  data?: ServicesReferralDashboard;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+  data?: ServicesReferralWithdrawal;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
   data?: ServicesSSEChatProgressEventCatalog;
   /** @example "success" */
@@ -298,6 +403,12 @@ export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
 
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
   data?: ServicesSSEFeedNotificationEventCatalog;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesSSETradeEventCatalog {
+  data?: ServicesSSETradeEventCatalog;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -361,6 +472,12 @@ export interface ControllersApiSuccessResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiUserNewsTokenData {
+  api_key?: string;
+  id?: number;
+  name?: string;
+}
+
 export interface ControllersApiUsersListResponse {
   data?: ServicesApiUser[];
   /** @example "success" */
@@ -392,6 +509,14 @@ export interface ControllersBulkSignUpSuccessResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersContactBadRequestResponse {
+  errors?: ServicesValidationErrors;
+  /** @example "Captcha verification failed. Please try again." */
+  message?: string;
+  /** @example "error" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersDemoSessionSuccessResponse {
   /**
    * Access token for internal authorization
@@ -414,6 +539,15 @@ export interface ControllersDiscordListResponse {
   data?: ServicesDiscordConnect[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersEmailPreferencesData {
+  /** @example false */
+  all?: boolean;
+  /** @example ["news"] */
+  feeds?: string[];
+  /** @example ["guides"] */
+  optouts?: string[];
 }
 
 export interface ControllersExchange {
@@ -474,6 +608,15 @@ export interface ControllersFeedNotificationThreadInboxResponse {
   search_truncated?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersFeedNotificationTranslationsPatchResponse {
+  data?: any;
+  skipped?: string[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+  translations?: ServicesFeedNotificationTranslation[];
+  written?: string[];
 }
 
 export interface ControllersFilesResponse {
@@ -558,6 +701,15 @@ export interface ControllersLoadBoardEmbedResponse {
 
 export interface ControllersLoadBoardResponse {
   dashboard?: ServicesDashboard;
+  /**
+   * EffectiveGroupBy is keyed by widget id, exactly like ServerData, and
+   * carries only the widgets whose groupBy the SERVER derived for this
+   * render (see services.AdaptiveGroupByResolver). A present key IS the
+   * auto flag, so there is no second map. It sits next to `serverData`,
+   * deliberately outside each widget's `filters`: a client that persisted
+   * what it displayed would otherwise make the derived value permanent.
+   */
+  effectiveGroupBy?: Record<string, string>;
   errors?: Record<string, string>;
   filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
   public_profile?: ServicesPublicProfile;
@@ -688,6 +840,124 @@ export interface ControllersMentorResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersOauthAuthorizeContext {
+  /**
+   * AlreadyGranted is true when a live grant already covers every listed
+   * scope, letting the UI render "reconnect" instead of "authorize".
+   */
+  already_granted?: boolean;
+  /**
+   * ClientHost is the host of the client_id URL — the verified identity.
+   * EMPTY for a self-registered client: its client_id is an opaque `dcr_…`
+   * string, not a host, and rendering it in the position the screen reserves
+   * for a verified identity would be a lie.
+   */
+  client_host?: string;
+  client_id?: string;
+  client_name?: string;
+  client_uri?: string;
+  /**
+   * ClientVerified says whether ANYTHING about this client was checked by us.
+   * True for cimd (control of the client_id URL was proven) and for
+   * preregistered (we created the row). FALSE for a client that registered
+   * itself through RFC 7591, where the name, logo and client_uri are strings
+   * it chose thirty seconds ago — the screen must say so rather than present
+   * "Cursor" with the same weight as a verified identity.
+   */
+  client_verified?: boolean;
+  /**
+   * IsLoopback warns that the callback goes to a process on the user's own
+   * machine. Any local process can bind a port and claim a legitimate
+   * client_id, so a loopback callback cannot be attributed to a specific
+   * application — CIMD cannot prevent that, only disclosure can.
+   */
+  is_loopback?: boolean;
+  logo_uri?: string;
+  policy_uri?: string;
+  /** RedirectHost is where the browser will actually land. */
+  redirect_host?: string;
+  /** RedirectURI is the validated URI the code will be delivered to. */
+  redirect_uri?: string;
+  /** Resource is the RFC 8707 resource indicator the token will be bound to. */
+  resource?: string;
+  /**
+   * Scopes is the resolved set to display, already narrowed to what this
+   * server supports.
+   */
+  scopes?: string[];
+  tos_uri?: string;
+}
+
+export interface ControllersOauthAuthorizeRequest {
+  /** Approved is false when the user pressed Deny. */
+  approved?: boolean;
+  client_id: string;
+  code_challenge?: string;
+  code_challenge_method?: string;
+  nonce?: string;
+  redirect_uri: string;
+  resource?: string;
+  response_type?: string;
+  /** Scope is the client's original space-delimited request string. */
+  scope?: string;
+  /**
+   * Scopes is the subset the user actually ticked. When present it wins over
+   * Scope — the user may only ever narrow, never widen, the request.
+   */
+  scopes?: string[];
+  state?: string;
+}
+
+export interface ControllersOauthAuthorizeResult {
+  redirect_to?: string;
+}
+
+export interface ControllersOauthClientRegistrationResponse {
+  client_id?: string;
+  /** ClientIDIssuedAt is unix seconds, per RFC 7591 §3.2.1. */
+  client_id_issued_at?: number;
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
+export interface ControllersOauthGrantView {
+  client_host?: string;
+  client_id?: string;
+  client_name?: string;
+  client_verified?: boolean;
+  created_at?: string;
+  id?: number;
+  last_used_at?: string;
+  logo_uri?: string;
+  scopes?: string[];
+}
+
+export interface ControllersOauthProtocolError {
+  /** @example "invalid_grant" */
+  error?: string;
+  error_description?: string;
+  error_uri?: string;
+}
+
+export interface ControllersOauthTokenResponse {
+  access_token?: string;
+  /** @example 3600 */
+  expires_in?: number;
+  refresh_token?: string;
+  scope?: string;
+  /** @example "Bearer" */
+  token_type?: string;
+}
+
 export interface ControllersOrdersListResponse {
   data?: ServicesOrder[];
   /** @example "success" */
@@ -750,6 +1020,12 @@ export interface ControllersPublicTradeGroupResponse {
   public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  /**
+   * TagCategories are the trade owner's tag categories (builtin + custom,
+   * note-scope excluded) that are actually referenced by a tag on at least
+   * one of the returned trades. Always a non-nil slice.
+   */
+  tag_categories?: ServicesTagCategory[];
   to?: number;
   win_rate?: ControllersPnlEntry;
 }
@@ -760,6 +1036,12 @@ export interface ControllersPublicTradeResponse {
   public_profile?: ServicesPublicProfile;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  /**
+   * TagCategories are the trade owner's tag categories (builtin + custom,
+   * note-scope excluded) that are actually referenced by a tag on the
+   * returned trade. Always a non-nil slice.
+   */
+  tag_categories?: ServicesTagCategory[];
 }
 
 export interface ControllersReferralSummaryResponse {
@@ -784,6 +1066,26 @@ export interface ControllersRefreshSuccessResponse {
    * @example "success"
    */
   status?: string;
+}
+
+export interface ControllersRegisterEmailData {
+  /** @example "6f1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d" */
+  ticket?: string;
+  /** @example 123 */
+  user_id?: number;
+}
+
+export interface ControllersRegisterStateData {
+  /**
+   * Email the link was mailed to. Empty when State is "invalid". The
+   * finish-signup page shows it so the visitor can confirm the address, and
+   * renders it as the form's username field — a password manager will not
+   * offer to save a new password it cannot pair with an identifier.
+   * @example "trader@example.com"
+   */
+  email?: string;
+  /** @example "pending" */
+  state?: "pending" | "active" | "invalid";
 }
 
 export enum ControllersResponseStatusMessage {
@@ -903,9 +1205,33 @@ export interface ControllersUnauthorizedResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersUpdateDescBulkData {
+  /**
+   * Updated is the number of trades whose stored values actually changed.
+   * Trades that were skipped (video link already set while replace is off)
+   * or already carried the exact value are not counted.
+   * @example 12
+   */
+  updated?: number;
+}
+
 export interface ControllersWeekListResponse {
   data?: ServicesTradeCountByWeek[];
   notes?: ServicesUserNote[];
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersWidgetUpdateResponse {
+  data?: ServicesWidget;
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `data.filters`.
+   */
+  effectiveGroupBy?: string;
+  errors?: string;
+  groupByAuto?: boolean;
+  serverData?: string;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
 }
@@ -975,7 +1301,8 @@ export interface DtoApiKeyCreateForm {
     | 56
     | 57
     | 59
-    | 60;
+    | 60
+    | 61;
   /**
    * @minLength 1
    * @maxLength 255
@@ -1049,6 +1376,25 @@ export interface DtoApiUserUpdateForm {
   read_only?: boolean;
   /** @format int64 */
   userID?: number;
+}
+
+export interface DtoAttributionForm {
+  /** @maxLength 255 */
+  gbraid?: string;
+  /** @maxLength 255 */
+  gclid?: string;
+  /** @maxLength 500 */
+  landing_page?: string;
+  /** @maxLength 500 */
+  referrer?: string;
+  /** @maxLength 255 */
+  utm_campaign?: string;
+  /** @maxLength 255 */
+  utm_medium?: string;
+  /** @maxLength 255 */
+  utm_source?: string;
+  /** @maxLength 255 */
+  wbraid?: string;
 }
 
 export interface DtoBalanceRecord {
@@ -1333,6 +1679,28 @@ export interface DtoChatUsageResponse {
   usage_percent?: number;
 }
 
+export interface DtoContactForm {
+  /**
+   * CaptchaToken is the Cloudflare Turnstile response token. No
+   * `binding:"required"` on purpose: whether it's actually required is a
+   * server-side config decision (Turnstile.SecretKey set or not), not a
+   * request-shape rule — an empty token must still reach the controller so
+   * CaptchaService can report the right error when the feature is enabled.
+   */
+  captcha_token?: string;
+  /** @maxLength 254 */
+  email: string;
+  /**
+   * @minLength 20
+   * @maxLength 4000
+   */
+  message: string;
+  /** @maxLength 100 */
+  name: string;
+  topic?: "general" | "billing" | "partnership" | "press" | "other";
+  website?: string;
+}
+
 export interface DtoDashboardCreateForm {
   /**
    * @minLength 1
@@ -1418,6 +1786,23 @@ export interface DtoDashboardsSortForm {
   dashboards: DtoDashboardSort[];
 }
 
+export interface DtoEmailPreferencesForm {
+  /** @example ["guides"] */
+  optouts: string[];
+}
+
+export interface DtoExchangeRequestCreateForm {
+  /** @example "crypto" */
+  segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
+  /** @example "grid" */
+  source?: "grid" | "rescue";
+  /**
+   * @maxLength 120
+   * @example "Deribit"
+   */
+  text: string;
+}
+
 export interface DtoFeedNotificationCommentCreateForm {
   /** @maxItems 5 */
   image_file_ids?: number[];
@@ -1482,6 +1867,26 @@ export interface DtoFeedNotificationCreateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationPollOptionForm {
@@ -1499,7 +1904,10 @@ export interface DtoFeedNotificationTranslationForm {
   /**
    * LinkURL is locale-specific so EN/RU can point at different landing
    * pages. Same validator as the old notification-level field — accepts
-   * "/relative" or "https://absolute" URLs.
+   * "/relative" or "https://absolute" URLs, plus "http://" ONLY for local
+   * dev hosts (localhost, 127.0.0.1, [::1], *.test, *.local, *.localhost)
+   * so dev-stack URLs can be pasted while testing. See
+   * ValidateFeedNotificationLinkURL.
    */
   link_url?: string;
   text: string;
@@ -1508,6 +1916,32 @@ export interface DtoFeedNotificationTranslationForm {
    * @maxLength 255
    */
   title: string;
+}
+
+export interface DtoFeedNotificationTranslationsPatchForm {
+  /**
+   * Broadcast false (default) means no SSE is emitted even for a published
+   * row — a translation backfill shouldn't make every connected client
+   * re-render the card.
+   */
+  broadcast?: boolean;
+  /**
+   * Overwrite false (default) means a lang that already has a row is
+   * SKIPPED, not clobbered — the response reports it under `skipped`.
+   * True replaces the existing row's content.
+   */
+  overwrite?: boolean;
+  /**
+   * PollOptionTranslations maps optionID -> lang -> label. Labels ONLY —
+   * this never creates or removes an option. Option ids that don't belong
+   * to this notification are rejected outright.
+   */
+  poll_option_translations?: Record<string, Record<string, string>>;
+  /**
+   * Translations maps lang -> content. Reuses the existing per-locale form
+   * so validation is identical to create/update.
+   */
+  translations: Record<string, DtoFeedNotificationTranslationForm>;
 }
 
 export interface DtoFeedNotificationUpdateForm {
@@ -1554,6 +1988,26 @@ export interface DtoFeedNotificationUpdateForm {
   translations: Record<string, DtoFeedNotificationTranslationForm>;
   type: "global" | "personal";
   user_id?: number;
+  /**
+   * UserIDs is the batch form of UserID: one notification row addressed to
+   * every listed user, instead of N rows carrying N copies of the same
+   * translations. Valid only for type=personal, kind=notification. Exactly
+   * one of user_id / user_ids may be set — sending both is rejected rather
+   * than silently merged.
+   *
+   * A segment campaign therefore costs one create + one publish call and
+   * reports as ONE row in /admin/notifications/{id}/analytics, because the
+   * engagement tables are already keyed (notification_id, user_id).
+   *
+   * NOTE: `user_ids` on TicketQuickCreateForm means something different —
+   * there it fans out N independent ticket rows, because a ticket is a 1:1
+   * support conversation. Here it addresses a single shared row.
+   *
+   * Capped at 5000 to bound the recipient insert and the publish-time SSE
+   * fan-out; larger segments should be split into several campaigns.
+   * @maxItems 5000
+   */
+  user_ids?: number[];
 }
 
 export interface DtoFeedNotificationVoteForm {
@@ -1883,6 +2337,72 @@ export interface DtoPublicProfileUpdateForm {
   youtube?: string;
 }
 
+export interface DtoReferralWithdrawalActionForm {
+  /**
+   * @minLength 3
+   * @maxLength 500
+   * @example "The payout address does not match the selected network."
+   */
+  note: string;
+}
+
+export interface DtoReferralWithdrawalCreateForm {
+  /**
+   * @maxLength 255
+   * @example "TXabc123..."
+   */
+  address: string;
+  /**
+   * @maxLength 32
+   * @example "25.5"
+   */
+  amount: string;
+  /** @example "TRC20" */
+  network: "TRC20" | "BEP20";
+}
+
+export interface DtoReferralWithdrawalMarkPaidForm {
+  /**
+   * @maxLength 500
+   * @example "paid manually"
+   */
+  note?: string;
+  /**
+   * @maxLength 128
+   * @example "0xabc123..."
+   */
+  tx_hash: string;
+}
+
+export interface DtoRegisterCompleteForm {
+  email_token?: string;
+  /**
+   * @minLength 2
+   * @maxLength 100
+   * @example "Nick"
+   */
+  name: string;
+  /**
+   * @minLength 8
+   * @maxLength 200
+   */
+  password: string;
+  ticket?: string;
+  user_id: number;
+}
+
+export interface DtoRegisterEmailForm {
+  attribution?: DtoAttributionForm;
+  /** @example "test@example.com" */
+  email: string;
+  /** @example "en" */
+  language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
+  promo?: string;
+  ref?: string;
+  /** @example "UTC" */
+  timezone: string;
+}
+
 export interface DtoRiskManagementCreateForm {
   /**
    * Empty means global settings for all API keys combined. Only 1 global settings allowed.
@@ -1902,6 +2422,7 @@ export interface DtoRiskManagementCreateForm {
 }
 
 export interface DtoSignUpCredentials {
+  attribution?: DtoAttributionForm;
   /** @example "test@example.com" */
   email: string;
   /** @example "en" */
@@ -2431,6 +2952,25 @@ export interface DtoTradeGroupShortLink {
   id: number[];
 }
 
+export interface DtoTradeUpdateDescBulkForm {
+  /** @example "Conclusion of the trade" */
+  conclusion?: string;
+  /** @example "Description of the trade" */
+  description?: string;
+  /**
+   * @maxItems 1000
+   * @minItems 1
+   */
+  id: number[];
+  /** @example false */
+  replace?: boolean;
+  /**
+   * @maxLength 255
+   * @example "https://www.youtube.com/watch?v=0000000000"
+   */
+  video_link?: string;
+}
+
 export interface DtoTradeUpdateDescForm {
   /** @example "Conclusion of the trade" */
   conclusion?: string;
@@ -2477,6 +3017,8 @@ export interface DtoTradesMergeForm {
 }
 
 export interface DtoTransactionCreateForm {
+  /** @example false */
+  apply_referral_cash?: boolean;
   /**
    * @minLength 1
    * @maxLength 255
@@ -2500,6 +3042,17 @@ export interface DtoTransactionCreateForm {
 export interface DtoUIData {
   /** @example "{}" */
   data: string;
+  /**
+   * Keys to remove from the stored blob. Applied after Data is merged in.
+   * @example ["oldWidgetPref"]
+   */
+  deleted_keys?: string[];
+  /**
+   * Opt-in escape hatch: when true the stored blob is replaced entirely with Data
+   * (old behavior) instead of being merged.
+   * @example false
+   */
+  replace?: boolean;
 }
 
 export interface DtoUserLanguage {
@@ -2668,6 +3221,30 @@ export interface DtoWidgetUpdateForm {
   type2?: string;
 }
 
+export interface OauthClientRegistrationRequest {
+  client_name?: string;
+  client_uri?: string;
+  grant_types?: string[];
+  logo_uri?: string;
+  policy_uri?: string;
+  redirect_uris?: string[];
+  response_types?: string[];
+  software_id?: string;
+  software_version?: string;
+  token_endpoint_auth_method?: string;
+  tos_uri?: string;
+}
+
+export interface ServicesActivationRow {
+  activated_30d?: number;
+  activated_7d?: number;
+  rate_30d?: number;
+  rate_7d?: number;
+  signups?: number;
+  source?: string;
+  week?: string;
+}
+
 export interface ServicesAnalyzerNote {
   created_at?: string;
   desc?: string;
@@ -2689,7 +3266,6 @@ export interface ServicesApiKey {
    */
   enabled?: ServicesApiKeyEnabledStatus;
   exchange_id?: ServicesExchangeID;
-  extra_info?: string;
   flag1?: number;
   flag2?: number;
   flag3?: number;
@@ -2716,6 +3292,19 @@ export enum ServicesApiKeyEnabledStatus {
   API_KEY_WS_DISABLED = 0,
   API_KEY_WS_FROZEN = 2,
   API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
+  API_KEY_WS_EXPIRED = 4,
+}
+
+export enum ServicesApiKeyErrorCode {
+  ApiKeyErrorCodeInvalidKey = "invalid_key",
+  ApiKeyErrorCodeInvalidPermissions = "invalid_permissions",
+  ApiKeyErrorCodeInvalidPassphrase = "invalid_passphrase",
+  ApiKeyErrorCodeNotReadOnly = "key_not_read_only",
+  ApiKeyErrorCodeExpired = "key_expired",
+  ApiKeyErrorCodeIPRestricted = "ip_restricted",
+  ApiKeyErrorCodeRateLimited = "rate_limited",
+  ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
+  ApiKeyErrorCodeUnknown = "unknown",
 }
 
 /** @format int32 */
@@ -2768,6 +3357,8 @@ export enum ServicesApiUserRead {
 export enum ServicesApiUserType {
   API_USER_TYPE_USER_CREATED = 1,
   API_USER_TYPE_OAUTH_CREATED = 2,
+  API_USER_TYPE_MCP = 3,
+  API_USER_TYPE_NEWS = 4,
 }
 
 export interface ServicesArtifact {
@@ -2971,6 +3562,7 @@ export enum ServicesExchangeID {
   EXCHANGE_DEMO = 58,
   EXCHANGE_KRAKEN_SPOT = 59,
   EXCHANGE_KRAKEN_FUTURES = 60,
+  EXCHANGE_BINGX_SPOT = 61,
 }
 
 export interface ServicesExchangePublicItem {
@@ -3013,6 +3605,49 @@ export interface ServicesExchangePublicMarkets {
   /** Inverse = COIN-M / inverse-perpetual contracts (e.g. Bybit Inverse). */
   inverse?: boolean;
   spot?: boolean;
+}
+
+export interface ServicesExchangeRequest {
+  created_at?: string;
+  id?: number;
+  segment?: ServicesExchangeRequestSegment;
+  source?: ServicesExchangeRequestSource;
+  text?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export interface ServicesExchangeRequestRecent {
+  created_at?: string;
+  email?: string;
+  id?: number;
+  segment?: ServicesExchangeRequestSegment;
+  source?: ServicesExchangeRequestSource;
+  text?: string;
+  user_id?: number;
+}
+
+export enum ServicesExchangeRequestSegment {
+  ExchangeRequestSegmentCrypto = "crypto",
+  ExchangeRequestSegmentStocks = "stocks",
+  ExchangeRequestSegmentForex = "forex",
+  ExchangeRequestSegmentFutures = "futures",
+  ExchangeRequestSegmentOther = "other",
+}
+
+export enum ServicesExchangeRequestSource {
+  ExchangeRequestSourceGrid = "grid",
+  ExchangeRequestSourceRescue = "rescue",
+}
+
+export interface ServicesExchangeRequestTop {
+  count?: number;
+  text_normalized?: string;
+}
+
+export interface ServicesExchangeRequestsAdminSummary {
+  recent?: ServicesExchangeRequestRecent[];
+  top?: ServicesExchangeRequestTop[];
 }
 
 export interface ServicesFeedNotification {
@@ -3072,6 +3707,16 @@ export interface ServicesFeedNotificationAdminDetail {
    * row — conversation lifecycle lives on feed_notification_user.
    */
   publication_status?: string;
+  /**
+   * RecipientUserIDs is the effective addressee list of a personal
+   * notification, normalized across BOTH storage shapes: a single-recipient
+   * row reports its one user_id here, a batch row reports its recipient
+   * table. Empty for global notifications.
+   *
+   * The admin edit form reads this and posts it straight back as `user_ids`,
+   * so it round-trips without ever having to know which shape is on disk.
+   */
+  recipient_user_ids?: number[];
   translations?: ServicesFeedNotificationTranslation[];
   votes_count?: number;
 }
@@ -3577,7 +4222,13 @@ export interface ServicesLeagueWeekMetrics {
 }
 
 export interface ServicesLoadBoardResponseChunk {
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `filters`.
+   */
+  effectiveGroupBy?: string;
   errors?: string;
+  groupByAuto?: boolean;
   serverData?: string;
   widget?: ServicesWidget;
   widget_id?: number;
@@ -3854,6 +4505,46 @@ export enum ServicesPartnerID {
   PARTNER_ID_TIGER = 2,
 }
 
+export interface ServicesPaymentGateway {
+  /**
+   * Coin is the ticker the user pays in. Empty for card gateways.
+   * @example "USDC"
+   */
+  coin?: string;
+  /**
+   * Enabled reports whether the gateway can be used right now.
+   * @example true
+   */
+  enabled?: boolean;
+  /**
+   * ID is the gateway identifier to pass as `gateway` when creating a
+   * transaction, e.g. "usdc_erc20" or "stripe".
+   * @example "usdc_erc20"
+   */
+  id?: string;
+  /**
+   * Kind is "crypto" or "card".
+   * @example "crypto"
+   */
+  kind?: string;
+  /**
+   * MinAmount is the minimum accepted payment, decimal as a string. "0"
+   * means no floor.
+   * @example "0"
+   */
+  min_amount?: string;
+  /**
+   * Network is the network slug. Empty for card gateways.
+   * @example "erc20"
+   */
+  network?: string;
+  /**
+   * NetworkLabel is the human-readable network. Empty for card gateways.
+   * @example "Ethereum (ERC-20)"
+   */
+  network_label?: string;
+}
+
 export enum ServicesPromoCodeAction {
   PromoCodeActionExtend = "extend",
   PromoCodeActionUpgrade = "upgrade",
@@ -3894,6 +4585,8 @@ export interface ServicesPublicAnnouncementDetail {
   image_url?: string;
   lang?: string;
   lang_available?: string[];
+  link_title?: string;
+  link_url?: string;
   published_at?: string;
   slug?: string;
   title?: string;
@@ -3904,10 +4597,29 @@ export interface ServicesPublicAnnouncementListItem {
   excerpt?: string;
   image_url?: string;
   lang_available?: string[];
+  link_title?: string;
+  link_url?: string;
   published_at?: string;
   slug?: string;
   title?: string;
   updated_at?: string;
+}
+
+export interface ServicesPublicFilterTag {
+  column?: number;
+  id?: number;
+  name?: string;
+}
+
+export interface ServicesPublicFilterTagCategory {
+  id?: number;
+  key?: string;
+  name?: string;
+}
+
+export interface ServicesPublicFilterVocabulary {
+  tag_categories?: ServicesPublicFilterTagCategory[];
+  tags?: ServicesPublicFilterTag[];
 }
 
 export interface ServicesPublicProfile {
@@ -3981,7 +4693,14 @@ export interface ServicesPublicProfile {
 }
 
 export interface ServicesPublicProfileLayout {
+  /**
+   * See services.WidgetPreviewResponse — same contract. Public profile
+   * widgets are rendered by the same chart components, so they need the
+   * same time-axis hint.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   h?: number;
   i?: number;
   model?: ServicesWidget;
@@ -4002,6 +4721,14 @@ export enum ServicesPublicProfileShowTrades {
 export interface ServicesPublicProfileStats {
   average_duration?: number;
   count_api_keys?: number;
+  /**
+   * FilterVocabulary labels the numeric tag-category / tag ids that the
+   * stored layout's widget filters reference, so a viewer-facing filter
+   * chip can read "Setup: Breakout" instead of "12: 88". Populated ONLY
+   * with referenced ids — never the owner's whole taxonomy — and omitted
+   * entirely when the layout references none.
+   */
+  filter_vocabulary?: ServicesPublicFilterVocabulary;
   from?: string;
   hidden_data?: boolean;
   last_update_at?: number;
@@ -4023,6 +4750,155 @@ export interface ServicesPublicStats {
   trade_processing?: Record<string, ServicesLoadLevel>;
   trade_processing_queue?: Record<string, ServicesLoadLevel>;
   ws_queue?: ServicesLoadLevel;
+}
+
+export interface ServicesPulseBenchmark {
+  /** 0 = outside the ranked set */
+  rank?: number;
+  /** "BTCUSDT" */
+  symbol?: string;
+  trader_share_pct?: number;
+}
+
+export interface ServicesPulseBoard {
+  /** BTCUSDT reference; nil if screened out */
+  benchmark?: ServicesPulseBenchmark;
+  /** #1 share < 45 AND #1/#3 < 1.30 */
+  diffuse?: boolean;
+  /** names in top-10-by-traders not in the previous week's; -1 if no previous week stored */
+  new_entrants?: number;
+  top_by_traders?: ServicesPulseCoin[];
+  top_by_trades?: ServicesPulseCoin[];
+}
+
+export interface ServicesPulseBucket {
+  /** scalp|fast|intraday|swing */
+  bucket?: string;
+  /** 0..100 */
+  trade_share_pct?: number;
+  /** 0..100, share of trades closed net-of-fees above zero */
+  win_rate_pct?: number;
+}
+
+export interface ServicesPulseCoin {
+  rank?: number;
+  /** full pair, e.g. "AKEUSDT" */
+  symbol?: string;
+  /** 0..100, share of the week's trades */
+  trade_share_pct?: number;
+  /** 0..100, share of the week's active traders */
+  trader_share_pct?: number;
+}
+
+export interface ServicesPulseWeek {
+  board?: ServicesPulseBoard;
+  /** RFC3339 */
+  generated_at?: string;
+  /** always 4, in scalp,fast,intraday,swing order */
+  holding?: ServicesPulseBucket[];
+  sentiment?: {
+    /** 0..100, RAW per-trade long share only */
+    long_pct?: number;
+  };
+  totals?: {
+    distinct_symbols?: number;
+    trades?: number;
+  };
+  /** exclusive */
+  week_end?: string;
+  /** "2026-07-13" (Monday, UTC) */
+  week_start?: string;
+}
+
+export interface ServicesReferralDashboard {
+  available_balance?: string;
+  commission_tiers?: ServicesReferralTierInfo[];
+  current_tier_index?: number;
+  current_tier_rate?: number;
+  earnings?: ServicesReferralEarning[];
+  lifetime_earned?: string;
+  /**
+   * MinWithdrawal is the resolved minimum payout amount (USDT) the withdrawal
+   * form enforces and displays. Config-driven, defaults to 50.
+   */
+  min_withdrawal?: number;
+  next_tier_threshold?: number;
+  paying_referrals?: number;
+  pending_balance?: string;
+  referrals?: ServicesReferralRefereeInfo[];
+  spent_total?: string;
+  withdrawals?: ServicesReferralWithdrawal[];
+  /**
+   * WithdrawalsInReviewTotal is money committed to payouts that are requested
+   * (or legacy-approved) but not yet paid. AvailableBalance already subtracts
+   * it, so it has to be visible for the dashboard to add up.
+   */
+  withdrawals_in_review_total?: string;
+  withdrawn_total?: string;
+}
+
+export interface ServicesReferralEarning {
+  available_at?: string;
+  coin?: string;
+  commission_amount?: string;
+  commission_rate?: string;
+  created_at?: string;
+  gross_amount?: string;
+  id?: number;
+  referee_user_id?: number;
+  referrer_user_id?: number;
+  reversal_reason?: ServicesReferralReversalReason;
+  status?: ServicesReferralEarningStatus;
+  transaction_id?: number;
+  updated_at?: string;
+}
+
+export enum ServicesReferralEarningStatus {
+  ReferralEarningPending = "pending",
+  ReferralEarningAvailable = "available",
+  ReferralEarningReversed = "reversed",
+}
+
+export interface ServicesReferralRefereeInfo {
+  earned?: string;
+  joined_at?: string;
+  paid?: boolean;
+  status?: string;
+  uid?: number;
+}
+
+export enum ServicesReferralReversalReason {
+  ReferralReversalRefund = "refund",
+  ReferralReversalAbuseDupe = "abuse_duplicate_account",
+}
+
+export interface ServicesReferralTierInfo {
+  rate?: number;
+  threshold?: number;
+}
+
+export interface ServicesReferralWithdrawal {
+  admin_note?: string;
+  amount?: string;
+  coin?: string;
+  created_at?: string;
+  id?: number;
+  network?: string;
+  payout_address?: string;
+  processed_at?: string;
+  processed_by?: number;
+  requested_at?: string;
+  status?: ServicesReferralWithdrawalStatus;
+  tx_hash?: string;
+  updated_at?: string;
+  user_id?: number;
+}
+
+export enum ServicesReferralWithdrawalStatus {
+  ReferralWithdrawalRequested = "requested",
+  ReferralWithdrawalApproved = "approved",
+  ReferralWithdrawalPaid = "paid",
+  ReferralWithdrawalRejected = "rejected",
 }
 
 export interface ServicesRiskManagement {
@@ -4128,6 +5004,14 @@ export interface ServicesSSEFeedNotificationEventCatalog {
   "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
 }
 
+export interface ServicesSSETradeEventCatalog {
+  trade?: ServicesTradeSSEPayload;
+  "trade-update"?: ServicesTradeSSEPayload;
+  trades?: ServicesSSETradesRefreshPayload;
+}
+
+export type ServicesSSETradesRefreshPayload = object;
+
 export interface ServicesSafeUser {
   avatar?: ServicesFile;
   id?: number;
@@ -4205,9 +5089,9 @@ export interface ServicesTag {
   /** @example "#ffffff" */
   color_bg?: string;
   /**
-   * 0 - entry reason
-   * 1 - exit reason
-   * 2 - conclusion
+   * 1 - entry reason
+   * 2 - exit reason
+   * 3 - conclusion
    */
   column?: ServicesTagColumn;
   id?: number;
@@ -4239,15 +5123,16 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
-  column?: ServicesTagColumn;
+  /** See TradeFilters.TagColumns for why the enum $ref is bypassed. */
+  column?: number;
   ids?: number[];
   params?: string;
 }
@@ -4387,6 +5272,22 @@ export interface ServicesTickerFilters {
    * Empty for regular perp and HIP-3 symbols.
    */
   display_name?: string;
+  /**
+   * InstrumentID is the exchange's own current identifier for this symbol
+   * (e.g. OKX "BTC-USD_UM_XPERP-310404"). The symbol is deliberately
+   * stable while the instrument behind it is not — the X-Perp expiry rolls
+   * and differs per base — so anything addressing the exchange directly,
+   * notably the browser's price websocket, must use this instead of
+   * rebuilding an instId from the symbol. Empty when symbol == instrument.
+   */
+  instrumentID?: string;
+  /**
+   * InverseCtVal is the USD notional per contract for this symbol's
+   * coin-margined inverse instrument (e.g. OKX BTC-USD-SWAP), used
+   * together with a fill's price to size inverse contracts in base
+   * units. Zero when the symbol has no inverse instrument.
+   */
+  inverseCtVal?: string;
   maxPrice?: string;
   maxQty?: string;
   minPrice?: string;
@@ -4708,7 +5609,15 @@ export interface ServicesTradeFilters {
   state?: ServicesTradeState;
   symbol?: string[];
   symbol_params?: string;
-  tag_columns?: ServicesTagColumn[];
+  /**
+   * swaggertype pins this to a plain integer array. Without it swag emits
+   * a $ref to services.TagColumn, whose "enum" is [10,127,1,2,3] — that is
+   * the two CUSTOM-RANGE BOUNDS (TagCategoryCustomMin/Max) plus the three
+   * built-ins, not a member list. Generated clients turned that into a
+   * closed union, so no real custom tag-category id (any value in 10..127)
+   * was assignable and "… by tag" widgets could not be given a category.
+   */
+  tag_columns?: number[];
   tag_groups?: ServicesTagFilterGroup[];
   tag_ids?: number[];
   tag_params?: string;
@@ -4772,6 +5681,65 @@ export enum ServicesTradeProcess {
   TradeUnprocessed = 0,
   TradePartiallyProcessed = 1,
   TradeProcessCompleted = 3,
+}
+
+export interface ServicesTradeSSEPayload {
+  api_key_id?: number;
+  archive?: number;
+  avg_price_entry?: string;
+  avg_price_exit?: string;
+  category_id?: number;
+  category_name?: string;
+  close_time?: number;
+  closed_value?: string;
+  commission?: string;
+  commission_asset?: string;
+  conclusion?: string;
+  created_at?: string;
+  description?: string;
+  /**
+   * DisplayName is a human-readable label for HIP-4 prediction-market trades.
+   * Format: "<questionName>: <outcomeName> (<sideName>)" (e.g. "2026 World Cup Champion: Algeria (Yes)").
+   * Empty for regular perp and HIP-3 trades — frontend falls back to Symbol.
+   */
+  display_name?: string;
+  duration?: number;
+  exchange_id?: ServicesExchangeID;
+  exit_reason?: string;
+  funding?: string;
+  id?: number;
+  images?: ServicesFile[];
+  leverage?: string;
+  max_loose_percent?: string;
+  max_win_percent?: string;
+  mentor_note?: number;
+  mentor_notes?: ServicesMentorNote[];
+  multiplier?: ServicesTradeMultiplier;
+  net_profit?: string;
+  open_qty?: string;
+  open_time?: number;
+  orders?: ServicesOrder[];
+  orders_total?: number;
+  orders_truncated?: boolean;
+  payload_truncated?: boolean;
+  peak_qty?: string;
+  percent?: string;
+  process?: ServicesTradeProcess;
+  profit_deposit?: string;
+  qty?: string;
+  realized_pnl?: string;
+  risk_management_log?: ServicesRiskManagementLog[];
+  short_url?: ServicesShortUrl;
+  side?: ServicesTradeSide;
+  symbol?: string;
+  t_t_tools_data?: string;
+  t_t_tools_data_close?: string;
+  tags?: ServicesTag[];
+  trade_extra?: ServicesTradeExtra;
+  updated_at?: string;
+  user_id?: number;
+  video_link?: string;
+  volume?: string;
 }
 
 export enum ServicesTradeSide {
@@ -4850,6 +5818,26 @@ export interface ServicesTransaction {
   id?: number;
   level?: ServicesMembership;
   months?: number;
+  /**
+   * Network is the machine-readable network slug this payment must be sent
+   * on, e.g. "erc20". Empty for card and legacy sources.
+   *
+   * Computed from the crypto-gateway registry on read, never stored
+   * (`gorm:"-"`: no column, no migration). It rides on the transaction so
+   * a pending payment is self-describing — the "send only <coin> on
+   * <network>" warning must not depend on a second request to the gateway
+   * catalog, which can fail, or stop listing a rail that was disabled
+   * after the transaction was created, while the deposit address is still
+   * on screen.
+   */
+  network?: string;
+  /**
+   * NetworkLabel is the human-readable network this payment must be sent
+   * on, e.g. "Ethereum (ERC-20)". Same provenance and rules as Network:
+   * computed, not persisted, and empty when the source has no registry row
+   * rather than an invented label.
+   */
+  network_label?: string;
   payed?: string;
   source?: ServicesTransactionSource;
   status?: ServicesTransactionStatus;
@@ -4859,6 +5847,12 @@ export interface ServicesTransaction {
 }
 
 export interface ServicesTransactionQuote {
+  /**
+   * AvailableReferralCash is the user's spendable referral-cash balance,
+   * reported whenever the cash-referral program is enabled (0 otherwise) so
+   * the UI can show it regardless of whether it was applied.
+   */
+  available_referral_cash?: string;
   base_amount?: string;
   billing_months?: number;
   contributions?: ServicesTransactionProrationContribution[];
@@ -4875,6 +5869,23 @@ export interface ServicesTransactionQuote {
   lines?: ServicesTransactionQuoteLine[];
   months?: number;
   quote_type?: ServicesTransactionQuoteType;
+  /**
+   * ReferralCashApplied is the amount of referral cash actually credited
+   * against FinalAmount on this quote (0 unless ApplyReferralCash was set
+   * and eligible).
+   */
+  referral_cash_applied?: string;
+  /**
+   * ReferralCashEligible tells the UI whether referral cash CAN be spent on
+   * this quote at all: the cash-referral program is enabled, cash->membership
+   * conversion is allowed by config, and the selected gateway supports the
+   * settle-time debit (every gateway except Stripe). Independent of whether
+   * the user opted in (ApplyReferralCash) and of the balance being > 0, so a
+   * user with a positive AvailableReferralCash and eligible=false can be told
+   * the balance exists but this payment method cannot spend it, instead of
+   * being shown an opt-in control that would silently do nothing.
+   */
+  referral_cash_eligible?: boolean;
   subtotal_amount?: string;
   total_discount_amount?: string;
   unused_balance_amount?: string;
@@ -4904,6 +5915,8 @@ export enum ServicesTransactionQuoteType {
 
 export enum ServicesTransactionSource {
   TransactionSourceUsdtTrc20 = "usdt_trc20",
+  TransactionSourceUsdtErc20 = "usdt_erc20",
+  TransactionSourceUsdcErc20 = "usdc_erc20",
   TransactionSourceBUsdBep20 = "busd_bep20",
   TransactionSourceUsdtBep20 = "usdt_bep20",
   TransactionSourceTmm = "tmm",
@@ -4984,6 +5997,13 @@ export enum ServicesUserStartOfWeek {
   UserStartOfWeekMonday = "monday",
 }
 
+/** @format int32 */
+export enum ServicesUserStatus {
+  UserStatusActive = 1,
+  UserStatusBanned = 2,
+  UserStatusEmailOnly = 3,
+}
+
 export interface ServicesUserWithRelations {
   /** Deprecated: prefer filter_catalog.catalogs.apiKeys. */
   api_keys_list?: ServicesApiKey[];
@@ -5001,6 +6021,14 @@ export interface ServicesUserWithRelations {
   filter_catalog?: ServicesFilterCatalogPayload;
   filter_presets?: ServicesFilterPreset[];
   guides_progress?: ServicesGuideProgress;
+  /**
+   * HasApiKeys — computed: COUNT of the user's non-deleted api_keys > 0.
+   * Activation funnel contract (A3): the SPA routes a 0-key session into the
+   * add-key wizard on login / root entry. Clients MUST read this field —
+   * never infer it by fetching the api-key list.
+   * @example true
+   */
+  has_api_keys?: boolean;
   id?: number;
   invite_code?: string;
   /**
@@ -5021,6 +6049,15 @@ export interface ServicesUserWithRelations {
   public_profile?: ServicesPublicProfile;
   referral?: string;
   referral_code?: string;
+  /**
+   * ReferralHashID is the PERMANENT, id-derived referral code. Unlike
+   * ReferralLink it is never replaced by a custom code: ReferralLink is
+   * EITHER the custom code OR the hashid, so setting a custom code made the
+   * hashid disappear from every response — even though ParseReferral keeps
+   * accepting it forever. Anything that has to show a link that never breaks
+   * (the share modal) needs this field, not ReferralLink.
+   */
+  referral_hashid?: string;
   referral_summary?: ServicesUserReferralSummary;
   referred_by?: number;
   risk_management?: ServicesRiskManagement[];
@@ -5028,6 +6065,13 @@ export interface ServicesUserWithRelations {
   session_reset_at?: number;
   shard_id?: number;
   start_of_week?: ServicesUserStartOfWeek;
+  /**
+   * Lifecycle state (1 active, 2 banned, 3 email-only lead). Serialized so the
+   * admin users list can tell an unfinished email-first signup apart from a
+   * real account — without it every lead reads as a normal novice user with a
+   * blank name. Harmless on /auth/me: it is the caller's own state.
+   */
+  status?: ServicesUserStatus;
   stripe?: ServicesStripe;
   /** Deprecated: prefer filter_catalog.catalogs.tagCategories. */
   tag_categories?: ServicesTagCategory[];
@@ -5043,7 +6087,28 @@ export interface ServicesUserWithRelations {
 }
 
 export interface ServicesValidationErrorResponse {
+  /**
+   * Code is an optional machine-readable classification of the failure,
+   * sitting next to the human-readable message in Errors. Currently emitted
+   * by the add/update api-key endpoints (see ApiKeyErrorCode). Absent on
+   * plain field-validation failures.
+   * @example "invalid_permissions"
+   */
+  code?:
+    | "invalid_key"
+    | "invalid_permissions"
+    | "invalid_passphrase"
+    | "ip_restricted"
+    | "rate_limited"
+    | "exchange_unreachable"
+    | "unknown";
   errors?: ServicesValidationErrors;
+  /**
+   * ExchangeID is the exchange whose driver rejected the credentials.
+   * Present only together with Code; 0/absent when not applicable.
+   * @example 1
+   */
+  exchange_id?: number;
   /** @example "error" */
   status?: string;
 }
@@ -5082,7 +6147,13 @@ export interface ServicesWidget {
 
 export interface ServicesWidgetCreateResponse {
   data?: ServicesWidget;
+  /**
+   * See WidgetPreviewResponse — same contract, same reason for living
+   * outside `data.filters`.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   serverData?: string;
   /** @example "success" */
   status?: string;
@@ -5106,7 +6177,16 @@ export enum ServicesWidgetFiltersSortBy {
 }
 
 export interface ServicesWidgetPreviewResponse {
+  /**
+   * EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for
+   * this render (see services.AdaptiveGroupByResolver). They sit next to
+   * `serverData`, deliberately OUTSIDE `filters`: the frontend persists what
+   * it displays, so an auto value written into the widget's filters would
+   * become permanent the moment the user hits Save.
+   */
+  effectiveGroupBy?: string;
   errors?: string[];
+  groupByAuto?: boolean;
   serverData?: string;
 }
 
@@ -5137,6 +6217,9 @@ export enum ServicesWidgetSource {
   WidgetSourceVolumePerSymbol = "volume_per_symbol",
   WidgetSourceAvgVolume = "avg_volume",
   WidgetSourceAvgVolumePerSymbol = "avg_volume_per_symbol",
+  WidgetSourceEntryVolume = "entry_volume",
+  WidgetSourceEntryVolumePerSymbol = "entry_volume_per_symbol",
+  WidgetSourceEntryVolumeAccumulative = "entry_volume_accumulative",
   WidgetSourceWinPercent = "winning_percent",
   WidgetSourceLossPercent = "loosing_percent",
   WidgetSourceIncomeByApiKey = "income_usdt_api_keys",

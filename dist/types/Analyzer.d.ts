@@ -4,6 +4,7 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
     analyzerList: (query?: {
         skipData?: boolean;
         skipBalance?: boolean;
+        skipCumulative?: boolean;
         type?: string;
         api_key_id?: number[];
         api_key_id_params?: "not:";

@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessResponse, ControllersLoginSuccessResponse, ControllersMeSuccessResponse, ControllersRefreshSuccessResponse, ControllersUnauthorizedResponse, DtoLoginCredentials, DtoNewPasswordCredentials, DtoPasswordResetCredentials, DtoSignUpCredentials, ServicesValidationErrorResponse } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessControllersRegisterEmailData, ControllersApiSuccessControllersRegisterStateData, ControllersApiSuccessResponse, ControllersLoginSuccessResponse, ControllersMeSuccessResponse, ControllersRefreshSuccessResponse, ControllersUnauthorizedResponse, DtoLoginCredentials, DtoNewPasswordCredentials, DtoPasswordResetCredentials, DtoRegisterCompleteForm, DtoRegisterEmailForm, DtoSignUpCredentials, ServicesValidationErrorResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     emailResendCreate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, ControllersUnauthorizedResponse>>;
@@ -8,6 +8,9 @@ export declare class Auth<SecurityDataType = unknown> extends HttpClient<Securit
     getAuth: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersMeSuccessResponse, ControllersUnauthorizedResponse>>;
     refreshList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersRefreshSuccessResponse, string | ControllersUnauthorizedResponse>>;
     registerCreate: (payload: DtoSignUpCredentials, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoginSuccessResponse, ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
+    registerCompleteCreate: (payload: DtoRegisterCompleteForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersLoginSuccessResponse, ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
+    registerEmailCreate: (payload: DtoRegisterEmailForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersRegisterEmailData, ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
+    registerStateDetail: (userId: number, token: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersRegisterStateData, ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
     resetCreate: (payload: DtoNewPasswordCredentials, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, ControllersApiErrorResponse | ServicesValidationErrorResponse>>;
     sessionsResetCreate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, ControllersApiErrorResponse>>;
     verifyDetail: (userId: number, token: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, void | ControllersApiErrorResponse | ServicesValidationErrorResponse>>;

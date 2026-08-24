@@ -125,6 +125,12 @@ export class Trades extends HttpClient {
             format: "json",
             ...params,
         });
+        this.sseEventsList = (params = {}) => this.request({
+            path: `/trades/sse-events`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         this.tagCategoriesList = (params = {}) => this.request({
             path: `/trades/tag-categories`,
             method: "GET",
@@ -213,6 +219,15 @@ export class Trades extends HttpClient {
         });
         this.updateCategoryCreate = (payload, params = {}) => this.request({
             path: `/trades/update-category`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.updateNotesCreate = (payload, params = {}) => this.request({
+            path: `/trades/update-notes`,
             method: "POST",
             body: payload,
             secure: true,

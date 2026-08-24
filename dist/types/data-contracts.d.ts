@@ -43,6 +43,9 @@ export interface ControllersAnalyzerNotesResponse {
 export interface ControllersAnalyzerWeekResponse {
     balanceGain?: string;
     balanceHistory?: string;
+    balanceHistoryGroupBy?: string;
+    cumulativeHistory?: string;
+    cumulativeHistoryGroupBy?: string;
     data?: ServicesTradeSummary[];
     status?: ControllersResponseStatusMessage;
 }
@@ -50,8 +53,16 @@ export interface ControllersApiErrorResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayControllersOauthGrantView {
+    data?: ControllersOauthGrantView[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayControllersPublicProfileSitemapEntry {
     data?: ControllersPublicProfileSitemapEntry[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesActivationRow {
+    data?: ServicesActivationRow[];
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessArrayServicesApiKey {
@@ -106,6 +117,14 @@ export interface ControllersApiSuccessArrayServicesOrder {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayServicesPaymentGateway {
+    data?: ServicesPaymentGateway[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessArrayServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal[];
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessArrayServicesRiskManagementBacktestResult {
     data?: ServicesRiskManagementBacktestResult[];
     status?: ControllersResponseStatusMessage;
@@ -122,8 +141,20 @@ export interface ControllersApiSuccessArrayServicesTransaction {
     data?: ServicesTransaction[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessArrayString {
+    data?: string[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersApiUserNewsTokenData {
+    data?: ControllersApiUserNewsTokenData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessControllersArtifactManifestResponse {
     data?: ControllersArtifactManifestResponse;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersEmailPreferencesData {
+    data?: ControllersEmailPreferencesData;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessControllersExchangePublicListData {
@@ -136,6 +167,26 @@ export interface ControllersApiSuccessControllersFeedNotificationAdminCreateData
 }
 export interface ControllersApiSuccessControllersFeedNotificationLikeData {
     data?: ControllersFeedNotificationLikeData;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersOauthAuthorizeContext {
+    data?: ControllersOauthAuthorizeContext;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersOauthAuthorizeResult {
+    data?: ControllersOauthAuthorizeResult;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersRegisterEmailData {
+    data?: ControllersRegisterEmailData;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersRegisterStateData {
+    data?: ControllersRegisterStateData;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessControllersUpdateDescBulkData {
+    data?: ControllersUpdateDescBulkData;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessDtoChatMemory {
@@ -160,6 +211,14 @@ export interface ControllersApiSuccessServicesDashboard {
 }
 export interface ControllersApiSuccessServicesExchangePublicItem {
     data?: ServicesExchangePublicItem;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangeRequest {
+    data?: ServicesExchangeRequest;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesExchangeRequestsAdminSummary {
+    data?: ServicesExchangeRequestsAdminSummary;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesFeedNotificationAnalyticsCounts {
@@ -194,12 +253,28 @@ export interface ControllersApiSuccessServicesPublicAnnouncementDetail {
     data?: ServicesPublicAnnouncementDetail;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesPulseWeek {
+    data?: ServicesPulseWeek;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralDashboard {
+    data?: ServicesReferralDashboard;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesReferralWithdrawal {
+    data?: ServicesReferralWithdrawal;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesSSEChatProgressEventCatalog {
     data?: ServicesSSEChatProgressEventCatalog;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesSSEFeedNotificationEventCatalog {
     data?: ServicesSSEFeedNotificationEventCatalog;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesSSETradeEventCatalog {
+    data?: ServicesSSETradeEventCatalog;
     status?: ControllersResponseStatusMessage;
 }
 export interface ControllersApiSuccessServicesTag {
@@ -241,6 +316,11 @@ export interface ControllersApiSuccessResponse {
     data?: any;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiUserNewsTokenData {
+    api_key?: string;
+    id?: number;
+    name?: string;
+}
 export interface ControllersApiUsersListResponse {
     data?: ServicesApiUser[];
     status?: ControllersResponseStatusMessage;
@@ -259,6 +339,11 @@ export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersContactBadRequestResponse {
+    errors?: ServicesValidationErrors;
+    message?: string;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersDemoSessionSuccessResponse {
     access_token?: string;
     expires_at?: number;
@@ -267,6 +352,11 @@ export interface ControllersDemoSessionSuccessResponse {
 export interface ControllersDiscordListResponse {
     data?: ServicesDiscordConnect[];
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersEmailPreferencesData {
+    all?: boolean;
+    feeds?: string[];
+    optouts?: string[];
 }
 export interface ControllersExchange {
     enabled?: number;
@@ -313,6 +403,13 @@ export interface ControllersFeedNotificationThreadInboxResponse {
     search_truncated?: boolean;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersFeedNotificationTranslationsPatchResponse {
+    data?: any;
+    skipped?: string[];
+    status?: ControllersResponseStatusMessage;
+    translations?: ServicesFeedNotificationTranslation[];
+    written?: string[];
+}
 export interface ControllersFilesResponse {
     data?: ServicesFile[];
     status?: ControllersResponseStatusMessage;
@@ -352,6 +449,7 @@ export interface ControllersLoadBoardEmbedResponse {
 }
 export interface ControllersLoadBoardResponse {
     dashboard?: ServicesDashboard;
+    effectiveGroupBy?: Record<string, string>;
     errors?: Record<string, string>;
     filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
     public_profile?: ServicesPublicProfile;
@@ -408,6 +506,76 @@ export interface ControllersMentorResponse {
     data?: ServicesMentorGroup;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersOauthAuthorizeContext {
+    already_granted?: boolean;
+    client_host?: string;
+    client_id?: string;
+    client_name?: string;
+    client_uri?: string;
+    client_verified?: boolean;
+    is_loopback?: boolean;
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_host?: string;
+    redirect_uri?: string;
+    resource?: string;
+    scopes?: string[];
+    tos_uri?: string;
+}
+export interface ControllersOauthAuthorizeRequest {
+    approved?: boolean;
+    client_id: string;
+    code_challenge?: string;
+    code_challenge_method?: string;
+    nonce?: string;
+    redirect_uri: string;
+    resource?: string;
+    response_type?: string;
+    scope?: string;
+    scopes?: string[];
+    state?: string;
+}
+export interface ControllersOauthAuthorizeResult {
+    redirect_to?: string;
+}
+export interface ControllersOauthClientRegistrationResponse {
+    client_id?: string;
+    client_id_issued_at?: number;
+    client_name?: string;
+    client_uri?: string;
+    grant_types?: string[];
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_uris?: string[];
+    response_types?: string[];
+    software_id?: string;
+    software_version?: string;
+    token_endpoint_auth_method?: string;
+    tos_uri?: string;
+}
+export interface ControllersOauthGrantView {
+    client_host?: string;
+    client_id?: string;
+    client_name?: string;
+    client_verified?: boolean;
+    created_at?: string;
+    id?: number;
+    last_used_at?: string;
+    logo_uri?: string;
+    scopes?: string[];
+}
+export interface ControllersOauthProtocolError {
+    error?: string;
+    error_description?: string;
+    error_uri?: string;
+}
+export interface ControllersOauthTokenResponse {
+    access_token?: string;
+    expires_in?: number;
+    refresh_token?: string;
+    scope?: string;
+    token_type?: string;
+}
 export interface ControllersOrdersListResponse {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
@@ -451,6 +619,7 @@ export interface ControllersPublicTradeGroupResponse {
     from?: number;
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+    tag_categories?: ServicesTagCategory[];
     to?: number;
     win_rate?: ControllersPnlEntry;
 }
@@ -459,6 +628,7 @@ export interface ControllersPublicTradeResponse {
     drawings?: string;
     public_profile?: ServicesPublicProfile;
     status?: ControllersResponseStatusMessage;
+    tag_categories?: ServicesTagCategory[];
 }
 export interface ControllersReferralSummaryResponse {
     data?: ServicesUserReferralSummary;
@@ -468,6 +638,14 @@ export interface ControllersRefreshSuccessResponse {
     access_token?: string;
     expires_at?: number;
     status?: string;
+}
+export interface ControllersRegisterEmailData {
+    ticket?: string;
+    user_id?: number;
+}
+export interface ControllersRegisterStateData {
+    email?: string;
+    state?: "pending" | "active" | "invalid";
 }
 export declare enum ControllersResponseStatusMessage {
     ResponseStatusSuccess = "success",
@@ -544,9 +722,20 @@ export interface ControllersUnauthorizedResponse {
     message?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersUpdateDescBulkData {
+    updated?: number;
+}
 export interface ControllersWeekListResponse {
     data?: ServicesTradeCountByWeek[];
     notes?: ServicesUserNote[];
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersWidgetUpdateResponse {
+    data?: ServicesWidget;
+    effectiveGroupBy?: string;
+    errors?: string;
+    groupByAuto?: boolean;
+    serverData?: string;
     status?: ControllersResponseStatusMessage;
 }
 export interface DtoAnalyzerNoteForm {
@@ -559,7 +748,7 @@ export interface DtoAnalyzerNoteForm {
 export interface DtoApiKeyCreateForm {
     balances?: DtoBalanceRecord[];
     enabled?: number;
-    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 59 | 60;
+    exchange_id: 1 | 2 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 40 | 41 | 11 | 21 | 12 | 22 | 13 | 14 | 15 | 23 | 24 | 25 | 32 | 33 | 42 | 43 | 44 | 45 | 46 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 59 | 60 | 61;
     extra_info?: string;
     key_private?: string;
     key_public?: string;
@@ -579,6 +768,16 @@ export interface DtoApiUserUpdateForm {
     name: string;
     read_only?: boolean;
     userID?: number;
+}
+export interface DtoAttributionForm {
+    gbraid?: string;
+    gclid?: string;
+    landing_page?: string;
+    referrer?: string;
+    utm_campaign?: string;
+    utm_medium?: string;
+    utm_source?: string;
+    wbraid?: string;
 }
 export interface DtoBalanceRecord {
     balance_usd: number;
@@ -722,6 +921,14 @@ export interface DtoChatUsageResponse {
     status?: "success";
     usage_percent?: number;
 }
+export interface DtoContactForm {
+    captcha_token?: string;
+    email: string;
+    message: string;
+    name: string;
+    topic?: "general" | "billing" | "partnership" | "press" | "other";
+    website?: string;
+}
 export interface DtoDashboardCreateForm {
     name: string;
 }
@@ -752,6 +959,14 @@ export interface DtoDashboardUpdateForm {
 export interface DtoDashboardsSortForm {
     dashboards: DtoDashboardSort[];
 }
+export interface DtoEmailPreferencesForm {
+    optouts: string[];
+}
+export interface DtoExchangeRequestCreateForm {
+    segment?: "crypto" | "stocks" | "forex" | "futures" | "other";
+    source?: "grid" | "rescue";
+    text: string;
+}
 export interface DtoFeedNotificationCommentCreateForm {
     image_file_ids?: number[];
     reply_to_user_id?: number;
@@ -778,6 +993,7 @@ export interface DtoFeedNotificationCreateForm {
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
+    user_ids?: number[];
 }
 export interface DtoFeedNotificationPollOptionForm {
     is_other?: boolean;
@@ -790,6 +1006,12 @@ export interface DtoFeedNotificationTranslationForm {
     link_url?: string;
     text: string;
     title: string;
+}
+export interface DtoFeedNotificationTranslationsPatchForm {
+    broadcast?: boolean;
+    overwrite?: boolean;
+    poll_option_translations?: Record<string, Record<string, string>>;
+    translations: Record<string, DtoFeedNotificationTranslationForm>;
 }
 export interface DtoFeedNotificationUpdateForm {
     audience_memberships?: string[];
@@ -805,6 +1027,7 @@ export interface DtoFeedNotificationUpdateForm {
     translations: Record<string, DtoFeedNotificationTranslationForm>;
     type: "global" | "personal";
     user_id?: number;
+    user_ids?: number[];
 }
 export interface DtoFeedNotificationVoteForm {
     option_ids: number[];
@@ -918,6 +1141,33 @@ export interface DtoPublicProfileUpdateForm {
     website?: string;
     youtube?: string;
 }
+export interface DtoReferralWithdrawalActionForm {
+    note: string;
+}
+export interface DtoReferralWithdrawalCreateForm {
+    address: string;
+    amount: string;
+    network: "TRC20" | "BEP20";
+}
+export interface DtoReferralWithdrawalMarkPaidForm {
+    note?: string;
+    tx_hash: string;
+}
+export interface DtoRegisterCompleteForm {
+    email_token?: string;
+    name: string;
+    password: string;
+    ticket?: string;
+    user_id: number;
+}
+export interface DtoRegisterEmailForm {
+    attribution?: DtoAttributionForm;
+    email: string;
+    language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
+    promo?: string;
+    ref?: string;
+    timezone: string;
+}
 export interface DtoRiskManagementCreateForm {
     api_key_id?: number;
     max_leverage?: string;
@@ -927,6 +1177,7 @@ export interface DtoRiskManagementCreateForm {
     per_trade_usd?: string;
 }
 export interface DtoSignUpCredentials {
+    attribution?: DtoAttributionForm;
     email: string;
     language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
     name: string;
@@ -1122,6 +1373,13 @@ export interface DtoTradeFilters {
 export interface DtoTradeGroupShortLink {
     id: number[];
 }
+export interface DtoTradeUpdateDescBulkForm {
+    conclusion?: string;
+    description?: string;
+    id: number[];
+    replace?: boolean;
+    video_link?: string;
+}
 export interface DtoTradeUpdateDescForm {
     conclusion?: string;
     description?: string;
@@ -1144,12 +1402,15 @@ export interface DtoTradesMergeForm {
     id: number[];
 }
 export interface DtoTransactionCreateForm {
+    apply_referral_cash?: boolean;
     gateway: string;
     level: string;
     months: number;
 }
 export interface DtoUIData {
     data: string;
+    deleted_keys?: string[];
+    replace?: boolean;
 }
 export interface DtoUserLanguage {
     language: "en" | "ru" | "ua" | "es" | "pt" | "tr" | "id" | "zh";
@@ -1227,6 +1488,28 @@ export interface DtoWidgetUpdateForm {
     title?: string;
     type2?: string;
 }
+export interface OauthClientRegistrationRequest {
+    client_name?: string;
+    client_uri?: string;
+    grant_types?: string[];
+    logo_uri?: string;
+    policy_uri?: string;
+    redirect_uris?: string[];
+    response_types?: string[];
+    software_id?: string;
+    software_version?: string;
+    token_endpoint_auth_method?: string;
+    tos_uri?: string;
+}
+export interface ServicesActivationRow {
+    activated_30d?: number;
+    activated_7d?: number;
+    rate_30d?: number;
+    rate_7d?: number;
+    signups?: number;
+    source?: string;
+    week?: string;
+}
 export interface ServicesAnalyzerNote {
     created_at?: string;
     desc?: string;
@@ -1241,7 +1524,6 @@ export interface ServicesApiKey {
     created_at?: string;
     enabled?: ServicesApiKeyEnabledStatus;
     exchange_id?: ServicesExchangeID;
-    extra_info?: string;
     flag1?: number;
     flag2?: number;
     flag3?: number;
@@ -1258,7 +1540,19 @@ export declare enum ServicesApiKeyEnabledStatus {
     API_KEY_WS_ENABLED = 1,
     API_KEY_WS_DISABLED = 0,
     API_KEY_WS_FROZEN = 2,
-    API_KEY_WS_BLOCKED_HIGH_LOAD = 3
+    API_KEY_WS_BLOCKED_HIGH_LOAD = 3,
+    API_KEY_WS_EXPIRED = 4
+}
+export declare enum ServicesApiKeyErrorCode {
+    ApiKeyErrorCodeInvalidKey = "invalid_key",
+    ApiKeyErrorCodeInvalidPermissions = "invalid_permissions",
+    ApiKeyErrorCodeInvalidPassphrase = "invalid_passphrase",
+    ApiKeyErrorCodeNotReadOnly = "key_not_read_only",
+    ApiKeyErrorCodeExpired = "key_expired",
+    ApiKeyErrorCodeIPRestricted = "ip_restricted",
+    ApiKeyErrorCodeRateLimited = "rate_limited",
+    ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
+    ApiKeyErrorCodeUnknown = "unknown"
 }
 export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_DISCONNECTED = 0,
@@ -1298,7 +1592,9 @@ export declare enum ServicesApiUserRead {
 }
 export declare enum ServicesApiUserType {
     API_USER_TYPE_USER_CREATED = 1,
-    API_USER_TYPE_OAUTH_CREATED = 2
+    API_USER_TYPE_OAUTH_CREATED = 2,
+    API_USER_TYPE_MCP = 3,
+    API_USER_TYPE_NEWS = 4
 }
 export interface ServicesArtifact {
     arch?: string;
@@ -1471,7 +1767,8 @@ export declare enum ServicesExchangeID {
     EXCHANGE_BYBIT_DEMO_SPOT = 57,
     EXCHANGE_DEMO = 58,
     EXCHANGE_KRAKEN_SPOT = 59,
-    EXCHANGE_KRAKEN_FUTURES = 60
+    EXCHANGE_KRAKEN_FUTURES = 60,
+    EXCHANGE_BINGX_SPOT = 61
 }
 export interface ServicesExchangePublicItem {
     autoSyncMethod?: string;
@@ -1486,6 +1783,43 @@ export interface ServicesExchangePublicMarkets {
     futures?: boolean;
     inverse?: boolean;
     spot?: boolean;
+}
+export interface ServicesExchangeRequest {
+    created_at?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export interface ServicesExchangeRequestRecent {
+    created_at?: string;
+    email?: string;
+    id?: number;
+    segment?: ServicesExchangeRequestSegment;
+    source?: ServicesExchangeRequestSource;
+    text?: string;
+    user_id?: number;
+}
+export declare enum ServicesExchangeRequestSegment {
+    ExchangeRequestSegmentCrypto = "crypto",
+    ExchangeRequestSegmentStocks = "stocks",
+    ExchangeRequestSegmentForex = "forex",
+    ExchangeRequestSegmentFutures = "futures",
+    ExchangeRequestSegmentOther = "other"
+}
+export declare enum ServicesExchangeRequestSource {
+    ExchangeRequestSourceGrid = "grid",
+    ExchangeRequestSourceRescue = "rescue"
+}
+export interface ServicesExchangeRequestTop {
+    count?: number;
+    text_normalized?: string;
+}
+export interface ServicesExchangeRequestsAdminSummary {
+    recent?: ServicesExchangeRequestRecent[];
+    top?: ServicesExchangeRequestTop[];
 }
 export interface ServicesFeedNotification {
     audience_memberships?: string[];
@@ -1513,6 +1847,7 @@ export interface ServicesFeedNotificationAdminDetail {
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
     poll_options?: ServicesFeedNotificationPollOption[];
     publication_status?: string;
+    recipient_user_ids?: number[];
     translations?: ServicesFeedNotificationTranslation[];
     votes_count?: number;
 }
@@ -1881,7 +2216,9 @@ export interface ServicesLeagueWeekMetrics {
     volume?: string;
 }
 export interface ServicesLoadBoardResponseChunk {
+    effectiveGroupBy?: string;
     errors?: string;
+    groupByAuto?: boolean;
     serverData?: string;
     widget?: ServicesWidget;
     widget_id?: number;
@@ -2105,6 +2442,15 @@ export declare enum ServicesPartnerID {
     PARTNER_ID_WLC = 1,
     PARTNER_ID_TIGER = 2
 }
+export interface ServicesPaymentGateway {
+    coin?: string;
+    enabled?: boolean;
+    id?: string;
+    kind?: string;
+    min_amount?: string;
+    network?: string;
+    network_label?: string;
+}
 export declare enum ServicesPromoCodeAction {
     PromoCodeActionExtend = "extend",
     PromoCodeActionUpgrade = "upgrade"
@@ -2141,6 +2487,8 @@ export interface ServicesPublicAnnouncementDetail {
     image_url?: string;
     lang?: string;
     lang_available?: string[];
+    link_title?: string;
+    link_url?: string;
     published_at?: string;
     slug?: string;
     title?: string;
@@ -2150,10 +2498,26 @@ export interface ServicesPublicAnnouncementListItem {
     excerpt?: string;
     image_url?: string;
     lang_available?: string[];
+    link_title?: string;
+    link_url?: string;
     published_at?: string;
     slug?: string;
     title?: string;
     updated_at?: string;
+}
+export interface ServicesPublicFilterTag {
+    column?: number;
+    id?: number;
+    name?: string;
+}
+export interface ServicesPublicFilterTagCategory {
+    id?: number;
+    key?: string;
+    name?: string;
+}
+export interface ServicesPublicFilterVocabulary {
+    tag_categories?: ServicesPublicFilterTagCategory[];
+    tags?: ServicesPublicFilterTag[];
 }
 export interface ServicesPublicProfile {
     api_keys?: number[];
@@ -2191,7 +2555,9 @@ export interface ServicesPublicProfile {
     youtube?: string;
 }
 export interface ServicesPublicProfileLayout {
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     h?: number;
     i?: number;
     model?: ServicesWidget;
@@ -2209,6 +2575,7 @@ export declare enum ServicesPublicProfileShowTrades {
 export interface ServicesPublicProfileStats {
     average_duration?: number;
     count_api_keys?: number;
+    filter_vocabulary?: ServicesPublicFilterVocabulary;
     from?: string;
     hidden_data?: boolean;
     last_update_at?: number;
@@ -2227,6 +2594,117 @@ export interface ServicesPublicStats {
     trade_processing?: Record<string, ServicesLoadLevel>;
     trade_processing_queue?: Record<string, ServicesLoadLevel>;
     ws_queue?: ServicesLoadLevel;
+}
+export interface ServicesPulseBenchmark {
+    rank?: number;
+    symbol?: string;
+    trader_share_pct?: number;
+}
+export interface ServicesPulseBoard {
+    benchmark?: ServicesPulseBenchmark;
+    diffuse?: boolean;
+    new_entrants?: number;
+    top_by_traders?: ServicesPulseCoin[];
+    top_by_trades?: ServicesPulseCoin[];
+}
+export interface ServicesPulseBucket {
+    bucket?: string;
+    trade_share_pct?: number;
+    win_rate_pct?: number;
+}
+export interface ServicesPulseCoin {
+    rank?: number;
+    symbol?: string;
+    trade_share_pct?: number;
+    trader_share_pct?: number;
+}
+export interface ServicesPulseWeek {
+    board?: ServicesPulseBoard;
+    generated_at?: string;
+    holding?: ServicesPulseBucket[];
+    sentiment?: {
+        long_pct?: number;
+    };
+    totals?: {
+        distinct_symbols?: number;
+        trades?: number;
+    };
+    week_end?: string;
+    week_start?: string;
+}
+export interface ServicesReferralDashboard {
+    available_balance?: string;
+    commission_tiers?: ServicesReferralTierInfo[];
+    current_tier_index?: number;
+    current_tier_rate?: number;
+    earnings?: ServicesReferralEarning[];
+    lifetime_earned?: string;
+    min_withdrawal?: number;
+    next_tier_threshold?: number;
+    paying_referrals?: number;
+    pending_balance?: string;
+    referrals?: ServicesReferralRefereeInfo[];
+    spent_total?: string;
+    withdrawals?: ServicesReferralWithdrawal[];
+    withdrawals_in_review_total?: string;
+    withdrawn_total?: string;
+}
+export interface ServicesReferralEarning {
+    available_at?: string;
+    coin?: string;
+    commission_amount?: string;
+    commission_rate?: string;
+    created_at?: string;
+    gross_amount?: string;
+    id?: number;
+    referee_user_id?: number;
+    referrer_user_id?: number;
+    reversal_reason?: ServicesReferralReversalReason;
+    status?: ServicesReferralEarningStatus;
+    transaction_id?: number;
+    updated_at?: string;
+}
+export declare enum ServicesReferralEarningStatus {
+    ReferralEarningPending = "pending",
+    ReferralEarningAvailable = "available",
+    ReferralEarningReversed = "reversed"
+}
+export interface ServicesReferralRefereeInfo {
+    earned?: string;
+    joined_at?: string;
+    paid?: boolean;
+    status?: string;
+    uid?: number;
+}
+export declare enum ServicesReferralReversalReason {
+    ReferralReversalRefund = "refund",
+    ReferralReversalAbuseDupe = "abuse_duplicate_account"
+}
+export interface ServicesReferralTierInfo {
+    rate?: number;
+    threshold?: number;
+}
+export interface ServicesReferralWithdrawal {
+    admin_note?: string;
+    amount?: string;
+    coin?: string;
+    created_at?: string;
+    id?: number;
+    network?: string;
+    payout_address?: string;
+    processed_at?: string;
+    processed_by?: number;
+    requested_at?: string;
+    status?: ServicesReferralWithdrawalStatus;
+    tx_hash?: string;
+    updated_at?: string;
+    user_id?: number;
+}
+export declare enum ServicesReferralWithdrawalStatus {
+    ReferralWithdrawalRequested = "requested",
+    ReferralWithdrawalApproved = "approved",
+    ReferralWithdrawalPaid = "paid",
+    ReferralWithdrawalRejected = "rejected"
 }
 export interface ServicesRiskManagement {
     api_key_id?: number;
@@ -2311,6 +2789,12 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
     "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
 }
+export interface ServicesSSETradeEventCatalog {
+    trade?: ServicesTradeSSEPayload;
+    "trade-update"?: ServicesTradeSSEPayload;
+    trades?: ServicesSSETradesRefreshPayload;
+}
+export type ServicesSSETradesRefreshPayload = object;
 export interface ServicesSafeUser {
     avatar?: ServicesFile;
     id?: number;
@@ -2395,14 +2879,14 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
-    column?: ServicesTagColumn;
+    column?: number;
     ids?: number[];
     params?: string;
 }
@@ -2519,6 +3003,8 @@ export interface ServicesTickerFilters {
     baseCurrency?: string;
     decimalsMax?: number;
     display_name?: string;
+    instrumentID?: string;
+    inverseCtVal?: string;
     maxPrice?: string;
     maxQty?: string;
     minPrice?: string;
@@ -2809,7 +3295,7 @@ export interface ServicesTradeFilters {
     state?: ServicesTradeState;
     symbol?: string[];
     symbol_params?: string;
-    tag_columns?: ServicesTagColumn[];
+    tag_columns?: number[];
     tag_groups?: ServicesTagFilterGroup[];
     tag_ids?: number[];
     tag_params?: string;
@@ -2870,6 +3356,59 @@ export declare enum ServicesTradeProcess {
     TradeUnprocessed = 0,
     TradePartiallyProcessed = 1,
     TradeProcessCompleted = 3
+}
+export interface ServicesTradeSSEPayload {
+    api_key_id?: number;
+    archive?: number;
+    avg_price_entry?: string;
+    avg_price_exit?: string;
+    category_id?: number;
+    category_name?: string;
+    close_time?: number;
+    closed_value?: string;
+    commission?: string;
+    commission_asset?: string;
+    conclusion?: string;
+    created_at?: string;
+    description?: string;
+    display_name?: string;
+    duration?: number;
+    exchange_id?: ServicesExchangeID;
+    exit_reason?: string;
+    funding?: string;
+    id?: number;
+    images?: ServicesFile[];
+    leverage?: string;
+    max_loose_percent?: string;
+    max_win_percent?: string;
+    mentor_note?: number;
+    mentor_notes?: ServicesMentorNote[];
+    multiplier?: ServicesTradeMultiplier;
+    net_profit?: string;
+    open_qty?: string;
+    open_time?: number;
+    orders?: ServicesOrder[];
+    orders_total?: number;
+    orders_truncated?: boolean;
+    payload_truncated?: boolean;
+    peak_qty?: string;
+    percent?: string;
+    process?: ServicesTradeProcess;
+    profit_deposit?: string;
+    qty?: string;
+    realized_pnl?: string;
+    risk_management_log?: ServicesRiskManagementLog[];
+    short_url?: ServicesShortUrl;
+    side?: ServicesTradeSide;
+    symbol?: string;
+    t_t_tools_data?: string;
+    t_t_tools_data_close?: string;
+    tags?: ServicesTag[];
+    trade_extra?: ServicesTradeExtra;
+    updated_at?: string;
+    user_id?: number;
+    video_link?: string;
+    volume?: string;
 }
 export declare enum ServicesTradeSide {
     TradeLong = "LONG",
@@ -2938,6 +3477,8 @@ export interface ServicesTransaction {
     id?: number;
     level?: ServicesMembership;
     months?: number;
+    network?: string;
+    network_label?: string;
     payed?: string;
     source?: ServicesTransactionSource;
     status?: ServicesTransactionStatus;
@@ -2946,6 +3487,7 @@ export interface ServicesTransaction {
     valid_until?: number;
 }
 export interface ServicesTransactionQuote {
+    available_referral_cash?: string;
     base_amount?: string;
     billing_months?: number;
     contributions?: ServicesTransactionProrationContribution[];
@@ -2962,6 +3504,8 @@ export interface ServicesTransactionQuote {
     lines?: ServicesTransactionQuoteLine[];
     months?: number;
     quote_type?: ServicesTransactionQuoteType;
+    referral_cash_applied?: string;
+    referral_cash_eligible?: boolean;
     subtotal_amount?: string;
     total_discount_amount?: string;
     unused_balance_amount?: string;
@@ -2987,6 +3531,8 @@ export declare enum ServicesTransactionQuoteType {
 }
 export declare enum ServicesTransactionSource {
     TransactionSourceUsdtTrc20 = "usdt_trc20",
+    TransactionSourceUsdtErc20 = "usdt_erc20",
+    TransactionSourceUsdcErc20 = "usdc_erc20",
     TransactionSourceBUsdBep20 = "busd_bep20",
     TransactionSourceUsdtBep20 = "usdt_bep20",
     TransactionSourceTmm = "tmm",
@@ -3057,6 +3603,11 @@ export declare enum ServicesUserStartOfWeek {
     UserStartOfWeekSunday = "sunday",
     UserStartOfWeekMonday = "monday"
 }
+export declare enum ServicesUserStatus {
+    UserStatusActive = 1,
+    UserStatusBanned = 2,
+    UserStatusEmailOnly = 3
+}
 export interface ServicesUserWithRelations {
     api_keys_list?: ServicesApiKey[];
     avatar?: ServicesFile;
@@ -3072,6 +3623,7 @@ export interface ServicesUserWithRelations {
     filter_catalog?: ServicesFilterCatalogPayload;
     filter_presets?: ServicesFilterPreset[];
     guides_progress?: ServicesGuideProgress;
+    has_api_keys?: boolean;
     id?: number;
     invite_code?: string;
     is_demo?: boolean;
@@ -3087,6 +3639,7 @@ export interface ServicesUserWithRelations {
     public_profile?: ServicesPublicProfile;
     referral?: string;
     referral_code?: string;
+    referral_hashid?: string;
     referral_summary?: ServicesUserReferralSummary;
     referred_by?: number;
     risk_management?: ServicesRiskManagement[];
@@ -3094,6 +3647,7 @@ export interface ServicesUserWithRelations {
     session_reset_at?: number;
     shard_id?: number;
     start_of_week?: ServicesUserStartOfWeek;
+    status?: ServicesUserStatus;
     stripe?: ServicesStripe;
     tag_categories?: ServicesTagCategory[];
     tags?: ServicesTag[];
@@ -3106,7 +3660,9 @@ export interface ServicesUserWithRelations {
     trial_available?: boolean;
 }
 export interface ServicesValidationErrorResponse {
+    code?: "invalid_key" | "invalid_permissions" | "invalid_passphrase" | "ip_restricted" | "rate_limited" | "exchange_unreachable" | "unknown";
     errors?: ServicesValidationErrors;
+    exchange_id?: number;
     status?: string;
 }
 export type ServicesValidationErrors = Record<string, string[]>;
@@ -3135,7 +3691,9 @@ export interface ServicesWidget {
 }
 export interface ServicesWidgetCreateResponse {
     data?: ServicesWidget;
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     serverData?: string;
     status?: string;
 }
@@ -3155,7 +3713,9 @@ export declare enum ServicesWidgetFiltersSortBy {
     WidgetFiltersSortByCountKeyAsc = "key_asc"
 }
 export interface ServicesWidgetPreviewResponse {
+    effectiveGroupBy?: string;
     errors?: string[];
+    groupByAuto?: boolean;
     serverData?: string;
 }
 export declare enum ServicesWidgetSource {
@@ -3185,6 +3745,9 @@ export declare enum ServicesWidgetSource {
     WidgetSourceVolumePerSymbol = "volume_per_symbol",
     WidgetSourceAvgVolume = "avg_volume",
     WidgetSourceAvgVolumePerSymbol = "avg_volume_per_symbol",
+    WidgetSourceEntryVolume = "entry_volume",
+    WidgetSourceEntryVolumePerSymbol = "entry_volume_per_symbol",
+    WidgetSourceEntryVolumeAccumulative = "entry_volume_accumulative",
     WidgetSourceWinPercent = "winning_percent",
     WidgetSourceLossPercent = "loosing_percent",
     WidgetSourceIncomeByApiKey = "income_usdt_api_keys",

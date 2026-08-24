@@ -120,6 +120,29 @@ export class Users extends HttpClient {
             format: "json",
             ...params,
         });
+        this.referralDashboardList = (params = {}) => this.request({
+            path: `/users/referral/dashboard`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.referralWithdrawalsList = (params = {}) => this.request({
+            path: `/users/referral/withdrawals`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.referralWithdrawalsCreate = (payload, params = {}) => this.request({
+            path: `/users/referral/withdrawals`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.themeCreate = (payload, params = {}) => this.request({
             path: `/users/theme`,
             method: "POST",

@@ -17,7 +17,20 @@ export var ServicesApiKeyEnabledStatus;
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_DISABLED"] = 0] = "API_KEY_WS_DISABLED";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_FROZEN"] = 2] = "API_KEY_WS_FROZEN";
     ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_BLOCKED_HIGH_LOAD"] = 3] = "API_KEY_WS_BLOCKED_HIGH_LOAD";
+    ServicesApiKeyEnabledStatus[ServicesApiKeyEnabledStatus["API_KEY_WS_EXPIRED"] = 4] = "API_KEY_WS_EXPIRED";
 })(ServicesApiKeyEnabledStatus || (ServicesApiKeyEnabledStatus = {}));
+export var ServicesApiKeyErrorCode;
+(function (ServicesApiKeyErrorCode) {
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidKey"] = "invalid_key";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPermissions"] = "invalid_permissions";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeInvalidPassphrase"] = "invalid_passphrase";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeNotReadOnly"] = "key_not_read_only";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeExpired"] = "key_expired";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeIPRestricted"] = "ip_restricted";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeRateLimited"] = "rate_limited";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeExchangeUnreachable"] = "exchange_unreachable";
+    ServicesApiKeyErrorCode["ApiKeyErrorCodeUnknown"] = "unknown";
+})(ServicesApiKeyErrorCode || (ServicesApiKeyErrorCode = {}));
 export var ServicesApiKeyWebsocketStatus;
 (function (ServicesApiKeyWebsocketStatus) {
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_DISCONNECTED"] = 0] = "API_KEY_WS_DISCONNECTED";
@@ -35,6 +48,8 @@ export var ServicesApiUserType;
 (function (ServicesApiUserType) {
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_USER_CREATED"] = 1] = "API_USER_TYPE_USER_CREATED";
     ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_OAUTH_CREATED"] = 2] = "API_USER_TYPE_OAUTH_CREATED";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_MCP"] = 3] = "API_USER_TYPE_MCP";
+    ServicesApiUserType[ServicesApiUserType["API_USER_TYPE_NEWS"] = 4] = "API_USER_TYPE_NEWS";
 })(ServicesApiUserType || (ServicesApiUserType = {}));
 export var ServicesBaseConnectionProvider;
 (function (ServicesBaseConnectionProvider) {
@@ -112,7 +127,21 @@ export var ServicesExchangeID;
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_DEMO"] = 58] = "EXCHANGE_DEMO";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_SPOT"] = 59] = "EXCHANGE_KRAKEN_SPOT";
     ServicesExchangeID[ServicesExchangeID["EXCHANGE_KRAKEN_FUTURES"] = 60] = "EXCHANGE_KRAKEN_FUTURES";
+    ServicesExchangeID[ServicesExchangeID["EXCHANGE_BINGX_SPOT"] = 61] = "EXCHANGE_BINGX_SPOT";
 })(ServicesExchangeID || (ServicesExchangeID = {}));
+export var ServicesExchangeRequestSegment;
+(function (ServicesExchangeRequestSegment) {
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentCrypto"] = "crypto";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentStocks"] = "stocks";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentForex"] = "forex";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentFutures"] = "futures";
+    ServicesExchangeRequestSegment["ExchangeRequestSegmentOther"] = "other";
+})(ServicesExchangeRequestSegment || (ServicesExchangeRequestSegment = {}));
+export var ServicesExchangeRequestSource;
+(function (ServicesExchangeRequestSource) {
+    ServicesExchangeRequestSource["ExchangeRequestSourceGrid"] = "grid";
+    ServicesExchangeRequestSource["ExchangeRequestSourceRescue"] = "rescue";
+})(ServicesExchangeRequestSource || (ServicesExchangeRequestSource = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {
     ServicesFeedNotificationKind["FeedNotificationKindNotification"] = "notification";
@@ -242,6 +271,24 @@ export var ServicesPublicProfileStatus;
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusOFF"] = 2] = "PublicProfileStatusOFF";
     ServicesPublicProfileStatus[ServicesPublicProfileStatus["PublicProfileStatusBAN"] = 3] = "PublicProfileStatusBAN";
 })(ServicesPublicProfileStatus || (ServicesPublicProfileStatus = {}));
+export var ServicesReferralEarningStatus;
+(function (ServicesReferralEarningStatus) {
+    ServicesReferralEarningStatus["ReferralEarningPending"] = "pending";
+    ServicesReferralEarningStatus["ReferralEarningAvailable"] = "available";
+    ServicesReferralEarningStatus["ReferralEarningReversed"] = "reversed";
+})(ServicesReferralEarningStatus || (ServicesReferralEarningStatus = {}));
+export var ServicesReferralReversalReason;
+(function (ServicesReferralReversalReason) {
+    ServicesReferralReversalReason["ReferralReversalRefund"] = "refund";
+    ServicesReferralReversalReason["ReferralReversalAbuseDupe"] = "abuse_duplicate_account";
+})(ServicesReferralReversalReason || (ServicesReferralReversalReason = {}));
+export var ServicesReferralWithdrawalStatus;
+(function (ServicesReferralWithdrawalStatus) {
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRequested"] = "requested";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalApproved"] = "approved";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalPaid"] = "paid";
+    ServicesReferralWithdrawalStatus["ReferralWithdrawalRejected"] = "rejected";
+})(ServicesReferralWithdrawalStatus || (ServicesReferralWithdrawalStatus = {}));
 export var ServicesRiskManagementLogType;
 (function (ServicesRiskManagementLogType) {
     ServicesRiskManagementLogType[ServicesRiskManagementLogType["RiskManagementLogTypeTradeLoss"] = 1] = "RiskManagementLogTypeTradeLoss";
@@ -285,11 +332,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -424,6 +471,8 @@ export var ServicesTransactionQuoteType;
 export var ServicesTransactionSource;
 (function (ServicesTransactionSource) {
     ServicesTransactionSource["TransactionSourceUsdtTrc20"] = "usdt_trc20";
+    ServicesTransactionSource["TransactionSourceUsdtErc20"] = "usdt_erc20";
+    ServicesTransactionSource["TransactionSourceUsdcErc20"] = "usdc_erc20";
     ServicesTransactionSource["TransactionSourceBUsdBep20"] = "busd_bep20";
     ServicesTransactionSource["TransactionSourceUsdtBep20"] = "usdt_bep20";
     ServicesTransactionSource["TransactionSourceTmm"] = "tmm";
@@ -460,6 +509,12 @@ export var ServicesUserStartOfWeek;
     ServicesUserStartOfWeek["UserStartOfWeekSunday"] = "sunday";
     ServicesUserStartOfWeek["UserStartOfWeekMonday"] = "monday";
 })(ServicesUserStartOfWeek || (ServicesUserStartOfWeek = {}));
+export var ServicesUserStatus;
+(function (ServicesUserStatus) {
+    ServicesUserStatus[ServicesUserStatus["UserStatusActive"] = 1] = "UserStatusActive";
+    ServicesUserStatus[ServicesUserStatus["UserStatusBanned"] = 2] = "UserStatusBanned";
+    ServicesUserStatus[ServicesUserStatus["UserStatusEmailOnly"] = 3] = "UserStatusEmailOnly";
+})(ServicesUserStatus || (ServicesUserStatus = {}));
 export var ServicesValueSemantic;
 (function (ServicesValueSemantic) {
     ServicesValueSemantic["SemanticMoney"] = "money";
@@ -506,6 +561,9 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceVolumePerSymbol"] = "volume_per_symbol";
     ServicesWidgetSource["WidgetSourceAvgVolume"] = "avg_volume";
     ServicesWidgetSource["WidgetSourceAvgVolumePerSymbol"] = "avg_volume_per_symbol";
+    ServicesWidgetSource["WidgetSourceEntryVolume"] = "entry_volume";
+    ServicesWidgetSource["WidgetSourceEntryVolumePerSymbol"] = "entry_volume_per_symbol";
+    ServicesWidgetSource["WidgetSourceEntryVolumeAccumulative"] = "entry_volume_accumulative";
     ServicesWidgetSource["WidgetSourceWinPercent"] = "winning_percent";
     ServicesWidgetSource["WidgetSourceLossPercent"] = "loosing_percent";
     ServicesWidgetSource["WidgetSourceIncomeByApiKey"] = "income_usdt_api_keys";

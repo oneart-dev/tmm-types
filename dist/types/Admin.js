@@ -9,6 +9,15 @@ export class Admin extends HttpClient {
             format: "json",
             ...params,
         });
+        this.exchangeRequestsList = (query, params = {}) => this.request({
+            path: `/admin/exchange-requests`,
+            method: "GET",
+            query: query,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.fleetActivityList = (query, params = {}) => this.request({
             path: `/admin/fleet/activity`,
             method: "GET",
@@ -156,10 +165,44 @@ export class Admin extends HttpClient {
             method: "POST",
             ...params,
         });
+        this.notificationsTranslationsUpdate = (id, payload, params = {}) => this.request({
+            path: `/admin/notifications/${id}/translations`,
+            method: "PUT",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            ...params,
+        });
         this.notificationsVotesDetail = (id, query, params = {}) => this.request({
             path: `/admin/notifications/${id}/votes`,
             method: "GET",
             query: query,
+            ...params,
+        });
+        this.referralWithdrawalsList = (query, params = {}) => this.request({
+            path: `/admin/referral/withdrawals`,
+            method: "GET",
+            query: query,
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.referralWithdrawalsMarkPaidCreate = (id, payload, params = {}) => this.request({
+            path: `/admin/referral/withdrawals/${id}/mark-paid`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.referralWithdrawalsRejectCreate = (id, payload, params = {}) => this.request({
+            path: `/admin/referral/withdrawals/${id}/reject`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
             ...params,
         });
         this.usersLeaguePointChecksDetail = (id, params = {}) => this.request({

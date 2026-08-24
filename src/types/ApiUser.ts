@@ -11,6 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessControllersApiUserNewsTokenData,
   ControllersApiSuccessResponse,
   ControllersApiUsersListResponse,
   ControllersUnauthorizedResponse,
@@ -58,6 +59,47 @@ export class ApiUser<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api-user/`,
       method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Mints (or returns the existing) read-only, MCP-only API token for the current user. Available to every verified user. The token is scoped to the /api/v2/mcp endpoint only and is rejected on every other REST route. Idempotent — one MCP token per user.
+   *
+   * @tags api-user
+   * @name PutApiUser
+   * @summary Create MCP Token
+   * @request PUT:/api-user/mcp
+   * @secure
+   */
+  putApiUser = (params: RequestParams = {}) =>
+    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
+      {
+        path: `/api-user/mcp`,
+        method: "PUT",
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      },
+    );
+  /**
+   * @description Mints (or returns the existing) news/i18n machine token for the current user and returns its value. ADMIN ONLY. The token is fenced by ApiKeyAuthMiddleware to the /api/v2/admin/notifications surface, and within it to reads, the draft create and the merge-only translations PUT — publish, the destructive full update and delete are all rejected with 403. Idempotent — one news token per user.
+   *
+   * @tags api-user
+   * @name NewsUpdate
+   * @summary Create news/i18n Token
+   * @request PUT:/api-user/news
+   * @secure
+   */
+  newsUpdate = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersApiUserNewsTokenData,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse | string
+    >({
+      path: `/api-user/news`,
+      method: "PUT",
       secure: true,
       type: ContentType.Json,
       format: "json",

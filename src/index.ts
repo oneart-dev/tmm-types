@@ -6,6 +6,7 @@
 
 // types
 export * from './types/Admin';
+export * from './types/Analytics';
 export * from './types/Analyzer';
 export * from './types/ApiKey';
 export * from './types/ApiUser';
@@ -14,8 +15,11 @@ export * from './types/Board';
 export * from './types/Candles';
 export * from './types/Chat';
 export * from './types/Connections';
+export * from './types/Contact';
 export * from './types/Demo';
 export * from './types/DiscordBot';
+export * from './types/Email';
+export * from './types/ExchangeRequests';
 export * from './types/Exchanges';
 export * from './types/Files';
 export * from './types/FilterCatalog';
@@ -26,8 +30,10 @@ export * from './types/NoteCategories';
 export * from './types/Notes';
 export * from './types/NotificationTemplate';
 export * from './types/Notifications';
+export * from './types/Oauth';
 export * from './types/Oauth2';
 export * from './types/Public';
+export * from './types/Pulse';
 export * from './types/RiskManagement';
 export * from './types/Sse';
 export * from './types/Stats';

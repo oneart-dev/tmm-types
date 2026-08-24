@@ -11,6 +11,7 @@
 
 import {
   ControllersApiErrorResponse,
+  ControllersApiSuccessArrayServicesPaymentGateway,
   ControllersApiSuccessArrayServicesTransaction,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTransactionQuote,
@@ -80,6 +81,27 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
+   * @description Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted.
+   *
+   * @tags transactions
+   * @name GatewaysList
+   * @summary List Payment Gateways
+   * @request GET:/transactions/gateways
+   * @secure
+   */
+  gatewaysList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessArrayServicesPaymentGateway,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/transactions/gateways`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Retrieves a list of pending transactions that have not yet been processed and can be canceled by the user.
    *
    * @tags transactions
@@ -117,6 +139,8 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       level: string;
       /** Billing months */
       months: number;
+      /** Credit the user's available referral cash against the total */
+      apply_referral_cash?: boolean;
     },
     params: RequestParams = {},
   ) =>
