@@ -19,12 +19,13 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class UiData<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Retrieves UI data, which acts as a form of persistent local storage for the frontend.
+   * @description DEPRECATED for /app2/ — use /ui-prefs. Kept unchanged for white-label deployments. Retrieves UI data, which acts as a form of persistent local storage for the frontend.
    *
    * @tags ui-data
    * @name UiDataList
    * @summary Get UI Data
    * @request GET:/ui-data
+   * @deprecated
    * @secure
    */
   uiDataList = (params: RequestParams = {}) =>
@@ -37,12 +38,13 @@ export class UiData<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Saves UI data, which acts as a form of persistent local storage for the frontend.
+   * @description DEPRECATED for /app2/ — use /ui-prefs. Kept unchanged for white-label deployments. Saves UI data, which acts as a form of persistent local storage for the frontend.
    *
    * @tags ui-data
    * @name UiDataUpdate
    * @summary Save UI Data
    * @request PUT:/ui-data
+   * @deprecated
    * @secure
    */
   uiDataUpdate = (payload: DtoUIData, params: RequestParams = {}) =>

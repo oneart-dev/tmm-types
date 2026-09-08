@@ -449,6 +449,18 @@ export interface ControllersApiSuccessServicesTransactionQuote {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesUserPrefsPage {
+  data?: ServicesUserPrefsPage;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesUserPrefsWriteResult {
+  data?: ServicesUserPrefsWriteResult;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesWidgetPreviewResponse {
   data?: ServicesWidgetPreviewResponse;
   /** @example "success" */
@@ -848,6 +860,11 @@ export interface ControllersOrdersListResponse {
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
   trades?: ServicesTrade[];
+  /**
+   * Truncated is true when the trade list was cut at
+   * services.DayOrdersMaxTrades; the caller should narrow the range.
+   */
+  truncated?: boolean;
 }
 
 export interface ControllersPnlEntry {
@@ -1450,6 +1467,13 @@ export interface DtoChatQuotaExhaustedResponse {
 }
 
 export interface DtoChatSendMessageRequest {
+  /**
+   * Effort selects how hard the coach works on this question. One of
+   * "medium" (default), "high", "xhigh". Higher levels call more tools,
+   * reason longer, and consume proportionally more of the monthly quota.
+   * @example "medium"
+   */
+  effort?: "medium" | "high" | "xhigh";
   /**
    * PageContext is optional. When present and page=="summary", the backend
    * enriches the system prompt with the current dashboard, its widgets, and
@@ -2915,6 +2939,30 @@ export interface DtoUserNoteUpdateForm {
   date_to?: string;
   tag_ids?: number[];
   title?: string;
+}
+
+export interface DtoUserPrefItemForm {
+  /**
+   * @minLength 1
+   * @maxLength 191
+   * @example "theme.mode"
+   */
+  k: string;
+  /** @example "dark" */
+  v?: string;
+}
+
+export interface DtoUserPrefsForm {
+  /**
+   * @maxItems 100
+   * @minItems 1
+   */
+  items: DtoUserPrefItemForm[];
+  /**
+   * @maxLength 64
+   * @example "6f1c…"
+   */
+  origin?: string;
 }
 
 export interface DtoUserReferralCode {
@@ -4456,6 +4504,12 @@ export interface ServicesPublicProfile {
   status?: ServicesPublicProfileStatus;
   telegram?: string;
   top_trader_api_key_id?: number;
+  /**
+   * TopTraderAppliedAt is the leaderboard participation cutoff in unix ms —
+   * the moment TopTraderApiKeyID was nominated. Scoring ignores trades that
+   * closed before it. 0 means never nominated.
+   */
+  top_trader_applied_at?: number;
   tops?: ServicesTop[];
   twitch?: string;
   twitter?: string;
@@ -4779,6 +4833,7 @@ export interface ServicesSSEFeedNotificationEventCatalog {
   "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
   "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
+  "ui-prefs"?: ServicesUIPrefsSSEPayload;
 }
 
 export interface ServicesSSETradeEventCatalog {
@@ -4897,11 +4952,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5729,6 +5784,11 @@ export interface ServicesUIData {
   user_id?: number;
 }
 
+export interface ServicesUIPrefsSSEPayload {
+  items?: ServicesUserPref[];
+  origin?: string;
+}
+
 export interface ServicesUnSafeUser {
   avatar?: ServicesFile;
   email?: string;
@@ -5758,6 +5818,28 @@ export interface ServicesUserNote {
   title?: string;
   updated_at?: string;
   user_id?: number;
+}
+
+export interface ServicesUserPref {
+  deleted?: boolean;
+  k?: string;
+  ts?: number;
+  v?: string;
+}
+
+export interface ServicesUserPrefApplied {
+  k?: string;
+  ts?: number;
+}
+
+export interface ServicesUserPrefsPage {
+  items?: ServicesUserPref[];
+  server_time?: number;
+}
+
+export interface ServicesUserPrefsWriteResult {
+  applied?: ServicesUserPrefApplied[];
+  server_time?: number;
 }
 
 export interface ServicesUserReferralSummary {

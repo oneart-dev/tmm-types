@@ -44,6 +44,7 @@ export * from './types/Transaction';
 export * from './types/Transactions';
 export * from './types/Transcribe';
 export * from './types/UiData';
+export * from './types/UiPrefs';
 export * from './types/User';
 export * from './types/Users';
 export * from './types/data-contracts';

@@ -301,6 +301,14 @@ export interface ControllersApiSuccessServicesTransactionQuote {
     data?: ServicesTransactionQuote;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesUserPrefsPage {
+    data?: ServicesUserPrefsPage;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesUserPrefsWriteResult {
+    data?: ServicesUserPrefsWriteResult;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesWidgetPreviewResponse {
     data?: ServicesWidgetPreviewResponse;
     status?: ControllersResponseStatusMessage;
@@ -547,6 +555,7 @@ export interface ControllersOrdersListResponse {
     data?: ServicesOrder[];
     status?: ControllersResponseStatusMessage;
     trades?: ServicesTrade[];
+    truncated?: boolean;
 }
 export interface ControllersPnlEntry {
     counter?: number;
@@ -832,6 +841,7 @@ export interface DtoChatQuotaExhaustedResponse {
     status?: "error";
 }
 export interface DtoChatSendMessageRequest {
+    effort?: "medium" | "high" | "xhigh";
     page_context?: DtoChatPageContext;
     question: string;
 }
@@ -1388,6 +1398,14 @@ export interface DtoUserNoteUpdateForm {
     date_to?: string;
     tag_ids?: number[];
     title?: string;
+}
+export interface DtoUserPrefItemForm {
+    k: string;
+    v?: string;
+}
+export interface DtoUserPrefsForm {
+    items: DtoUserPrefItemForm[];
+    origin?: string;
 }
 export interface DtoUserReferralCode {
     referral_code: string;
@@ -2480,6 +2498,7 @@ export interface ServicesPublicProfile {
     status?: ServicesPublicProfileStatus;
     telegram?: string;
     top_trader_api_key_id?: number;
+    top_trader_applied_at?: number;
     tops?: ServicesTop[];
     twitch?: string;
     twitter?: string;
@@ -2726,6 +2745,7 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
     "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
+    "ui-prefs"?: ServicesUIPrefsSSEPayload;
 }
 export interface ServicesSSETradeEventCatalog {
     trade?: ServicesTradeSSEPayload;
@@ -2815,11 +2835,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3504,6 +3524,10 @@ export interface ServicesUIData {
     id?: number;
     user_id?: number;
 }
+export interface ServicesUIPrefsSSEPayload {
+    items?: ServicesUserPref[];
+    origin?: string;
+}
 export interface ServicesUnSafeUser {
     avatar?: ServicesFile;
     email?: string;
@@ -3529,6 +3553,24 @@ export interface ServicesUserNote {
     title?: string;
     updated_at?: string;
     user_id?: number;
+}
+export interface ServicesUserPref {
+    deleted?: boolean;
+    k?: string;
+    ts?: number;
+    v?: string;
+}
+export interface ServicesUserPrefApplied {
+    k?: string;
+    ts?: number;
+}
+export interface ServicesUserPrefsPage {
+    items?: ServicesUserPref[];
+    server_time?: number;
+}
+export interface ServicesUserPrefsWriteResult {
+    applied?: ServicesUserPrefApplied[];
+    server_time?: number;
 }
 export interface ServicesUserReferralSummary {
     earn_amount?: string;
