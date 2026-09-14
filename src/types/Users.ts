@@ -36,6 +36,7 @@ import {
   DtoUserTheme,
   DtoUserUpdateForm,
   ServicesGuideProgress,
+  ServicesPublicProfileLayoutChunk,
   ServicesTradesListPagination,
   ServicesValidationErrorResponse,
 } from "./data-contracts";
@@ -166,6 +167,27 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       path: `/users/my-public-profile`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description This endpoint streams data using "Transfer-Encoding: chunked", allowing asynchronous loading of the owner's public-profile widgets in real-time. GET /users/my-public-profile returns the profile record with `serverData: null` on every layout entry — the widget payloads are served here instead, so the settings page renders immediately even when a widget query is slow. Each chunk of data is a JSON object representing one layout entry's data or errors, keyed by `i` — the grid item id from the layout the client already holds. The chunks are separated by the custom delimiter "\x02\x03\x04END\x04\x03\x02". Clients should accumulate the streamed data until this delimiter is encountered. Once the delimiter is detected, the client can safely split the chunks, parse each JSON object, and assign the fields onto the matching layout entry. **Client-side logic**: - Listen for data chunks from the server. - Accumulate the response until the delimiter is detected. - Split the response using the delimiter and process each JSON chunk individually. - Match each chunk to a layout entry by `i`. - Handle potential parsing errors for incomplete or malformed JSON objects. **Note**: The widgets are loaded asynchronously, so the client should wait for all chunks to be received before assuming that all widget data is complete.
+   *
+   * @tags users
+   * @name MyPublicProfileLoadList
+   * @summary Load Own Public Profile Widgets Asynchronously
+   * @request GET:/users/my-public-profile/load
+   * @secure
+   */
+  myPublicProfileLoadList = (params: RequestParams = {}) =>
+    this.request<
+      ServicesPublicProfileLayoutChunk,
+      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+    >({
+      path: `/users/my-public-profile/load`,
+      method: "GET",
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

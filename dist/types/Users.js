@@ -59,6 +59,14 @@ export class Users extends HttpClient {
             format: "json",
             ...params,
         });
+        this.myPublicProfileLoadList = (params = {}) => this.request({
+            path: `/users/my-public-profile/load`,
+            method: "GET",
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.promoCodesApplyCreate = (payload, params = {}) => this.request({
             path: `/users/promo-codes/apply`,
             method: "POST",

@@ -2309,7 +2309,8 @@ export declare enum ServicesOrderType {
     OrderTypeLimit = "LIMIT",
     OrderTypeMarket = "MARKET",
     OrderTypeFunding = "FUNDING",
-    OrderTypeLiquidation = "LIQUIDATION"
+    OrderTypeLiquidation = "LIQUIDATION",
+    OrderTypeConvert = "CONVERT"
 }
 export declare enum ServicesOrigType {
     OrderOrigTypeReverse = "REVERSE",
@@ -2522,6 +2523,13 @@ export interface ServicesPublicProfileLayout {
     w?: number;
     x?: number;
     y?: number;
+}
+export interface ServicesPublicProfileLayoutChunk {
+    effectiveGroupBy?: string;
+    errors?: string[];
+    groupByAuto?: boolean;
+    i?: number;
+    serverData?: string;
 }
 export declare enum ServicesPublicProfileShowTrades {
     PublicProfileShowTradesDisabled = 0,

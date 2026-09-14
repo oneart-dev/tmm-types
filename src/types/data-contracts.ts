@@ -4202,6 +4202,7 @@ export enum ServicesOrderType {
   OrderTypeMarket = "MARKET",
   OrderTypeFunding = "FUNDING",
   OrderTypeLiquidation = "LIQUIDATION",
+  OrderTypeConvert = "CONVERT",
 }
 
 export enum ServicesOrigType {
@@ -4539,6 +4540,14 @@ export interface ServicesPublicProfileLayout {
   w?: number;
   x?: number;
   y?: number;
+}
+
+export interface ServicesPublicProfileLayoutChunk {
+  effectiveGroupBy?: string;
+  errors?: string[];
+  groupByAuto?: boolean;
+  i?: number;
+  serverData?: string;
 }
 
 /** @format int32 */

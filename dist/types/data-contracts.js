@@ -241,6 +241,7 @@ export var ServicesOrderType;
     ServicesOrderType["OrderTypeMarket"] = "MARKET";
     ServicesOrderType["OrderTypeFunding"] = "FUNDING";
     ServicesOrderType["OrderTypeLiquidation"] = "LIQUIDATION";
+    ServicesOrderType["OrderTypeConvert"] = "CONVERT";
 })(ServicesOrderType || (ServicesOrderType = {}));
 export var ServicesOrigType;
 (function (ServicesOrigType) {
