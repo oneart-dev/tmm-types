@@ -1091,7 +1091,6 @@ export interface DtoPublicProfileUpdateForm {
     status: number;
     telegram?: string;
     top_trader?: number;
-    top_trader_api_key_id?: number;
     twitch?: string;
     twitter?: string;
     url: string;
@@ -2498,8 +2497,7 @@ export interface ServicesPublicProfile {
     start_at?: number;
     status?: ServicesPublicProfileStatus;
     telegram?: string;
-    top_trader_api_key_id?: number;
-    top_trader_applied_at?: number;
+    top_trader?: number;
     tops?: ServicesTop[];
     twitch?: string;
     twitter?: string;
@@ -3641,7 +3639,6 @@ export interface ServicesUserWithRelations {
     theme?: number;
     timezone?: string;
     top_trader?: number;
-    top_trader_api_key_id?: number;
     trial_active?: boolean;
     trial_available?: boolean;
 }

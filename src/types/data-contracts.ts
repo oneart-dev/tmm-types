@@ -2144,11 +2144,6 @@ export interface DtoPublicProfileUpdateForm {
    */
   top_trader?: number;
   /**
-   * @min 1
-   * @example 100
-   */
-  top_trader_api_key_id?: number;
-  /**
    * @minLength 2
    * @maxLength 255
    * @example "username"
@@ -4504,13 +4499,12 @@ export interface ServicesPublicProfile {
    */
   status?: ServicesPublicProfileStatus;
   telegram?: string;
-  top_trader_api_key_id?: number;
   /**
-   * TopTraderAppliedAt is the leaderboard participation cutoff in unix ms —
-   * the moment TopTraderApiKeyID was nominated. Scoring ignores trades that
-   * closed before it. 0 means never nominated.
+   * TopTrader is the Top Traders opt-in flag: 1 = this profile takes part and
+   * EVERY api key published on it is scored. It is the only participation
+   * field in the API contract.
    */
-  top_trader_applied_at?: number;
+  top_trader?: number;
   tops?: ServicesTop[];
   twitch?: string;
   twitter?: string;
@@ -5946,7 +5940,6 @@ export interface ServicesUserWithRelations {
   theme?: number;
   timezone?: string;
   top_trader?: number;
-  top_trader_api_key_id?: number;
   trial_active?: boolean;
   trial_available?: boolean;
 }
