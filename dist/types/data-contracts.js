@@ -142,6 +142,15 @@ export var ServicesExchangeRequestSource;
     ServicesExchangeRequestSource["ExchangeRequestSourceGrid"] = "grid";
     ServicesExchangeRequestSource["ExchangeRequestSourceRescue"] = "rescue";
 })(ServicesExchangeRequestSource || (ServicesExchangeRequestSource = {}));
+export var ServicesExitType;
+(function (ServicesExitType) {
+    ServicesExitType[ServicesExitType["ExitTypeStop"] = 1] = "ExitTypeStop";
+    ServicesExitType[ServicesExitType["ExitTypeTakeProfit"] = 2] = "ExitTypeTakeProfit";
+    ServicesExitType[ServicesExitType["ExitTypeLimit"] = 3] = "ExitTypeLimit";
+    ServicesExitType[ServicesExitType["ExitTypeMarket"] = 4] = "ExitTypeMarket";
+    ServicesExitType[ServicesExitType["ExitTypeLiquidation"] = 5] = "ExitTypeLiquidation";
+    ServicesExitType[ServicesExitType["ExitTypeOther"] = 6] = "ExitTypeOther";
+})(ServicesExitType || (ServicesExitType = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {
     ServicesFeedNotificationKind["FeedNotificationKindNotification"] = "notification";
@@ -180,6 +189,17 @@ export var ServicesHistoryLimitKind;
     ServicesHistoryLimitKind["HistoryLimitKindDays"] = "days";
     ServicesHistoryLimitKind["HistoryLimitKindOrders"] = "orders";
 })(ServicesHistoryLimitKind || (ServicesHistoryLimitKind = {}));
+export var ServicesInitialStopSource;
+(function (ServicesInitialStopSource) {
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceAttached"] = 1] = "StopSourceAttached";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceOrderHistory"] = 2] = "StopSourceOrderHistory";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceSnapshot"] = 3] = "StopSourceSnapshot";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceStreamLatch"] = 4] = "StopSourceStreamLatch";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceManual"] = 5] = "StopSourceManual";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceGenerated"] = 6] = "StopSourceGenerated";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceNoneSet"] = 7] = "StopSourceNoneSet";
+    ServicesInitialStopSource[ServicesInitialStopSource["StopSourceUnobtainable"] = 8] = "StopSourceUnobtainable";
+})(ServicesInitialStopSource || (ServicesInitialStopSource = {}));
 export var ServicesLeagueDecision;
 (function (ServicesLeagueDecision) {
     ServicesLeagueDecision[ServicesLeagueDecision["LeagueDecisionGain"] = 1] = "LeagueDecisionGain";

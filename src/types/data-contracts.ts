@@ -2144,6 +2144,11 @@ export interface DtoPublicProfileUpdateForm {
    */
   top_trader?: number;
   /**
+   * @min 1
+   * @example 100
+   */
+  top_trader_api_key_id?: number;
+  /**
    * @minLength 2
    * @maxLength 255
    * @example "username"
@@ -3470,6 +3475,16 @@ export interface ServicesExchangeRequestsAdminSummary {
   top?: ServicesExchangeRequestTop[];
 }
 
+/** @format int32 */
+export enum ServicesExitType {
+  ExitTypeStop = 1,
+  ExitTypeTakeProfit = 2,
+  ExitTypeLimit = 3,
+  ExitTypeMarket = 4,
+  ExitTypeLiquidation = 5,
+  ExitTypeOther = 6,
+}
+
 export interface ServicesFeedNotification {
   /**
    * AudienceMemberships is the list of tiers this notification targets.
@@ -3948,6 +3963,18 @@ export enum ServicesHistoryLimitKind {
   HistoryLimitKindFull = "full",
   HistoryLimitKindDays = "days",
   HistoryLimitKindOrders = "orders",
+}
+
+/** @format int32 */
+export enum ServicesInitialStopSource {
+  StopSourceAttached = 1,
+  StopSourceOrderHistory = 2,
+  StopSourceSnapshot = 3,
+  StopSourceStreamLatch = 4,
+  StopSourceManual = 5,
+  StopSourceGenerated = 6,
+  StopSourceNoneSet = 7,
+  StopSourceUnobtainable = 8,
 }
 
 export interface ServicesKline {
@@ -4499,12 +4526,13 @@ export interface ServicesPublicProfile {
    */
   status?: ServicesPublicProfileStatus;
   telegram?: string;
+  top_trader_api_key_id?: number;
   /**
-   * TopTrader is the Top Traders opt-in flag: 1 = this profile takes part and
-   * EVERY api key published on it is scored. It is the only participation
-   * field in the API contract.
+   * TopTraderAppliedAt is the leaderboard participation cutoff in unix ms —
+   * the moment TopTraderApiKeyID was nominated. Scoring ignores trades that
+   * closed before it. 0 means never nominated.
    */
-  top_trader?: number;
+  top_trader_applied_at?: number;
   tops?: ServicesTop[];
   twitch?: string;
   twitter?: string;
@@ -5191,6 +5219,7 @@ export interface ServicesTopWinner {
 }
 
 export interface ServicesTrade {
+  added_to_loser?: boolean;
   api_key_id?: number;
   archive?: number;
   avg_price_entry?: string;
@@ -5199,6 +5228,12 @@ export interface ServicesTrade {
   category_name?: string;
   close_time?: number;
   closed_value?: string;
+  /**
+   * EntryValue is the entry-side notional in USD: everything put into the
+   * position over its life (volume - closed_value). Read from a virtual DB
+   * column; Recalculate does not set it.
+   */
+  entry_value?: string;
   commission?: string;
   commission_asset?: string;
   conclusion?: string;
@@ -5211,22 +5246,42 @@ export interface ServicesTrade {
    */
   display_name?: string;
   duration?: number;
+  entry_fills?: number;
   exchange_id?: ServicesExchangeID;
   exit_reason?: string;
+  exit_type?: ServicesExitType;
   funding?: string;
   id?: number;
   images?: ServicesFile[];
+  initial_risk_usd?: string;
+  initial_stop_at?: number;
+  initial_stop_price?: string;
+  initial_stop_source?: ServicesInitialStopSource;
+  initial_tp_price?: string;
   leverage?: string;
+  mae_first?: boolean;
+  mae_time?: number;
+  mae_usd?: string;
   max_loose_percent?: string;
   max_win_percent?: string;
   mentor_note?: number;
   mentor_notes?: ServicesMentorNote[];
+  metrics_version?: number;
+  mfe_time?: number;
+  mfe_usd?: string;
   multiplier?: ServicesTradeMultiplier;
   net_profit?: string;
   open_qty?: string;
   open_time?: number;
   /** SubAccount       string          `json:"sub_account"` */
   orders?: ServicesOrder[];
+  partial_exit_pct?: string;
+  /**
+   * PeakQtyUsd is the cost basis of the largest position held at once:
+   * max over the fill replay of open_qty × avg_entry. NULL where the fill
+   * units are not USD (inverse-sized, alt-coin quote).
+   */
+  peak_qty_usd?: string;
   peak_qty?: string;
   percent?: string;
   process?: ServicesTradeProcess;
@@ -5234,6 +5289,7 @@ export interface ServicesTrade {
   qty?: string;
   realized_pnl?: string;
   risk_management_log?: ServicesRiskManagementLog[];
+  risk_pct_at_open?: string;
   short_url?: ServicesShortUrl;
   side?: ServicesTradeSide;
   symbol?: string;
@@ -5516,6 +5572,7 @@ export enum ServicesTradeProcess {
 }
 
 export interface ServicesTradeSSEPayload {
+  added_to_loser?: boolean;
   api_key_id?: number;
   archive?: number;
   avg_price_entry?: string;
@@ -5524,6 +5581,12 @@ export interface ServicesTradeSSEPayload {
   category_name?: string;
   close_time?: number;
   closed_value?: string;
+  /**
+   * EntryValue is the entry-side notional in USD: everything put into the
+   * position over its life (volume - closed_value). Read from a virtual DB
+   * column; Recalculate does not set it.
+   */
+  entry_value?: string;
   commission?: string;
   commission_asset?: string;
   conclusion?: string;
@@ -5536,16 +5599,29 @@ export interface ServicesTradeSSEPayload {
    */
   display_name?: string;
   duration?: number;
+  entry_fills?: number;
   exchange_id?: ServicesExchangeID;
   exit_reason?: string;
+  exit_type?: ServicesExitType;
   funding?: string;
   id?: number;
   images?: ServicesFile[];
+  initial_risk_usd?: string;
+  initial_stop_at?: number;
+  initial_stop_price?: string;
+  initial_stop_source?: ServicesInitialStopSource;
+  initial_tp_price?: string;
   leverage?: string;
+  mae_first?: boolean;
+  mae_time?: number;
+  mae_usd?: string;
   max_loose_percent?: string;
   max_win_percent?: string;
   mentor_note?: number;
   mentor_notes?: ServicesMentorNote[];
+  metrics_version?: number;
+  mfe_time?: number;
+  mfe_usd?: string;
   multiplier?: ServicesTradeMultiplier;
   net_profit?: string;
   open_qty?: string;
@@ -5553,6 +5629,13 @@ export interface ServicesTradeSSEPayload {
   orders?: ServicesOrder[];
   orders_total?: number;
   orders_truncated?: boolean;
+  partial_exit_pct?: string;
+  /**
+   * PeakQtyUsd is the cost basis of the largest position held at once:
+   * max over the fill replay of open_qty × avg_entry. NULL where the fill
+   * units are not USD (inverse-sized, alt-coin quote).
+   */
+  peak_qty_usd?: string;
   payload_truncated?: boolean;
   peak_qty?: string;
   percent?: string;
@@ -5561,6 +5644,7 @@ export interface ServicesTradeSSEPayload {
   qty?: string;
   realized_pnl?: string;
   risk_management_log?: ServicesRiskManagementLog[];
+  risk_pct_at_open?: string;
   short_url?: ServicesShortUrl;
   side?: ServicesTradeSide;
   symbol?: string;
@@ -5940,6 +6024,7 @@ export interface ServicesUserWithRelations {
   theme?: number;
   timezone?: string;
   top_trader?: number;
+  top_trader_api_key_id?: number;
   trial_active?: boolean;
   trial_available?: boolean;
 }

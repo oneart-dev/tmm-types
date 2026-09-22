@@ -1091,6 +1091,7 @@ export interface DtoPublicProfileUpdateForm {
     status: number;
     telegram?: string;
     top_trader?: number;
+    top_trader_api_key_id?: number;
     twitch?: string;
     twitter?: string;
     url: string;
@@ -1776,6 +1777,14 @@ export interface ServicesExchangeRequestsAdminSummary {
     recent?: ServicesExchangeRequestRecent[];
     top?: ServicesExchangeRequestTop[];
 }
+export declare enum ServicesExitType {
+    ExitTypeStop = 1,
+    ExitTypeTakeProfit = 2,
+    ExitTypeLimit = 3,
+    ExitTypeMarket = 4,
+    ExitTypeLiquidation = 5,
+    ExitTypeOther = 6
+}
 export interface ServicesFeedNotification {
     audience_memberships?: string[];
     created_at?: string;
@@ -2096,6 +2105,16 @@ export declare enum ServicesHistoryLimitKind {
     HistoryLimitKindFull = "full",
     HistoryLimitKindDays = "days",
     HistoryLimitKindOrders = "orders"
+}
+export declare enum ServicesInitialStopSource {
+    StopSourceAttached = 1,
+    StopSourceOrderHistory = 2,
+    StopSourceSnapshot = 3,
+    StopSourceStreamLatch = 4,
+    StopSourceManual = 5,
+    StopSourceGenerated = 6,
+    StopSourceNoneSet = 7,
+    StopSourceUnobtainable = 8
 }
 export interface ServicesKline {
     close?: number;
@@ -2497,7 +2516,8 @@ export interface ServicesPublicProfile {
     start_at?: number;
     status?: ServicesPublicProfileStatus;
     telegram?: string;
-    top_trader?: number;
+    top_trader_api_key_id?: number;
+    top_trader_applied_at?: number;
     tops?: ServicesTop[];
     twitch?: string;
     twitter?: string;
@@ -3029,6 +3049,7 @@ export interface ServicesTopWinner {
     wins?: ServicesTopUserWin[];
 }
 export interface ServicesTrade {
+    added_to_loser?: boolean;
     api_key_id?: number;
     archive?: number;
     avg_price_entry?: string;
@@ -3037,6 +3058,7 @@ export interface ServicesTrade {
     category_name?: string;
     close_time?: number;
     closed_value?: string;
+    entry_value?: string;
     commission?: string;
     commission_asset?: string;
     conclusion?: string;
@@ -3044,21 +3066,36 @@ export interface ServicesTrade {
     description?: string;
     display_name?: string;
     duration?: number;
+    entry_fills?: number;
     exchange_id?: ServicesExchangeID;
     exit_reason?: string;
+    exit_type?: ServicesExitType;
     funding?: string;
     id?: number;
     images?: ServicesFile[];
+    initial_risk_usd?: string;
+    initial_stop_at?: number;
+    initial_stop_price?: string;
+    initial_stop_source?: ServicesInitialStopSource;
+    initial_tp_price?: string;
     leverage?: string;
+    mae_first?: boolean;
+    mae_time?: number;
+    mae_usd?: string;
     max_loose_percent?: string;
     max_win_percent?: string;
     mentor_note?: number;
     mentor_notes?: ServicesMentorNote[];
+    metrics_version?: number;
+    mfe_time?: number;
+    mfe_usd?: string;
     multiplier?: ServicesTradeMultiplier;
     net_profit?: string;
     open_qty?: string;
     open_time?: number;
     orders?: ServicesOrder[];
+    partial_exit_pct?: string;
+    peak_qty_usd?: string;
     peak_qty?: string;
     percent?: string;
     process?: ServicesTradeProcess;
@@ -3066,6 +3103,7 @@ export interface ServicesTrade {
     qty?: string;
     realized_pnl?: string;
     risk_management_log?: ServicesRiskManagementLog[];
+    risk_pct_at_open?: string;
     short_url?: ServicesShortUrl;
     side?: ServicesTradeSide;
     symbol?: string;
@@ -3320,6 +3358,7 @@ export declare enum ServicesTradeProcess {
     TradeProcessCompleted = 3
 }
 export interface ServicesTradeSSEPayload {
+    added_to_loser?: boolean;
     api_key_id?: number;
     archive?: number;
     avg_price_entry?: string;
@@ -3328,6 +3367,7 @@ export interface ServicesTradeSSEPayload {
     category_name?: string;
     close_time?: number;
     closed_value?: string;
+    entry_value?: string;
     commission?: string;
     commission_asset?: string;
     conclusion?: string;
@@ -3335,16 +3375,29 @@ export interface ServicesTradeSSEPayload {
     description?: string;
     display_name?: string;
     duration?: number;
+    entry_fills?: number;
     exchange_id?: ServicesExchangeID;
     exit_reason?: string;
+    exit_type?: ServicesExitType;
     funding?: string;
     id?: number;
     images?: ServicesFile[];
+    initial_risk_usd?: string;
+    initial_stop_at?: number;
+    initial_stop_price?: string;
+    initial_stop_source?: ServicesInitialStopSource;
+    initial_tp_price?: string;
     leverage?: string;
+    mae_first?: boolean;
+    mae_time?: number;
+    mae_usd?: string;
     max_loose_percent?: string;
     max_win_percent?: string;
     mentor_note?: number;
     mentor_notes?: ServicesMentorNote[];
+    metrics_version?: number;
+    mfe_time?: number;
+    mfe_usd?: string;
     multiplier?: ServicesTradeMultiplier;
     net_profit?: string;
     open_qty?: string;
@@ -3352,6 +3405,8 @@ export interface ServicesTradeSSEPayload {
     orders?: ServicesOrder[];
     orders_total?: number;
     orders_truncated?: boolean;
+    partial_exit_pct?: string;
+    peak_qty_usd?: string;
     payload_truncated?: boolean;
     peak_qty?: string;
     percent?: string;
@@ -3360,6 +3415,7 @@ export interface ServicesTradeSSEPayload {
     qty?: string;
     realized_pnl?: string;
     risk_management_log?: ServicesRiskManagementLog[];
+    risk_pct_at_open?: string;
     short_url?: ServicesShortUrl;
     side?: ServicesTradeSide;
     symbol?: string;
@@ -3639,6 +3695,7 @@ export interface ServicesUserWithRelations {
     theme?: number;
     timezone?: string;
     top_trader?: number;
+    top_trader_api_key_id?: number;
     trial_active?: boolean;
     trial_available?: boolean;
 }
