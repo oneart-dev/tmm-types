@@ -4,6 +4,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
     boardList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesDashboard, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     boardUpdate: (payload: DtoDashboardCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesDashboard, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     counterDashboardDetail: (id: number, query?: {
+        addedToLoser?: "0" | "1" | undefined;
         api_key_id?: number[] | undefined;
         api_key_id_params?: "not:" | undefined;
         avgTrades15m6h?: string | undefined;
@@ -22,8 +23,14 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         category_params?: "not:" | undefined;
         closeBetween?: string | undefined;
         daysOfWeek?: number[] | undefined;
+        dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        entryLegsBetween?: string | undefined;
+        entryValueBetween?: string | undefined;
+        exitLegsBetween?: string | undefined;
+        exitType?: number[] | undefined;
+        exitType_params?: "not:" | undefined;
         exit_tags?: number[] | undefined;
         exit_tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
@@ -36,11 +43,15 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         ids?: number[] | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
+        maePctBalanceBetween?: string | undefined;
+        maeUsdBetween?: string | undefined;
         mfeBetween?: string | undefined;
+        mfeUsdBetween?: string | undefined;
         multiplier?: string | undefined;
         natr1m30?: string | undefined;
         natr5m14?: string | undefined;
         openBetween?: string | undefined;
+        peakUsdBetween?: string | undefined;
         percentBetween?: string | undefined;
         priceRange12h?: string | undefined;
         priceRange15m?: string | undefined;
@@ -101,6 +112,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         with_archive?: boolean | undefined;
     } | undefined, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessInt64, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     counterWidgetDetail: (id: number, query?: {
+        addedToLoser?: "0" | "1" | undefined;
         api_key_id?: number[] | undefined;
         api_key_id_params?: "not:" | undefined;
         avgTrades15m6h?: string | undefined;
@@ -119,8 +131,14 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         category_params?: "not:" | undefined;
         closeBetween?: string | undefined;
         daysOfWeek?: number[] | undefined;
+        dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        entryLegsBetween?: string | undefined;
+        entryValueBetween?: string | undefined;
+        exitLegsBetween?: string | undefined;
+        exitType?: number[] | undefined;
+        exitType_params?: "not:" | undefined;
         exit_tags?: number[] | undefined;
         exit_tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
@@ -133,11 +151,15 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         ids?: number[] | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
+        maePctBalanceBetween?: string | undefined;
+        maeUsdBetween?: string | undefined;
         mfeBetween?: string | undefined;
+        mfeUsdBetween?: string | undefined;
         multiplier?: string | undefined;
         natr1m30?: string | undefined;
         natr5m14?: string | undefined;
         openBetween?: string | undefined;
+        peakUsdBetween?: string | undefined;
         percentBetween?: string | undefined;
         priceRange12h?: string | undefined;
         priceRange15m?: string | undefined;
@@ -201,6 +223,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
     layoutInstallCreate: (code: string, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesDashboard, string | ControllersApiErrorResponse | ControllersApiWarningResponse | ControllersUnauthorizedResponse>>;
     layoutsList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesDashboard, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     previewWidgetDetail: (id: number, query?: {
+        addedToLoser?: "0" | "1" | undefined;
         api_key_id?: number[] | undefined;
         api_key_id_params?: "not:" | undefined;
         avgTrades15m6h?: string | undefined;
@@ -219,8 +242,14 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         category_params?: "not:" | undefined;
         closeBetween?: string | undefined;
         daysOfWeek?: number[] | undefined;
+        dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        entryLegsBetween?: string | undefined;
+        entryValueBetween?: string | undefined;
+        exitLegsBetween?: string | undefined;
+        exitType?: number[] | undefined;
+        exitType_params?: "not:" | undefined;
         exit_tags?: number[] | undefined;
         exit_tags_params?: "not:" | "all:" | "not:all:" | "only:" | undefined;
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty" | undefined;
@@ -233,11 +262,15 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         ids?: number[] | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
+        maePctBalanceBetween?: string | undefined;
+        maeUsdBetween?: string | undefined;
         mfeBetween?: string | undefined;
+        mfeUsdBetween?: string | undefined;
         multiplier?: string | undefined;
         natr1m30?: string | undefined;
         natr5m14?: string | undefined;
         openBetween?: string | undefined;
+        peakUsdBetween?: string | undefined;
         percentBetween?: string | undefined;
         priceRange12h?: string | undefined;
         priceRange15m?: string | undefined;

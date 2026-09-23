@@ -352,11 +352,11 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -644,6 +644,11 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceWorstPercent"] = "worst_percent";
     ServicesWidgetSource["WidgetSourceBestPercent"] = "best_percent";
     ServicesWidgetSource["WidgetSourceLongShort"] = "pie_side";
+    ServicesWidgetSource["WidgetSourceProfitLeftOnTable"] = "profit_left_on_table";
+    ServicesWidgetSource["WidgetSourceDipBeforePeakSplit"] = "dip_before_peak_split";
+    ServicesWidgetSource["WidgetSourceExitTypeSplit"] = "exit_type_split";
+    ServicesWidgetSource["WidgetSourceAddedToLoserSplit"] = "added_to_loser_split";
+    ServicesWidgetSource["WidgetSourceMaePctBalanceAvg"] = "mae_pct_balance_avg";
 })(ServicesWidgetSource || (ServicesWidgetSource = {}));
 export var ServicesWidgetType;
 (function (ServicesWidgetType) {

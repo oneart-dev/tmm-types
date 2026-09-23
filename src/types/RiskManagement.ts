@@ -93,6 +93,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
        * @default "optimistic"
        */
       mode?: "optimistic" | "realistic";
+      /**
+       * "1" - a leg was added while the position was losing, "0" - never.
+       * "true" / "false" are accepted too. Empty - any.
+       */
+      addedToLoser?: "1" | "0";
       api_key_id?: number[];
       /**
        * string based params separated by ":"
@@ -150,12 +155,40 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
        */
       daysOfWeek?: number[];
       /**
+       * Dip before the peak, percent of MFE.
+       * @example "0,50"
+       */
+      dipBeforePeakBetween?: string;
+      /**
        * Duration specified in milliseconds
        * Example: 1000,10000 - trades with duration between 1 and 10 seconds
        */
       durationBetween?: string;
       /** @example "today" */
       durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      /**
+       * Number of legs that grew the position.
+       * @example "2,"
+       */
+      entryLegsBetween?: string;
+      /**
+       * Entry value (notional at entry) in USD.
+       * @example "100,5000"
+       */
+      entryValueBetween?: string;
+      /**
+       * Number of legs that reduced the position.
+       * @example "1,3"
+       */
+      exitLegsBetween?: string;
+      /**
+       * Exit type codes: 1=stop, 2=take profit, 3=limit, 4=market,
+       * 5=liquidation, 6=other.
+       * @example [1]
+       */
+      exitType?: number[];
+      /** "not:" - exclude trades with the exit types specified */
+      exitType_params?: "not:";
       /** Deprecated: prefer tag_groups with column=2. */
       exit_tags?: number[];
       /**
@@ -198,8 +231,23 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       leverageBetween?: string;
       /** @example "-0.5,-1.5" */
       maeBetween?: string;
+      /**
+       * Max adverse excursion as percent of the balance at open.
+       * @example "1,"
+       */
+      maePctBalanceBetween?: string;
+      /**
+       * Max adverse excursion in USD (negative).
+       * @example "-500,-10"
+       */
+      maeUsdBetween?: string;
       /** @example "0.5,1.5" */
       mfeBetween?: string;
+      /**
+       * Max favourable excursion in USD.
+       * @example "10,500"
+       */
+      mfeUsdBetween?: string;
       multiplier?: string;
       /** @example "0,2" */
       natr1m30?: string;
@@ -210,6 +258,11 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
       natr5m14?: string;
       /** @example "2019-01-01,2019-01-02" */
       openBetween?: string;
+      /**
+       * Peak position size in USD.
+       * @example "1000,"
+       */
+      peakUsdBetween?: string;
       /** @example "0.5,1.5" */
       percentBetween?: string;
       /** @example "-2,2" */

@@ -237,6 +237,10 @@ export interface ControllersApiSuccessServicesFilterPreset {
     data?: ServicesFilterPreset;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesMarketSubscribeResult {
+    data?: ServicesMarketSubscribeResult;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesNotificationTemplate {
     data?: ServicesNotificationTemplate;
     status?: ControllersResponseStatusMessage;
@@ -457,6 +461,17 @@ export interface ControllersLoginSuccessResponse {
     access_token?: string;
     expires_at?: number;
     status?: string;
+}
+export interface ControllersMarketStartData {
+    candles?: ServicesExchangeID[];
+    connection_id?: string;
+    limits?: ServicesMarketLimits;
+    prices?: ServicesExchangeID[];
+}
+export interface ControllersMarketSubscribeForm {
+    candles?: ServicesMarketPair[];
+    connection_id: string;
+    prices?: ServicesMarketPair[];
 }
 export interface ControllersMeSuccessResponse {
     data?: ServicesUserWithRelations;
@@ -1231,6 +1246,7 @@ export interface DtoTradeDrawingForm {
     user_id?: number;
 }
 export interface DtoTradeFilters {
+    addedToLoser?: "1" | "0";
     api_key_id?: number[];
     api_key_id_params?: "not:";
     avgTrades15m6h?: string;
@@ -1249,8 +1265,14 @@ export interface DtoTradeFilters {
     category_params?: "not:";
     closeBetween?: string;
     daysOfWeek?: number[];
+    dipBeforePeakBetween?: string;
     durationBetween?: string;
     durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+    entryLegsBetween?: string;
+    entryValueBetween?: string;
+    exitLegsBetween?: string;
+    exitType?: number[];
+    exitType_params?: "not:";
     exit_tags?: number[];
     exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
     extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
@@ -1263,11 +1285,15 @@ export interface DtoTradeFilters {
     ids?: number[];
     leverageBetween?: string;
     maeBetween?: string;
+    maePctBalanceBetween?: string;
+    maeUsdBetween?: string;
     mfeBetween?: string;
+    mfeUsdBetween?: string;
     multiplier?: string;
     natr1m30?: string;
     natr5m14?: string;
     openBetween?: string;
+    peakUsdBetween?: string;
     percentBetween?: string;
     priceRange12h?: string;
     priceRange15m?: string;
@@ -2214,6 +2240,21 @@ export declare enum ServicesLocale {
     LocaleId = "id",
     LocaleZh = "zh"
 }
+export interface ServicesMarketLimits {
+    candles?: number;
+    prices?: number;
+}
+export interface ServicesMarketPair {
+    e?: ServicesExchangeID;
+    s?: string;
+}
+export interface ServicesMarketSubscribeResult {
+    candles?: ServicesMarketPair[];
+    dropped?: ServicesMarketPair[];
+    prices?: ServicesMarketPair[];
+    rejected?: ServicesMarketPair[];
+    uncovered?: ServicesMarketPair[];
+}
 export declare enum ServicesMembership {
     LEVEL_NOVICE = "novice",
     LEVEL_NOVICE_PLUS = "novice_plus",
@@ -2861,11 +2902,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnConclusion = 3
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3239,6 +3280,7 @@ export declare enum ServicesTradeExtraInfoFilter {
     TradeExtraInfoFilterMentorNoteNotEmpty = "mentor_note:not-empty"
 }
 export interface ServicesTradeFilters {
+    addedToLoser?: string;
     api_key_id?: number[];
     api_key_id_params?: string;
     avgTrades15m6h?: string;
@@ -3258,8 +3300,14 @@ export interface ServicesTradeFilters {
     closeBetween?: string;
     daysOfWeek?: number[];
     daysOfWeek_params?: string;
+    dipBeforePeakBetween?: string;
     durationBetween?: string;
     durationType?: ServicesTradeDurationType;
+    entryLegsBetween?: string;
+    entryValueBetween?: string;
+    exitLegsBetween?: string;
+    exitType?: number[];
+    exitType_params?: string;
     exit_tags?: number[];
     exit_tags_params?: string;
     extraInfo?: ServicesTradeExtraInfoFilter;
@@ -3272,12 +3320,16 @@ export interface ServicesTradeFilters {
     ids?: number[];
     leverageBetween?: string;
     maeBetween?: string;
+    maePctBalanceBetween?: string;
+    maeUsdBetween?: string;
     mfeBetween?: string;
+    mfeUsdBetween?: string;
     multiplier?: string;
     natr1m30?: string;
     natr5m14?: string;
     openBetween?: string;
     orders_extended?: boolean;
+    peakUsdBetween?: string;
     percentBetween?: string;
     priceRange12h?: string;
     priceRange15m?: string;
@@ -3847,7 +3899,12 @@ export declare enum ServicesWidgetSource {
     WidgetSourceBestTrade = "best_usdt",
     WidgetSourceWorstPercent = "worst_percent",
     WidgetSourceBestPercent = "best_percent",
-    WidgetSourceLongShort = "pie_side"
+    WidgetSourceLongShort = "pie_side",
+    WidgetSourceProfitLeftOnTable = "profit_left_on_table",
+    WidgetSourceDipBeforePeakSplit = "dip_before_peak_split",
+    WidgetSourceExitTypeSplit = "exit_type_split",
+    WidgetSourceAddedToLoserSplit = "added_to_loser_split",
+    WidgetSourceMaePctBalanceAvg = "mae_pct_balance_avg"
 }
 export declare enum ServicesWidgetType {
     WidgetTypeChart = "chart",

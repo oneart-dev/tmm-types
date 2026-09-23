@@ -353,6 +353,12 @@ export interface ControllersApiSuccessServicesFilterPreset {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesMarketSubscribeResult {
+  data?: ServicesMarketSubscribeResult;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesNotificationTemplate {
   data?: ServicesNotificationTemplate;
   /** @example "success" */
@@ -702,6 +708,19 @@ export interface ControllersLoginSuccessResponse {
    * @example "success"
    */
   status?: string;
+}
+
+export interface ControllersMarketStartData {
+  candles?: ServicesExchangeID[];
+  connection_id?: string;
+  limits?: ServicesMarketLimits;
+  prices?: ServicesExchangeID[];
+}
+
+export interface ControllersMarketSubscribeForm {
+  candles?: ServicesMarketPair[];
+  connection_id: string;
+  prices?: ServicesMarketPair[];
 }
 
 export interface ControllersMeSuccessResponse {
@@ -2531,6 +2550,11 @@ export interface DtoTradeDrawingForm {
 }
 
 export interface DtoTradeFilters {
+  /**
+   * "1" - a leg was added while the position was losing, "0" - never.
+   * "true" / "false" are accepted too. Empty - any.
+   */
+  addedToLoser?: "1" | "0";
   api_key_id?: number[];
   /**
    * string based params separated by ":"
@@ -2588,12 +2612,40 @@ export interface DtoTradeFilters {
    */
   daysOfWeek?: number[];
   /**
+   * Dip before the peak, percent of MFE.
+   * @example "0,50"
+   */
+  dipBeforePeakBetween?: string;
+  /**
    * Duration specified in milliseconds
    * Example: 1000,10000 - trades with duration between 1 and 10 seconds
    */
   durationBetween?: string;
   /** @example "today" */
   durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+  /**
+   * Number of legs that grew the position.
+   * @example "2,"
+   */
+  entryLegsBetween?: string;
+  /**
+   * Entry value (notional at entry) in USD.
+   * @example "100,5000"
+   */
+  entryValueBetween?: string;
+  /**
+   * Number of legs that reduced the position.
+   * @example "1,3"
+   */
+  exitLegsBetween?: string;
+  /**
+   * Exit type codes: 1=stop, 2=take profit, 3=limit, 4=market,
+   * 5=liquidation, 6=other.
+   * @example [1]
+   */
+  exitType?: number[];
+  /** "not:" - exclude trades with the exit types specified */
+  exitType_params?: "not:";
   /** Deprecated: prefer tag_groups with column=2. */
   exit_tags?: number[];
   /**
@@ -2636,8 +2688,23 @@ export interface DtoTradeFilters {
   leverageBetween?: string;
   /** @example "-0.5,-1.5" */
   maeBetween?: string;
+  /**
+   * Max adverse excursion as percent of the balance at open.
+   * @example "1,"
+   */
+  maePctBalanceBetween?: string;
+  /**
+   * Max adverse excursion in USD (negative).
+   * @example "-500,-10"
+   */
+  maeUsdBetween?: string;
   /** @example "0.5,1.5" */
   mfeBetween?: string;
+  /**
+   * Max favourable excursion in USD.
+   * @example "10,500"
+   */
+  mfeUsdBetween?: string;
   multiplier?: string;
   /** @example "0,2" */
   natr1m30?: string;
@@ -2648,6 +2715,11 @@ export interface DtoTradeFilters {
   natr5m14?: string;
   /** @example "2019-01-01,2019-01-02" */
   openBetween?: string;
+  /**
+   * Peak position size in USD.
+   * @example "1000,"
+   */
+  peakUsdBetween?: string;
   /** @example "0.5,1.5" */
   percentBetween?: string;
   /** @example "-2,2" */
@@ -4100,6 +4172,24 @@ export enum ServicesLocale {
   LocaleZh = "zh",
 }
 
+export interface ServicesMarketLimits {
+  candles?: number;
+  prices?: number;
+}
+
+export interface ServicesMarketPair {
+  e?: ServicesExchangeID;
+  s?: string;
+}
+
+export interface ServicesMarketSubscribeResult {
+  candles?: ServicesMarketPair[];
+  dropped?: ServicesMarketPair[];
+  prices?: ServicesMarketPair[];
+  rejected?: ServicesMarketPair[];
+  uncovered?: ServicesMarketPair[];
+}
+
 export enum ServicesMembership {
   LEVEL_NOVICE = "novice",
   LEVEL_NOVICE_PLUS = "novice_plus",
@@ -4983,11 +5073,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5455,6 +5545,7 @@ export enum ServicesTradeExtraInfoFilter {
 }
 
 export interface ServicesTradeFilters {
+  addedToLoser?: string;
   api_key_id?: number[];
   api_key_id_params?: string;
   avgTrades15m6h?: string;
@@ -5474,8 +5565,22 @@ export interface ServicesTradeFilters {
   closeBetween?: string;
   daysOfWeek?: number[];
   daysOfWeek_params?: string;
+  dipBeforePeakBetween?: string;
   durationBetween?: string;
   durationType?: ServicesTradeDurationType;
+  entryLegsBetween?: string;
+  entryValueBetween?: string;
+  exitLegsBetween?: string;
+  /**
+   * Trade-metric filters (TradeMetrics columns plus entry_value). Paid:
+   * DisablePremiumFilters drops them for the free tiers, whose metric
+   * values are blanked. Ranges are "min,max" (either side may be empty, a
+   * "not:" prefix inverts); exitType takes ExitType codes, exitType_params
+   * "not:" excludes them; addedToLoser is "1" / "0" ("true" / "false" too)
+   * or "" (any).
+   */
+  exitType?: number[];
+  exitType_params?: string;
   exit_tags?: number[];
   exit_tags_params?: string;
   extraInfo?: ServicesTradeExtraInfoFilter;
@@ -5488,12 +5593,16 @@ export interface ServicesTradeFilters {
   ids?: number[];
   leverageBetween?: string;
   maeBetween?: string;
+  maePctBalanceBetween?: string;
+  maeUsdBetween?: string;
   mfeBetween?: string;
+  mfeUsdBetween?: string;
   multiplier?: string;
   natr1m30?: string;
   natr5m14?: string;
   openBetween?: string;
   orders_extended?: boolean;
+  peakUsdBetween?: string;
   percentBetween?: string;
   priceRange12h?: string;
   priceRange15m?: string;
@@ -6245,6 +6354,11 @@ export enum ServicesWidgetSource {
   WidgetSourceWorstPercent = "worst_percent",
   WidgetSourceBestPercent = "best_percent",
   WidgetSourceLongShort = "pie_side",
+  WidgetSourceProfitLeftOnTable = "profit_left_on_table",
+  WidgetSourceDipBeforePeakSplit = "dip_before_peak_split",
+  WidgetSourceExitTypeSplit = "exit_type_split",
+  WidgetSourceAddedToLoserSplit = "added_to_loser_split",
+  WidgetSourceMaePctBalanceAvg = "mae_pct_balance_avg",
 }
 
 export enum ServicesWidgetType {

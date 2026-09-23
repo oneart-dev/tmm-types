@@ -10,6 +10,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ServicesRiskManagementPagination, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     backtestCreate: (payload: DtoRiskManagementCreateForm, query?: {
         mode?: "optimistic" | "realistic";
+        addedToLoser?: "1" | "0";
         api_key_id?: number[];
         api_key_id_params?: "not:";
         avgTrades15m6h?: string;
@@ -28,8 +29,14 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         category_params?: "not:";
         closeBetween?: string;
         daysOfWeek?: number[];
+        dipBeforePeakBetween?: string;
         durationBetween?: string;
         durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+        entryLegsBetween?: string;
+        entryValueBetween?: string;
+        exitLegsBetween?: string;
+        exitType?: number[];
+        exitType_params?: "not:";
         exit_tags?: number[];
         exit_tags_params?: "not:" | "all:" | "not:all:" | "only:";
         extraInfo?: "conclusion:empty" | "conclusion:not-empty" | "desc:empty" | "desc:not-empty" | "mentor_note:not-empty" | "mentor_note:empty";
@@ -42,11 +49,15 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         ids?: number[];
         leverageBetween?: string;
         maeBetween?: string;
+        maePctBalanceBetween?: string;
+        maeUsdBetween?: string;
         mfeBetween?: string;
+        mfeUsdBetween?: string;
         multiplier?: string;
         natr1m30?: string;
         natr5m14?: string;
         openBetween?: string;
+        peakUsdBetween?: string;
         percentBetween?: string;
         priceRange12h?: string;
         priceRange15m?: string;

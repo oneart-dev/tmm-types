@@ -25,6 +25,7 @@ export * from './types/Files';
 export * from './types/FilterCatalog';
 export * from './types/FilterPreset';
 export * from './types/Internal';
+export * from './types/Market';
 export * from './types/MentorGroup';
 export * from './types/NoteCategories';
 export * from './types/Notes';
