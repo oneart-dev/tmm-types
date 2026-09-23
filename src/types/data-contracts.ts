@@ -5073,11 +5073,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5444,6 +5444,13 @@ export interface ServicesTradeCountByWeek {
    * notes overlap. Populated by analyzerNoteService.FillWeekList.
    */
   note?: ServicesUserNote;
+  /**
+   * PeakQtyUsd is Σ peak position size ($) over the listed trades, for the
+   * trades table footer. Only calculateSummary fills it (never a SQL
+   * aggregate: gorm:"-"); nil when no trade carries the value (inverse /
+   * alt-coin pairs, tiers the trade metrics are hidden from).
+   */
+  peak_qty_usd?: string;
   percent?: string;
   profit_deposit?: string;
   realized_pnl?: string;
@@ -5827,6 +5834,13 @@ export interface ServicesTradeSummary {
   max_leverage?: string;
   min_leverage?: string;
   net_profit?: string;
+  /**
+   * PeakQtyUsd is Σ peak position size ($) over the listed trades, for the
+   * trades table footer. Only calculateSummary fills it (never a SQL
+   * aggregate: gorm:"-"); nil when no trade carries the value (inverse /
+   * alt-coin pairs, tiers the trade metrics are hidden from).
+   */
+  peak_qty_usd?: string;
   percent?: string;
   profit_deposit?: string;
   realized_pnl?: string;

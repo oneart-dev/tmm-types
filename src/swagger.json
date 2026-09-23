@@ -41992,18 +41992,18 @@
             "type": "integer",
             "format": "int32",
             "enum": [
-                10,
-                127,
                 1,
                 2,
-                3
+                3,
+                10,
+                127
             ],
             "x-enum-varnames": [
-                "TagCategoryCustomMin",
-                "TagCategoryCustomMax",
                 "TagColumnEntryReason",
                 "TagColumnExitReason",
-                "TagColumnConclusion"
+                "TagColumnConclusion",
+                "TagCategoryCustomMin",
+                "TagCategoryCustomMax"
             ]
         },
         "services.TagFilterGroup": {
@@ -42868,6 +42868,10 @@
                             "$ref": "#/definitions/services.UserNote"
                         }
                     ]
+                },
+                "peak_qty_usd": {
+                    "description": "PeakQtyUsd is Σ peak position size ($) over the listed trades, for the\ntrades table footer. Only calculateSummary fills it (never a SQL\naggregate: gorm:\"-\"); nil when no trade carries the value (inverse /\nalt-coin pairs, tiers the trade metrics are hidden from).",
+                    "type": "string"
                 },
                 "percent": {
                     "type": "string"
@@ -43876,6 +43880,10 @@
                     "type": "string"
                 },
                 "net_profit": {
+                    "type": "string"
+                },
+                "peak_qty_usd": {
+                    "description": "PeakQtyUsd is Σ peak position size ($) over the listed trades, for the\ntrades table footer. Only calculateSummary fills it (never a SQL\naggregate: gorm:\"-\"); nil when no trade carries the value (inverse /\nalt-coin pairs, tiers the trade metrics are hidden from).",
                     "type": "string"
                 },
                 "percent": {

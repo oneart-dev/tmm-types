@@ -2902,11 +2902,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3188,6 +3188,7 @@ export interface ServicesTradeCountByWeek {
     min_leverage?: string;
     net_profit?: string;
     note?: ServicesUserNote;
+    peak_qty_usd?: string;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;
@@ -3510,6 +3511,7 @@ export interface ServicesTradeSummary {
     max_leverage?: string;
     min_leverage?: string;
     net_profit?: string;
+    peak_qty_usd?: string;
     percent?: string;
     profit_deposit?: string;
     realized_pnl?: string;
