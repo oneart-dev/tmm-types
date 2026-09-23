@@ -4983,11 +4983,11 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5219,6 +5219,10 @@ export interface ServicesTopWinner {
 }
 
 export interface ServicesTrade {
+  /**
+   * AddedToLoser: a growing leg after the first was put on while the
+   * position's equity (realized + open PnL at the leg's VWAP) was negative.
+   */
   added_to_loser?: boolean;
   api_key_id?: number;
   archive?: number;
@@ -5228,17 +5232,19 @@ export interface ServicesTrade {
   category_name?: string;
   close_time?: number;
   closed_value?: string;
-  /**
-   * EntryValue is the entry-side notional in USD: everything put into the
-   * position over its life (volume - closed_value). Read from a virtual DB
-   * column; Recalculate does not set it.
-   */
-  entry_value?: string;
   commission?: string;
   commission_asset?: string;
   conclusion?: string;
   created_at?: string;
   description?: string;
+  /**
+   * DipBeforePeakPct is how deep the trade went under water before it made
+   * its best open-equity point: |lowest equity observed strictly before the
+   * MFE was set| / mfe_usd × 100. 0 = the peak came without a prior dip;
+   * above 100 = the dip was bigger than the peak (a loser that recovered a
+   * little). NULL when mfe_usd is 0 or the path is not computable.
+   */
+  dip_before_peak_pct?: string;
   /**
    * DisplayName is a human-readable label for HIP-4 prediction-market trades.
    * Format: "<questionName>: <outcomeName> (<sideName>)" (e.g. "2026 World Cup Champion: Algeria (Yes)").
@@ -5246,8 +5252,17 @@ export interface ServicesTrade {
    */
   display_name?: string;
   duration?: number;
-  entry_fills?: number;
+  /**
+   * EntryLegs / ExitLegs count the fill legs that grew / reduced the
+   * position. A leg is a run of same-side fills close in time and price
+   * (trade_metrics_legs.go), so a 40-fill market order is one leg and a
+   * three-rung take-profit ladder is three.
+   */
+  entry_legs?: number;
+  /** volume - closed_value: virtual DB column, never set by Recalculate */
+  entry_value?: string;
   exchange_id?: ServicesExchangeID;
+  exit_legs?: number;
   exit_reason?: string;
   exit_type?: ServicesExitType;
   funding?: string;
@@ -5259,7 +5274,8 @@ export interface ServicesTrade {
   initial_stop_source?: ServicesInitialStopSource;
   initial_tp_price?: string;
   leverage?: string;
-  mae_first?: boolean;
+  /** MaePctBalance is |mae_usd| as a percentage of the balance at open. */
+  mae_pct_balance?: string;
   mae_time?: number;
   mae_usd?: string;
   max_loose_percent?: string;
@@ -5275,21 +5291,19 @@ export interface ServicesTrade {
   open_time?: number;
   /** SubAccount       string          `json:"sub_account"` */
   orders?: ServicesOrder[];
-  partial_exit_pct?: string;
+  peak_qty?: string;
   /**
    * PeakQtyUsd is the cost basis of the largest position held at once:
    * max over the fill replay of open_qty × avg_entry. NULL where the fill
    * units are not USD (inverse-sized, alt-coin quote).
    */
   peak_qty_usd?: string;
-  peak_qty?: string;
   percent?: string;
   process?: ServicesTradeProcess;
   profit_deposit?: string;
   qty?: string;
   realized_pnl?: string;
   risk_management_log?: ServicesRiskManagementLog[];
-  risk_pct_at_open?: string;
   short_url?: ServicesShortUrl;
   side?: ServicesTradeSide;
   symbol?: string;
@@ -5572,6 +5586,10 @@ export enum ServicesTradeProcess {
 }
 
 export interface ServicesTradeSSEPayload {
+  /**
+   * AddedToLoser: a growing leg after the first was put on while the
+   * position's equity (realized + open PnL at the leg's VWAP) was negative.
+   */
   added_to_loser?: boolean;
   api_key_id?: number;
   archive?: number;
@@ -5581,17 +5599,19 @@ export interface ServicesTradeSSEPayload {
   category_name?: string;
   close_time?: number;
   closed_value?: string;
-  /**
-   * EntryValue is the entry-side notional in USD: everything put into the
-   * position over its life (volume - closed_value). Read from a virtual DB
-   * column; Recalculate does not set it.
-   */
-  entry_value?: string;
   commission?: string;
   commission_asset?: string;
   conclusion?: string;
   created_at?: string;
   description?: string;
+  /**
+   * DipBeforePeakPct is how deep the trade went under water before it made
+   * its best open-equity point: |lowest equity observed strictly before the
+   * MFE was set| / mfe_usd × 100. 0 = the peak came without a prior dip;
+   * above 100 = the dip was bigger than the peak (a loser that recovered a
+   * little). NULL when mfe_usd is 0 or the path is not computable.
+   */
+  dip_before_peak_pct?: string;
   /**
    * DisplayName is a human-readable label for HIP-4 prediction-market trades.
    * Format: "<questionName>: <outcomeName> (<sideName>)" (e.g. "2026 World Cup Champion: Algeria (Yes)").
@@ -5599,8 +5619,17 @@ export interface ServicesTradeSSEPayload {
    */
   display_name?: string;
   duration?: number;
-  entry_fills?: number;
+  /**
+   * EntryLegs / ExitLegs count the fill legs that grew / reduced the
+   * position. A leg is a run of same-side fills close in time and price
+   * (trade_metrics_legs.go), so a 40-fill market order is one leg and a
+   * three-rung take-profit ladder is three.
+   */
+  entry_legs?: number;
+  /** volume - closed_value: virtual DB column, never set by Recalculate */
+  entry_value?: string;
   exchange_id?: ServicesExchangeID;
+  exit_legs?: number;
   exit_reason?: string;
   exit_type?: ServicesExitType;
   funding?: string;
@@ -5612,7 +5641,8 @@ export interface ServicesTradeSSEPayload {
   initial_stop_source?: ServicesInitialStopSource;
   initial_tp_price?: string;
   leverage?: string;
-  mae_first?: boolean;
+  /** MaePctBalance is |mae_usd| as a percentage of the balance at open. */
+  mae_pct_balance?: string;
   mae_time?: number;
   mae_usd?: string;
   max_loose_percent?: string;
@@ -5629,22 +5659,20 @@ export interface ServicesTradeSSEPayload {
   orders?: ServicesOrder[];
   orders_total?: number;
   orders_truncated?: boolean;
-  partial_exit_pct?: string;
+  payload_truncated?: boolean;
+  peak_qty?: string;
   /**
    * PeakQtyUsd is the cost basis of the largest position held at once:
    * max over the fill replay of open_qty × avg_entry. NULL where the fill
    * units are not USD (inverse-sized, alt-coin quote).
    */
   peak_qty_usd?: string;
-  payload_truncated?: boolean;
-  peak_qty?: string;
   percent?: string;
   process?: ServicesTradeProcess;
   profit_deposit?: string;
   qty?: string;
   realized_pnl?: string;
   risk_management_log?: ServicesRiskManagementLog[];
-  risk_pct_at_open?: string;
   short_url?: ServicesShortUrl;
   side?: ServicesTradeSide;
   symbol?: string;

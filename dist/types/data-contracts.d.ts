@@ -2861,11 +2861,11 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3058,16 +3058,18 @@ export interface ServicesTrade {
     category_name?: string;
     close_time?: number;
     closed_value?: string;
-    entry_value?: string;
     commission?: string;
     commission_asset?: string;
     conclusion?: string;
     created_at?: string;
     description?: string;
+    dip_before_peak_pct?: string;
     display_name?: string;
     duration?: number;
-    entry_fills?: number;
+    entry_legs?: number;
+    entry_value?: string;
     exchange_id?: ServicesExchangeID;
+    exit_legs?: number;
     exit_reason?: string;
     exit_type?: ServicesExitType;
     funding?: string;
@@ -3079,7 +3081,7 @@ export interface ServicesTrade {
     initial_stop_source?: ServicesInitialStopSource;
     initial_tp_price?: string;
     leverage?: string;
-    mae_first?: boolean;
+    mae_pct_balance?: string;
     mae_time?: number;
     mae_usd?: string;
     max_loose_percent?: string;
@@ -3094,16 +3096,14 @@ export interface ServicesTrade {
     open_qty?: string;
     open_time?: number;
     orders?: ServicesOrder[];
-    partial_exit_pct?: string;
-    peak_qty_usd?: string;
     peak_qty?: string;
+    peak_qty_usd?: string;
     percent?: string;
     process?: ServicesTradeProcess;
     profit_deposit?: string;
     qty?: string;
     realized_pnl?: string;
     risk_management_log?: ServicesRiskManagementLog[];
-    risk_pct_at_open?: string;
     short_url?: ServicesShortUrl;
     side?: ServicesTradeSide;
     symbol?: string;
@@ -3367,16 +3367,18 @@ export interface ServicesTradeSSEPayload {
     category_name?: string;
     close_time?: number;
     closed_value?: string;
-    entry_value?: string;
     commission?: string;
     commission_asset?: string;
     conclusion?: string;
     created_at?: string;
     description?: string;
+    dip_before_peak_pct?: string;
     display_name?: string;
     duration?: number;
-    entry_fills?: number;
+    entry_legs?: number;
+    entry_value?: string;
     exchange_id?: ServicesExchangeID;
+    exit_legs?: number;
     exit_reason?: string;
     exit_type?: ServicesExitType;
     funding?: string;
@@ -3388,7 +3390,7 @@ export interface ServicesTradeSSEPayload {
     initial_stop_source?: ServicesInitialStopSource;
     initial_tp_price?: string;
     leverage?: string;
-    mae_first?: boolean;
+    mae_pct_balance?: string;
     mae_time?: number;
     mae_usd?: string;
     max_loose_percent?: string;
@@ -3405,17 +3407,15 @@ export interface ServicesTradeSSEPayload {
     orders?: ServicesOrder[];
     orders_total?: number;
     orders_truncated?: boolean;
-    partial_exit_pct?: string;
-    peak_qty_usd?: string;
     payload_truncated?: boolean;
     peak_qty?: string;
+    peak_qty_usd?: string;
     percent?: string;
     process?: ServicesTradeProcess;
     profit_deposit?: string;
     qty?: string;
     realized_pnl?: string;
     risk_management_log?: ServicesRiskManagementLog[];
-    risk_pct_at_open?: string;
     short_url?: ServicesShortUrl;
     side?: ServicesTradeSide;
     symbol?: string;
