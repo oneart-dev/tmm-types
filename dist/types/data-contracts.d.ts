@@ -1267,7 +1267,7 @@ export interface DtoTradeFilters {
     daysOfWeek?: number[];
     dipBeforePeakBetween?: string;
     durationBetween?: string;
-    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
+    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd";
     entryLegsBetween?: string;
     entryValueBetween?: string;
     exitLegsBetween?: string;
@@ -1283,6 +1283,7 @@ export interface DtoTradeFilters {
     hours_of_day_params?: string;
     id?: number;
     ids?: number[];
+    ids_params?: "not:";
     leverageBetween?: string;
     maeBetween?: string;
     maePctBalanceBetween?: string;
@@ -2902,11 +2903,12 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnAny = 0
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3208,7 +3210,9 @@ export declare enum ServicesTradeDurationType {
     TradeDurationType1W = "1w",
     TradeDurationType1M = "1m",
     TradeDurationType7D = "7d",
+    TradeDurationType14D = "14d",
     TradeDurationType30D = "30d",
+    TradeDurationType60D = "60d",
     TradeDurationType90D = "90d",
     TradeDurationType180D = "180d",
     TradeDurationType365D = "365d",
@@ -3320,6 +3324,7 @@ export interface ServicesTradeFilters {
     hours_of_day_params?: string;
     id?: number;
     ids?: number[];
+    ids_params?: string;
     leverageBetween?: string;
     maeBetween?: string;
     maePctBalanceBetween?: string;

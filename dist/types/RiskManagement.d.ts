@@ -31,7 +31,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         daysOfWeek?: number[];
         dipBeforePeakBetween?: string;
         durationBetween?: string;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd";
         entryLegsBetween?: string;
         entryValueBetween?: string;
         exitLegsBetween?: string;
@@ -47,6 +47,7 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         hours_of_day_params?: string;
         id?: number;
         ids?: number[];
+        ids_params?: "not:";
         leverageBetween?: string;
         maeBetween?: string;
         maePctBalanceBetween?: string;

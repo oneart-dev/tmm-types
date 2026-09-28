@@ -352,11 +352,12 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
+    ServicesTagColumn[ServicesTagColumn["TagColumnAny"] = 0] = "TagColumnAny";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -421,7 +422,9 @@ export var ServicesTradeDurationType;
     ServicesTradeDurationType["TradeDurationType1W"] = "1w";
     ServicesTradeDurationType["TradeDurationType1M"] = "1m";
     ServicesTradeDurationType["TradeDurationType7D"] = "7d";
+    ServicesTradeDurationType["TradeDurationType14D"] = "14d";
     ServicesTradeDurationType["TradeDurationType30D"] = "30d";
+    ServicesTradeDurationType["TradeDurationType60D"] = "60d";
     ServicesTradeDurationType["TradeDurationType90D"] = "90d";
     ServicesTradeDurationType["TradeDurationType180D"] = "180d";
     ServicesTradeDurationType["TradeDurationType365D"] = "365d";

@@ -142,7 +142,20 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
        */
       durationBetween?: string;
       /** @example "today" */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
+      durationType?:
+        | "today"
+        | "yesterday"
+        | "past1w"
+        | "1w"
+        | "1m"
+        | "7d"
+        | "14d"
+        | "30d"
+        | "60d"
+        | "90d"
+        | "180d"
+        | "365d"
+        | "ytd";
       /**
        * Number of legs that grew the position.
        * @example "2,"
@@ -204,6 +217,8 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       id?: number;
       /** @example [1] */
       ids?: number[];
+      /** "not:" - exclude the trades with the ids specified instead of selecting them */
+      ids_params?: "not:";
       /** @example "0.5,1.5" */
       leverageBetween?: string;
       /** @example "-0.5,-1.5" */
@@ -621,7 +636,20 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
        */
       durationBetween?: string;
       /** @example "today" */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
+      durationType?:
+        | "today"
+        | "yesterday"
+        | "past1w"
+        | "1w"
+        | "1m"
+        | "7d"
+        | "14d"
+        | "30d"
+        | "60d"
+        | "90d"
+        | "180d"
+        | "365d"
+        | "ytd";
       /**
        * Number of legs that grew the position.
        * @example "2,"
@@ -683,6 +711,8 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       id?: number;
       /** @example [1] */
       ids?: number[];
+      /** "not:" - exclude the trades with the ids specified instead of selecting them */
+      ids_params?: "not:";
       /** @example "0.5,1.5" */
       leverageBetween?: string;
       /** @example "-0.5,-1.5" */

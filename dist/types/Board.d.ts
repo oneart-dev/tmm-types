@@ -25,7 +25,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;
@@ -41,6 +41,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         hours_of_day_params?: string | undefined;
         id?: number | undefined;
         ids?: number[] | undefined;
+        ids_params?: "not:" | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
         maePctBalanceBetween?: string | undefined;
@@ -133,7 +134,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;
@@ -149,6 +150,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         hours_of_day_params?: string | undefined;
         id?: number | undefined;
         ids?: number[] | undefined;
+        ids_params?: "not:" | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
         maePctBalanceBetween?: string | undefined;
@@ -244,7 +246,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;
@@ -260,6 +262,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         hours_of_day_params?: string | undefined;
         id?: number | undefined;
         ids?: number[] | undefined;
+        ids_params?: "not:" | undefined;
         leverageBetween?: string | undefined;
         maeBetween?: string | undefined;
         maePctBalanceBetween?: string | undefined;
