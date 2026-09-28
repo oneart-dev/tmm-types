@@ -25,7 +25,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;
@@ -133,7 +133,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;
@@ -244,7 +244,7 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         daysOfWeek?: number[] | undefined;
         dipBeforePeakBetween?: string | undefined;
         durationBetween?: string | undefined;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | undefined;
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd" | undefined;
         entryLegsBetween?: string | undefined;
         entryValueBetween?: string | undefined;
         exitLegsBetween?: string | undefined;

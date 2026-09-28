@@ -27,7 +27,7 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
         daysOfWeek?: number[];
         dipBeforePeakBetween?: string;
         durationBetween?: string;
-        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+        durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
         entryLegsBetween?: string;
         entryValueBetween?: string;
         exitLegsBetween?: string;

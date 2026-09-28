@@ -1267,7 +1267,7 @@ export interface DtoTradeFilters {
     daysOfWeek?: number[];
     dipBeforePeakBetween?: string;
     durationBetween?: string;
-    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
     entryLegsBetween?: string;
     entryValueBetween?: string;
     exitLegsBetween?: string;
@@ -3211,7 +3211,8 @@ export declare enum ServicesTradeDurationType {
     TradeDurationType30D = "30d",
     TradeDurationType90D = "90d",
     TradeDurationType180D = "180d",
-    TradeDurationType365D = "365d"
+    TradeDurationType365D = "365d",
+    TradeDurationTypeYTD = "ytd"
 }
 export interface ServicesTradeExtra {
     avgTrades15m6h?: number;

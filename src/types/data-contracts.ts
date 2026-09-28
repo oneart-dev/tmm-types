@@ -2622,7 +2622,7 @@ export interface DtoTradeFilters {
    */
   durationBetween?: string;
   /** @example "today" */
-  durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+  durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
   /**
    * Number of legs that grew the position.
    * @example "2,"
@@ -5475,6 +5475,7 @@ export enum ServicesTradeDurationType {
   TradeDurationType90D = "90d",
   TradeDurationType180D = "180d",
   TradeDurationType365D = "365d",
+  TradeDurationTypeYTD = "ytd",
 }
 
 export interface ServicesTradeExtra {

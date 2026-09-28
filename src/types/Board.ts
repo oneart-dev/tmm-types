@@ -161,7 +161,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       durationBetween?: string;
       /** @example "today" */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
       /**
        * Number of legs that grew the position.
        * @example "2,"
@@ -497,7 +497,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       durationBetween?: string;
       /** @example "today" */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
       /**
        * Number of legs that grew the position.
        * @example "2,"
@@ -895,7 +895,7 @@ export class Board<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
        */
       durationBetween?: string;
       /** @example "today" */
-      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d";
+      durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "30d" | "90d" | "180d" | "365d" | "ytd";
       /**
        * Number of legs that grew the position.
        * @example "2,"

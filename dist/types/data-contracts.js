@@ -425,6 +425,7 @@ export var ServicesTradeDurationType;
     ServicesTradeDurationType["TradeDurationType90D"] = "90d";
     ServicesTradeDurationType["TradeDurationType180D"] = "180d";
     ServicesTradeDurationType["TradeDurationType365D"] = "365d";
+    ServicesTradeDurationType["TradeDurationTypeYTD"] = "ytd";
 })(ServicesTradeDurationType || (ServicesTradeDurationType = {}));
 export var ServicesTradeExtraInfoFilter;
 (function (ServicesTradeExtraInfoFilter) {
