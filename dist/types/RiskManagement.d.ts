@@ -72,6 +72,8 @@ export declare class RiskManagement<SecurityDataType = unknown> extends HttpClie
         priceRange6h?: string;
         profitBetween?: string;
         profitDepositBetween?: string;
+        screenerAlignedBetween?: string;
+        screener_metric?: string;
         side?: "LONG" | "SHORT";
         state?: 0 | 1 | 2;
         symbol?: string[];

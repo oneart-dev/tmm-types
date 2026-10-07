@@ -679,6 +679,11 @@ export interface ControllersLoadBoardResponse {
   effectiveGroupBy?: Record<string, string>;
   errors?: Record<string, string>;
   filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
+  /**
+   * Meta is keyed by widget id like ServerData and carries only the
+   * widgets that report meta (today: screener_split coverage).
+   */
+  meta?: Record<string, ServicesWidgetMeta>;
   public_profile?: ServicesPublicProfile;
   serverData?: Record<string, string>;
   /** @example "success" */
@@ -1135,6 +1140,11 @@ export interface ControllersWidgetUpdateResponse {
   effectiveGroupBy?: string;
   errors?: string;
   groupByAuto?: boolean;
+  /**
+   * Meta is per-render metadata outside the rows (today: coverage for
+   * screener_split). Omitted when the widget reports none.
+   */
+  meta?: ServicesWidgetMeta;
   serverData?: string;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
@@ -2763,6 +2773,23 @@ export interface DtoTradeFilters {
   profitBetween?: string;
   /** @example "0.5,1.5" */
   profitDepositBetween?: string;
+  /**
+   * Side-aware range "<key>:min,max" on priceRange* or fundingRate, display
+   * units: value × (+1 long, −1 short). > 0 = the price moved with the
+   * trade's side before entry / the trade's side pays funding. Either bound
+   * may be empty. An invalid value is ignored.
+   * @example "priceRange5m:0.3,"
+   */
+  screenerAlignedBetween?: string;
+  /**
+   * screener_split only: the market metric at entry the widget buckets
+   * trades by (44 keys: volumeSpike*, tradesSpike*, priceRange*, natr1m30,
+   * natr5m14, btcCorr1m50, btcCorr5m20, fundingRate, volume*, trades*).
+   * Does not filter trades; picks the metric the Market Conditions widget
+   * groups by.
+   * @example "volumeSpike5m2h"
+   */
+  screener_metric?: string;
   side?: "LONG" | "SHORT";
   /** Select only open or only closed trades. */
   state?: 0 | 1 | 2;
@@ -2815,18 +2842,20 @@ export interface DtoTradeFilters {
   trades5m?: string;
   /** @example "0,100000" */
   trades6h?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   tradesSpike15m6h?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   tradesSpike1h24h?: string;
   /**
-   * Trades spikes
-   * @example "-3,3"
+   * Trades spikes: signed % change of the short window's trade count vs its
+   * average over the longer window (0 = average, 150 = +150 %, -100 = no
+   * trades). "50," = at least +50 %.
+   * @example "50,"
    */
   tradesSpike1m30m?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   tradesSpike30m12h?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   tradesSpike5m2h?: string;
   /** @example 1 */
   user_id?: number;
@@ -2859,18 +2888,21 @@ export interface DtoTradeFilters {
    */
   volumeBetween?: string;
   volumeFrom?: number;
-  /** @example "-3,3" */
+  /** @example "50," */
   volumeSpike15m6h?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   volumeSpike1h24h?: string;
   /**
-   * Volume spikes (ratio/z-score as you define), keep 1h24h included
-   * @example "-3,3"
+   * Volume spikes: signed % change of the short window's volume vs its
+   * average over the longer window (0 = average, 150 = +150 %, -100 = no
+   * volume). "50," = at least +50 %. volumeSpike1h24h is currently not
+   * populated (every trade has 0).
+   * @example "50,"
    */
   volumeSpike1m30m?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   volumeSpike30m12h?: string;
-  /** @example "-3,3" */
+  /** @example "50," */
   volumeSpike5m2h?: string;
   volumeTo?: number;
   /**
@@ -4163,6 +4195,11 @@ export interface ServicesLoadBoardResponseChunk {
   effectiveGroupBy?: string;
   errors?: string;
   groupByAuto?: boolean;
+  /**
+   * Meta is per-render metadata outside the rows (today: coverage for
+   * screener_split). Omitted when the widget reports none.
+   */
+  meta?: ServicesWidgetMeta;
   serverData?: string;
   widget?: ServicesWidget;
   widget_id?: number;
@@ -4662,6 +4699,13 @@ export interface ServicesPublicProfileLayout {
   groupByAuto?: boolean;
   h?: number;
   i?: number;
+  /**
+   * Meta is per-render metadata outside the rows, the same `meta` the
+   * dashboard widget responses carry (today: screener_split coverage).
+   * Render-time only: the update form has no such field, so it is never
+   * stored. Omitted when the widget reports none.
+   */
+  meta?: ServicesWidgetMeta;
   model?: ServicesWidget;
   serverData?: string;
   w?: number;
@@ -4674,6 +4718,7 @@ export interface ServicesPublicProfileLayoutChunk {
   errors?: string[];
   groupByAuto?: boolean;
   i?: number;
+  meta?: ServicesWidgetMeta;
   serverData?: string;
 }
 
@@ -5088,12 +5133,12 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
   TagColumnAny = 0,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5643,6 +5688,18 @@ export interface ServicesTradeFilters {
   priceRange6h?: string;
   profitBetween?: string;
   profitDepositBetween?: string;
+  /**
+   * Side-aware range "<key>:min,max" on a directional metric (priceRange*,
+   * fundingRate) in display units, signed by the trade's side. Either bound
+   * may be empty. An invalid value is ignored.
+   */
+  screenerAlignedBetween?: string;
+  /**
+   * Market Conditions (screener_split, see screener_metrics.go).
+   * Does not filter trades; picks the metric the Market Conditions widget
+   * groups by.
+   */
+  screener_metric?: string;
   side?: string;
   state?: ServicesTradeState;
   symbol?: string[];
@@ -6242,6 +6299,26 @@ export interface ServicesWidget {
   type3?: string;
 }
 
+export interface ServicesWidgetCoverage {
+  /**
+   * Covered is the closed trades in the widget's filter scope (the most
+   * recent `limit` when limit is set) that carry a non-zero value for the
+   * split metric (the trades the buckets count).
+   */
+  covered?: number;
+  /**
+   * Set when the widget used only the most recent N closed trades in
+   * scope; covered and total then count that window.
+   */
+  limit?: number;
+  /**
+   * Total is the closed trades in the widget's filter scope (the most
+   * recent `limit` when limit is set), before the loader's own extras join
+   * and the value <> 0 exclusion (an extras filter in scope still joins).
+   */
+  total?: number;
+}
+
 export interface ServicesWidgetCreateResponse {
   data?: ServicesWidget;
   /**
@@ -6251,6 +6328,11 @@ export interface ServicesWidgetCreateResponse {
   effectiveGroupBy?: string;
   errors?: string[];
   groupByAuto?: boolean;
+  /**
+   * Meta is per-render metadata outside the rows (today: coverage for
+   * screener_split). Omitted when the widget reports none.
+   */
+  meta?: ServicesWidgetMeta;
   serverData?: string;
   /** @example "success" */
   status?: string;
@@ -6273,6 +6355,10 @@ export enum ServicesWidgetFiltersSortBy {
   WidgetFiltersSortByCountKeyAsc = "key_asc",
 }
 
+export interface ServicesWidgetMeta {
+  coverage?: ServicesWidgetCoverage;
+}
+
 export interface ServicesWidgetPreviewResponse {
   /**
    * EffectiveGroupBy / GroupByAuto report a groupBy the SERVER derived for
@@ -6284,6 +6370,11 @@ export interface ServicesWidgetPreviewResponse {
   effectiveGroupBy?: string;
   errors?: string[];
   groupByAuto?: boolean;
+  /**
+   * Meta is per-render metadata outside the rows (today: coverage for
+   * screener_split). Omitted when the widget reports none.
+   */
+  meta?: ServicesWidgetMeta;
   serverData?: string;
 }
 
@@ -6393,6 +6484,7 @@ export enum ServicesWidgetSource {
   WidgetSourceExitTypeSplit = "exit_type_split",
   WidgetSourceAddedToLoserSplit = "added_to_loser_split",
   WidgetSourceMaePctBalanceAvg = "mae_pct_balance_avg",
+  WidgetSourceScreenerSplit = "screener_split",
 }
 
 export enum ServicesWidgetType {

@@ -352,12 +352,12 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
     ServicesTagColumn[ServicesTagColumn["TagColumnAny"] = 0] = "TagColumnAny";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -653,6 +653,7 @@ export var ServicesWidgetSource;
     ServicesWidgetSource["WidgetSourceExitTypeSplit"] = "exit_type_split";
     ServicesWidgetSource["WidgetSourceAddedToLoserSplit"] = "added_to_loser_split";
     ServicesWidgetSource["WidgetSourceMaePctBalanceAvg"] = "mae_pct_balance_avg";
+    ServicesWidgetSource["WidgetSourceScreenerSplit"] = "screener_split";
 })(ServicesWidgetSource || (ServicesWidgetSource = {}));
 export var ServicesWidgetType;
 (function (ServicesWidgetType) {

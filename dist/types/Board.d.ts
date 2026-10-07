@@ -66,6 +66,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         priceRange6h?: string | undefined;
         profitBetween?: string | undefined;
         profitDepositBetween?: string | undefined;
+        screenerAlignedBetween?: string | undefined;
+        screener_metric?: string | undefined;
         side?: "LONG" | "SHORT" | undefined;
         state?: 0 | 2 | 1 | undefined;
         symbol?: string[] | undefined;
@@ -175,6 +177,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         priceRange6h?: string | undefined;
         profitBetween?: string | undefined;
         profitDepositBetween?: string | undefined;
+        screenerAlignedBetween?: string | undefined;
+        screener_metric?: string | undefined;
         side?: "LONG" | "SHORT" | undefined;
         state?: 0 | 2 | 1 | undefined;
         symbol?: string[] | undefined;
@@ -287,6 +291,8 @@ export declare class Board<SecurityDataType = unknown> extends HttpClient<Securi
         priceRange6h?: string | undefined;
         profitBetween?: string | undefined;
         profitDepositBetween?: string | undefined;
+        screenerAlignedBetween?: string | undefined;
+        screener_metric?: string | undefined;
         side?: "LONG" | "SHORT" | undefined;
         state?: 0 | 2 | 1 | undefined;
         symbol?: string[] | undefined;

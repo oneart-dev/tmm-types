@@ -448,6 +448,7 @@ export interface ControllersLoadBoardResponse {
     effectiveGroupBy?: Record<string, string>;
     errors?: Record<string, string>;
     filter_catalog_snapshot?: ServicesFilterCatalogSnapshot;
+    meta?: Record<string, ServicesWidgetMeta>;
     public_profile?: ServicesPublicProfile;
     serverData?: Record<string, string>;
     status?: ControllersResponseStatusMessage;
@@ -717,6 +718,7 @@ export interface ControllersWidgetUpdateResponse {
     effectiveGroupBy?: string;
     errors?: string;
     groupByAuto?: boolean;
+    meta?: ServicesWidgetMeta;
     serverData?: string;
     status?: ControllersResponseStatusMessage;
 }
@@ -1308,6 +1310,8 @@ export interface DtoTradeFilters {
     priceRange6h?: string;
     profitBetween?: string;
     profitDepositBetween?: string;
+    screenerAlignedBetween?: string;
+    screener_metric?: string;
     side?: "LONG" | "SHORT";
     state?: 0 | 1 | 2;
     symbol?: string[];
@@ -2220,6 +2224,7 @@ export interface ServicesLoadBoardResponseChunk {
     effectiveGroupBy?: string;
     errors?: string;
     groupByAuto?: boolean;
+    meta?: ServicesWidgetMeta;
     serverData?: string;
     widget?: ServicesWidget;
     widget_id?: number;
@@ -2578,6 +2583,7 @@ export interface ServicesPublicProfileLayout {
     groupByAuto?: boolean;
     h?: number;
     i?: number;
+    meta?: ServicesWidgetMeta;
     model?: ServicesWidget;
     serverData?: string;
     w?: number;
@@ -2589,6 +2595,7 @@ export interface ServicesPublicProfileLayoutChunk {
     errors?: string[];
     groupByAuto?: boolean;
     i?: number;
+    meta?: ServicesWidgetMeta;
     serverData?: string;
 }
 export declare enum ServicesPublicProfileShowTrades {
@@ -2903,12 +2910,12 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3,
-    TagColumnAny = 0
+    TagColumnAny = 0,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3350,6 +3357,8 @@ export interface ServicesTradeFilters {
     priceRange6h?: string;
     profitBetween?: string;
     profitDepositBetween?: string;
+    screenerAlignedBetween?: string;
+    screener_metric?: string;
     side?: string;
     state?: ServicesTradeState;
     symbol?: string[];
@@ -3778,11 +3787,17 @@ export interface ServicesWidget {
     type2?: ServicesWidgetType2;
     type3?: string;
 }
+export interface ServicesWidgetCoverage {
+    covered?: number;
+    limit?: number;
+    total?: number;
+}
 export interface ServicesWidgetCreateResponse {
     data?: ServicesWidget;
     effectiveGroupBy?: string;
     errors?: string[];
     groupByAuto?: boolean;
+    meta?: ServicesWidgetMeta;
     serverData?: string;
     status?: string;
 }
@@ -3801,10 +3816,14 @@ export declare enum ServicesWidgetFiltersSortBy {
     WidgetFiltersSortByCountKeyDesc = "key_desc",
     WidgetFiltersSortByCountKeyAsc = "key_asc"
 }
+export interface ServicesWidgetMeta {
+    coverage?: ServicesWidgetCoverage;
+}
 export interface ServicesWidgetPreviewResponse {
     effectiveGroupBy?: string;
     errors?: string[];
     groupByAuto?: boolean;
+    meta?: ServicesWidgetMeta;
     serverData?: string;
 }
 export declare enum ServicesWidgetSource {
@@ -3912,7 +3931,8 @@ export declare enum ServicesWidgetSource {
     WidgetSourceDipBeforePeakSplit = "dip_before_peak_split",
     WidgetSourceExitTypeSplit = "exit_type_split",
     WidgetSourceAddedToLoserSplit = "added_to_loser_split",
-    WidgetSourceMaePctBalanceAvg = "mae_pct_balance_avg"
+    WidgetSourceMaePctBalanceAvg = "mae_pct_balance_avg",
+    WidgetSourceScreenerSplit = "screener_split"
 }
 export declare enum ServicesWidgetType {
     WidgetTypeChart = "chart",

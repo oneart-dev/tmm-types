@@ -68,6 +68,8 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         priceRange6h?: string;
         profitBetween?: string;
         profitDepositBetween?: string;
+        screenerAlignedBetween?: string;
+        screener_metric?: string;
         side?: "LONG" | "SHORT";
         state?: 0 | 1 | 2;
         symbol?: string[];
@@ -189,6 +191,8 @@ export declare class Trades<SecurityDataType = unknown> extends HttpClient<Secur
         priceRange6h?: string;
         profitBetween?: string;
         profitDepositBetween?: string;
+        screenerAlignedBetween?: string;
+        screener_metric?: string;
         side?: "LONG" | "SHORT";
         state?: 0 | 1 | 2;
         symbol?: string[];

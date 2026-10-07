@@ -258,6 +258,23 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       profitBetween?: string;
       /** @example "0.5,1.5" */
       profitDepositBetween?: string;
+      /**
+       * Side-aware range "<key>:min,max" on priceRange* or fundingRate, display
+       * units: value × (+1 long, −1 short). > 0 = the price moved with the
+       * trade's side before entry / the trade's side pays funding. Either bound
+       * may be empty. An invalid value is ignored.
+       * @example "priceRange5m:0.3,"
+       */
+      screenerAlignedBetween?: string;
+      /**
+       * screener_split only: the market metric at entry the widget buckets
+       * trades by (44 keys: volumeSpike*, tradesSpike*, priceRange*, natr1m30,
+       * natr5m14, btcCorr1m50, btcCorr5m20, fundingRate, volume*, trades*).
+       * Does not filter trades; picks the metric the Market Conditions widget
+       * groups by.
+       * @example "volumeSpike5m2h"
+       */
+      screener_metric?: string;
       side?: "LONG" | "SHORT";
       /** Select only open or only closed trades. */
       state?: 0 | 1 | 2;
@@ -309,18 +326,20 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
       trades5m?: string;
       /** @example "0,100000" */
       trades6h?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       tradesSpike15m6h?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       tradesSpike1h24h?: string;
       /**
-       * Trades spikes
-       * @example "-3,3"
+       * Trades spikes: signed % change of the short window's trade count vs its
+       * average over the longer window (0 = average, 150 = +150 %, -100 = no
+       * trades). "50," = at least +50 %.
+       * @example "50,"
        */
       tradesSpike1m30m?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       tradesSpike30m12h?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       tradesSpike5m2h?: string;
       /** @example 1 */
       user_id?: number;
@@ -353,18 +372,21 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
        */
       volumeBetween?: string;
       volumeFrom?: number;
-      /** @example "-3,3" */
+      /** @example "50," */
       volumeSpike15m6h?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       volumeSpike1h24h?: string;
       /**
-       * Volume spikes (ratio/z-score as you define), keep 1h24h included
-       * @example "-3,3"
+       * Volume spikes: signed % change of the short window's volume vs its
+       * average over the longer window (0 = average, 150 = +150 %, -100 = no
+       * volume). "50," = at least +50 %. volumeSpike1h24h is currently not
+       * populated (every trade has 0).
+       * @example "50,"
        */
       volumeSpike1m30m?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       volumeSpike30m12h?: string;
-      /** @example "-3,3" */
+      /** @example "50," */
       volumeSpike5m2h?: string;
       volumeTo?: number;
       /**
