@@ -6540,6 +6540,14 @@ export interface ServicesChartCandles {
    */
   bars?: number[][];
   /**
+   * Coarse lists the open_time (ms) of the bars that hold a coarse 1m
+   * patch: heal had no exact 1s source for that minute (Bybit) and wrote
+   * the exchange's 1m bar as one row at :00. Set only below 1m, where such
+   * a minute is one bar at :00 instead of its seconds; at 1m and up the
+   * patch is exact and nothing is flagged. Omitted when empty.
+   */
+  coarse?: number[];
+  /**
    * CoverageFrom (ms) is the oldest bucket start the store can answer for
    * this symbol: the table's TTL edge, or the symbol's first row when it is
    * younger. Older ranges belong to the exchange path.

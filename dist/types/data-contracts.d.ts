@@ -3973,6 +3973,7 @@ export interface ServicesChartCandleVenue {
 }
 export interface ServicesChartCandles {
     bars?: number[][];
+    coarse?: number[];
     coverage_from?: number;
     reached_start?: boolean;
 }
