@@ -6511,3 +6511,52 @@ export interface ServicesTransactionProrationContribution {
   start_at?: number;
   transaction_id?: number;
 }
+
+export interface ControllersApiSuccessServicesChartCandleSources {
+  data?: ServicesChartCandleSources;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesChartCandles {
+  data?: ServicesChartCandles;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ServicesChartCandleSources {
+  venues?: ServicesChartCandleVenue[];
+}
+
+export interface ServicesChartCandleVenue {
+  exchange_id?: ServicesExchangeID;
+  intervals?: string[];
+}
+
+export interface ServicesChartCandles {
+  /**
+   * Bars are `[open_time_ms, open, high, low, close, volume, quote_volume]`,
+   * ascending. open_time is the epoch-aligned UTC bucket start.
+   */
+  bars?: number[][];
+  /**
+   * Coarse lists the open_time (ms) of the bars that hold a coarse 1m
+   * patch: heal had no exact 1s source for that minute (Bybit) and wrote
+   * the exchange's 1m bar as one row at :00. Set only below 1m, where such
+   * a minute is one bar at :00 instead of its seconds; at 1m and up the
+   * patch is exact and nothing is flagged. Omitted when empty.
+   */
+  coarse?: number[];
+  /**
+   * CoverageFrom (ms) is the oldest bucket start the store can answer for
+   * this symbol: the table's TTL edge, or the symbol's first row when it is
+   * younger. Older ranges belong to the exchange path.
+   */
+  coverage_from?: number;
+  /**
+   * ReachedStart is true when this page touched CoverageFrom: nothing older
+   * exists in the store. An empty page with ReachedStart false is a quiet
+   * window inside coverage (no trades), not the end of data.
+   */
+  reached_start?: boolean;
+}

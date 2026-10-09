@@ -3956,4 +3956,25 @@ export interface ServicesTransactionProrationContribution {
     start_at?: number;
     transaction_id?: number;
 }
+export interface ControllersApiSuccessServicesChartCandleSources {
+    data?: ServicesChartCandleSources;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesChartCandles {
+    data?: ServicesChartCandles;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ServicesChartCandleSources {
+    venues?: ServicesChartCandleVenue[];
+}
+export interface ServicesChartCandleVenue {
+    exchange_id?: ServicesExchangeID;
+    intervals?: string[];
+}
+export interface ServicesChartCandles {
+    bars?: number[][];
+    coarse?: number[];
+    coverage_from?: number;
+    reached_start?: boolean;
+}
 //# sourceMappingURL=data-contracts.d.ts.map
