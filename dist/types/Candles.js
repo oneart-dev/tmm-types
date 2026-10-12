@@ -11,6 +11,19 @@ export class Candles extends HttpClient {
             format: "json",
             ...params,
         });
+        this.chartList = (query, params = {}) => this.request({
+            path: `/candles/chart`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        this.sourcesList = (params = {}) => this.request({
+            path: `/candles/sources`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }
 //# sourceMappingURL=Candles.js.map
