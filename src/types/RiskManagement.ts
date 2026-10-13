@@ -169,6 +169,7 @@ export class RiskManagement<SecurityDataType = unknown> extends HttpClient<Secur
         | "today"
         | "yesterday"
         | "past1w"
+        | "past1m"
         | "1w"
         | "1m"
         | "7d"

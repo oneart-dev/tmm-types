@@ -305,6 +305,18 @@ export interface ControllersApiSuccessServicesApiUser {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesChartCandleSources {
+  data?: ServicesChartCandleSources;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersApiSuccessServicesChartCandles {
+  data?: ServicesChartCandles;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesDashboard {
   data?: ServicesDashboard;
   /** @example "success" */
@@ -2636,6 +2648,7 @@ export interface DtoTradeFilters {
     | "today"
     | "yesterday"
     | "past1w"
+    | "past1m"
     | "1w"
     | "1m"
     | "7d"
@@ -3386,6 +3399,43 @@ export interface ServicesCategory {
   name?: string;
   order?: number;
   user_id?: number;
+}
+
+export interface ServicesChartCandleSources {
+  venues?: ServicesChartCandleVenue[];
+}
+
+export interface ServicesChartCandleVenue {
+  exchange_id?: ServicesExchangeID;
+  intervals?: string[];
+}
+
+export interface ServicesChartCandles {
+  /**
+   * Bars are `[open_time_ms, open, high, low, close, volume, quote_volume]`,
+   * ascending. open_time is the epoch-aligned UTC bucket start.
+   */
+  bars?: number[][];
+  /**
+   * Coarse lists the open_time (ms) of the bars that hold a coarse 1m
+   * patch: heal had no exact 1s source for that minute (Bybit) and wrote
+   * the exchange's 1m bar as one row at :00. Set only below 1m, where such
+   * a minute is one bar at :00 instead of its seconds; at 1m and up the
+   * patch is exact and nothing is flagged. Omitted when empty.
+   */
+  coarse?: number[];
+  /**
+   * CoverageFrom (ms) is the oldest bucket start the store can answer for
+   * this symbol: the table's TTL edge, or the symbol's first row when it is
+   * younger. Older ranges belong to the exchange path.
+   */
+  coverage_from?: number;
+  /**
+   * ReachedStart is true when this page touched CoverageFrom: nothing older
+   * exists in the store. An empty page with ReachedStart false is a quiet
+   * window inside coverage (no trades), not the end of data.
+   */
+  reached_start?: boolean;
 }
 
 export interface ServicesChatToolResultSSEPayload {
@@ -4497,6 +4547,12 @@ export enum ServicesPartnerID {
 
 export interface ServicesPaymentGateway {
   /**
+   * BlockedLevels lists the membership levels this user cannot buy through
+   * this gateway right now. Empty when none.
+   * @example ["trader","pro"]
+   */
+  blocked_levels: ServicesMembership[];
+  /**
    * Coin is the ticker the user pays in. Empty for card gateways.
    * @example "USDC"
    */
@@ -5133,12 +5189,12 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
   TagColumnAny = 0,
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5529,6 +5585,7 @@ export enum ServicesTradeDurationType {
   TradeDurationTypeToday = "today",
   TradeDurationTypeYesterday = "yesterday",
   TradeDurationTypePast1W = "past1w",
+  TradeDurationTypePast1M = "past1m",
   TradeDurationType1W = "1w",
   TradeDurationType1M = "1m",
   TradeDurationType7D = "7d",
@@ -5775,6 +5832,7 @@ export enum ServicesTradeMultiplier {
 export enum ServicesTradeProcess {
   TradeUnprocessed = 0,
   TradePartiallyProcessed = 1,
+  TradeProcessFailed = 2,
   TradeProcessCompleted = 3,
 }
 
@@ -5849,10 +5907,10 @@ export interface ServicesTradeSSEPayload {
   net_profit?: string;
   open_qty?: string;
   open_time?: number;
+  /** SubAccount       string          `json:"sub_account"` */
   orders?: ServicesOrder[];
+  /** OrdersTotal is the trade's order count, sent only when orders is absent. */
   orders_total?: number;
-  orders_truncated?: boolean;
-  payload_truncated?: boolean;
   peak_qty?: string;
   /**
    * PeakQtyUsd is the cost basis of the largest position held at once:
@@ -6510,53 +6568,4 @@ export interface ServicesTransactionProrationContribution {
   level?: ServicesMembership;
   start_at?: number;
   transaction_id?: number;
-}
-
-export interface ControllersApiSuccessServicesChartCandleSources {
-  data?: ServicesChartCandleSources;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ControllersApiSuccessServicesChartCandles {
-  data?: ServicesChartCandles;
-  /** @example "success" */
-  status?: ControllersResponseStatusMessage;
-}
-
-export interface ServicesChartCandleSources {
-  venues?: ServicesChartCandleVenue[];
-}
-
-export interface ServicesChartCandleVenue {
-  exchange_id?: ServicesExchangeID;
-  intervals?: string[];
-}
-
-export interface ServicesChartCandles {
-  /**
-   * Bars are `[open_time_ms, open, high, low, close, volume, quote_volume]`,
-   * ascending. open_time is the epoch-aligned UTC bucket start.
-   */
-  bars?: number[][];
-  /**
-   * Coarse lists the open_time (ms) of the bars that hold a coarse 1m
-   * patch: heal had no exact 1s source for that minute (Bybit) and wrote
-   * the exchange's 1m bar as one row at :00. Set only below 1m, where such
-   * a minute is one bar at :00 instead of its seconds; at 1m and up the
-   * patch is exact and nothing is flagged. Omitted when empty.
-   */
-  coarse?: number[];
-  /**
-   * CoverageFrom (ms) is the oldest bucket start the store can answer for
-   * this symbol: the table's TTL edge, or the symbol's first row when it is
-   * younger. Older ranges belong to the exchange path.
-   */
-  coverage_from?: number;
-  /**
-   * ReachedStart is true when this page touched CoverageFrom: nothing older
-   * exists in the store. An empty page with ReachedStart false is a quiet
-   * window inside coverage (no trades), not the end of data.
-   */
-  reached_start?: boolean;
 }

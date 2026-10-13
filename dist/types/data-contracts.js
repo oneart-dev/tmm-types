@@ -352,12 +352,12 @@ export var ServicesTagCategoryScope;
 })(ServicesTagCategoryScope || (ServicesTagCategoryScope = {}));
 export var ServicesTagColumn;
 (function (ServicesTagColumn) {
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
+    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
     ServicesTagColumn[ServicesTagColumn["TagColumnEntryReason"] = 1] = "TagColumnEntryReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnExitReason"] = 2] = "TagColumnExitReason";
     ServicesTagColumn[ServicesTagColumn["TagColumnConclusion"] = 3] = "TagColumnConclusion";
     ServicesTagColumn[ServicesTagColumn["TagColumnAny"] = 0] = "TagColumnAny";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMin"] = 10] = "TagCategoryCustomMin";
-    ServicesTagColumn[ServicesTagColumn["TagCategoryCustomMax"] = 127] = "TagCategoryCustomMax";
 })(ServicesTagColumn || (ServicesTagColumn = {}));
 export var ServicesTeamMemberShowPnl;
 (function (ServicesTeamMemberShowPnl) {
@@ -419,6 +419,7 @@ export var ServicesTradeDurationType;
     ServicesTradeDurationType["TradeDurationTypeToday"] = "today";
     ServicesTradeDurationType["TradeDurationTypeYesterday"] = "yesterday";
     ServicesTradeDurationType["TradeDurationTypePast1W"] = "past1w";
+    ServicesTradeDurationType["TradeDurationTypePast1M"] = "past1m";
     ServicesTradeDurationType["TradeDurationType1W"] = "1w";
     ServicesTradeDurationType["TradeDurationType1M"] = "1m";
     ServicesTradeDurationType["TradeDurationType7D"] = "7d";
@@ -461,6 +462,7 @@ export var ServicesTradeProcess;
 (function (ServicesTradeProcess) {
     ServicesTradeProcess[ServicesTradeProcess["TradeUnprocessed"] = 0] = "TradeUnprocessed";
     ServicesTradeProcess[ServicesTradeProcess["TradePartiallyProcessed"] = 1] = "TradePartiallyProcessed";
+    ServicesTradeProcess[ServicesTradeProcess["TradeProcessFailed"] = 2] = "TradeProcessFailed";
     ServicesTradeProcess[ServicesTradeProcess["TradeProcessCompleted"] = 3] = "TradeProcessCompleted";
 })(ServicesTradeProcess || (ServicesTradeProcess = {}));
 export var ServicesTradeSide;

@@ -81,7 +81,7 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted.
+   * @description Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted. blocked_levels lists the membership levels the current user cannot buy through that gateway right now (e.g. Stripe while an upgrade from an active paid plan needs proration); empty when none.
    *
    * @tags transactions
    * @name GatewaysList
