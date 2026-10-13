@@ -121,6 +121,7 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
         | "today"
         | "yesterday"
         | "past1w"
+        | "past1m"
         | "1w"
         | "1m"
         | "7d"

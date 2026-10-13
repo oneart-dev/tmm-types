@@ -205,6 +205,14 @@ export interface ControllersApiSuccessServicesApiUser {
     data?: ServicesApiUser;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesChartCandleSources {
+    data?: ServicesChartCandleSources;
+    status?: ControllersResponseStatusMessage;
+}
+export interface ControllersApiSuccessServicesChartCandles {
+    data?: ServicesChartCandles;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesDashboard {
     data?: ServicesDashboard;
     status?: ControllersResponseStatusMessage;
@@ -1269,7 +1277,7 @@ export interface DtoTradeFilters {
     daysOfWeek?: number[];
     dipBeforePeakBetween?: string;
     durationBetween?: string;
-    durationType?: "today" | "yesterday" | "past1w" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd";
+    durationType?: "today" | "yesterday" | "past1w" | "past1m" | "1w" | "1m" | "7d" | "14d" | "30d" | "60d" | "90d" | "180d" | "365d" | "ytd";
     entryLegsBetween?: string;
     entryValueBetween?: string;
     exitLegsBetween?: string;
@@ -1651,6 +1659,19 @@ export interface ServicesCategory {
     name?: string;
     order?: number;
     user_id?: number;
+}
+export interface ServicesChartCandleSources {
+    venues?: ServicesChartCandleVenue[];
+}
+export interface ServicesChartCandleVenue {
+    exchange_id?: ServicesExchangeID;
+    intervals?: string[];
+}
+export interface ServicesChartCandles {
+    bars?: number[][];
+    coarse?: number[];
+    coverage_from?: number;
+    reached_start?: boolean;
 }
 export interface ServicesChatToolResultSSEPayload {
     dashboard_id?: number;
@@ -2465,6 +2486,7 @@ export declare enum ServicesPartnerID {
     PARTNER_ID_TIGER = 2
 }
 export interface ServicesPaymentGateway {
+    blocked_levels: ServicesMembership[];
     coin?: string;
     enabled?: boolean;
     id?: string;
@@ -2910,12 +2932,12 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3,
-    TagColumnAny = 0,
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagColumnAny = 0
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3214,6 +3236,7 @@ export declare enum ServicesTradeDurationType {
     TradeDurationTypeToday = "today",
     TradeDurationTypeYesterday = "yesterday",
     TradeDurationTypePast1W = "past1w",
+    TradeDurationTypePast1M = "past1m",
     TradeDurationType1W = "1w",
     TradeDurationType1M = "1m",
     TradeDurationType7D = "7d",
@@ -3423,6 +3446,7 @@ export declare enum ServicesTradeMultiplier {
 export declare enum ServicesTradeProcess {
     TradeUnprocessed = 0,
     TradePartiallyProcessed = 1,
+    TradeProcessFailed = 2,
     TradeProcessCompleted = 3
 }
 export interface ServicesTradeSSEPayload {
@@ -3474,8 +3498,6 @@ export interface ServicesTradeSSEPayload {
     open_time?: number;
     orders?: ServicesOrder[];
     orders_total?: number;
-    orders_truncated?: boolean;
-    payload_truncated?: boolean;
     peak_qty?: string;
     peak_qty_usd?: string;
     percent?: string;
@@ -3955,26 +3977,5 @@ export interface ServicesTransactionProrationContribution {
     level?: ServicesMembership;
     start_at?: number;
     transaction_id?: number;
-}
-export interface ControllersApiSuccessServicesChartCandleSources {
-    data?: ServicesChartCandleSources;
-    status?: ControllersResponseStatusMessage;
-}
-export interface ControllersApiSuccessServicesChartCandles {
-    data?: ServicesChartCandles;
-    status?: ControllersResponseStatusMessage;
-}
-export interface ServicesChartCandleSources {
-    venues?: ServicesChartCandleVenue[];
-}
-export interface ServicesChartCandleVenue {
-    exchange_id?: ServicesExchangeID;
-    intervals?: string[];
-}
-export interface ServicesChartCandles {
-    bars?: number[][];
-    coarse?: number[];
-    coverage_from?: number;
-    reached_start?: boolean;
 }
 //# sourceMappingURL=data-contracts.d.ts.map

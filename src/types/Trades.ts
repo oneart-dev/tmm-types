@@ -146,6 +146,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | "today"
         | "yesterday"
         | "past1w"
+        | "past1m"
         | "1w"
         | "1m"
         | "7d"
@@ -662,6 +663,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
         | "today"
         | "yesterday"
         | "past1w"
+        | "past1m"
         | "1w"
         | "1m"
         | "7d"
@@ -1090,7 +1092,7 @@ export class Trades<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Maps trade SSE event names (trade, trade-update, trades) to their typed payloads. The orders array inside trade/trade-update is capped at 1000 entries; when cut, orders_truncated=true and orders_total carry the real count and consumers must fetch the full list via GET /trades/{id}/orders. payload_truncated=true means heavy optional fields were stripped too — refetch the trade over REST. NOT a callable HTTP endpoint — calling it returns 501.
+   * @description Maps trade SSE event names (trade, trade-update, trades) to their typed payloads. Partial payload: a key absent was not sent — keep your value. `orders` is absent above 1000 orders; `orders_total` then carries the count. NOT a callable HTTP endpoint — calling it returns 501.
    *
    * @tags trades, internal
    * @name SseEventsList
