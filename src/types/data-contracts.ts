@@ -4547,8 +4547,9 @@ export enum ServicesPartnerID {
 
 export interface ServicesPaymentGateway {
   /**
-   * BlockedLevels lists the membership levels this user cannot buy through
-   * this gateway right now. Empty when none.
+   * BlockedLevels lists the levels this gateway refuses as a plan change
+   * (upgrade) for this user right now. Gateway-specific only: downgrades are
+   * rejected on every gateway and are not listed. Empty when none.
    * @example ["trader","pro"]
    */
   blocked_levels: ServicesMembership[];
