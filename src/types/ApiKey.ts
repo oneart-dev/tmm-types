@@ -28,7 +28,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Adds a new API key to the user's account. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
+   * @description Adds a new API key to the user's account. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `key_not_read_only`, `key_expired`, `account_mode_changed`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
    *
    * @tags api-key
    * @name ApiKeyUpdate
@@ -130,7 +130,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       },
     );
   /**
-   * @description Adds multiple API keys in a single batch request. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
+   * @description Adds multiple API keys in a single batch request. On a credential failure the 400 body carries a stable machine-readable `code` and the failing `exchange_id` next to the translated message in `errors.key_public`. Codes: `invalid_key`, `invalid_permissions`, `invalid_passphrase`, `key_not_read_only`, `key_expired`, `account_mode_changed`, `ip_restricted`, `rate_limited`, `exchange_unreachable`, `unknown`. Treat unrecognised codes as `unknown` and fall back to the message.
    *
    * @tags api-key
    * @name BatchUpdate
