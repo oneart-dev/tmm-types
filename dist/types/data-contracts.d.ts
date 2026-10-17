@@ -2131,8 +2131,11 @@ export interface ServicesFleetActivityDTO {
 export interface ServicesFleetInstanceDTO {
     exchange_id?: number;
     exchange_name?: string;
+    heartbeat_alive?: boolean;
     id?: number;
     key_count?: number;
+    max_keys_per_instance?: number;
+    min_instances?: number;
     node_ip?: string;
     owned?: boolean;
     status?: string;
@@ -2937,12 +2940,12 @@ export declare enum ServicesTagCategoryScope {
     TagCategoryScopeNote = 2
 }
 export declare enum ServicesTagColumn {
-    TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127,
-    TagColumnAny = 0,
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
-    TagColumnConclusion = 3
+    TagColumnConclusion = 3,
+    TagColumnAny = 0,
+    TagCategoryCustomMin = 10,
+    TagCategoryCustomMax = 127
 }
 export interface ServicesTagFilterGroup {
     column?: number;
@@ -3760,6 +3763,8 @@ export interface ServicesUserWithRelations {
     filter_presets?: ServicesFilterPreset[];
     guides_progress?: ServicesGuideProgress;
     has_api_keys?: boolean;
+    history_available_from_ms?: number;
+    history_window_days?: number;
     id?: number;
     invite_code?: string;
     is_demo?: boolean;

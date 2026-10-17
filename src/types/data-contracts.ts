@@ -4099,8 +4099,11 @@ export interface ServicesFleetActivityDTO {
 export interface ServicesFleetInstanceDTO {
   exchange_id?: number;
   exchange_name?: string;
+  heartbeat_alive?: boolean;
   id?: number;
   key_count?: number;
+  max_keys_per_instance?: number;
+  min_instances?: number;
   node_ip?: string;
   owned?: boolean;
   status?: string;
@@ -5195,12 +5198,12 @@ export enum ServicesTagCategoryScope {
 
 /** @format int32 */
 export enum ServicesTagColumn {
-  TagCategoryCustomMin = 10,
-  TagCategoryCustomMax = 127,
-  TagColumnAny = 0,
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
+  TagColumnAny = 0,
+  TagCategoryCustomMin = 10,
+  TagCategoryCustomMax = 127,
 }
 
 export interface ServicesTagFilterGroup {
@@ -5571,7 +5574,7 @@ export interface ServicesTradeCountByWeek {
    * PeakQtyUsd is Σ peak position size ($) over the listed trades, for the
    * trades table footer. Only calculateSummary fills it (never a SQL
    * aggregate: gorm:"-"); nil when no trade carries the value (inverse /
-   * alt-coin pairs, tiers the trade metrics are hidden from).
+   * alt-coin pairs). Every tier gets it.
    */
   peak_qty_usd?: string;
   percent?: string;
@@ -5979,7 +5982,7 @@ export interface ServicesTradeSummary {
    * PeakQtyUsd is Σ peak position size ($) over the listed trades, for the
    * trades table footer. Only calculateSummary fills it (never a SQL
    * aggregate: gorm:"-"); nil when no trade carries the value (inverse /
-   * alt-coin pairs, tiers the trade metrics are hidden from).
+   * alt-coin pairs). Every tier gets it.
    */
   peak_qty_usd?: string;
   percent?: string;
@@ -6264,6 +6267,19 @@ export interface ServicesUserWithRelations {
    * @example true
    */
   has_api_keys?: boolean;
+  /**
+   * HistoryAvailableFromMs — computed: epoch ms before which trades are
+   * hidden, the same cutoff the trade filters clamp to
+   * (MembershipHistoryCutoffMs). Absent when unlimited.
+   * @example 1757000000000
+   */
+  history_available_from_ms?: number;
+  /**
+   * HistoryWindowDays — computed: days of trade history the plan shows
+   * (MembershipHistoryWindowDays). Absent when unlimited.
+   * @example 31
+   */
+  history_window_days?: number;
   id?: number;
   invite_code?: string;
   /**

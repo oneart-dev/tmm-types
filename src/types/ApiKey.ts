@@ -215,7 +215,7 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
       ...params,
     });
   /**
-   * @description Permanently disables an API key. A frozen key does not count towards the active connection limit. Free-tier users are limited to 3 frozen keys. This action is irreversible.
+   * @description Permanently disables an API key. A frozen key does not count towards the active connection limit. Frozen keys are capped per plan (Free 3, Novice+ 6, Trader 10, Pro unlimited); over the cap returns 423. This action is irreversible.
    *
    * @tags api-key
    * @name FreezeCreate
