@@ -135,6 +135,29 @@ export class Users extends HttpClient {
             format: "json",
             ...params,
         });
+        this.referralStripeRenewalList = (params = {}) => this.request({
+            path: `/users/referral/stripe-renewal`,
+            method: "GET",
+            secure: true,
+            format: "json",
+            ...params,
+        });
+        this.referralStripeRenewalCreate = (payload, params = {}) => this.request({
+            path: `/users/referral/stripe-renewal`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
+        this.referralStripeRenewalDelete = (params = {}) => this.request({
+            path: `/users/referral/stripe-renewal`,
+            method: "DELETE",
+            secure: true,
+            format: "json",
+            ...params,
+        });
         this.referralWithdrawalsList = (params = {}) => this.request({
             path: `/users/referral/withdrawals`,
             method: "GET",

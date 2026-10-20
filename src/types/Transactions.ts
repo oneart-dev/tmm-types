@@ -16,6 +16,7 @@ import {
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTransactionQuote,
   ControllersApiSuccessString,
+  ControllersApiWarningResponse,
   ControllersTransactionCreateResponse,
   ControllersUnauthorizedResponse,
   DtoTransactionCreateForm,
@@ -70,7 +71,7 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
   transactionsUpdate = (payload: DtoTransactionCreateForm, params: RequestParams = {}) =>
     this.request<
       ControllersTransactionCreateResponse,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | string | ControllersApiErrorResponse
     >({
       path: `/transactions`,
       method: "PUT",
@@ -81,7 +82,7 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted.
+   * @description Retrieves every payment gateway the user can pay with right now — crypto rails (coin + network + minimum) and card. Gateways with no configured deposit addresses are omitted. blocked_levels lists the levels that gateway refuses as a plan change (upgrade) for the current user right now (e.g. Stripe while an upgrade from an active paid plan needs proration); empty when none. Downgrades are rejected on every gateway and are not listed.
    *
    * @tags transactions
    * @name GatewaysList

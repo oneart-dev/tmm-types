@@ -431,6 +431,12 @@ export interface ControllersApiSuccessServicesSSETradeEventCatalog {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesStripeRenewalCash {
+  data?: ServicesStripeRenewalCash;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesTag {
   data?: ServicesTag;
   /** @example "success" */
@@ -2225,6 +2231,14 @@ export interface DtoPublicProfileUpdateForm {
    * @example "username"
    */
   youtube?: string;
+}
+
+export interface DtoReferralStripeRenewalForm {
+  /**
+   * @maxLength 32
+   * @example "12.50"
+   */
+  amount: string;
 }
 
 export interface DtoReferralWithdrawalActionForm {
@@ -4562,6 +4576,13 @@ export enum ServicesPartnerID {
 
 export interface ServicesPaymentGateway {
   /**
+   * BlockedLevels lists the levels this gateway refuses as a plan change
+   * (upgrade) for this user right now. Gateway-specific only: downgrades are
+   * rejected on every gateway and are not listed. Empty when none.
+   * @example ["trader","pro"]
+   */
+  blocked_levels: ServicesMembership[];
+  /**
    * Coin is the ticker the user pays in. Empty for card gateways.
    * @example "USDC"
    */
@@ -4888,20 +4909,58 @@ export interface ServicesPulseWeek {
 }
 
 export interface ServicesReferralDashboard {
+  /** Active30dReferrals counts referrals with active_30d true (paying or not). */
+  active_30d_referrals?: number;
   available_balance?: string;
   commission_tiers?: ServicesReferralTierInfo[];
   current_tier_index?: number;
+  /**
+   * CurrentTierRate is the rate the referrer's next earning is priced at:
+   * the partner rate when PartnerRate is true, the ladder rung otherwise.
+   */
   current_tier_rate?: number;
+  /**
+   * EarnedThisMonth is non-reversed commission created in the current UTC
+   * calendar month.
+   */
+  earned_this_month?: string;
+  /** EarningReferrals counts referrals whose earning_status is `earning`. */
+  earning_referrals?: number;
   earnings?: ServicesReferralEarning[];
+  /**
+   * EarningsByMonth is the last 12 UTC months including the current one,
+   * oldest first, non-reversed commission by created_at, zero-filled.
+   */
+  earnings_by_month?: ServicesReferralMonthAmount[];
   lifetime_earned?: string;
   /**
    * MinWithdrawal is the resolved minimum payout amount (USDT) the withdrawal
    * form enforces and displays. Config-driven, defaults to 50.
    */
   min_withdrawal?: number;
+  /**
+   * NextTierThreshold is the paying-referral count of the next rung, -1 on
+   * the top rung or for a partner.
+   */
   next_tier_threshold?: number;
+  /**
+   * PartnerRate is true when the referrer has a per-user commission
+   * override. A partner has no next tier: NextTierThreshold is -1.
+   */
+  partner_rate?: boolean;
   paying_referrals?: number;
   pending_balance?: string;
+  /**
+   * ProjectedByMonth is ProjectedTotal by expected payment month: the
+   * current UTC month and the 11 after it, zero-filled.
+   */
+  projected_by_month?: ServicesReferralMonthAmount[];
+  /**
+   * ProjectedTotal is the expected future commission, inside each window,
+   * from referrals that are `earning` AND active in the last 30 days,
+   * assuming they keep renewing at list price.
+   */
+  projected_total?: string;
   referrals?: ServicesReferralRefereeInfo[];
   spent_total?: string;
   withdrawals?: ServicesReferralWithdrawal[];
@@ -4936,12 +4995,49 @@ export enum ServicesReferralEarningStatus {
   ReferralEarningReversed = "reversed",
 }
 
+export interface ServicesReferralMonthAmount {
+  /** @example "12.5" */
+  amount?: string;
+  /** @example "2026-10" */
+  month?: string;
+}
+
+export enum ServicesReferralRefereeEarningStatus {
+  ReferralRefereeNotPaying = "not_paying",
+  ReferralRefereeEarning = "earning",
+  ReferralRefereeLapsed = "lapsed",
+  ReferralRefereeEnded = "ended",
+}
+
 export interface ServicesReferralRefereeInfo {
+  /**
+   * Active30d: the referee made an API call in the last 30 days. Boolean
+   * only — the last-activity timestamp is never exposed.
+   */
+  active_30d?: boolean;
+  /** CycleMonths is the months of that payment (1/6/12…); null when never paid. */
+  cycle_months?: number | null;
   earned?: string;
+  /**
+   * EarningStatus: not_paying (never paid), earning (window open, paid
+   * membership active), lapsed (window open, membership expired), ended
+   * (window closed).
+   */
+  earning_status?: ServicesReferralRefereeEarningStatus;
   joined_at?: string;
   paid?: boolean;
+  /**
+   * Plan is the membership level of the referee's LATEST billable payment
+   * (novice_plus / trader / pro); null when they never paid.
+   */
+  plan?: "novice_plus" | "trader" | "pro" | null;
   status?: string;
   uid?: number;
+  /**
+   * WindowEnd is the end of the commission window (first billable payment
+   * + WindowMonths, the Accrue anchor); null when never paid.
+   */
+  window_end?: string | null;
 }
 
 export enum ServicesReferralReversalReason {
@@ -5128,6 +5224,42 @@ export enum ServicesStripeBillingCycle {
   StripeBillingCycleMonthly = 1,
   StripeBillingCycleHalfYearly = 2,
   StripeBillingCycleYearly = 3,
+}
+
+export interface ServicesStripeRenewalCash {
+  /** Applied is the open redemption; nil when there is none. */
+  applied?: ServicesStripeRenewalCashApplied;
+  /** Eligible is true when a new redemption can be made right now. */
+  eligible?: boolean;
+  /**
+   * MaxApplicable is the most referral cash the next renewal can take: the
+   * available balance capped at NextAmount, held back so the card is
+   * charged either nothing or at least USD 0.50.
+   */
+  max_applicable?: string;
+  /** NextAmount is the next renewal's amount due before referral cash. */
+  next_amount?: string;
+  /**
+   * NextPaymentAt is when Stripe will charge the next renewal; nil when
+   * there is no upcoming renewal.
+   */
+  next_payment_at?: string;
+  /**
+   * Reason says why not (one of the StripeRenewalReason* values); empty
+   * when Eligible.
+   */
+  reason?: string;
+}
+
+export interface ServicesStripeRenewalCashApplied {
+  amount?: string;
+  created_at?: string;
+  /**
+   * Placed is true once Stripe drafted the renewal invoice and the credit
+   * was put on it; cancelling then also removes it from the draft, and is
+   * refused once the invoice is finalized.
+   */
+  placed?: boolean;
 }
 
 /** @format int32 */
@@ -6090,7 +6222,8 @@ export interface ServicesTransactionQuote {
    * ReferralCashEligible tells the UI whether referral cash CAN be spent on
    * this quote at all: the cash-referral program is enabled, cash->membership
    * conversion is allowed by config, and the selected gateway supports the
-   * settle-time debit (every gateway except Stripe). Independent of whether
+   * settle-time debit (every crypto gateway; Stripe on a first card checkout
+   * only — a live Stripe subscriber redeems on the renewal). Independent of whether
    * the user opted in (ApplyReferralCash) and of the balance being > 0, so a
    * user with a positive AvailableReferralCash and eligible=false can be told
    * the balance exists but this payment method cannot spend it, instead of

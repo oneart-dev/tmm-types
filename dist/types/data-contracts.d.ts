@@ -289,6 +289,10 @@ export interface ControllersApiSuccessServicesSSETradeEventCatalog {
     data?: ServicesSSETradeEventCatalog;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesStripeRenewalCash {
+    data?: ServicesStripeRenewalCash;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesTag {
     data?: ServicesTag;
     status?: ControllersResponseStatusMessage;
@@ -1123,6 +1127,9 @@ export interface DtoPublicProfileUpdateForm {
     vk?: string;
     website?: string;
     youtube?: string;
+}
+export interface DtoReferralStripeRenewalForm {
+    amount: string;
 }
 export interface DtoReferralWithdrawalActionForm {
     note: string;
@@ -2495,6 +2502,7 @@ export declare enum ServicesPartnerID {
     PARTNER_ID_TIGER = 2
 }
 export interface ServicesPaymentGateway {
+    blocked_levels: ServicesMembership[];
     coin?: string;
     enabled?: boolean;
     id?: string;
@@ -2695,16 +2703,23 @@ export interface ServicesPulseWeek {
     week_start?: string;
 }
 export interface ServicesReferralDashboard {
+    active_30d_referrals?: number;
     available_balance?: string;
     commission_tiers?: ServicesReferralTierInfo[];
     current_tier_index?: number;
     current_tier_rate?: number;
+    earned_this_month?: string;
+    earning_referrals?: number;
     earnings?: ServicesReferralEarning[];
+    earnings_by_month?: ServicesReferralMonthAmount[];
     lifetime_earned?: string;
     min_withdrawal?: number;
     next_tier_threshold?: number;
+    partner_rate?: boolean;
     paying_referrals?: number;
     pending_balance?: string;
+    projected_by_month?: ServicesReferralMonthAmount[];
+    projected_total?: string;
     referrals?: ServicesReferralRefereeInfo[];
     spent_total?: string;
     withdrawals?: ServicesReferralWithdrawal[];
@@ -2731,12 +2746,27 @@ export declare enum ServicesReferralEarningStatus {
     ReferralEarningAvailable = "available",
     ReferralEarningReversed = "reversed"
 }
+export interface ServicesReferralMonthAmount {
+    amount?: string;
+    month?: string;
+}
+export declare enum ServicesReferralRefereeEarningStatus {
+    ReferralRefereeNotPaying = "not_paying",
+    ReferralRefereeEarning = "earning",
+    ReferralRefereeLapsed = "lapsed",
+    ReferralRefereeEnded = "ended"
+}
 export interface ServicesReferralRefereeInfo {
+    active_30d?: boolean;
+    cycle_months?: number | null;
     earned?: string;
+    earning_status?: ServicesReferralRefereeEarningStatus;
     joined_at?: string;
     paid?: boolean;
+    plan?: "novice_plus" | "trader" | "pro" | null;
     status?: string;
     uid?: number;
+    window_end?: string | null;
 }
 export declare enum ServicesReferralReversalReason {
     ReferralReversalRefund = "refund",
@@ -2891,6 +2921,19 @@ export declare enum ServicesStripeBillingCycle {
     StripeBillingCycleMonthly = 1,
     StripeBillingCycleHalfYearly = 2,
     StripeBillingCycleYearly = 3
+}
+export interface ServicesStripeRenewalCash {
+    applied?: ServicesStripeRenewalCashApplied;
+    eligible?: boolean;
+    max_applicable?: string;
+    next_amount?: string;
+    next_payment_at?: string;
+    reason?: string;
+}
+export interface ServicesStripeRenewalCashApplied {
+    amount?: string;
+    created_at?: string;
+    placed?: boolean;
 }
 export declare enum ServicesStripeSubscriptionStatus {
     StripeSubscriptionStatusDisabled = 0,

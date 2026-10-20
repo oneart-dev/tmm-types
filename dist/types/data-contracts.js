@@ -304,6 +304,13 @@ export var ServicesReferralEarningStatus;
     ServicesReferralEarningStatus["ReferralEarningAvailable"] = "available";
     ServicesReferralEarningStatus["ReferralEarningReversed"] = "reversed";
 })(ServicesReferralEarningStatus || (ServicesReferralEarningStatus = {}));
+export var ServicesReferralRefereeEarningStatus;
+(function (ServicesReferralRefereeEarningStatus) {
+    ServicesReferralRefereeEarningStatus["ReferralRefereeNotPaying"] = "not_paying";
+    ServicesReferralRefereeEarningStatus["ReferralRefereeEarning"] = "earning";
+    ServicesReferralRefereeEarningStatus["ReferralRefereeLapsed"] = "lapsed";
+    ServicesReferralRefereeEarningStatus["ReferralRefereeEnded"] = "ended";
+})(ServicesReferralRefereeEarningStatus || (ServicesReferralRefereeEarningStatus = {}));
 export var ServicesReferralReversalReason;
 (function (ServicesReferralReversalReason) {
     ServicesReferralReversalReason["ReferralReversalRefund"] = "refund";

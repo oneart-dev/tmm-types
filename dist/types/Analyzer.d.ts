@@ -115,7 +115,7 @@ export declare class Analyzer<SecurityDataType = unknown> extends HttpClient<Sec
         volumeSpike5m2h?: string;
         volumeTo?: number;
         with_archive?: boolean;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersAnalyzerWeekResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersAnalyzerWeekResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     notesList: (query?: {
         type?: number;
         dateBetween?: string;

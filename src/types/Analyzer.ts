@@ -400,7 +400,7 @@ export class Analyzer<SecurityDataType = unknown> extends HttpClient<SecurityDat
   ) =>
     this.request<
       ControllersAnalyzerWeekResponse,
-      ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | string | ControllersApiErrorResponse
     >({
       path: `/analyzer/`,
       method: "GET",

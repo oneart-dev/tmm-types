@@ -13,11 +13,13 @@ import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesLeaguePointCheckPublicItem,
   ControllersApiSuccessArrayServicesReferralWithdrawal,
+  ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesPromoCodeApplyResult,
   ControllersApiSuccessServicesPromoCodePreview,
   ControllersApiSuccessServicesReferralDashboard,
   ControllersApiSuccessServicesReferralWithdrawal,
+  ControllersApiSuccessServicesStripeRenewalCash,
   ControllersApiWarningResponse,
   ControllersBulkSignUpSuccessResponse,
   ControllersLoginSuccessResponse,
@@ -30,6 +32,7 @@ import {
   DtoPromoCodeApplyForm,
   DtoPromoCodePreviewForm,
   DtoPublicProfileUpdateForm,
+  DtoReferralStripeRenewalForm,
   DtoReferralWithdrawalCreateForm,
   DtoUserLanguage,
   DtoUserReferralCode,
@@ -373,6 +376,71 @@ export class Users<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
     >({
       path: `/users/referral/dashboard`,
       method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Reports whether referral cash can go towards the current user's next Stripe renewal: when it is charged (next_payment_at), what it costs before the cash (next_amount), the most cash it can take (max_applicable — the balance capped so the card is charged either $0 or at least $0.50), and the open redemption, if any. `reason` says why `eligible` is false: no_subscription, subscription_not_active, subscription_ending, no_upcoming_invoice, no_balance, below_minimum, already_applied, checkout_pending. 423 when the referral program or cash conversion is off.
+   *
+   * @tags referral
+   * @name ReferralStripeRenewalList
+   * @summary Get the referral-cash renewal redemption
+   * @request GET:/users/referral/stripe-renewal
+   * @secure
+   */
+  referralStripeRenewalList = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesStripeRenewalCash,
+      ControllersUnauthorizedResponse | ControllersApiWarningResponse | ControllersApiErrorResponse
+    >({
+      path: `/users/referral/stripe-renewal`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Reserves `amount` of referral cash (USD, at most 2 decimals, up to max_applicable) for the current user's next Stripe renewal. Nothing is charged or changed in Stripe yet: when Stripe drafts the renewal invoice the credit is placed on it, and it is spent when that invoice is paid. Until the invoice is drafted the redemption can be canceled with DELETE. One open redemption per user (409).
+   *
+   * @tags referral
+   * @name ReferralStripeRenewalCreate
+   * @summary Use referral cash for the next renewal
+   * @request POST:/users/referral/stripe-renewal
+   * @secure
+   */
+  referralStripeRenewalCreate = (payload: DtoReferralStripeRenewalForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesStripeRenewalCash,
+      | ServicesValidationErrorResponse
+      | ControllersUnauthorizedResponse
+      | ControllersApiWarningResponse
+      | ControllersApiErrorResponse
+    >({
+      path: `/users/referral/stripe-renewal`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Withdraws the open renewal redemption and returns the cash to the referral balance. Once Stripe has drafted the renewal invoice the credit is removed from it first; once the invoice is finalized the cancel is refused (409). 404 when there is no open renewal redemption.
+   *
+   * @tags referral
+   * @name ReferralStripeRenewalDelete
+   * @summary Cancel the referral-cash renewal redemption
+   * @request DELETE:/users/referral/stripe-renewal
+   * @secure
+   */
+  referralStripeRenewalDelete = (params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ControllersUnauthorizedResponse | ControllersApiErrorResponse | ControllersApiWarningResponse
+    >({
+      path: `/users/referral/stripe-renewal`,
+      method: "DELETE",
       secure: true,
       format: "json",
       ...params,
