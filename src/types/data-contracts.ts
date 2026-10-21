@@ -4578,8 +4578,8 @@ export interface ServicesPaymentGateway {
   /**
    * BlockedLevels lists the levels this gateway refuses as a plan change
    * (upgrade) for this user right now. Gateway-specific only: downgrades are
-   * rejected on every gateway and are not listed. Empty when none.
-   * @example ["trader","pro"]
+   * rejected on every gateway and are not listed. Currently empty on every
+   * gateway; kept for gateway-specific rules.
    */
   blocked_levels: ServicesMembership[];
   /**
