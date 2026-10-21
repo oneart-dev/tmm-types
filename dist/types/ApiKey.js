@@ -54,6 +54,15 @@ export class ApiKey extends HttpClient {
             format: "json",
             ...params,
         });
+        this.colorCreate = (id, payload, params = {}) => this.request({
+            path: `/api-key/${id}/color`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.freezeCreate = (id, params = {}) => this.request({
             path: `/api-key/${id}/freeze`,
             method: "POST",

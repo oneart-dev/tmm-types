@@ -1168,6 +1168,14 @@ export interface ControllersWidgetUpdateResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface DtoAPIKeyUpdateColorForm {
+  /**
+   * @maxLength 11
+   * @example "34 197 94"
+   */
+  color?: string;
+}
+
 export interface DtoAnalyzerNoteForm {
   /** @example "Description of the day/week/month" */
   desc?: string;
@@ -3235,6 +3243,13 @@ export interface ServicesApiKey {
    * Read-only.
    */
   account_mode?: ServicesApiKeyAccountMode;
+  /**
+   * Color is the owner's display color, "R G B" decimals 0-255 (same format
+   * as tag color_bg), or "" when none was picked. Set it with
+   * POST /api-key/{id}/color.
+   * @example "34 197 94"
+   */
+  color?: string;
   created_at?: string;
   /**
    * Enabled

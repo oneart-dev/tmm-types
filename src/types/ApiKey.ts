@@ -17,6 +17,7 @@ import {
   ControllersApiSuccessServicesApiKey,
   ControllersApiWarningResponse,
   ControllersUnauthorizedResponse,
+  DtoAPIKeyUpdateColorForm,
   DtoApiKeyCreateForm,
   DtoApiKeyUpdateForm,
   DtoApiKeyUpdateNameForm,
@@ -209,6 +210,28 @@ export class ApiKey<SecurityDataType = unknown> extends HttpClient<SecurityDataT
     >({
       path: `/api-key/${id}`,
       method: "DELETE",
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Sets the display color of an API key as three numbers from 0 to 255 separated by spaces (red, green, blue), for example "34 197 94". Send an empty color to remove it. The color is returned as `color` on every API key object.
+   *
+   * @tags api-key
+   * @name ColorCreate
+   * @summary Update API Key Color
+   * @request POST:/api-key/{id}/color
+   * @secure
+   */
+  colorCreate = (id: number, payload: DtoAPIKeyUpdateColorForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse | string
+    >({
+      path: `/api-key/${id}/color`,
+      method: "POST",
+      body: payload,
       secure: true,
       type: ContentType.Json,
       format: "json",

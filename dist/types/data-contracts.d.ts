@@ -734,6 +734,9 @@ export interface ControllersWidgetUpdateResponse {
     serverData?: string;
     status?: ControllersResponseStatusMessage;
 }
+export interface DtoAPIKeyUpdateColorForm {
+    color?: string;
+}
 export interface DtoAnalyzerNoteForm {
     desc?: string;
     id?: number;
@@ -1524,6 +1527,7 @@ export interface ServicesAnalyzerNote {
 }
 export interface ServicesApiKey {
     account_mode?: ServicesApiKeyAccountMode;
+    color?: string;
     created_at?: string;
     enabled?: ServicesApiKeyEnabledStatus;
     exchange_id?: ServicesExchangeID;
