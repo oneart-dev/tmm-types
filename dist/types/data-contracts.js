@@ -97,6 +97,12 @@ export var ServicesCVizorStatus;
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledTrends"] = 1] = "CVizorStatusEnabledTrends";
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledPRO"] = 2] = "CVizorStatusEnabledPRO";
 })(ServicesCVizorStatus || (ServicesCVizorStatus = {}));
+export var ServicesCommentAuthorKind;
+(function (ServicesCommentAuthorKind) {
+    ServicesCommentAuthorKind["CommentAuthorUser"] = "user";
+    ServicesCommentAuthorKind["CommentAuthorAdmin"] = "admin";
+    ServicesCommentAuthorKind["CommentAuthorAI"] = "ai";
+})(ServicesCommentAuthorKind || (ServicesCommentAuthorKind = {}));
 export var ServicesConnectionStatus;
 (function (ServicesConnectionStatus) {
     ServicesConnectionStatus[ServicesConnectionStatus["TelegramConnectStatusNew"] = 1] = "TelegramConnectStatusNew";
@@ -178,6 +184,11 @@ export var ServicesExitType;
     ServicesExitType[ServicesExitType["ExitTypeLiquidation"] = 5] = "ExitTypeLiquidation";
     ServicesExitType[ServicesExitType["ExitTypeOther"] = 6] = "ExitTypeOther";
 })(ServicesExitType || (ServicesExitType = {}));
+export var ServicesFeedNotificationHandler;
+(function (ServicesFeedNotificationHandler) {
+    ServicesFeedNotificationHandler["FeedNotificationHandlerAI"] = "ai";
+    ServicesFeedNotificationHandler["FeedNotificationHandlerHuman"] = "human";
+})(ServicesFeedNotificationHandler || (ServicesFeedNotificationHandler = {}));
 export var ServicesFeedNotificationKind;
 (function (ServicesFeedNotificationKind) {
     ServicesFeedNotificationKind["FeedNotificationKindNotification"] = "notification";

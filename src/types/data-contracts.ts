@@ -363,6 +363,12 @@ export interface ControllersApiSuccessServicesFeedNotificationComment {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessServicesFeedNotificationFeedItem {
+  data?: ServicesFeedNotificationFeedItem;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessServicesFilterCatalogPayload {
   data?: ServicesFilterCatalogPayload;
   /** @example "success" */
@@ -650,10 +656,13 @@ export interface ControllersFeedNotificationThreadDetailResponse {
 }
 
 export interface ControllersFeedNotificationThreadInboxResponse {
+  counts?: ServicesFeedNotificationThreadViewCounts;
   data?: ServicesFeedNotificationThreadSummary[];
+  last_page?: number;
   search_truncated?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+  total?: number;
 }
 
 export interface ControllersFeedNotificationTranslationsPatchResponse {
@@ -2405,6 +2414,37 @@ export interface DtoSignUpCredentials {
   timezone: string;
 }
 
+export interface DtoSupportTicketContextForm {
+  api_key_id?: number;
+  /** @maxLength 32 */
+  app_version?: string;
+  /** @maxLength 32 */
+  exchange?: string;
+  /** @maxLength 8 */
+  locale?: string;
+  /** @maxLength 512 */
+  route?: string;
+  source: "help_block" | "rescue" | "menu";
+  /**
+   * @min 0
+   * @max 20
+   */
+  wizard_step?: number;
+}
+
+export interface DtoSupportTicketCreateForm {
+  context: DtoSupportTicketContextForm;
+  /** @maxItems 5 */
+  image_file_ids?: number[];
+  /** @maxLength 120 */
+  subject?: string;
+  /**
+   * @minLength 1
+   * @maxLength 4000
+   */
+  text: string;
+}
+
 export interface DtoSymbolChartForm {
   /** @example 1 */
   api_key_id?: number;
@@ -3590,6 +3630,12 @@ export interface ServicesChatToolResultSSEPayload {
   widget_id?: number;
 }
 
+export enum ServicesCommentAuthorKind {
+  CommentAuthorUser = "user",
+  CommentAuthorAdmin = "admin",
+  CommentAuthorAI = "ai",
+}
+
 /** @format int32 */
 export enum ServicesConnectionStatus {
   TelegramConnectStatusNew = 1,
@@ -3807,6 +3853,11 @@ export interface ServicesFeedNotification {
   created_by_user_id?: number;
   event_kind?: string;
   expires_at?: string;
+  /**
+   * Handler is who answers a ticket ("human" or "ai"). Empty on plain
+   * notifications.
+   */
+  handler?: ServicesFeedNotificationHandler;
   id?: number;
   /**
    * Kind distinguishes a regular notification ("notification") from a
@@ -3834,6 +3885,11 @@ export interface ServicesFeedNotification {
    * stay where they were chronologically.
    */
   sort_key?: string;
+  /**
+   * SupportContext is the silent context of a user-created ticket. Nil on
+   * everything else.
+   */
+  support_context?: ServicesSupportTicketContext;
   ticket_uid?: string;
   type?: ServicesFeedNotificationType;
   updated_at?: string;
@@ -3841,6 +3897,12 @@ export interface ServicesFeedNotification {
 }
 
 export interface ServicesFeedNotificationAdminDetail {
+  /**
+   * CommentThreadsCount is the number of users with at least one visible,
+   * non-deleted comment on this notification — the threads a moderator
+   * can remove one by one.
+   */
+  comment_threads_count?: number;
   images?: ServicesFile[];
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
@@ -3879,6 +3941,11 @@ export interface ServicesFeedNotificationAdminListItem {
   created_by_user_id?: number;
   event_kind?: string;
   expires_at?: string;
+  /**
+   * Handler is who answers a ticket ("human" or "ai"). Empty on plain
+   * notifications.
+   */
+  handler?: ServicesFeedNotificationHandler;
   id?: number;
   /**
    * Kind distinguishes a regular notification ("notification") from a
@@ -3907,6 +3974,11 @@ export interface ServicesFeedNotificationAdminListItem {
    * stay where they were chronologically.
    */
   sort_key?: string;
+  /**
+   * SupportContext is the silent context of a user-created ticket. Nil on
+   * everything else.
+   */
+  support_context?: ServicesSupportTicketContext;
   ticket_uid?: string;
   title?: string;
   type?: ServicesFeedNotificationType;
@@ -3934,6 +4006,11 @@ export interface ServicesFeedNotificationComment {
    */
   author_id?: number;
   author_is_admin?: boolean;
+  /**
+   * AuthorKind is "user", "admin" or "ai". The repository writes "user"
+   * when it is empty.
+   */
+  author_kind?: ServicesCommentAuthorKind;
   created_at?: string;
   id?: number;
   notification_id?: number;
@@ -3946,8 +4023,15 @@ export interface ServicesFeedNotificationComment {
 export interface ServicesFeedNotificationCommentSSEPayload {
   comment?: ServicesFeedNotificationComment;
   last_message_at?: number;
-  /** "user" | "admin" */
+  /** "user" | "admin" | "ai" */
   last_message_from?: string;
+  notification_id?: number;
+  scope_user_id?: number;
+  thread_state?: ServicesFeedNotificationThreadState;
+}
+
+export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
+  comment_ids?: number[];
   notification_id?: number;
   scope_user_id?: number;
   thread_state?: ServicesFeedNotificationThreadState;
@@ -3958,6 +4042,8 @@ export interface ServicesFeedNotificationFeedComment {
   author?: ServicesSafeUser;
   author_id?: number;
   author_is_admin?: boolean;
+  /** AuthorKind is "user", "admin" or "ai". */
+  author_kind?: ServicesCommentAuthorKind;
   created_at?: string;
   id?: number;
   text?: string;
@@ -4031,6 +4117,11 @@ export interface ServicesFeedNotificationFeedPollOption {
   is_other?: boolean;
   position?: number;
   translations?: ServicesFeedNotificationPollOptionTranslation[];
+}
+
+export enum ServicesFeedNotificationHandler {
+  FeedNotificationHandlerAI = "ai",
+  FeedNotificationHandlerHuman = "human",
 }
 
 export enum ServicesFeedNotificationKind {
@@ -4114,6 +4205,11 @@ export interface ServicesFeedNotificationThreadState {
 export interface ServicesFeedNotificationThreadSummary {
   admin_caught_up?: boolean;
   admin_last_read_at?: string;
+  /**
+   * Handler is the ticket handler ("human" or "ai"); empty on announcement
+   * and personal-notification threads.
+   */
+  handler?: string;
   last_activity_at?: string;
   last_message?: ServicesFeedNotificationThreadLastMessage;
   last_message_from?: string;
@@ -4126,6 +4222,19 @@ export interface ServicesFeedNotificationThreadSummary {
   user?: ServicesSafeUser;
   user_caught_up?: boolean;
   user_last_read_at?: string;
+  /**
+   * View is the inbox bucket the thread falls in: needs_action, ai,
+   * waiting_user or resolved. Buckets are mutually exclusive.
+   */
+  view?: string;
+}
+
+export interface ServicesFeedNotificationThreadViewCounts {
+  ai?: number;
+  all?: number;
+  needs_action?: number;
+  resolved?: number;
+  waiting_user?: number;
 }
 
 export interface ServicesFeedNotificationTranslation {
@@ -5282,9 +5391,11 @@ export interface ServicesSSEChatProgressEventCatalog {
 
 export interface ServicesSSEFeedNotificationEventCatalog {
   "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "admin-feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
   "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
   "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
   "feed-notification-created"?: ServicesFeedNotificationFeedItem;
   "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
   "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
@@ -5406,6 +5517,17 @@ export enum ServicesStudentStatus {
   StudentStatusRequest = 0,
   StudentStatusAccepted = 1,
   StudentStatusRejected = 2,
+}
+
+export interface ServicesSupportTicketContext {
+  api_key_id?: number;
+  app_version?: string;
+  exchange?: string;
+  locale?: string;
+  route?: string;
+  /** Source is the entry point the ticket was opened from (e.g. "menu"). */
+  source?: string;
+  wizard_step?: number;
 }
 
 export interface ServicesTag {
@@ -6573,6 +6695,12 @@ export interface ServicesUserWithRelations {
    */
   status?: ServicesUserStatus;
   stripe?: ServicesStripe;
+  /**
+   * SupportBannedUntil: nil = may use support; a future time = suspended
+   * until then; SupportBanPermanentUntil = permanent. Read-only here:
+   * UserFromService never writes it, only UserRepository.SetSupportBan does.
+   */
+  support_banned_until?: string;
   /** Deprecated: prefer filter_catalog.catalogs.tagCategories. */
   tag_categories?: ServicesTagCategory[];
   /** Deprecated: prefer filter_catalog.catalogs.tags. */

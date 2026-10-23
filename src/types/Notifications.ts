@@ -10,17 +10,21 @@
  */
 
 import {
+  ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesFeedNotificationFeedItem,
   ControllersApiSuccessArrayServicesFile,
   ControllersApiSuccessControllersFeedNotificationLikeData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationComment,
+  ControllersApiSuccessServicesFeedNotificationFeedItem,
   ControllersApiSuccessServicesSSEFeedNotificationEventCatalog,
   ControllersApiWarningResponse,
   ControllersUnauthorizedResponse,
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCommentUpdateForm,
   DtoFeedNotificationVoteForm,
+  DtoSupportTicketCreateForm,
+  ServicesValidationErrorResponse,
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
@@ -74,7 +78,7 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
       ...params,
     });
   /**
-   * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added, feed-notification-status-changed, admin-feed-notification-status-changed, feed-notification-thread-seen-changed, admin-feed-notification-thread-seen-changed) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
+   * @description Maps every SSE event name emitted by the feed notification subsystem (feed-notification-created, feed-notification-updated, feed-notification-removed, feed-notification-comment-added, admin-feed-notification-comment-added, feed-notification-status-changed, admin-feed-notification-status-changed, feed-notification-thread-seen-changed, admin-feed-notification-thread-seen-changed, feed-notification-comments-removed, admin-feed-notification-comments-removed) to its typed payload. NOT a callable HTTP endpoint — calling it returns 501. The route exists so frontend can import a single typed catalog from tmm-types and write type-safe SSE handlers.
    *
    * @tags feed_notifications, internal
    * @name SseEventsList
@@ -85,6 +89,31 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
     this.request<ControllersApiSuccessServicesSSEFeedNotificationEventCatalog, any>({
       path: `/notifications/sse-events`,
       method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Opens a support ticket for the current user. text becomes the first message; subject defaults to its first non-empty line. 400: form validation failed. 403 code support_banned: support access suspended. 404: support tickets unavailable (white-label). 423 code support_open_limit / support_daily_limit: ticket limits reached; 423 without a code: blank text, expired image upload or an api_key_id the caller does not own.
+   *
+   * @tags feed_notifications
+   * @name TicketsCreate
+   * @summary Open a support ticket
+   * @request POST:/notifications/tickets
+   * @secure
+   */
+  ticketsCreate = (payload: DtoSupportTicketCreateForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessServicesFeedNotificationFeedItem,
+      | ServicesValidationErrorResponse
+      | ControllersUnauthorizedResponse
+      | ControllersApiWarningResponse
+      | ControllersApiErrorResponse
+    >({
+      path: `/notifications/tickets`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -179,6 +208,25 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
   likeCreate = (id: number, params: RequestParams = {}) =>
     this.request<ControllersApiSuccessControllersFeedNotificationLikeData, any>({
       path: `/notifications/${id}/like`,
+      method: "POST",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description Resolves the caller's own ticket. Silent: only the status SSE fires. Idempotent on an already resolved ticket. A later user reply reopens the ticket. 404: not a ticket of the caller, or support tickets unavailable (white-label).
+   *
+   * @tags feed_notifications
+   * @name ResolveCreate
+   * @summary Mark own support ticket solved
+   * @request POST:/notifications/{id}/resolve
+   * @secure
+   */
+  resolveCreate = (id: number, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessNoData,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/notifications/${id}/resolve`,
       method: "POST",
       secure: true,
       ...params,
