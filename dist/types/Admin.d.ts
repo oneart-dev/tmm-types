@@ -29,6 +29,7 @@ export declare class Admin<SecurityDataType = unknown> extends HttpClient<Securi
         ticket_uid?: string;
         type?: "global" | "personal";
         user_id?: number;
+        view?: "needs_action" | "ai" | "waiting_user" | "resolved" | "all";
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadInboxResponse, any>>;
     notificationThreadsDetail: (notificationId: number, userId: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersFeedNotificationThreadDetailResponse, any>>;
     notificationThreadsReplyCreate: (notificationId: number, userId: number, payload: DtoFeedNotificationCommentCreateForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessServicesFeedNotificationComment, any>>;

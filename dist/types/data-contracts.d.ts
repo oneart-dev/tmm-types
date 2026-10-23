@@ -241,6 +241,10 @@ export interface ControllersApiSuccessServicesFeedNotificationComment {
     data?: ServicesFeedNotificationComment;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessServicesFeedNotificationFeedItem {
+    data?: ServicesFeedNotificationFeedItem;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessServicesFilterCatalogPayload {
     data?: ServicesFilterCatalogPayload;
     status?: ControllersResponseStatusMessage;
@@ -427,9 +431,12 @@ export interface ControllersFeedNotificationThreadDetailResponse {
     thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ControllersFeedNotificationThreadInboxResponse {
+    counts?: ServicesFeedNotificationThreadViewCounts;
     data?: ServicesFeedNotificationThreadSummary[];
+    last_page?: number;
     search_truncated?: boolean;
     status?: ControllersResponseStatusMessage;
+    total?: number;
 }
 export interface ControllersFeedNotificationTranslationsPatchResponse {
     data?: any;
@@ -1196,6 +1203,21 @@ export interface DtoSignUpCredentials {
     ref?: string;
     timezone: string;
 }
+export interface DtoSupportTicketContextForm {
+    api_key_id?: number;
+    app_version?: string;
+    exchange?: string;
+    locale?: string;
+    route?: string;
+    source: "help_block" | "rescue" | "menu";
+    wizard_step?: number;
+}
+export interface DtoSupportTicketCreateForm {
+    context: DtoSupportTicketContextForm;
+    image_file_ids?: number[];
+    subject?: string;
+    text: string;
+}
 export interface DtoSymbolChartForm {
     api_key_id?: number;
     date?: string;
@@ -1739,6 +1761,11 @@ export interface ServicesChatToolResultSSEPayload {
     turn_index?: number;
     widget_id?: number;
 }
+export declare enum ServicesCommentAuthorKind {
+    CommentAuthorUser = "user",
+    CommentAuthorAdmin = "admin",
+    CommentAuthorAI = "ai"
+}
 export declare enum ServicesConnectionStatus {
     TelegramConnectStatusNew = 1,
     TelegramConnectStatusConnected = 2
@@ -1900,6 +1927,7 @@ export interface ServicesFeedNotification {
     created_by_user_id?: number;
     event_kind?: string;
     expires_at?: string;
+    handler?: ServicesFeedNotificationHandler;
     id?: number;
     kind?: ServicesFeedNotificationKind;
     poll_enabled?: boolean;
@@ -1909,12 +1937,14 @@ export interface ServicesFeedNotification {
     send_email?: boolean;
     slug?: string;
     sort_key?: string;
+    support_context?: ServicesSupportTicketContext;
     ticket_uid?: string;
     type?: ServicesFeedNotificationType;
     updated_at?: string;
     user_id?: number;
 }
 export interface ServicesFeedNotificationAdminDetail {
+    comment_threads_count?: number;
     images?: ServicesFile[];
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
@@ -1931,6 +1961,7 @@ export interface ServicesFeedNotificationAdminListItem {
     created_by_user_id?: number;
     event_kind?: string;
     expires_at?: string;
+    handler?: ServicesFeedNotificationHandler;
     id?: number;
     kind?: ServicesFeedNotificationKind;
     languages?: string[];
@@ -1941,6 +1972,7 @@ export interface ServicesFeedNotificationAdminListItem {
     send_email?: boolean;
     slug?: string;
     sort_key?: string;
+    support_context?: ServicesSupportTicketContext;
     ticket_uid?: string;
     title?: string;
     type?: ServicesFeedNotificationType;
@@ -1960,6 +1992,7 @@ export interface ServicesFeedNotificationComment {
     author?: ServicesSafeUser;
     author_id?: number;
     author_is_admin?: boolean;
+    author_kind?: ServicesCommentAuthorKind;
     created_at?: string;
     id?: number;
     notification_id?: number;
@@ -1976,11 +2009,18 @@ export interface ServicesFeedNotificationCommentSSEPayload {
     scope_user_id?: number;
     thread_state?: ServicesFeedNotificationThreadState;
 }
+export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
+    comment_ids?: number[];
+    notification_id?: number;
+    scope_user_id?: number;
+    thread_state?: ServicesFeedNotificationThreadState;
+}
 export interface ServicesFeedNotificationFeedComment {
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
     author_id?: number;
     author_is_admin?: boolean;
+    author_kind?: ServicesCommentAuthorKind;
     created_at?: string;
     id?: number;
     text?: string;
@@ -2018,6 +2058,10 @@ export interface ServicesFeedNotificationFeedPollOption {
     is_other?: boolean;
     position?: number;
     translations?: ServicesFeedNotificationPollOptionTranslation[];
+}
+export declare enum ServicesFeedNotificationHandler {
+    FeedNotificationHandlerAI = "ai",
+    FeedNotificationHandlerHuman = "human"
 }
 export declare enum ServicesFeedNotificationKind {
     FeedNotificationKindNotification = "notification",
@@ -2088,6 +2132,7 @@ export interface ServicesFeedNotificationThreadState {
 export interface ServicesFeedNotificationThreadSummary {
     admin_caught_up?: boolean;
     admin_last_read_at?: string;
+    handler?: string;
     last_activity_at?: string;
     last_message?: ServicesFeedNotificationThreadLastMessage;
     last_message_from?: string;
@@ -2100,6 +2145,14 @@ export interface ServicesFeedNotificationThreadSummary {
     user?: ServicesSafeUser;
     user_caught_up?: boolean;
     user_last_read_at?: string;
+    view?: string;
+}
+export interface ServicesFeedNotificationThreadViewCounts {
+    ai?: number;
+    all?: number;
+    needs_action?: number;
+    resolved?: number;
+    waiting_user?: number;
 }
 export interface ServicesFeedNotificationTranslation {
     image?: ServicesFile;
@@ -2916,9 +2969,11 @@ export interface ServicesSSEChatProgressEventCatalog {
 }
 export interface ServicesSSEFeedNotificationEventCatalog {
     "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "admin-feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
     "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
     "feed-notification-created"?: ServicesFeedNotificationFeedItem;
     "feed-notification-removed"?: ServicesFeedNotificationRemovedSSEPayload;
     "feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
@@ -3004,6 +3059,15 @@ export declare enum ServicesStudentStatus {
     StudentStatusRequest = 0,
     StudentStatusAccepted = 1,
     StudentStatusRejected = 2
+}
+export interface ServicesSupportTicketContext {
+    api_key_id?: number;
+    app_version?: string;
+    exchange?: string;
+    locale?: string;
+    route?: string;
+    source?: string;
+    wizard_step?: number;
 }
 export interface ServicesTag {
     color_bg?: string;
@@ -3878,6 +3942,7 @@ export interface ServicesUserWithRelations {
     start_of_week?: ServicesUserStartOfWeek;
     status?: ServicesUserStatus;
     stripe?: ServicesStripe;
+    support_banned_until?: string;
     tag_categories?: ServicesTagCategory[];
     tags?: ServicesTag[];
     telegram?: ServicesTelegramConnect[];

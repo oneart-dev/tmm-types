@@ -22,6 +22,15 @@ export class Notifications extends HttpClient {
             format: "json",
             ...params,
         });
+        this.ticketsCreate = (payload, params = {}) => this.request({
+            path: `/notifications/tickets`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.commentsCreate = (id, payload, params = {}) => this.request({
             path: `/notifications/${id}/comments`,
             method: "POST",
@@ -52,6 +61,12 @@ export class Notifications extends HttpClient {
         });
         this.likeCreate = (id, params = {}) => this.request({
             path: `/notifications/${id}/like`,
+            method: "POST",
+            secure: true,
+            ...params,
+        });
+        this.resolveCreate = (id, params = {}) => this.request({
+            path: `/notifications/${id}/resolve`,
             method: "POST",
             secure: true,
             ...params,

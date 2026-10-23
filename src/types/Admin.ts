@@ -366,6 +366,13 @@ export class Admin<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ticket_uid?: string;
       type?: "global" | "personal";
       user_id?: number;
+      /**
+       * View: inbox bucket. needs_action = the user spoke last or the thread is
+       * open / in progress; ai = ticket handled by the AI; waiting_user = the
+       * ball is with the user; resolved. Empty means all — the white-label admin
+       * frontend never sends it.
+       */
+      view?: "needs_action" | "ai" | "waiting_user" | "resolved" | "all";
     },
     params: RequestParams = {},
   ) =>
