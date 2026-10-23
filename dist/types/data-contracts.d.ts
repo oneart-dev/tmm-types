@@ -931,6 +931,13 @@ export interface DtoChatUsageResponse {
     status?: "success";
     usage_percent?: number;
 }
+export interface DtoClientErrorForm {
+    app_version?: string;
+    kind: "vue" | "window" | "promise";
+    message: string;
+    route?: string;
+    stack?: string;
+}
 export interface DtoContactForm {
     captcha_token?: string;
     email: string;
@@ -1546,6 +1553,9 @@ export interface ServicesApiKey {
     flag3?: number;
     id?: number;
     key_public?: string;
+    last_error_at?: string | null;
+    last_error_code?: "" | "invalid_key" | "invalid_permissions" | "invalid_passphrase" | "key_not_read_only" | "key_expired" | "account_mode_changed" | "ip_restricted" | "rate_limited" | "exchange_unreachable" | "unknown" | "ws_server_unavailable" | "ws_server_lost" | "paused_dormant" | "paused_plan_limit" | "retired_by_repair" | "blocked_high_load" | "account_banned";
+    last_error_msg?: string;
     name?: string;
     partner?: ServicesPartnerID;
     updated_at?: string;
@@ -1575,6 +1585,26 @@ export declare enum ServicesApiKeyErrorCode {
     ApiKeyErrorCodeRateLimited = "rate_limited",
     ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
     ApiKeyErrorCodeUnknown = "unknown"
+}
+export declare enum ServicesApiKeyLastErrorCode {
+    ApiKeyLastErrorNone = "",
+    ApiKeyLastErrorInvalidKey = "invalid_key",
+    ApiKeyLastErrorInvalidPermissions = "invalid_permissions",
+    ApiKeyLastErrorInvalidPassphrase = "invalid_passphrase",
+    ApiKeyLastErrorNotReadOnly = "key_not_read_only",
+    ApiKeyLastErrorExpired = "key_expired",
+    ApiKeyLastErrorAccountModeChanged = "account_mode_changed",
+    ApiKeyLastErrorIPRestricted = "ip_restricted",
+    ApiKeyLastErrorRateLimited = "rate_limited",
+    ApiKeyLastErrorExchangeUnreachable = "exchange_unreachable",
+    ApiKeyLastErrorUnknown = "unknown",
+    ApiKeyLastErrorWsServerUnavailable = "ws_server_unavailable",
+    ApiKeyLastErrorWsServerLost = "ws_server_lost",
+    ApiKeyLastErrorPausedDormant = "paused_dormant",
+    ApiKeyLastErrorPausedPlanLimit = "paused_plan_limit",
+    ApiKeyLastErrorRetiredByRepair = "retired_by_repair",
+    ApiKeyLastErrorBlockedHighLoad = "blocked_high_load",
+    ApiKeyLastErrorAccountBanned = "account_banned"
 }
 export declare enum ServicesApiKeyWebsocketStatus {
     API_KEY_WS_DISCONNECTED = 0,

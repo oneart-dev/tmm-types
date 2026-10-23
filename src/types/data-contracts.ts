@@ -1652,6 +1652,28 @@ export interface DtoChatUsageResponse {
   usage_percent?: number;
 }
 
+export interface DtoClientErrorForm {
+  /**
+   * @maxLength 32
+   * @example "2.14.3"
+   */
+  app_version?: string;
+  /** @example "vue" */
+  kind: "vue" | "window" | "promise";
+  /**
+   * @maxLength 1000
+   * @example "Cannot read properties of undefined (reading 'id')"
+   */
+  message: string;
+  /**
+   * @maxLength 256
+   * @example "/trades"
+   */
+  route?: string;
+  /** @maxLength 4000 */
+  stack?: string;
+}
+
 export interface DtoContactForm {
   /**
    * CaptchaToken is the Cloudflare Turnstile response token. No
@@ -3289,6 +3311,37 @@ export interface ServicesApiKey {
   flag3?: number;
   id?: number;
   key_public?: string;
+  /** When the last failure happened; null if the key never failed. */
+  last_error_at?: string | null;
+  /**
+   * Last failure that stopped or broke the key; empty if none. Not cleared
+   * when the key recovers — compare last_error_at with the key status.
+   * @example "ip_restricted"
+   */
+  last_error_code?:
+    | ""
+    | "invalid_key"
+    | "invalid_permissions"
+    | "invalid_passphrase"
+    | "key_not_read_only"
+    | "key_expired"
+    | "account_mode_changed"
+    | "ip_restricted"
+    | "rate_limited"
+    | "exchange_unreachable"
+    | "unknown"
+    | "ws_server_unavailable"
+    | "ws_server_lost"
+    | "paused_dormant"
+    | "paused_plan_limit"
+    | "retired_by_repair"
+    | "blocked_high_load"
+    | "account_banned";
+  /**
+   * What the exchange or the system said about the last failure, with
+   * credentials removed; empty if none.
+   */
+  last_error_msg?: string;
   name?: string;
   partner?: ServicesPartnerID;
   updated_at?: string;
@@ -3329,6 +3382,27 @@ export enum ServicesApiKeyErrorCode {
   ApiKeyErrorCodeRateLimited = "rate_limited",
   ApiKeyErrorCodeExchangeUnreachable = "exchange_unreachable",
   ApiKeyErrorCodeUnknown = "unknown",
+}
+
+export enum ServicesApiKeyLastErrorCode {
+  ApiKeyLastErrorNone = "",
+  ApiKeyLastErrorInvalidKey = "invalid_key",
+  ApiKeyLastErrorInvalidPermissions = "invalid_permissions",
+  ApiKeyLastErrorInvalidPassphrase = "invalid_passphrase",
+  ApiKeyLastErrorNotReadOnly = "key_not_read_only",
+  ApiKeyLastErrorExpired = "key_expired",
+  ApiKeyLastErrorAccountModeChanged = "account_mode_changed",
+  ApiKeyLastErrorIPRestricted = "ip_restricted",
+  ApiKeyLastErrorRateLimited = "rate_limited",
+  ApiKeyLastErrorExchangeUnreachable = "exchange_unreachable",
+  ApiKeyLastErrorUnknown = "unknown",
+  ApiKeyLastErrorWsServerUnavailable = "ws_server_unavailable",
+  ApiKeyLastErrorWsServerLost = "ws_server_lost",
+  ApiKeyLastErrorPausedDormant = "paused_dormant",
+  ApiKeyLastErrorPausedPlanLimit = "paused_plan_limit",
+  ApiKeyLastErrorRetiredByRepair = "retired_by_repair",
+  ApiKeyLastErrorBlockedHighLoad = "blocked_high_load",
+  ApiKeyLastErrorAccountBanned = "account_banned",
 }
 
 /** @format int32 */

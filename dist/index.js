@@ -7,6 +7,7 @@ export * from './types/Auth';
 export * from './types/Board';
 export * from './types/Candles';
 export * from './types/Chat';
+export * from './types/ClientErrors';
 export * from './types/Connections';
 export * from './types/Contact';
 export * from './types/Demo';
