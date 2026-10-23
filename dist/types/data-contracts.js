@@ -37,6 +37,27 @@ export var ServicesApiKeyErrorCode;
     ServicesApiKeyErrorCode["ApiKeyErrorCodeExchangeUnreachable"] = "exchange_unreachable";
     ServicesApiKeyErrorCode["ApiKeyErrorCodeUnknown"] = "unknown";
 })(ServicesApiKeyErrorCode || (ServicesApiKeyErrorCode = {}));
+export var ServicesApiKeyLastErrorCode;
+(function (ServicesApiKeyLastErrorCode) {
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorNone"] = "";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorInvalidKey"] = "invalid_key";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorInvalidPermissions"] = "invalid_permissions";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorInvalidPassphrase"] = "invalid_passphrase";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorNotReadOnly"] = "key_not_read_only";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorExpired"] = "key_expired";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorAccountModeChanged"] = "account_mode_changed";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorIPRestricted"] = "ip_restricted";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorRateLimited"] = "rate_limited";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorExchangeUnreachable"] = "exchange_unreachable";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorUnknown"] = "unknown";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorWsServerUnavailable"] = "ws_server_unavailable";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorWsServerLost"] = "ws_server_lost";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorPausedDormant"] = "paused_dormant";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorPausedPlanLimit"] = "paused_plan_limit";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorRetiredByRepair"] = "retired_by_repair";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorBlockedHighLoad"] = "blocked_high_load";
+    ServicesApiKeyLastErrorCode["ApiKeyLastErrorAccountBanned"] = "account_banned";
+})(ServicesApiKeyLastErrorCode || (ServicesApiKeyLastErrorCode = {}));
 export var ServicesApiKeyWebsocketStatus;
 (function (ServicesApiKeyWebsocketStatus) {
     ServicesApiKeyWebsocketStatus[ServicesApiKeyWebsocketStatus["API_KEY_WS_DISCONNECTED"] = 0] = "API_KEY_WS_DISCONNECTED";
