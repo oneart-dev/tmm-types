@@ -10,6 +10,12 @@
  */
 
 export interface ChatChatMessage {
+  /**
+   * Attachments are the images attached to a user message. Content
+   * stays the plain user text; the provider wire format never carries
+   * attachments (see wireMessage).
+   */
+  attachments?: ChatMessageAttachment[];
   content?: string;
   name?: string;
   role?: ChatChatRole;
@@ -39,6 +45,10 @@ export interface ChatExportedRound {
   temperature?: number;
   tools?: ChatToolSpec[];
   turn_index?: number;
+}
+
+export interface ChatMessageAttachment {
+  file_id?: number;
 }
 
 export interface ChatToolCall {
@@ -1471,7 +1481,16 @@ export interface DtoChatMemory {
   updated_at?: string;
 }
 
+export interface DtoChatMessageAttachmentDTO {
+  /** @example 41 */
+  file_id?: number;
+  /** @example "/spaces/files/2026/10/abc.png" */
+  file_path?: string;
+}
+
 export interface DtoChatMessageDTO {
+  /** Attachments are the images attached to a user message. */
+  attachments?: DtoChatMessageAttachmentDTO[];
   content?: string;
   /** @example "user" */
   role?: "system" | "user" | "assistant" | "tool";
@@ -1529,6 +1548,13 @@ export interface DtoChatSendMessageRequest {
    * @example "medium"
    */
   effort?: "medium" | "high" | "xhigh";
+  /**
+   * ImageFileIDs are temp uploads from POST /files/upload/temp/ChatThread
+   * (at most 5). They are bound to the thread when the message is sent.
+   * @maxItems 5
+   * @example [41,42]
+   */
+  image_file_ids?: number[];
   /**
    * PageContext is optional. When present and page=="summary", the backend
    * enriches the system prompt with the current dashboard, its widgets, and
@@ -4073,6 +4099,7 @@ export enum ServicesFileOwnerType {
   FileOwnerTypeUserNote = "UserNote",
   FileOwnerTypeNotification = "Notification",
   FileOwnerTypeNotificationComment = "NotificationComment",
+  FileOwnerTypeChatThread = "ChatThread",
 }
 
 export interface ServicesFilterCatalogContext {
@@ -5348,9 +5375,9 @@ export enum ServicesTagColumn {
   TagColumnEntryReason = 1,
   TagColumnExitReason = 2,
   TagColumnConclusion = 3,
-  TagColumnAny = 0,
   TagCategoryCustomMin = 10,
   TagCategoryCustomMax = 127,
+  TagColumnAny = 0,
 }
 
 export interface ServicesTagFilterGroup {

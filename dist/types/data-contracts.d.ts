@@ -1,4 +1,5 @@
 export interface ChatChatMessage {
+    attachments?: ChatMessageAttachment[];
     content?: string;
     name?: string;
     role?: ChatChatRole;
@@ -25,6 +26,9 @@ export interface ChatExportedRound {
     temperature?: number;
     tools?: ChatToolSpec[];
     turn_index?: number;
+}
+export interface ChatMessageAttachment {
+    file_id?: number;
 }
 export interface ChatToolCall {
     arguments?: string;
@@ -848,7 +852,12 @@ export interface DtoChatMemory {
     size_bytes?: number;
     updated_at?: string;
 }
+export interface DtoChatMessageAttachmentDTO {
+    file_id?: number;
+    file_path?: string;
+}
 export interface DtoChatMessageDTO {
+    attachments?: DtoChatMessageAttachmentDTO[];
     content?: string;
     role?: "system" | "user" | "assistant" | "tool";
 }
@@ -874,6 +883,7 @@ export interface DtoChatQuotaExhaustedResponse {
 }
 export interface DtoChatSendMessageRequest {
     effort?: "medium" | "high" | "xhigh";
+    image_file_ids?: number[];
     page_context?: DtoChatPageContext;
     question: string;
 }
@@ -2096,7 +2106,8 @@ export declare enum ServicesFileOwnerType {
     FileOwnerTypePublicProfile = "PublicProfile",
     FileOwnerTypeUserNote = "UserNote",
     FileOwnerTypeNotification = "Notification",
-    FileOwnerTypeNotificationComment = "NotificationComment"
+    FileOwnerTypeNotificationComment = "NotificationComment",
+    FileOwnerTypeChatThread = "ChatThread"
 }
 export interface ServicesFilterCatalogContext {
     accessMode?: string;
@@ -2990,9 +3001,9 @@ export declare enum ServicesTagColumn {
     TagColumnEntryReason = 1,
     TagColumnExitReason = 2,
     TagColumnConclusion = 3,
-    TagColumnAny = 0,
     TagCategoryCustomMin = 10,
-    TagCategoryCustomMax = 127
+    TagCategoryCustomMax = 127,
+    TagColumnAny = 0
 }
 export interface ServicesTagFilterGroup {
     column?: number;
