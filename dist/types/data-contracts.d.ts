@@ -431,12 +431,12 @@ export interface ControllersFeedNotificationThreadDetailResponse {
     thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ControllersFeedNotificationThreadInboxResponse {
-    counts?: ServicesFeedNotificationThreadViewCounts;
+    counts: ServicesFeedNotificationThreadViewCounts;
     data?: ServicesFeedNotificationThreadSummary[];
-    last_page?: number;
+    last_page: number;
     search_truncated?: boolean;
     status?: ControllersResponseStatusMessage;
-    total?: number;
+    total: number;
 }
 export interface ControllersFeedNotificationTranslationsPatchResponse {
     data?: any;
@@ -1944,7 +1944,7 @@ export interface ServicesFeedNotification {
     user_id?: number;
 }
 export interface ServicesFeedNotificationAdminDetail {
-    comment_threads_count?: number;
+    comment_threads_count: number;
     images?: ServicesFile[];
     notification?: ServicesFeedNotification;
     poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
@@ -1992,7 +1992,7 @@ export interface ServicesFeedNotificationComment {
     author?: ServicesSafeUser;
     author_id?: number;
     author_is_admin?: boolean;
-    author_kind?: ServicesCommentAuthorKind;
+    author_kind: ServicesCommentAuthorKind;
     created_at?: string;
     id?: number;
     notification_id?: number;
@@ -2010,17 +2010,17 @@ export interface ServicesFeedNotificationCommentSSEPayload {
     thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
-    comment_ids?: number[];
-    notification_id?: number;
-    scope_user_id?: number;
-    thread_state?: ServicesFeedNotificationThreadState;
+    comment_ids: number[];
+    notification_id: number;
+    scope_user_id: number;
+    thread_state: ServicesFeedNotificationThreadState;
 }
 export interface ServicesFeedNotificationFeedComment {
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
     author_id?: number;
     author_is_admin?: boolean;
-    author_kind?: ServicesCommentAuthorKind;
+    author_kind: ServicesCommentAuthorKind;
     created_at?: string;
     id?: number;
     text?: string;
@@ -2145,14 +2145,14 @@ export interface ServicesFeedNotificationThreadSummary {
     user?: ServicesSafeUser;
     user_caught_up?: boolean;
     user_last_read_at?: string;
-    view?: string;
+    view: string;
 }
 export interface ServicesFeedNotificationThreadViewCounts {
-    ai?: number;
-    all?: number;
-    needs_action?: number;
-    resolved?: number;
-    waiting_user?: number;
+    ai: number;
+    all: number;
+    needs_action: number;
+    resolved: number;
+    waiting_user: number;
 }
 export interface ServicesFeedNotificationTranslation {
     image?: ServicesFile;

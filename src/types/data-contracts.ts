@@ -656,13 +656,13 @@ export interface ControllersFeedNotificationThreadDetailResponse {
 }
 
 export interface ControllersFeedNotificationThreadInboxResponse {
-  counts?: ServicesFeedNotificationThreadViewCounts;
+  counts: ServicesFeedNotificationThreadViewCounts;
   data?: ServicesFeedNotificationThreadSummary[];
-  last_page?: number;
+  last_page: number;
   search_truncated?: boolean;
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
-  total?: number;
+  total: number;
 }
 
 export interface ControllersFeedNotificationTranslationsPatchResponse {
@@ -3902,7 +3902,7 @@ export interface ServicesFeedNotificationAdminDetail {
    * non-deleted comment on this notification — the threads a moderator
    * can remove one by one.
    */
-  comment_threads_count?: number;
+  comment_threads_count: number;
   images?: ServicesFile[];
   notification?: ServicesFeedNotification;
   poll_option_translations?: ServicesFeedNotificationPollOptionTranslation[];
@@ -4010,7 +4010,7 @@ export interface ServicesFeedNotificationComment {
    * AuthorKind is "user", "admin" or "ai". The repository writes "user"
    * when it is empty.
    */
-  author_kind?: ServicesCommentAuthorKind;
+  author_kind: ServicesCommentAuthorKind;
   created_at?: string;
   id?: number;
   notification_id?: number;
@@ -4031,10 +4031,10 @@ export interface ServicesFeedNotificationCommentSSEPayload {
 }
 
 export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
-  comment_ids?: number[];
-  notification_id?: number;
-  scope_user_id?: number;
-  thread_state?: ServicesFeedNotificationThreadState;
+  comment_ids: number[];
+  notification_id: number;
+  scope_user_id: number;
+  thread_state: ServicesFeedNotificationThreadState;
 }
 
 export interface ServicesFeedNotificationFeedComment {
@@ -4043,7 +4043,7 @@ export interface ServicesFeedNotificationFeedComment {
   author_id?: number;
   author_is_admin?: boolean;
   /** AuthorKind is "user", "admin" or "ai". */
-  author_kind?: ServicesCommentAuthorKind;
+  author_kind: ServicesCommentAuthorKind;
   created_at?: string;
   id?: number;
   text?: string;
@@ -4226,15 +4226,15 @@ export interface ServicesFeedNotificationThreadSummary {
    * View is the inbox bucket the thread falls in: needs_action, ai,
    * waiting_user or resolved. Buckets are mutually exclusive.
    */
-  view?: string;
+  view: string;
 }
 
 export interface ServicesFeedNotificationThreadViewCounts {
-  ai?: number;
-  all?: number;
-  needs_action?: number;
-  resolved?: number;
-  waiting_user?: number;
+  ai: number;
+  all: number;
+  needs_action: number;
+  resolved: number;
+  waiting_user: number;
 }
 
 export interface ServicesFeedNotificationTranslation {

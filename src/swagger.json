@@ -33592,6 +33592,11 @@
         },
         "controllers.FeedNotificationThreadInboxResponse": {
             "type": "object",
+            "required": [
+                "counts",
+                "last_page",
+                "total"
+            ],
             "properties": {
                 "counts": {
                     "$ref": "#/definitions/services.FeedNotificationThreadViewCounts"
@@ -39991,6 +39996,9 @@
         },
         "services.FeedNotificationAdminDetail": {
             "type": "object",
+            "required": [
+                "comment_threads_count"
+            ],
             "properties": {
                 "comment_threads_count": {
                     "description": "CommentThreadsCount is the number of users with at least one visible,\nnon-deleted comment on this notification — the threads a moderator\ncan remove one by one.",
@@ -40165,6 +40173,9 @@
         },
         "services.FeedNotificationComment": {
             "type": "object",
+            "required": [
+                "author_kind"
+            ],
             "properties": {
                 "attachments": {
                     "type": "array",
@@ -40239,6 +40250,12 @@
         },
         "services.FeedNotificationCommentsRemovedSSEPayload": {
             "type": "object",
+            "required": [
+                "comment_ids",
+                "notification_id",
+                "scope_user_id",
+                "thread_state"
+            ],
             "properties": {
                 "comment_ids": {
                     "type": "array",
@@ -40259,6 +40276,9 @@
         },
         "services.FeedNotificationFeedComment": {
             "type": "object",
+            "required": [
+                "author_kind"
+            ],
             "properties": {
                 "attachments": {
                     "type": "array",
@@ -40624,6 +40644,9 @@
         },
         "services.FeedNotificationThreadSummary": {
             "type": "object",
+            "required": [
+                "view"
+            ],
             "properties": {
                 "admin_caught_up": {
                     "type": "boolean"
@@ -40679,6 +40702,13 @@
         },
         "services.FeedNotificationThreadViewCounts": {
             "type": "object",
+            "required": [
+                "ai",
+                "all",
+                "needs_action",
+                "resolved",
+                "waiting_user"
+            ],
             "properties": {
                 "ai": {
                     "type": "integer"
