@@ -166,7 +166,7 @@ export class Chat<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
-   * @description Posts the user's question into an existing thread, reserves the next turn_index, persists a Status:"running" placeholder turn, and dispatches the orchestrator in a background goroutine. Returns 202 immediately with {thread_uid, turn_index, turn_status:"running"}; the final answer + per-tool progress arrive later as chat-progress SSE events on the user's existing /sse/stream connection. Frontends MUST consume SSE to render the answer. Pre-flight monthly cap check on the thread owner is synchronous — over-cap returns 429 + code=quota_exceeded immediately. Returns 409 + code=thread_busy if another turn on this thread is in flight.
+   * @description Posts the user's question into an existing thread, reserves the next turn_index, persists a Status:"running" placeholder turn, and dispatches the orchestrator in a background goroutine. Returns 202 immediately with {thread_uid, turn_index, turn_status:"running"}; the final answer + per-tool progress arrive later as chat-progress SSE events on the user's existing /sse/stream connection. Frontends MUST consume SSE to render the answer. Pre-flight monthly cap check on the thread owner is synchronous — over-cap returns 429 + code=quota_exceeded immediately. Returns 409 + code=thread_busy if another turn on this thread is in flight. image_file_ids (max 5): temp uploads from POST /files/upload/temp/ChatThread; they are bound to the thread on send. 400 code=images_not_attachable when one expired (1h) or was already sent.
    *
    * @tags chat
    * @name ThreadsMessagesCreate
