@@ -641,7 +641,7 @@ export interface ControllersFeedNotificationLikeData {
 }
 
 export interface ControllersFeedNotificationThreadDetail {
-  comments?: ServicesFeedNotificationComment[];
+  comments?: ServicesFeedNotificationAdminComment[];
   notification?: ServicesFeedNotification;
   translations?: ServicesFeedNotificationTranslation[];
   user?: ServicesSafeUser;
@@ -1765,6 +1765,11 @@ export interface DtoExchangeRequestCreateForm {
 }
 
 export interface DtoFeedNotificationCommentCreateForm {
+  /**
+   * ClientContext is where the user was when they wrote the comment. Read
+   * on user comments only; ignored on staff replies.
+   */
+  client_context?: DtoSupportClientContextForm;
   /** @maxItems 5 */
   image_file_ids?: number[];
   reply_to_user_id?: number;
@@ -2414,6 +2419,11 @@ export interface DtoSignUpCredentials {
   timezone: string;
 }
 
+export interface DtoSupportClientContextForm {
+  route?: string;
+  trail?: DtoSupportTrailEntryForm[];
+}
+
 export interface DtoSupportTicketContextForm {
   api_key_id?: number;
   /** @maxLength 32 */
@@ -2425,6 +2435,12 @@ export interface DtoSupportTicketContextForm {
   /** @maxLength 512 */
   route?: string;
   source: "help_block" | "rescue" | "menu";
+  /**
+   * Trail is the pages the user visited before opening the ticket, oldest
+   * first. Never rejected: the server scrubs it (see
+   * services.ScrubTrail) and drops it when the context is too large.
+   */
+  trail?: DtoSupportTrailEntryForm[];
   /**
    * @min 0
    * @max 20
@@ -2443,6 +2459,13 @@ export interface DtoSupportTicketCreateForm {
    * @maxLength 4000
    */
   text: string;
+}
+
+export interface DtoSupportTrailEntryForm {
+  at?: string;
+  name?: string;
+  path?: string;
+  query?: Record<string, string>;
 }
 
 export interface DtoSymbolChartForm {
@@ -3894,6 +3917,46 @@ export interface ServicesFeedNotification {
   type?: ServicesFeedNotificationType;
   updated_at?: string;
   user_id?: number;
+}
+
+export interface ServicesFeedNotificationAdminComment {
+  attachments?: ServicesFile[];
+  author?: ServicesSafeUser;
+  /**
+   * AuthorUserID is the persisted author id. JSON tag is "author_id" to
+   * align with FeedNotificationFeedComment — frontends now read the same
+   * key off both the GET-feed shape AND the SSE comment payload, no more
+   * `c.author_user_id ?? c.author?.id` fallback chains.
+   */
+  author_id?: number;
+  author_is_admin?: boolean;
+  /**
+   * AuthorKind is "user", "admin" or "ai". The repository writes "user"
+   * when it is empty.
+   */
+  author_kind: ServicesCommentAuthorKind;
+  /**
+   * ClientContext is where the user was when they wrote the comment. Nil on
+   * staff and AI comments and on comments sent without one.
+   */
+  client_context?: ServicesSupportClientContext;
+  created_at?: string;
+  id?: number;
+  notification_id?: number;
+  scope_user_id?: number;
+  text?: string;
+  updated_at?: string;
+  visible_at?: string;
+}
+
+export interface ServicesFeedNotificationAdminCommentSSEPayload {
+  comment?: ServicesFeedNotificationAdminComment;
+  last_message_at?: number;
+  /** "user" | "admin" | "ai" */
+  last_message_from?: string;
+  notification_id?: number;
+  scope_user_id?: number;
+  thread_state?: ServicesFeedNotificationThreadState;
 }
 
 export interface ServicesFeedNotificationAdminDetail {
@@ -5390,7 +5453,7 @@ export interface ServicesSSEChatProgressEventCatalog {
 }
 
 export interface ServicesSSEFeedNotificationEventCatalog {
-  "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+  "admin-feed-notification-comment-added"?: ServicesFeedNotificationAdminCommentSSEPayload;
   "admin-feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
   "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
   "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
@@ -5519,6 +5582,11 @@ export enum ServicesStudentStatus {
   StudentStatusRejected = 2,
 }
 
+export interface ServicesSupportClientContext {
+  route: string;
+  trail: ServicesSupportTrailEntry[];
+}
+
 export interface ServicesSupportTicketContext {
   api_key_id?: number;
   app_version?: string;
@@ -5527,7 +5595,21 @@ export interface ServicesSupportTicketContext {
   route?: string;
   /** Source is the entry point the ticket was opened from (e.g. "menu"). */
   source?: string;
+  /**
+   * Trail is the pages visited before the ticket was opened, oldest first,
+   * scrubbed (see ScrubTrail). Absent when none was sent or it was dropped
+   * for size.
+   */
+  trail?: ServicesSupportTrailEntry[];
   wizard_step?: number;
+}
+
+export interface ServicesSupportTrailEntry {
+  /** At is when the page was opened, an ISO-8601 string from the client. */
+  at: string;
+  name: string;
+  path: string;
+  query: Record<string, string>;
 }
 
 export interface ServicesTag {
