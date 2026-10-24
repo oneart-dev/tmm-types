@@ -419,7 +419,7 @@ export interface ControllersFeedNotificationLikeData {
     liked?: boolean;
 }
 export interface ControllersFeedNotificationThreadDetail {
-    comments?: ServicesFeedNotificationComment[];
+    comments?: ServicesFeedNotificationAdminComment[];
     notification?: ServicesFeedNotification;
     translations?: ServicesFeedNotificationTranslation[];
     user?: ServicesSafeUser;
@@ -982,6 +982,7 @@ export interface DtoExchangeRequestCreateForm {
     text: string;
 }
 export interface DtoFeedNotificationCommentCreateForm {
+    client_context?: DtoSupportClientContextForm;
     image_file_ids?: number[];
     reply_to_user_id?: number;
     text?: string;
@@ -1203,6 +1204,10 @@ export interface DtoSignUpCredentials {
     ref?: string;
     timezone: string;
 }
+export interface DtoSupportClientContextForm {
+    route?: string;
+    trail?: DtoSupportTrailEntryForm[];
+}
 export interface DtoSupportTicketContextForm {
     api_key_id?: number;
     app_version?: string;
@@ -1210,6 +1215,7 @@ export interface DtoSupportTicketContextForm {
     locale?: string;
     route?: string;
     source: "help_block" | "rescue" | "menu";
+    trail?: DtoSupportTrailEntryForm[];
     wizard_step?: number;
 }
 export interface DtoSupportTicketCreateForm {
@@ -1217,6 +1223,12 @@ export interface DtoSupportTicketCreateForm {
     image_file_ids?: number[];
     subject?: string;
     text: string;
+}
+export interface DtoSupportTrailEntryForm {
+    at?: string;
+    name?: string;
+    path?: string;
+    query?: Record<string, string>;
 }
 export interface DtoSymbolChartForm {
     api_key_id?: number;
@@ -1942,6 +1954,29 @@ export interface ServicesFeedNotification {
     type?: ServicesFeedNotificationType;
     updated_at?: string;
     user_id?: number;
+}
+export interface ServicesFeedNotificationAdminComment {
+    attachments?: ServicesFile[];
+    author?: ServicesSafeUser;
+    author_id?: number;
+    author_is_admin?: boolean;
+    author_kind: ServicesCommentAuthorKind;
+    client_context?: ServicesSupportClientContext;
+    created_at?: string;
+    id?: number;
+    notification_id?: number;
+    scope_user_id?: number;
+    text?: string;
+    updated_at?: string;
+    visible_at?: string;
+}
+export interface ServicesFeedNotificationAdminCommentSSEPayload {
+    comment?: ServicesFeedNotificationAdminComment;
+    last_message_at?: number;
+    last_message_from?: string;
+    notification_id?: number;
+    scope_user_id?: number;
+    thread_state?: ServicesFeedNotificationThreadState;
 }
 export interface ServicesFeedNotificationAdminDetail {
     comment_threads_count: number;
@@ -2968,7 +3003,7 @@ export interface ServicesSSEChatProgressEventCatalog {
     tool_result?: ServicesChatToolResultSSEPayload;
 }
 export interface ServicesSSEFeedNotificationEventCatalog {
-    "admin-feed-notification-comment-added"?: ServicesFeedNotificationCommentSSEPayload;
+    "admin-feed-notification-comment-added"?: ServicesFeedNotificationAdminCommentSSEPayload;
     "admin-feed-notification-comments-removed"?: ServicesFeedNotificationCommentsRemovedSSEPayload;
     "admin-feed-notification-status-changed"?: ServicesFeedNotificationStatusChangedSSEPayload;
     "admin-feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
@@ -3060,6 +3095,10 @@ export declare enum ServicesStudentStatus {
     StudentStatusAccepted = 1,
     StudentStatusRejected = 2
 }
+export interface ServicesSupportClientContext {
+    route: string;
+    trail: ServicesSupportTrailEntry[];
+}
 export interface ServicesSupportTicketContext {
     api_key_id?: number;
     app_version?: string;
@@ -3067,7 +3106,14 @@ export interface ServicesSupportTicketContext {
     locale?: string;
     route?: string;
     source?: string;
+    trail?: ServicesSupportTrailEntry[];
     wizard_step?: number;
+}
+export interface ServicesSupportTrailEntry {
+    at: string;
+    name: string;
+    path: string;
+    query: Record<string, string>;
 }
 export interface ServicesTag {
     color_bg?: string;
