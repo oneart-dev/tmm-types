@@ -237,6 +237,12 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
   status?: ControllersResponseStatusMessage;
 }
 
+export interface ControllersApiSuccessControllersCommentRatingData {
+  data?: ControllersCommentRatingData;
+  /** @example "success" */
+  status?: ControllersResponseStatusMessage;
+}
+
 export interface ControllersApiSuccessControllersEmailPreferencesData {
   data?: ControllersEmailPreferencesData;
   /** @example "success" */
@@ -559,6 +565,10 @@ export interface ControllersBulkSignUpSuccessResponse {
   data?: ServicesBulkSignUpResponse[];
   /** @example "success" */
   status?: ControllersResponseStatusMessage;
+}
+
+export interface ControllersCommentRatingData {
+  rating: "up" | "down";
 }
 
 export interface ControllersContactBadRequestResponse {
@@ -2424,6 +2434,11 @@ export interface DtoSupportClientContextForm {
   trail?: DtoSupportTrailEntryForm[];
 }
 
+export interface DtoSupportCommentRatingForm {
+  /** @example "up" */
+  rating: "up" | "down";
+}
+
 export interface DtoSupportTicketContextForm {
   api_key_id?: number;
   /** @maxLength 32 */
@@ -3653,6 +3668,16 @@ export interface ServicesChatToolResultSSEPayload {
   widget_id?: number;
 }
 
+export enum ServicesCommentAIRating {
+  CommentAIRatingUp = "up",
+  CommentAIRatingDown = "down",
+}
+
+export enum ServicesCommentAITemplate {
+  CommentAITemplateGreeting = "greeting",
+  CommentAITemplateHandoff = "handoff",
+}
+
 export enum ServicesCommentAuthorKind {
   CommentAuthorUser = "user",
   CommentAuthorAdmin = "admin",
@@ -3920,6 +3945,16 @@ export interface ServicesFeedNotification {
 }
 
 export interface ServicesFeedNotificationAdminComment {
+  /**
+   * AIRating is the ticket owner's rating of a model-written AI reply
+   * ("up" or "down"), absent when unrated and on every other comment.
+   */
+  ai_rating?: "up" | "down";
+  /**
+   * AITemplate is set on fixed-copy AI comments ("greeting" or "handoff")
+   * and absent on every other comment, model-written AI replies included.
+   */
+  ai_template?: "greeting" | "handoff";
   attachments?: ServicesFile[];
   author?: ServicesSafeUser;
   /**
@@ -4059,6 +4094,16 @@ export interface ServicesFeedNotificationAnalyticsCounts {
 }
 
 export interface ServicesFeedNotificationComment {
+  /**
+   * AIRating is the ticket owner's rating of a model-written AI reply
+   * ("up" or "down"), absent when unrated and on every other comment.
+   */
+  ai_rating?: "up" | "down";
+  /**
+   * AITemplate is set on fixed-copy AI comments ("greeting" or "handoff")
+   * and absent on every other comment, model-written AI replies included.
+   */
+  ai_template?: "greeting" | "handoff";
   attachments?: ServicesFile[];
   author?: ServicesSafeUser;
   /**
@@ -4101,6 +4146,16 @@ export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
 }
 
 export interface ServicesFeedNotificationFeedComment {
+  /**
+   * AIRating is the ticket owner's rating of a model-written AI reply
+   * ("up" or "down"), absent when unrated and on every other comment.
+   */
+  ai_rating?: "up" | "down";
+  /**
+   * AITemplate is set on fixed-copy AI comments ("greeting" or "handoff")
+   * and absent on every other comment, model-written AI replies included.
+   */
+  ai_template?: "greeting" | "handoff";
   attachments?: ServicesFile[];
   author?: ServicesSafeUser;
   author_id?: number;
@@ -4131,6 +4186,11 @@ export interface ServicesFeedNotificationFeedItem {
   created_at?: string;
   event_kind?: string;
   expires_at?: string;
+  /**
+   * Handler is who answers a ticket: "ai" (the AI assistant) or "human".
+   * Tickets only; absent on notifications.
+   */
+  handler?: "ai" | "human";
   /** Identity & lifecycle. */
   id?: number;
   /**
@@ -5465,6 +5525,7 @@ export interface ServicesSSEFeedNotificationEventCatalog {
   "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
   "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
   "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
+  support_ai_progress?: ServicesSupportAIProgressSSEPayload;
   "ui-prefs"?: ServicesUIPrefsSSEPayload;
 }
 
@@ -5580,6 +5641,32 @@ export enum ServicesStudentStatus {
   StudentStatusRequest = 0,
   StudentStatusAccepted = 1,
   StudentStatusRejected = 2,
+}
+
+export interface ServicesSupportAIProgressSSEPayload {
+  /**
+   * Exchange is the display name of the user's own exchange the step is
+   * about (working only), from our exchange catalog.
+   */
+  exchange?: string;
+  /** RunID is the AI run; 0 on queued (no run row yet). */
+  run_id?: number;
+  /**
+   * Seq is above every earlier event's (queued included, across runs):
+   * drop an event whose seq is not above the last one applied for the
+   * ticket.
+   */
+  seq: number;
+  /**
+   * StartedAt is when the user started waiting (unix ms): their oldest
+   * unanswered message. 0 when unknown (no unanswered message, or the
+   * ticket could not be read on a failure).
+   */
+  started_at?: number;
+  state: "queued" | "working" | "writing" | "idle" | "handed_off";
+  /** Step is set on working only. */
+  step?: string;
+  ticket_id: number;
 }
 
 export interface ServicesSupportClientContext {

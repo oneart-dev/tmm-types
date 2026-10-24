@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesFeedNotificationFeedItem, ControllersApiSuccessArrayServicesFile, ControllersApiSuccessControllersFeedNotificationLikeData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationComment, ControllersApiSuccessServicesFeedNotificationFeedItem, ControllersApiSuccessServicesSSEFeedNotificationEventCatalog, ControllersApiWarningResponse, ControllersUnauthorizedResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCommentUpdateForm, DtoFeedNotificationVoteForm, DtoSupportTicketCreateForm, ServicesValidationErrorResponse } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesFeedNotificationFeedItem, ControllersApiSuccessArrayServicesFile, ControllersApiSuccessControllersCommentRatingData, ControllersApiSuccessControllersFeedNotificationLikeData, ControllersApiSuccessNoData, ControllersApiSuccessServicesFeedNotificationComment, ControllersApiSuccessServicesFeedNotificationFeedItem, ControllersApiSuccessServicesSSEFeedNotificationEventCatalog, ControllersApiWarningResponse, ControllersUnauthorizedResponse, DtoFeedNotificationCommentCreateForm, DtoFeedNotificationCommentUpdateForm, DtoFeedNotificationVoteForm, DtoSupportCommentRatingForm, DtoSupportTicketCreateForm, ServicesValidationErrorResponse } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Notifications<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     notificationsList: (query?: {
@@ -14,6 +14,7 @@ export declare class Notifications<SecurityDataType = unknown> extends HttpClien
     commentsImageCreate: (id: number, cid: number, data: {
         files: File;
     }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessArrayServicesFile, any>>;
+    commentsRatingCreate: (id: number, cid: number, payload: DtoSupportCommentRatingForm, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersCommentRatingData, ControllersApiErrorResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     likeCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessControllersFeedNotificationLikeData, any>>;
     resolveCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, ControllersApiErrorResponse | ControllersUnauthorizedResponse | ServicesValidationErrorResponse>>;
     seenCreate: (id: number, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, any>>;

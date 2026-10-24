@@ -13,6 +13,7 @@ import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesFeedNotificationFeedItem,
   ControllersApiSuccessArrayServicesFile,
+  ControllersApiSuccessControllersCommentRatingData,
   ControllersApiSuccessControllersFeedNotificationLikeData,
   ControllersApiSuccessNoData,
   ControllersApiSuccessServicesFeedNotificationComment,
@@ -23,6 +24,7 @@ import {
   DtoFeedNotificationCommentCreateForm,
   DtoFeedNotificationCommentUpdateForm,
   DtoFeedNotificationVoteForm,
+  DtoSupportCommentRatingForm,
   DtoSupportTicketCreateForm,
   ServicesValidationErrorResponse,
 } from "./data-contracts";
@@ -194,6 +196,28 @@ export class Notifications<SecurityDataType = unknown> extends HttpClient<Securi
       body: data,
       secure: true,
       type: ContentType.FormData,
+      ...params,
+    });
+  /**
+   * @description Thumbs up or down on a model-written AI reply in the caller's own support ticket. A new rating replaces the earlier one; the comment then carries ai_rating. "up" also marks the ticket solved while the AI handles it (silent: only the status SSE fires); on a ticket a person handles, the rating is only stored. The greeting and the handoff notice (ai_template set) cannot be rated. 400: rating is not up or down, or a non-numeric id. 404: not the caller's ticket, not a model-written AI reply, or support tickets unavailable (white-label).
+   *
+   * @tags feed_notifications
+   * @name CommentsRatingCreate
+   * @summary Rate an AI support reply
+   * @request POST:/notifications/{id}/comments/{cid}/rating
+   * @secure
+   */
+  commentsRatingCreate = (id: number, cid: number, payload: DtoSupportCommentRatingForm, params: RequestParams = {}) =>
+    this.request<
+      ControllersApiSuccessControllersCommentRatingData,
+      ServicesValidationErrorResponse | ControllersUnauthorizedResponse | ControllersApiErrorResponse
+    >({
+      path: `/notifications/${id}/comments/${cid}/rating`,
+      method: "POST",
+      body: payload,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
       ...params,
     });
   /**

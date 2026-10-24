@@ -97,6 +97,16 @@ export var ServicesCVizorStatus;
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledTrends"] = 1] = "CVizorStatusEnabledTrends";
     ServicesCVizorStatus[ServicesCVizorStatus["CVizorStatusEnabledPRO"] = 2] = "CVizorStatusEnabledPRO";
 })(ServicesCVizorStatus || (ServicesCVizorStatus = {}));
+export var ServicesCommentAIRating;
+(function (ServicesCommentAIRating) {
+    ServicesCommentAIRating["CommentAIRatingUp"] = "up";
+    ServicesCommentAIRating["CommentAIRatingDown"] = "down";
+})(ServicesCommentAIRating || (ServicesCommentAIRating = {}));
+export var ServicesCommentAITemplate;
+(function (ServicesCommentAITemplate) {
+    ServicesCommentAITemplate["CommentAITemplateGreeting"] = "greeting";
+    ServicesCommentAITemplate["CommentAITemplateHandoff"] = "handoff";
+})(ServicesCommentAITemplate || (ServicesCommentAITemplate = {}));
 export var ServicesCommentAuthorKind;
 (function (ServicesCommentAuthorKind) {
     ServicesCommentAuthorKind["CommentAuthorUser"] = "user";

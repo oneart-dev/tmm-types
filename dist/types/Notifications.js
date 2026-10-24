@@ -59,6 +59,15 @@ export class Notifications extends HttpClient {
             type: ContentType.FormData,
             ...params,
         });
+        this.commentsRatingCreate = (id, cid, payload, params = {}) => this.request({
+            path: `/notifications/${id}/comments/${cid}/rating`,
+            method: "POST",
+            body: payload,
+            secure: true,
+            type: ContentType.Json,
+            format: "json",
+            ...params,
+        });
         this.likeCreate = (id, params = {}) => this.request({
             path: `/notifications/${id}/like`,
             method: "POST",
