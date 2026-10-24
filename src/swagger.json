@@ -40701,7 +40701,7 @@
                     "type": "string"
                 },
                 "handler": {
-                    "description": "Handler is who answers a ticket: \"ai\" (the AI assistant) or \"human\".\nTickets only; absent on notifications.",
+                    "description": "Handler is who answers the ticket now, as its owner sees it: \"ai\"\nonly while the AI assistant can answer it (AI support on, the owner\nmay use support, the thread is not resolved), else \"human\". This is\nthe effective handler, not the stored one. Tickets only; absent on\nnotifications.",
                     "enum": [
                         "ai",
                         "human"
@@ -40983,6 +40983,18 @@
                 },
                 "admin_last_read_at": {
                     "type": "string"
+                },
+                "handler": {
+                    "description": "Handler is who answers the ticket now: \"ai\" only while the AI\nassistant can answer it, else \"human\". Sent to the ticket's owner on\nticket events; absent on staff copies and on non-ticket threads.",
+                    "enum": [
+                        "ai",
+                        "human"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/services.FeedNotificationHandler"
+                        }
+                    ]
                 },
                 "last_activity_at": {
                     "type": "string"

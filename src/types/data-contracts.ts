@@ -4187,8 +4187,11 @@ export interface ServicesFeedNotificationFeedItem {
   event_kind?: string;
   expires_at?: string;
   /**
-   * Handler is who answers a ticket: "ai" (the AI assistant) or "human".
-   * Tickets only; absent on notifications.
+   * Handler is who answers the ticket now, as its owner sees it: "ai"
+   * only while the AI assistant can answer it (AI support on, the owner
+   * may use support, the thread is not resolved), else "human". This is
+   * the effective handler, not the stored one. Tickets only; absent on
+   * notifications.
    */
   handler?: "ai" | "human";
   /** Identity & lifecycle. */
@@ -4318,6 +4321,12 @@ export interface ServicesFeedNotificationThreadSeenChangedSSEPayload {
 export interface ServicesFeedNotificationThreadState {
   admin_caught_up?: boolean;
   admin_last_read_at?: string;
+  /**
+   * Handler is who answers the ticket now: "ai" only while the AI
+   * assistant can answer it, else "human". Sent to the ticket's owner on
+   * ticket events; absent on staff copies and on non-ticket threads.
+   */
+  handler?: "ai" | "human";
   last_activity_at?: string;
   status?: ServicesFeedNotificationStatus;
   status_changed_at?: string;
