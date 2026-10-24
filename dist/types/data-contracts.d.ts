@@ -2183,6 +2183,7 @@ export interface ServicesFeedNotificationThreadSeenChangedSSEPayload {
 export interface ServicesFeedNotificationThreadState {
     admin_caught_up?: boolean;
     admin_last_read_at?: string;
+    handler?: "ai" | "human";
     last_activity_at?: string;
     status?: ServicesFeedNotificationStatus;
     status_changed_at?: string;
