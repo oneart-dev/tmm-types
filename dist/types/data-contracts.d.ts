@@ -157,6 +157,10 @@ export interface ControllersApiSuccessControllersArtifactManifestResponse {
     data?: ControllersArtifactManifestResponse;
     status?: ControllersResponseStatusMessage;
 }
+export interface ControllersApiSuccessControllersCommentRatingData {
+    data?: ControllersCommentRatingData;
+    status?: ControllersResponseStatusMessage;
+}
 export interface ControllersApiSuccessControllersEmailPreferencesData {
     data?: ControllersEmailPreferencesData;
     status?: ControllersResponseStatusMessage;
@@ -370,6 +374,9 @@ export interface ControllersArtifactManifestResponse {
 export interface ControllersBulkSignUpSuccessResponse {
     data?: ServicesBulkSignUpResponse[];
     status?: ControllersResponseStatusMessage;
+}
+export interface ControllersCommentRatingData {
+    rating: "up" | "down";
 }
 export interface ControllersContactBadRequestResponse {
     errors?: ServicesValidationErrors;
@@ -1208,6 +1215,9 @@ export interface DtoSupportClientContextForm {
     route?: string;
     trail?: DtoSupportTrailEntryForm[];
 }
+export interface DtoSupportCommentRatingForm {
+    rating: "up" | "down";
+}
 export interface DtoSupportTicketContextForm {
     api_key_id?: number;
     app_version?: string;
@@ -1773,6 +1783,14 @@ export interface ServicesChatToolResultSSEPayload {
     turn_index?: number;
     widget_id?: number;
 }
+export declare enum ServicesCommentAIRating {
+    CommentAIRatingUp = "up",
+    CommentAIRatingDown = "down"
+}
+export declare enum ServicesCommentAITemplate {
+    CommentAITemplateGreeting = "greeting",
+    CommentAITemplateHandoff = "handoff"
+}
 export declare enum ServicesCommentAuthorKind {
     CommentAuthorUser = "user",
     CommentAuthorAdmin = "admin",
@@ -1956,6 +1974,8 @@ export interface ServicesFeedNotification {
     user_id?: number;
 }
 export interface ServicesFeedNotificationAdminComment {
+    ai_rating?: "up" | "down";
+    ai_template?: "greeting" | "handoff";
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
     author_id?: number;
@@ -2023,6 +2043,8 @@ export interface ServicesFeedNotificationAnalyticsCounts {
     votes_count?: number;
 }
 export interface ServicesFeedNotificationComment {
+    ai_rating?: "up" | "down";
+    ai_template?: "greeting" | "handoff";
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
     author_id?: number;
@@ -2051,6 +2073,8 @@ export interface ServicesFeedNotificationCommentsRemovedSSEPayload {
     thread_state: ServicesFeedNotificationThreadState;
 }
 export interface ServicesFeedNotificationFeedComment {
+    ai_rating?: "up" | "down";
+    ai_template?: "greeting" | "handoff";
     attachments?: ServicesFile[];
     author?: ServicesSafeUser;
     author_id?: number;
@@ -2069,6 +2093,7 @@ export interface ServicesFeedNotificationFeedItem {
     created_at?: string;
     event_kind?: string;
     expires_at?: string;
+    handler?: "ai" | "human";
     id?: number;
     kind?: string;
     my_liked?: boolean;
@@ -3015,6 +3040,7 @@ export interface ServicesSSEFeedNotificationEventCatalog {
     "feed-notification-thread-seen-changed"?: ServicesFeedNotificationThreadSeenChangedSSEPayload;
     "feed-notification-updated"?: ServicesFeedNotificationFeedItem;
     "league-points-updated"?: ServicesLeaguePointsUpdatedSSEPayload;
+    support_ai_progress?: ServicesSupportAIProgressSSEPayload;
     "ui-prefs"?: ServicesUIPrefsSSEPayload;
 }
 export interface ServicesSSETradeEventCatalog {
@@ -3094,6 +3120,15 @@ export declare enum ServicesStudentStatus {
     StudentStatusRequest = 0,
     StudentStatusAccepted = 1,
     StudentStatusRejected = 2
+}
+export interface ServicesSupportAIProgressSSEPayload {
+    exchange?: string;
+    run_id?: number;
+    seq: number;
+    started_at?: number;
+    state: "queued" | "working" | "writing" | "idle" | "handed_off";
+    step?: string;
+    ticket_id: number;
 }
 export interface ServicesSupportClientContext {
     route: string;
