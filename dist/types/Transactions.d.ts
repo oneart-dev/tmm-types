@@ -1,4 +1,4 @@
-import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesPaymentGateway, ControllersApiSuccessArrayServicesTransaction, ControllersApiSuccessResponse, ControllersApiSuccessServicesTransactionQuote, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersTransactionCreateResponse, ControllersUnauthorizedResponse, DtoTransactionCreateForm, ServicesPaginationResponseArrayServicesTransaction } from "./data-contracts";
+import { ControllersApiErrorResponse, ControllersApiSuccessArrayServicesPaymentGateway, ControllersApiSuccessArrayServicesTransaction, ControllersApiSuccessNoData, ControllersApiSuccessResponse, ControllersApiSuccessServicesTransactionQuote, ControllersApiSuccessString, ControllersApiWarningResponse, ControllersTransactionCreateResponse, ControllersUnauthorizedResponse, DtoTransactionCreateForm, ServicesPaginationResponseArrayServicesTransaction } from "./data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 export declare class Transactions<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
     transactionsList: (query?: {
@@ -19,7 +19,7 @@ export declare class Transactions<SecurityDataType = unknown> extends HttpClient
     redirectList: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessString, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     stripeDelete: (query: {
         user_id: number;
-    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
+    }, params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessNoData, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
     trialUpdate: (params?: RequestParams) => Promise<import("./http-client").HttpResponse<ControllersApiSuccessResponse, string | ControllersApiErrorResponse | ControllersUnauthorizedResponse>>;
 }
 //# sourceMappingURL=Transactions.d.ts.map
