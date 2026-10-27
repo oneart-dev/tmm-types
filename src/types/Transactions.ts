@@ -13,6 +13,7 @@ import {
   ControllersApiErrorResponse,
   ControllersApiSuccessArrayServicesPaymentGateway,
   ControllersApiSuccessArrayServicesTransaction,
+  ControllersApiSuccessNoData,
   ControllersApiSuccessResponse,
   ControllersApiSuccessServicesTransactionQuote,
   ControllersApiSuccessString,
@@ -176,7 +177,7 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
       ...params,
     });
   /**
-   * @description Disconnects the user's Stripe account.
+   * @description Cancels card auto-renewal at the end of the paid period. The subscription stays active until then.
    *
    * @tags transactions
    * @name StripeDelete
@@ -191,17 +192,15 @@ export class Transactions<SecurityDataType = unknown> extends HttpClient<Securit
     },
     params: RequestParams = {},
   ) =>
-    this.request<ControllersApiSuccessResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>(
-      {
-        path: `/transactions/stripe`,
-        method: "DELETE",
-        query: query,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      },
-    );
+    this.request<ControllersApiSuccessNoData, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+      path: `/transactions/stripe`,
+      method: "DELETE",
+      query: query,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
   /**
    * @description Allows a user to apply for a 15-day trial, available once per account.
    *
