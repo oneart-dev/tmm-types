@@ -20,7 +20,7 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Uploads one or more images and associates them with a specified model by owner type and ID.
+   * @description Uploads one or more images and associates them with a specified model by owner type and ID. Trade screenshots (model=Trade) require a plan with trade files (novice_plus and up); other plans get 403.
    *
    * @tags files
    * @name UploadImageCreate
@@ -29,7 +29,7 @@ export class Files<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
    * @secure
    */
   uploadImageCreate = (model: string, id: number, params: RequestParams = {}) =>
-    this.request<ControllersFilesResponse, ControllersUnauthorizedResponse | string | ControllersApiErrorResponse>({
+    this.request<ControllersFilesResponse, ControllersUnauthorizedResponse | ControllersApiErrorResponse | string>({
       path: `/files/upload/image/${model}/${id}`,
       method: "POST",
       secure: true,

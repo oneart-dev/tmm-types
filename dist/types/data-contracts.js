@@ -542,6 +542,7 @@ export var ServicesTransactionStatus;
     ServicesTransactionStatus["TransactionStatusFailed"] = "failed";
     ServicesTransactionStatus["TransactionStatusCreated"] = "created";
     ServicesTransactionStatus["TransactionStatusPending"] = "pending";
+    ServicesTransactionStatus["TransactionStatusHeld"] = "held";
 })(ServicesTransactionStatus || (ServicesTransactionStatus = {}));
 export var ServicesUserStartOfWeek;
 (function (ServicesUserStartOfWeek) {

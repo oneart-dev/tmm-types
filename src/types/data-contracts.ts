@@ -6306,6 +6306,7 @@ export enum ServicesTransactionStatus {
   TransactionStatusFailed = "failed",
   TransactionStatusCreated = "created",
   TransactionStatusPending = "pending",
+  TransactionStatusHeld = "held",
 }
 
 export interface ServicesUIData {
